@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-export default function LandingPage() {
+const LandingPage = () => {
   return (
     <>
       <Head>
@@ -21,4 +21,6 @@ export default function LandingPage() {
       </main>
     </>
   );
-}
+};
+
+export default LandingPage;
