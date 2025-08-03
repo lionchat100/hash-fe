@@ -2,17 +2,19 @@
 
 import { socketContext } from '@/shared/api/socket';
 import { ReactNode, useEffect, useState } from 'react';
-import { Socket } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 
 export const SocketProvider = ({ children }: { children: ReactNode }) => {
-  const [socket, setSocket] = useState(null);
+  const [socket, setSocket] = useState<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    const socket = new (Socket as any)(process.env.NEXT_PUBLIC_SOCKET_URL!, {});
+    const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL!, {
+      transports: ['websocket'],
+    });
 
     socket.on('connect_error', (error: any) => {
-      console.error('Socket connection error:', error);
+      console.error('socket connection error:', error);
       setIsConnected(false);
     });
 
