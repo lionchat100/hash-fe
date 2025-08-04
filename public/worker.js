@@ -4,16 +4,12 @@ self.addEventListener('install', event => {
       return cache.addAll([
         '/',
         '/manifest.json',
-        '/icons/48.png',
-        '/icons/192.png',
-        '/icons/512.png',
+        '/icons/favicon.ico',
+        '/icons/android-chrome-192x192.png',
+        '/icons/android-chrome-512x512.png',
+        '/icons/apple-touch-icon.png',
+        '/icons/og-image.png',
       ]);
     }),
   );
 });
-
-// TODO
-// 정적 리소스 캐싱
-// 활성화 이벤트
-// 페칭 이벤트
-// 푸시 알람
