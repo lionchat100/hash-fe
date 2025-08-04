@@ -1,0 +1,32 @@
+{
+  "name": "LIONCHAT",
+  "short_name": "LIONCHAT",
+  "description": "개발자 커피챗 플랫폼 LIONCHAT",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "icons/favicon.ico",
+      "sizes": "64x64, 48x48, 32x32, 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
