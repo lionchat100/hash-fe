@@ -19,16 +19,19 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     });
 
     socket.on('connect', () => {
+      console.log('socket connected');
       setIsConnected(true);
     });
 
     socket.on('disconnect', () => {
+      console.log('socket disconnected');
       setIsConnected(false);
     });
 
     setSocket(socket);
 
     return () => {
+      console.log('socket disconnected');
       socket.disconnect();
     };
   }, []);
