@@ -1,5 +1,5 @@
 import { QueryProvider, SocketProvider, SonnerProvider, ThemeProvider } from '@/app/_providers';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 
@@ -14,6 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://lionchat.com'),
   title: {
     default: 'LIONCHAT',
     template: '%s | LIONCHAT',
@@ -41,17 +42,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
-  other: {
-    'mobile-web-app-capable': 'yes',
-    'apple-mobile-web-app-capable': 'yes',
-    'apple-mobile-web-app-status-bar-style': 'default',
-  },
   icons: {
     icon: [
       {
@@ -68,7 +58,7 @@ export const metadata: Metadata = {
         url: '/icons/android-chrome-512x512.png',
         sizes: '512x512',
         type: 'image/png',
-      }
+      },
     ],
     apple: [
       {
@@ -78,6 +68,18 @@ export const metadata: Metadata = {
       },
     ],
   },
+  other: {
+    'mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-status-bar-style': 'default',
+  },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({
@@ -86,13 +88,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
+    <html lang='ko' suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider
           attribute='class'
-          defaultTheme='system'
+          defaultTheme='light'
           enableSystem={false}
-          storageKey='hash-theme'
+          storageKey='lionchat-theme'
         >
           <SocketProvider>
             <SonnerProvider>
