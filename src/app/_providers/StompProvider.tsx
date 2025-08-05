@@ -16,6 +16,10 @@ export const StompProvider = ({ children }: { children: ReactNode }) => {
       connectHeaders: {
         Authorization: `Bearer ${token}`,
       },
+      // 재연결 설정
+      reconnectDelay: 5000, // 재연결 딜레이
+      heartbeatIncoming: 4000, // 하트비트 수신 주기
+      heartbeatOutgoing: 4000, // 하트비트 전송 주기
     });
 
     stompClient.onConnect = () => {
