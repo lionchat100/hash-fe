@@ -1,4 +1,4 @@
-import { QueryProvider, SocketProvider, SonnerProvider, ThemeProvider } from '@/app/_providers';
+import { QueryProvider, SonnerProvider, ThemeProvider, StompProvider } from '@/app/_providers';
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
@@ -96,11 +96,11 @@ export default function RootLayout({
           enableSystem={false}
           storageKey='lionchat-theme'
         >
-          <SocketProvider>
+          <StompProvider>
             <SonnerProvider>
               <QueryProvider>{children}</QueryProvider>
             </SonnerProvider>
-          </SocketProvider>
+          </StompProvider>
         </ThemeProvider>
       </body>
     </html>
