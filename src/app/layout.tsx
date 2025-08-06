@@ -1,4 +1,4 @@
-import { QueryProvider, SonnerProvider, ThemeProvider, StompProvider } from '@/app/_providers';
+import { AuthProvider, QueryProvider, SonnerProvider, StompProvider, ThemeProvider } from '@/app/_providers';
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
@@ -14,34 +14,39 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://lionchat.com'),
+  applicationName: 'LIONCHAT',
   title: {
     default: 'LIONCHAT',
     template: '%s | LIONCHAT',
   },
   description: '개발자 커피챗 플랫폼 LIONCHAT',
-  applicationName: 'LIONCHAT',
-  keywords: ['라이언챗', '커피챗', '해커톤', '멋쟁이사자처럼', 'lionchat', 'likelion'],
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
     title: 'LIONCHAT',
   },
-  openGraph: {
-    title: 'LIONCHAT',
-    description: '개발자 커피챗 플랫폼 LIONCHAT',
-    url: 'https://lionchat.com',
-    siteName: 'LIONCHAT',
-    images: [
-      {
-        url: '/icons/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'LIONCHAT',
-      },
-    ],
+  formatDetection: {
+    telephone: false,
   },
+  openGraph: {
+    type: 'website',
+    siteName: 'LIONCHAT',
+    title: {
+      default: 'LIONCHAT',
+      template: '%s | LIONCHAT',
+    },
+    description: '개발자 커피챗 플랫폼 LIONCHAT',
+  },
+  twitter: {
+    card: 'summary',
+    title: {
+      default: 'LIONCHAT',
+      template: '%s | LIONCHAT',
+    },
+    description: '개발자 커피챗 플랫폼 LIONCHAT',
+  },
+  keywords: ['라이언챗', '커피챗', '해커톤', '멋쟁이사자처럼', 'lionchat', 'likelion'],
   icons: {
     icon: [
       {
@@ -88,20 +93,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='ko' suppressHydrationWarning>
+    <html lang="ko" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='light'
-          enableSystem={false}
-          storageKey='lionchat-theme'
-        >
-          <StompProvider>
-            <SonnerProvider>
-              <QueryProvider>{children}</QueryProvider>
-            </SonnerProvider>
-          </StompProvider>
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="lionchat-theme">
+            <StompProvider>
+              <SonnerProvider>
+                <QueryProvider>{children}</QueryProvider>
+              </SonnerProvider>
+            </StompProvider>
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );
