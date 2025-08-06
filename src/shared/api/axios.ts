@@ -45,7 +45,8 @@ api.interceptors.response.use(
 
         originalRequest.headers.set('Authorization', `Bearer ${accessToken}`);
         return api(originalRequest);
-      } catch (refreshError) {
+      } catch (error) {
+        console.log('refreshError', error);
         if (typeof window !== 'undefined') {
           localStorage.removeItem('accessToken');
           window.location.href = '/';

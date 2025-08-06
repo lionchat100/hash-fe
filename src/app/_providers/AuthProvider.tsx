@@ -1,7 +1,7 @@
 'use client';
 
 import api from '@/shared/api/axios';
-import { authContext } from '@/shared/model/auth';
+import { authContext, User } from '@/shared/model/auth';
 import { getCookie, setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { ReactNode, useEffect, useState } from 'react';
@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState<any | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   const login = (accessToken: string, refreshToken: string) => {
     if (typeof window !== 'undefined') {
@@ -37,8 +37,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const checkAuth = async () => {
     try {
       const refreshToken = getCookie('refreshToken');
-      const accessToken =
-        typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+      const accessToken = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
 
       if (!refreshToken || !accessToken) {
         setIsAuthenticated(false);
@@ -50,6 +49,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(response.data);
         setIsAuthenticated(true);
       } catch (error) {
+        console.log('error', error);
         try {
           const refreshResponse = await api.post('/auth/refresh', {
             refreshToken: refreshToken,
@@ -64,6 +64,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setUser(refreshResponse.data.user);
           setIsAuthenticated(true);
         } catch (refreshError) {
+          console.error('인증 확인 중 오류:', refreshError);
           logout();
         }
       }
@@ -75,7 +76,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     checkAuth().finally(() => setIsLoading(false));
-  }, []);
+  }, [checkAuth]);
 
   return (
     <authContext.Provider
