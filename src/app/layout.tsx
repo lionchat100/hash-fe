@@ -1,4 +1,4 @@
-import { AuthProvider, QueryProvider, SonnerProvider, StompProvider, ThemeProvider } from '@/app/_providers';
+import { QueryProvider, SonnerProvider, StompProvider, ThemeProvider } from '@/app/_providers';
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
@@ -95,15 +95,13 @@ export default function RootLayout({
   return (
     <html lang="ko" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <AuthProvider>
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="lionchat-theme">
-            <StompProvider>
-              <SonnerProvider>
-                <QueryProvider>{children}</QueryProvider>
-              </SonnerProvider>
-            </StompProvider>
-          </ThemeProvider>
-        </AuthProvider>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="lionchat-theme">
+          <StompProvider>
+            <SonnerProvider>
+              <QueryProvider>{children}</QueryProvider>
+            </SonnerProvider>
+          </StompProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
