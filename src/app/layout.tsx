@@ -1,16 +1,20 @@
 import { QueryProvider, SonnerProvider, StompProvider, ThemeProvider } from '@/app/_providers';
 import type { Metadata, Viewport } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
+const pretendard = localFont({
+  src: './fonts/PretendardVariable.woff2',
+  display: 'swap',
+  weight: '45 920',
+  variable: '--font-pretendard',
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+const suite = localFont({
+  src: './fonts/SUITE-Variable.woff2',
+  display: 'swap',
+  weight: '45 920',
+  variable: '--font-suite',
 });
 
 export const metadata: Metadata = {
@@ -94,7 +98,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${suite.variable} ${pretendard.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="lionchat-theme">
           <StompProvider>
             <SonnerProvider>
