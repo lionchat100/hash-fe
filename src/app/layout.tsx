@@ -93,8 +93,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang="ko" suppressHydrationWarning className="bg-gray-50">
+      <body className={`${geistSans.variable} ${geistMono.variable} mx-auto max-w-[480px] min-w-xs antialiased`}>
         <AuthProvider>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="lionchat-theme">
             <StompProvider>
