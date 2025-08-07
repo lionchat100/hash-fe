@@ -1,6 +1,6 @@
 'use client';
 
-import axios from 'axios';
+import { userOAuthLogin } from '@/features/update-user';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -14,32 +14,22 @@ export const CallbackPage = () => {
     const handleOAuthCallback = async () => {
       const code = searchParams.get('code');
 
-      // if (!code) {
-      //   return router.push('/');
-      // }
+      if (!code) {
+        console.error('OAuth 로그인 실패: code가 없습니다.');
+        return router.push('/');
+      }
 
       setIsProcessing(true);
       setError(null);
 
       try {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/auth/token`,
-          {
-            code,
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            withCredentials: true,
-          },
-        );
+        const result = await userOAuthLogin(code);
 
-        const { accessToken, user } = response.data;
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('user', JSON.stringify(user));
-
-        router.push('/explore');
+        if (result.success) {
+          router.push('/explore');
+        } else {
+          throw new Error('OAuth 로그인 실패');
+        }
       } catch (error) {
         console.error('OAuth 로그인 실패:', error);
         setError('OAuth 로그인에 실패했습니다.');
@@ -54,10 +44,6 @@ export const CallbackPage = () => {
 
     handleOAuthCallback();
   }, [searchParams, router]);
-
-  // if (!searchParams.get('code')) {
-  //   return redirect('/');
-  // }
 
   if (isProcessing) {
     return (
@@ -74,9 +60,10 @@ export const CallbackPage = () => {
       <div className="flex h-screen flex-col items-center justify-center">
         <h1 className="text-4xl font-bold">LIONCHAT</h1>
         <div className="mt-4 text-red-500">로그인 실패</div>
-        <div className="mt-2 text-gray-500">{error}</div>
         <div className="mt-4 text-sm">잠시 후 로그인 페이지로 이동합니다.</div>
       </div>
     );
   }
+
+  return null;
 };

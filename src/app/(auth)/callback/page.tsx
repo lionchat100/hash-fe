@@ -1,3 +1,5 @@
+'use client';
+
 import { CallbackPage } from '@/views/auth';
 import { Suspense } from 'react';
 
