@@ -4,14 +4,14 @@ import localFont from 'next/font/local';
 import './globals.css';
 
 const pretendard = localFont({
-  src: './fonts/PretendardVariable.woff2',
+  src: '../../public/fonts/pretendard/PretendardVariable.woff2',
   display: 'swap',
   weight: '45 920',
   variable: '--font-pretendard',
 });
 
 const suite = localFont({
-  src: './fonts/SUITE-Variable.woff2',
+  src: '../../public/fonts/suite/SUITE-Variable.woff2',
   display: 'swap',
   weight: '45 920',
   variable: '--font-suite',
