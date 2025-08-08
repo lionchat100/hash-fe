@@ -1,6 +1,7 @@
 'use client';
 
 import { userOAuthLogin } from '@/features/update-user';
+import { SERVICE_INFO } from '@/shared/constants';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -48,7 +49,7 @@ export const CallbackPage = () => {
   if (isProcessing) {
     return (
       <div className="flex h-screen flex-col items-center justify-center">
-        <h1 className="text-4xl font-bold">LIONCHAT</h1>
+        <h1 className="text-4xl font-bold">{SERVICE_INFO.NAME}</h1>
         <div className="mt-4">로그인 처리 중...</div>
         <div className="mt-2 text-gray-500">잠시만 기다려주세요.</div>
       </div>
@@ -58,7 +59,7 @@ export const CallbackPage = () => {
   if (error) {
     return (
       <div className="flex h-screen flex-col items-center justify-center">
-        <h1 className="text-4xl font-bold">LIONCHAT</h1>
+        <h1 className="text-4xl font-bold">{SERVICE_INFO.NAME}</h1>
         <div className="mt-4 text-red-500">로그인 실패</div>
         <div className="mt-4 text-sm">잠시 후 로그인 페이지로 이동합니다.</div>
       </div>
