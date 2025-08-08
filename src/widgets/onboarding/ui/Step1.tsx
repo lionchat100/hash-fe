@@ -14,7 +14,7 @@ export const Step1 = () => {
     { id: '3', name: '마케팅', type: 'job' },
     { id: '4', name: '기타', type: 'job' },
     { id: '4', name: '여자', type: 'gender' },
-    { id: '4', name: '남자', type: 'gender' },
+    { id: '5', name: '남자', type: 'gender' },
   ]; // Mock data for demonstration
   const jobOptions = data.filter((d) => d.type === 'job');
   const genderOptions = data.filter((d) => d.type === 'gender');
