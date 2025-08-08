@@ -1,8 +1,7 @@
 'use client';
 import { Button } from '@/shared/ui/Button';
 import { Progress } from '@/shared/ui/Progress';
-import { Step1 } from '@/widgets/onboarding/ui/Step1';
-import { Step2 } from '@/widgets/onboarding/ui/Step2';
+import { Step1, Step2 } from '@/widgets/onboarding';
 import { ArrowLeft } from 'lucide-react';
 
 export const OnboardingPage = () => {
