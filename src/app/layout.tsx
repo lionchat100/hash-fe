@@ -98,7 +98,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className={`${suite.variable} ${pretendard.variable} antialiased`}>
+      <body className={`${pretendard.className} ${suite.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="lionchat-theme">
           <StompProvider>
             <SonnerProvider>
