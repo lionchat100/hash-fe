@@ -1,7 +1,7 @@
 {
-  "name": "LIONCHAT",
-  "short_name": "LIONCHAT",
-  "description": "개발자 커피챗 플랫폼 LIONCHAT",
+  "name": "Tokit",
+  "short_name": "Tokit",
+  "description": "개발자 커피챗 플랫폼 Tokit",
   "icons": [
     {
       "src": "icons/android-chrome-192x192.png",
