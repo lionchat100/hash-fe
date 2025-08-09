@@ -99,14 +99,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className={`${pretendard.className} ${suite.variable} antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="tokit-theme">
-          <StompProvider>
-            <SonnerProvider>
-              <QueryProvider>{children}</QueryProvider>
-            </SonnerProvider>
-          </StompProvider>
-        </ThemeProvider>
+      <body className={`${pretendard.className} ${suite.variable} relative bg-gray-50 antialiased`}>
+        <div className="mx-auto max-w-[480px] min-w-xs bg-white">
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="tokit-theme">
+            <StompProvider>
+              <SonnerProvider>
+                <QueryProvider>{children}</QueryProvider>
+              </SonnerProvider>
+            </StompProvider>
+          </ThemeProvider>
+        </div>
+        <div className="h-auto" id="drawer-customPortal" />
       </body>
     </html>
   );
