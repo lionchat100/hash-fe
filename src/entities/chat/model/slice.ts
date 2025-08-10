@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { ChatRoom } from './types';
 
 interface ChatState {
   currentRoomId: number | null;
