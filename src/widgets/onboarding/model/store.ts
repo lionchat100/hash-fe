@@ -12,6 +12,7 @@ type State = {
   reset: () => void;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const shallowEqual = (a: any, b: any) => {
   if (a === b) return true;
   if (!a || !b) return false;
