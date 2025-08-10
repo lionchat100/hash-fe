@@ -24,7 +24,6 @@ export const newAccessToken = async () => {
 
     if (typeof window !== 'undefined') {
       localStorage.removeItem('accessToken');
-      localStorage.removeItem('currentUser');
     }
     userStore.clearUser();
 
