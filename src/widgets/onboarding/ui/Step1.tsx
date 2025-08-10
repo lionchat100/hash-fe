@@ -22,6 +22,7 @@ export const Step1 = () => {
   const [selectedGender, setSelectedGender] = useState<string | null>(null);
   const [isPublic, setIsPublic] = useState<boolean>(false);
 
+  console.log(selectedGender);
   return (
     <div className="space-y-5 px-4">
       <div className="space-y-2">

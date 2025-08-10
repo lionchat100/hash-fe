@@ -1,5 +1,5 @@
 import { getOAuthToken, getCurrentUser } from '@/entities/user';
-import { setCookie, getCookie } from 'cookies-next';
+// import { setCookie, getCookie } from 'cookies-next';
 import { useUserStore } from '@/entities/user';
 
 export const userOAuthLogin = async (code: string) => {

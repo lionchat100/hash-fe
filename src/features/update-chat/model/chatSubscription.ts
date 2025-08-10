@@ -1,6 +1,5 @@
 import { useStomp } from '@/shared/api/stomp';
 import { useChatStore } from '@/entities/chat';
-import { useMessageStore } from '@/entities/message';
 import { useCallback, useEffect, useRef } from 'react';
 import { StompSubscription } from '@stomp/stompjs';
 
@@ -9,7 +8,6 @@ export const useChatSubscription = (roomId: number) => {
   const subscriptionRef = useRef<StompSubscription | null>(null);
 
   const { enterRoom, leaveRoom, addSubscription, removeSubscription, subscribedRooms } = useChatStore();
-  const { addMessage } = useMessageStore();
 
   const isSubscribed = subscribedRooms.has(roomId);
 
@@ -20,7 +18,6 @@ export const useChatSubscription = (roomId: number) => {
         try {
           const receivedMessage = JSON.parse(message.body);
           console.log('메시지 수신:', receivedMessage);
-          addMessage(roomId, receivedMessage);
         } catch (error) {
           console.error('메시지 파싱 에러:', error);
         }
@@ -30,7 +27,7 @@ export const useChatSubscription = (roomId: number) => {
       enterRoom(roomId);
       console.log(`채팅방 ${roomId} 구독 완료`);
     }
-  }, [client, isConnected, roomId, addMessage, addSubscription, enterRoom]);
+  }, [client, isConnected, roomId, addSubscription, enterRoom]);
 
   const unsubscribeFromRoom = useCallback(() => {
     if (subscriptionRef.current) {
