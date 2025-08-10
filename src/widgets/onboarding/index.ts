@@ -1,3 +1,3 @@
 export { DrawerSelect } from './ui/DrawerSelect';
-export { Step1 } from './ui/Step1';
-export { Step2 } from './ui/Step2';
+export { Step1Form } from './ui/Step1Form';
+export { Step2Form } from './ui/Step2Form';

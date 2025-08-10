@@ -2,7 +2,7 @@ import { Badge } from '@/shared/ui/Badge';
 import { DrawerSelect } from '@/widgets/onboarding/ui/DrawerSelect';
 import { useState } from 'react';
 
-export const Step2 = () => {
+export const Step2Form = () => {
   //   const { data: options, isLoading } = useSelectOptions()
 
   const [state, setState] = useState<Record<string, string | null>>({
