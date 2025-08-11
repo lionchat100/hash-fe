@@ -8,5 +8,5 @@ export interface ChatRoom {
 }
 
 export interface ChatRoomList {
-  [key: number]: ChatRoom[];
+  chatRooms: ChatRoom[]; // 채팅방 목록을 배열로 변경
 }

@@ -53,10 +53,10 @@ export const useChatSubscription = (roomId: number) => {
       subscriptionRef.current.unsubscribe();
       subscriptionRef.current = null;
       removeSubscription(roomId);
-      leaveRoom();
+      leaveRoom(roomId); // roomId 파라미터 추가
       console.log(`채팅방 ${roomId} 구독 해제 완료`);
     }
-  }, [roomId]);
+  }, [roomId, removeSubscription, leaveRoom]);
 
   // 채팅방 구독 상태 관리
   useEffect(() => {
@@ -66,7 +66,7 @@ export const useChatSubscription = (roomId: number) => {
       console.warn(`채팅방 ${roomId} 구독 해제: STOMP 연결이 끊어졌습니다.`);
       subscriptionRef.current = null;
       removeSubscription(roomId);
-      leaveRoom();
+      leaveRoom(roomId); // roomId 파라미터 추가
     }
   }, [isConnected, isSubscribed, subscribeToRoom, roomId]);
 

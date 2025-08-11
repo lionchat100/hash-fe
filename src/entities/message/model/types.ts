@@ -7,9 +7,9 @@ export interface MessageRes {
   messageId: string;
   chatRoomId: number;
   senderId: number;
-  senderName: string;
   createdAt: Date;
   content: string;
+  isEnd: boolean;
 }
 
 export interface MessageAck {
@@ -17,14 +17,6 @@ export interface MessageAck {
   userId: number;
 }
 
-export interface LoadMessageRes {
-  messageId: string;
-  senderId: number;
-  createdAt: Date;
-  content: string;
-  isEnd: boolean;
-}
-
-export interface LoadMessageList {
-  [key: number]: LoadMessageRes[];
+export interface MessageList {
+  [key: number]: MessageRes[];
 }

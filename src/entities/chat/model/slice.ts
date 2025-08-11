@@ -6,12 +6,12 @@ interface ChatState {
   subscribedRooms: Set<number>;
   isLoading: boolean;
 
-  enterRoom: (roomId: number) => void;
-  leaveRoom: () => void;
-  addSubscription: (roomId: number) => void;
-  removeSubscription: (roomId: number) => void;
-  setLoading: (loading: boolean) => void;
-  clearChat: () => void;
+  enterRoom: (roomId: number) => void; // 채팅방 입장 액션
+  leaveRoom: (roomId?: number) => void; // 채팅방 퇴장 액션
+  addSubscription: (roomId: number) => void; // 채팅방 구독 액션
+  removeSubscription: (roomId: number) => void; // 채팅방 구독 해제 액션
+  setLoading: (loading: boolean) => void; // 로딩 상태 설정
+  clearChat: () => void; // 채팅방 초기화 액션
 }
 
 export const useChatStore = create<ChatState>((set, get) => ({
@@ -27,15 +27,18 @@ export const useChatStore = create<ChatState>((set, get) => ({
     });
   },
 
-  leaveRoom: () => {
+  leaveRoom: (roomId?: number) => {
     const { currentRoomId, removeSubscription } = get();
-    if (currentRoomId) {
-      removeSubscription(currentRoomId);
+    const targetRoomId = roomId || currentRoomId;
+    if (targetRoomId) {
+      removeSubscription(targetRoomId);
+      if (targetRoomId === currentRoomId) {
+        set({
+          currentRoomId: null,
+          isInRoom: false,
+        });
+      }
     }
-    set({
-      currentRoomId: null,
-      isInRoom: false,
-    });
   },
 
   addSubscription: (roomId: number) => {

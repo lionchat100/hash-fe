@@ -1,7 +1,7 @@
 import api from '@/shared/api/axios';
-import { LoadMessageList } from '../model/types';
+import { MessageList } from '../model/types';
 
 export const getMoreMessageList = async (roomId: number, lastId: number) => {
-  const response = await api.get<LoadMessageList>(`/chatrooms/chats/messages?roomId=${roomId}&lastId=${lastId}`);
+  const response = await api.get<MessageList>(`/chatrooms/chats/messages?roomId=${roomId}&lastId=${lastId}`);
   return response.data;
 };
