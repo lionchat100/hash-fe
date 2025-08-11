@@ -5,6 +5,7 @@ import { Progress } from '@/shared/ui/Progress';
 import { Button } from '@/shared/ui/Button';
 import { ArrowLeft } from 'lucide-react';
 import { StepKey, DataByStep } from '../model/types';
+import { PROGRESS_BY_STEP } from '@/shared/constants';
 
 // import { useSubmitOnboarding } from '@/features/updateUser/model/useSubmitOnboarding';
 
@@ -49,8 +50,10 @@ export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) 
     refs.current[currentKey]?.submit();
   };
 
+  const progressValue = PROGRESS_BY_STEP[step] ?? 50;
+
   return (
-    <div className="flex h-screen flex-col px-4">
+    <div className="flex h-screen flex-col justify-between px-4">
       <div>
         <div className="h-[54px] pt-3 pb-2.5">
           {step > 1 && (
@@ -60,7 +63,7 @@ export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) 
           )}
         </div>
         <div className="pt-5 pb-10">
-          <Progress value={33} />
+          <Progress value={progressValue} />
         </div>
         <StepRender
           step={step}
