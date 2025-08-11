@@ -1,15 +1,19 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useOnboardingStore } from '../model/store';
-import { getSchemaByStep } from '../model/validators';
-import { StepRender } from './StepRender';
+import { StepFormHandle, StepRender } from './StepRender';
 import { Progress } from '@/shared/ui/Progress';
 import { Button } from '@/shared/ui/Button';
 import { ArrowLeft } from 'lucide-react';
+import { StepKey, DataByStep } from '../model/types';
+
 // import { useSubmitOnboarding } from '@/features/updateUser/model/useSubmitOnboarding';
 
+const order: StepKey[] = ['step1', 'step2', 'step3'];
+
 export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) => {
-  const { step, total, data, setStep } = useOnboardingStore();
-  //   const submit = useSubmitOnboarding();
+  const { step, total, data, setStep, save } = useOnboardingStore();
+  // const submit = useSubmitOnboarding();
+
   // 초기 스텝 세팅
   useEffect(() => {
     if (initialStep > 1 && step !== initialStep) {
@@ -17,23 +21,33 @@ export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) 
     }
   }, [initialStep, step, setStep]);
 
+  const refs = useRef<Record<StepKey, StepFormHandle | null>>({
+    step1: null,
+    step2: null,
+    step3: null,
+  });
+
+  // onValid 공통 팩토리 (스텝별로 재사용)
+  const onValid =
+    <K extends StepKey>(key: K) =>
+    (values: DataByStep[K]) => {
+      save(key, values); // 공통 저장
+      const idx = order.indexOf(key);
+      if (idx < order.length - 1) {
+        setStep(idx + 2); // 1-based step 이동
+      } else {
+        // 마지막 스텝이면 서버 제출
+        // submit.mutate({ ...data, [key]: values });
+      }
+    };
+
   const goPrev = () => {
     if (step > 1) setStep(step - 1);
   };
-
-  const goNext = async () => {
-    console.log('다음');
-    const schema = getSchemaByStep(step);
-    const current = step === 1 ? data.step1 : step === 2 ? data.step2 : step === 3 ? data.step3 : {};
-    const parsed = schema.safeParse(current);
-    if (!parsed.success) {
-      /* 에러 UX 처리 */ return;
-    }
-    if (step < total) setStep(step + 1);
-    // else submit.mutate(data); // 마지막 서버 저장(features API)
+  const goNext = () => {
+    const currentKey = order[step - 1];
+    refs.current[currentKey]?.submit();
   };
-
-  //   const progress = Math.round((step / total) * 100); // 단계별 지정 예정
 
   return (
     <div className="flex h-screen flex-col px-4">
@@ -48,7 +62,14 @@ export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) 
         <div className="pt-5 pb-10">
           <Progress value={33} />
         </div>
-        <StepRender step={step} />
+        <StepRender
+          step={step}
+          bind={{
+            step1: { ref: (el) => (refs.current.step1 = el), onValid: onValid('step1') },
+            step2: { ref: (el) => (refs.current.step2 = el), onValid: onValid('step2') },
+            step3: { ref: (el) => (refs.current.step3 = el), onValid: onValid('step3') },
+          }}
+        />
       </div>
       <div className="flex justify-center pb-2">
         <Button className="w-xs" onClick={goNext}>

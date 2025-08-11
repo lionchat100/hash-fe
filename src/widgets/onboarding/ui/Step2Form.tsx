@@ -1,17 +1,17 @@
+import { useEffect } from 'react';
+import { useOnboardingStore } from '../model/store';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
 import { Badge } from '@/shared/ui/Badge';
 import { DrawerSelect } from '@/widgets/onboarding/ui/DrawerSelect';
-import { useState } from 'react';
+import { Step2Data } from '../model/types';
+import { step2Schema } from '../model/validators';
 
 export const Step2Form = () => {
   //   const { data: options, isLoading } = useSelectOptions()
 
-  const [state, setState] = useState<Record<string, string | null>>({
-    job: null,
-    region: null,
-    interest: null,
-  });
-
-  const selects = [
+  const options = [
     {
       key: 'mbti',
       label: 'MBTI',
@@ -34,15 +34,29 @@ export const Step2Form = () => {
     },
   ];
 
+  const step2 = useOnboardingStore((s) => s.data.step2);
+  const save = useOnboardingStore((s) => s.save);
+
+  const form = useForm<Step2Data>({
+    resolver: zodResolver(step2Schema),
+    defaultValues: step2 ?? { jobId: '', regionId: '' },
+    mode: 'onChange',
+  });
+
+  useEffect(() => {
+    const sub = form.watch((value) => save('step2', value as Step2Data));
+    return () => sub.unsubscribe();
+  }, [form, save]);
+
   return (
-    <div className="space-y-5 px-4">
-      {selects.map(({ key, label, placeholder, contentHeader, options }) => (
+    <form className="space-y-5 px-4">
+      {options.map(({ key, label, placeholder, contentHeader, options }) => (
         <DrawerSelect
           key={key}
           label={label}
           placeholder={placeholder}
           contentHeader={contentHeader}
-          value={state[key]}
+          value={options[key]}
           onConfirm={(val) => setState((prev) => ({ ...prev, [key]: val }))}
           renderOptions={(selected, setSelected) => (
             <div className="flex gap-2">
@@ -59,44 +73,6 @@ export const Step2Form = () => {
           )}
         />
       ))}
-    </div>
-    // <div className="px-4">
-    //   <DrawerSelect
-    //     label="직무"
-    //     placeholder="직무를 선택하세요"
-    //     contentHeader="관심 있는 직무를 선택해주세요"
-    //     value={selectedJob}
-    //     onConfirm={setSelectedJob}
-    //     renderOptions={(selected, setSelected) => {
-    //       // if (isLoading) {
-    //       //   return (
-    //       //     <div className="space-y-2">
-    //       //       <Skeleton className="h-10 w-full" />
-    //       //       <Skeleton className="h-10 w-full" />
-    //       //       <Skeleton className="h-10 w-full" />
-    //       //     </div>
-    //       //   );
-    //       // }
-
-    //       if (!jobOptions || jobOptions.length === 0) {
-    //         return <div>선택 가능한 직무가 없습니다.</div>;
-    //       }
-
-    //       return (
-    //         <div className="flex gap-2">
-    //           {jobOptions.map((job) => (
-    //             <Badge
-    //               key={job.id}
-    //               className={`rounded border px-4 py-2 ${selected === job.name ? 'bg-gray-200' : ''}`}
-    //               onClick={() => setSelected(job.name)}
-    //             >
-    //               {job.name}
-    //             </Badge>
-    //           ))}
-    //         </div>
-    //       );
-    //     }}
-    //   />
-    // </div>
+    </form>
   );
 };

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useOnboardingStore } from '@/widgets/onboarding/model/store';
@@ -11,46 +11,49 @@ import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 import { Label } from '@/shared/ui/Label';
 import { DrawerSelect } from '@/widgets/onboarding/ui/DrawerSelect';
+import { StepFormHandle } from './StepRender';
 import { cn } from '@/shared/lib/tailwindMerge';
 
-export const Step1Form = () => {
-  //   const { data: options, isLoading } = useSelectOptions()
+interface Step1FormProps {
+  onValid: (values: Step1Data) => void;
+}
 
+export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Step1Form({ onValid }, ref) {
   const step1 = useOnboardingStore((s) => s.data.step1);
-  const save = useOnboardingStore((s) => s.save);
 
   const form = useForm<Step1Data>({
     resolver: zodResolver(step1Schema),
     defaultValues: step1 ?? { name: '', university: '', isPublic: false, gender: '' },
-    mode: 'onChange',
+    mode: 'onSubmit',
   });
 
-  // 변경 시 중앙 저장 → 뒤로가기/복귀 시 값 유지
-  useEffect(() => {
-    const sub = form.watch((value) => save('step1', value as Step1Data));
-    return () => sub.unsubscribe();
-  }, [form, save]);
+  const { data: bundle, isLoading } = useEnumOptions();
+  const configs = useMemo(() => (bundle ? mapEnumToDrawerConfig(bundle) : []), [bundle]);
 
   const InitialData = [
-    { id: '1', name: '개발', type: 'job' },
-    { id: '2', name: '디자인', type: 'job' },
-    { id: '3', name: '마케팅', type: 'job' },
-    { id: '4', name: '기타', type: 'job' },
-    { id: '5', name: '여자', type: 'gender' },
-    { id: '6', name: '남자', type: 'gender' },
+    { id: '1', name: '개발', key: 'job' },
+    { id: '2', name: '디자인', key: 'job' },
+    { id: '3', name: '마케팅', key: 'job' },
+    { id: '4', name: '기타', key: 'job' },
+    { id: '5', name: '여자', key: 'gender' },
+    { id: '6', name: '남자', key: 'gender' },
   ]; // Mock data for demonstration
 
-  const jobOptions = InitialData.filter((d) => d.type === 'job'); // 대학명으로 변경 예정
-  const genderOptions = InitialData.filter((d) => d.type === 'gender');
-  const gender = form.watch('gender');
-  const university = form.watch('university');
-  const isPublic = form.watch('isPublic');
+  const jobOptions = InitialData.find((c) => c.key === 'region'); // 대학명으로 변경 예정
+  const genderOptions = InitialData.filter((d) => d.key === 'gender');
+  const { key, label, placeholder, contentHeader, items } = jobOptions;
+  const value = form.watch(key) as string;
+
+  const errors = form.formState.errors;
+
+  if (isLoading) return <div className="px-4 py-6">로딩 중...</div>;
 
   return (
-    <form className="space-y-5 px-4">
+    <form className="space-y-5 px-4" onSubmit={(e) => e.preventDefault()}>
       <div className="space-y-2">
         <Label className="text-base font-semibold">이름</Label>
         <Input placeholder="이름을 입력해주세요" {...form.register('name')} />
+        {errors.name && <p className="text-sm text-red-500">{errors.name.message as string}</p>}
       </div>
       <DrawerSelect
         label="대학"
@@ -108,4 +111,4 @@ export const Step1Form = () => {
       </div>
     </form>
   );
-};
+});
