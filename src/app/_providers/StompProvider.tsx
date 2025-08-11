@@ -3,6 +3,7 @@
 import { stompContext } from '@/shared/api/stomp';
 import { Client, IFrame } from '@stomp/stompjs';
 import { ReactNode, useEffect, useState } from 'react';
+import SockJS from 'sockjs-client';
 
 export const StompProvider = ({ children }: { children: ReactNode }) => {
   const [client, setClient] = useState<Client | null>(null);
@@ -12,7 +13,7 @@ export const StompProvider = ({ children }: { children: ReactNode }) => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
 
     const stompClient = new Client({
-      brokerURL: process.env.NEXT_PUBLIC_STOMP_URL!,
+      webSocketFactory: () => new SockJS(process.env.NEXT_PUBLIC_STOMP_URL!),
       connectHeaders: {
         Authorization: `Bearer ${token}`,
       },
