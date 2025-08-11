@@ -8,17 +8,17 @@ export const onboardingDataMapper = (bundle: OnboardingData): DrawerConfig[] => 
     items: bundle.universities,
   },
   {
-    key: 'positions',
+    key: 'mbti',
+    label: 'MBTI',
+    placeholder: '자신의 MBTI를 선택해주세요',
+    items: bundle.mbtis,
+  },
+  {
+    key: 'position',
     label: '꿈꾸는 커리어를 선택해주세요',
     placeholder: '관심있는 커리어 방향을 선택해주세요',
     contentHeader: '꿈꾸는 커리어 영역을 선택해주세요',
     items: bundle.positions,
-  },
-  {
-    key: 'mbtis',
-    label: 'MBTI',
-    placeholder: '자신의 MBTI를 선택해주세요',
-    items: bundle.mbtis,
   },
   {
     key: 'preferenceType',

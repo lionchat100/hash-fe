@@ -18,12 +18,12 @@ export interface OnboardingData {
   preferenceType: Option[];
 }
 
-export type EnumKey = 'genders' | 'universities' | 'positions' | 'mbtis' | 'preferenceType';
+export type EnumKey = 'genders' | 'universities' | 'position' | 'mbti' | 'preferenceType';
 
-export interface DrawerConfig {
-  key: EnumKey;
+export interface DrawerConfig<K extends EnumKey = EnumKey> {
+  key: K;
   label: string;
-  placeholder?: string;
+  placeholder: string;
   contentHeader?: string;
   items: Option[];
 }

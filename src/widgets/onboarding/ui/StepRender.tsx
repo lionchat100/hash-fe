@@ -23,7 +23,7 @@ export const StepRender = ({ step, bind }: StepRenderProps) => {
     case 1:
       return <Step1Form ref={bind.step1.ref} onValid={bind.step1.onValid} />;
     case 2:
-      return <Step2Form />;
+      return <Step2Form ref={bind.step2.ref} onValid={bind.step2.onValid} />;
     // case 3:
     //   return <Step3Form />;
     default:

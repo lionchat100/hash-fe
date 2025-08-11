@@ -11,7 +11,11 @@ export const step1Schema = z.object({
   isUniversityView: z.boolean(),
   gender: z.string().nonempty({ message: '성별을 선택해주세요' }),
 });
-export const step2Schema = z.object({ jobId: z.string().min(1), regionId: z.string().min(1) });
+export const step2Schema = z.object({
+  mbti: z.string().min(1),
+  position: z.string().min(1),
+  preferenceType: z.string().min(1),
+});
 export const step3Schema = z.object({ intro: z.string().min(10) });
 
 export const getSchemaByStep = (step: number) => {
