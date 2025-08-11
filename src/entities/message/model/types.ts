@@ -1,11 +1,22 @@
-export interface Message {
-  id: number;
-  senderName: string;
-  senderId: number;
-  date: Date;
+export interface MessageReq {
+  chatRoomId: number;
   content: string;
 }
 
+export interface MessageRes {
+  messageId: string;
+  chatRoomId: number;
+  senderId: number;
+  createdAt: Date;
+  content: string;
+  isEnd: boolean;
+}
+
+export interface MessageAck {
+  messageId: string;
+  userId: number;
+}
+
 export interface MessageList {
-  [key: number]: Message[];
+  [key: number]: MessageRes[];
 }
