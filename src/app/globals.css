@@ -41,6 +41,20 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* custom */
+  --space-max-layout: var(--space-max-layout);
+  --space-h-header: var(--space-h-header);
+  --space-h-nav: var(--space-h-nav);
+  --space-h-btn-lg: var(--space-h-btn-lg);
+
+  --radius-20: var(--radius-20);
+  --radius-40: var(--radius-40);
+
+  --color-error: var(--color-error);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-link: var(--color-link);
 }
 
 :root {
@@ -51,7 +65,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --primary: #7e06ff;
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -76,6 +90,16 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* custom */
+  --space-max-layout: 480px;
+  --space-h-header: 54px;
+  --space-h-nav: 56px;
+  --space-h-btn-lg: 53px;
+
+  --radius-20: 20px;
+  --radius-40: 40px;
+
   --safe-top: env(safe-area-inset-top);
   --safe-top-legacy: constant(safe-area-inset-top);
   --safe-right: env(safe-area-inset-right);
@@ -84,6 +108,21 @@
   --safe-bottom-legacy: constant(safe-area-inset-bottom);
   --safe-left: env(safe-area-inset-left);
   --safe-left-legacy: constant(safe-area-inset-left);
+
+  --color-stone-50: #f6f6f6;
+  --color-stone-100: #f9f7f6;
+  --color-stone-200: #f4f2f1;
+  --color-stone-300: #efeeec;
+  --color-stone-400: #cecdcb;
+  --color-stone-500: #b1b0ae;
+  --color-stone-600: #868584;
+  --color-stone-700: #71706f;
+  --color-stone-800: #51504f;
+  --color-stone-900: #2f2e2d;
+  --color-error: #ff153c;
+  --color-success: #52c41a;
+  --color-warning: #faad14;
+  --color-link: #1890ff;
 }
 
 .dark {
@@ -122,7 +161,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50 !leading-[134%] !tracking-normal;
+    @apply border-border outline-ring/50 !leading-[120%] !tracking-normal;
   }
   body {
     @apply bg-background text-foreground font-global;

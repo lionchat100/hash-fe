@@ -100,7 +100,7 @@ export default function RootLayout({
   return (
     <html lang="ko" suppressHydrationWarning>
       <body className={`${pretendard.className} ${suite.variable} relative bg-gray-50 antialiased`}>
-        <div className="mx-auto h-dvh max-w-[480px] min-w-xs bg-white">
+        <div className="mx-auto h-dvh max-w-(--space-max-layout) min-w-xs bg-white">
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="tokit-theme">
             <StompProvider>
               <SonnerProvider>
