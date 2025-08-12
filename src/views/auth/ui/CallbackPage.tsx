@@ -27,7 +27,11 @@ export const CallbackPage = () => {
         const result = await userOAuthLogin(code);
 
         if (result.success) {
-          router.push('/explore');
+          if (result.user?.isOnboardingCompleted) {
+            router.push('/explore');
+          } else {
+            router.push('/onboarding');
+          }
         } else {
           throw new Error('OAuth 로그인 실패');
         }
