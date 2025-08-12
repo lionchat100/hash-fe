@@ -3,7 +3,7 @@ import { OnboardingData } from '../model/types';
 import { useQuery } from '@tanstack/react-query';
 
 export const getOnboardingData = async () => {
-  const response = await api.get<OnboardingData>('/api/users/onboarding/labels');
+  const response = await api.get<OnboardingData>('/users/onboarding/labels');
   return response.data;
 };
 
