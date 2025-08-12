@@ -1,13 +1,25 @@
+export interface User {
+  id: number;
+  email: string;
+  name: string;
+  imageUrl: string;
+}
+//유저대학 타입
 export type University = {
   name: string;
-  isPublic: boolean;
+  logoUrl: string;
+  isVisible: boolean;
 };
-export type User = {
+
+//유저프로필카드 타입
+export type UserCard = {
   id: string;
-  name: string;
+  name: string; //이름
+  bio?: string; //소개글
   mbti: string;
-  career: string;
-  bio?: string;
+  focusType: string; //position_focused, career_focused, preference_focused
+  position: string; //기술스택
   university: University;
   photos: string[]; //최대 3장허용
+  isLikedByMe?: boolean; //좋아요
 };
