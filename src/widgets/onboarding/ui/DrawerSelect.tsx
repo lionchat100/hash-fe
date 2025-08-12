@@ -1,6 +1,6 @@
 import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '@/shared/ui/Drawer';
 import { Button } from '@/shared/ui/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/shared/lib/tailwindMerge';
 
@@ -30,6 +30,15 @@ export const DrawerSelect = <T extends string>({
   const [open, setOpen] = useState(false);
   const [temp, setTemp] = useState<T | null>(value ?? null);
 
+  useEffect(() => {
+    if (open) setTemp(value ?? null);
+  }, [open, value]);
+
+  const handleOpenChange = (isOpen: boolean) => {
+    setOpen(isOpen);
+    if (!isOpen) setTemp(value ?? null);
+  };
+
   const handleConfirm = () => {
     if (temp) {
       onConfirm(temp);
@@ -55,7 +64,7 @@ export const DrawerSelect = <T extends string>({
           </div>
         )}
       </div>
-      <Drawer open={open} onOpenChange={setOpen}>
+      <Drawer open={open} onOpenChange={handleOpenChange}>
         <DrawerTitle className="hidden">{label}</DrawerTitle>
         <DrawerTrigger asChild>
           <Button variant="drawerSelect" className={cn('w-full justify-between text-base', !value && 'text-gray-500')}>
@@ -63,10 +72,10 @@ export const DrawerSelect = <T extends string>({
             <ChevronDown className="size-4" />
           </Button>
         </DrawerTrigger>
-        <DrawerContent className="space-y-2 p-4">
-          <div className="pb-[14px] text-2xl font-medium">{contentHeader || label}</div>
+        <DrawerContent className="space-y-5 px-8">
+          <div className="text-2xl font-medium">{contentHeader || label}</div>
           {renderOptions(temp, setTemp)}
-          <Button onClick={handleConfirm} className="mt-4 w-full">
+          <Button onClick={handleConfirm} className="my-2 w-full">
             확인
           </Button>
         </DrawerContent>
