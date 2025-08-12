@@ -46,8 +46,10 @@
   --space-max-layout: var(--space-max-layout);
   --space-h-header: var(--space-h-header);
   --space-h-nav: var(--space-h-nav);
+  --space-h-btn-lg: var(--space-h-btn-lg);
 
   --radius-20: var(--radius-20);
+  --radius-40: var(--radius-40);
 
   --color-error: var(--color-error);
   --color-success: var(--color-success);
@@ -93,8 +95,10 @@
   --space-max-layout: 480px;
   --space-h-header: 54px;
   --space-h-nav: 56px;
+  --space-h-btn-lg: 53px;
 
   --radius-20: 20px;
+  --radius-40: 40px;
 
   --safe-top: env(safe-area-inset-top);
   --safe-top-legacy: constant(safe-area-inset-top);

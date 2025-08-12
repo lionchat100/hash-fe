@@ -84,8 +84,8 @@ export const Step2Form = forwardRef<StepFormHandle, Step2FormProps>(function Ste
                         return (
                           <Badge
                             key={opt.code}
-                            className={`cursor-pointer rounded border px-4 py-2 ${
-                              selected === opt.code ? 'bg-gray-200' : ''
+                            className={`cursor-pointer px-4 py-2 ${
+                              selected === opt.code ? 'bg-primary font-bold' : ''
                             }`}
                             onClick={() => setSelected(opt.code)}
                           >
