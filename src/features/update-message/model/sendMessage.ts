@@ -55,9 +55,11 @@ export const useSendMessage = (roomId: number) => {
           messageId: `temp-${Date.now()}`, // 임시 ID
           chatRoomId: roomId,
           senderId: currentUser.id,
-          createdAt: new Date(),
+          senderName: currentUser.name,
+          imageUrl: currentUser.imageUrl,
+          createdAt: new Date().toISOString(),
           content: content.trim(),
-          isEnd: false, // 새 메시지는 항상 false
+          isEnd: false,
         };
 
         addMessage(roomId, optimisticMessage);
