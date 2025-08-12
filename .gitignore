@@ -42,3 +42,10 @@ next-env.d.ts
 
 # ide settings
 .vscode
+
+# mock data
+mock
+
+# pwa build
+public/sw.js
+public/workbox-*.js
