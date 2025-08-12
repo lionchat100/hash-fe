@@ -53,7 +53,7 @@ export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) 
   const progressValue = PROGRESS_BY_STEP[step] ?? 50;
 
   return (
-    <div className="flex h-screen flex-col justify-between px-4">
+    <div className="flex h-full flex-col justify-between px-4">
       <div>
         <div className="h-[54px] pt-3 pb-2.5">
           {step > 1 && (
