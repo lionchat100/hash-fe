@@ -75,17 +75,15 @@ export const Step2Form = forwardRef<StepFormHandle, Step2FormProps>(function Ste
                   renderOptions={(selected, setSelected) => (
                     <div className="flex flex-wrap gap-2">
                       {items.map((opt) => {
-                        const code = typeof opt === 'string' ? opt : opt.code;
-                        const name = typeof opt === 'string' ? opt : opt.name;
                         return (
                           <Badge
-                            key={code}
+                            key={opt.code}
                             className={`cursor-pointer rounded border px-4 py-2 ${
-                              selected === code ? 'bg-gray-200' : ''
+                              selected === opt.code ? 'bg-gray-200' : ''
                             }`}
-                            onClick={() => setSelected(code)}
+                            onClick={() => setSelected(opt.code)}
                           >
-                            {name}
+                            {opt.name}
                           </Badge>
                         );
                       })}
