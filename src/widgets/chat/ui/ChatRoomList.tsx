@@ -15,9 +15,9 @@ export const ChatRoomList = () => {
       try {
         setIsLoading(true);
         const data = await getChatRoomList();
-        setChatRooms(data.chatRooms);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : '채팅방 목록을 불러오는데 실패했습니다.');
+        setChatRooms(data);
+      } catch (error) {
+        setError(error instanceof Error ? error.message : '채팅방 목록을 불러오는데 실패했습니다.');
       } finally {
         setIsLoading(false);
       }
