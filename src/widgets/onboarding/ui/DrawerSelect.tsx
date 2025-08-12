@@ -23,9 +23,6 @@ export const DrawerSelect = <T extends string>({
   value,
   renderOptions,
   onConfirm,
-  showVisibilityToggle = false,
-  visibilityValue,
-  onVisibilityChange,
 }: DrawerSelectProps<T>) => {
   const [open, setOpen] = useState(false);
   const [temp, setTemp] = useState<T | null>(value ?? null);
@@ -50,24 +47,14 @@ export const DrawerSelect = <T extends string>({
     <div className="space-y-1">
       <div className="flex items-center gap-[14px]">
         <div className="text-base font-semibold">{label}</div>
-        {showVisibilityToggle && onVisibilityChange && typeof visibilityValue === 'boolean' && (
-          <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              id="visibility"
-              checked={visibilityValue}
-              onChange={(e) => onVisibilityChange(e.target.checked)}
-            />
-            <label htmlFor="visibility" className="text-sm">
-              대학 정보 공개
-            </label>
-          </div>
-        )}
       </div>
       <Drawer open={open} onOpenChange={handleOpenChange}>
         <DrawerTitle className="hidden">{label}</DrawerTitle>
         <DrawerTrigger asChild>
-          <Button variant="drawerSelect" className={cn('w-full justify-between text-base', !value && 'text-gray-500')}>
+          <Button
+            variant="drawerSelect"
+            className={cn('w-full justify-between text-base text-stone-600', !value && 'text-stone-500')}
+          >
             {value || placeholder}
             <ChevronDown className="size-4" />
           </Button>

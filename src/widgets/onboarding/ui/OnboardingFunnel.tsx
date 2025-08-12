@@ -60,14 +60,15 @@ export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) 
   return (
     <div className="flex h-full flex-col justify-between px-4">
       <div>
-        <div className="h-[54px] pt-3 pb-2.5">
+        <header className="sticky top-0 z-10 flex h-(--space-h-header) items-center justify-center pt-3 pb-2.5">
           {step > 1 && (
-            <Button variant="ghost" size="icon" onClick={goPrev}>
+            <Button variant="ghost" size="icon" onClick={goPrev} className="absolute left-4">
               <ArrowLeft className="size-6" />
             </Button>
           )}
-        </div>
-        <div className="pt-5 pb-10">
+          <h2 className="text-xl font-semibold text-stone-900">가입하기</h2>
+        </header>
+        <div className="pt-2.5 pb-8">
           <Progress value={progressValue} />
         </div>
         <StepRender

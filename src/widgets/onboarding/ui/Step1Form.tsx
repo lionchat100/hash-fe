@@ -63,9 +63,9 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
   }
 
   return (
-    <form className="space-y-5 px-4" onSubmit={(e) => e.preventDefault()}>
+    <form className="space-y-9" onSubmit={(e) => e.preventDefault()}>
       <div className="space-y-2">
-        <Label htmlFor="nickname" className="text-base font-semibold">
+        <Label htmlFor="nickname" className="font-stone-900 text-base font-semibold">
           닉네임
         </Label>
         <Input placeholder="닉네임 (2~8자 이내, 한글,영문, 숫자만 가능)" {...form.register('nickname')} />
@@ -74,7 +74,7 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
 
       <div className="space-y-2">
         <div className="flex items-center space-x-2">
-          <Label htmlFor="university" className="text-base font-semibold">
+          <Label htmlFor="university" className="font-stone-900 text-base font-semibold">
             {uniConfig.label}
           </Label>
           <div className="flex items-center gap-2">
@@ -111,19 +111,25 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
 
       {/* 성별 */}
       <div className="space-y-2">
-        <div className="text-base font-semibold">성별</div>
+        <div className="font-stone-900 text-base font-semibold">성별</div>
         <div className="flex gap-2">
           {genderOptions.map((g) => (
             <Button
               key={g.code}
               type="button"
+              variant="outline"
               onClick={() =>
                 form.setValue('gender', g.name, {
                   shouldDirty: true,
                   shouldValidate: true,
                 })
               }
-              className={cn('w-1/2', gender === g.name ? 'bg-blue-500 text-white' : '')}
+              className={cn(
+                'w-1/2',
+                gender === g.name
+                  ? 'bg-primary text-stone-100'
+                  : 'hover:bg-primary/30 text-stone-500 hover:text-stone-50',
+              )}
             >
               {g.name}
             </Button>

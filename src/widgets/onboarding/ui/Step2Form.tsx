@@ -60,7 +60,7 @@ export const Step2Form = forwardRef<StepFormHandle, Step2FormProps>(function Ste
   // }
 
   if (!step2Configs || !bundle) {
-    return <div className="px-4 py-6 text-red-500">옵션을 불러오지 못했어요.</div>;
+    return <div className="px-4 py-6">옵션을 불러오지 못했어요.</div>;
   }
 
   return (
@@ -85,9 +85,9 @@ export const Step2Form = forwardRef<StepFormHandle, Step2FormProps>(function Ste
                           <Badge
                             key={opt.code}
                             className={`cursor-pointer px-4 py-2 ${
-                              selected === opt.code ? 'bg-primary font-bold' : ''
+                              selected === opt.code ? 'bg-primary font-bold text-stone-100' : ''
                             }`}
-                            onClick={() => setSelected(opt.code)}
+                            onClick={() => setSelected(opt.name)}
                           >
                             {opt.name}
                           </Badge>
