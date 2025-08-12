@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { Step1Data, Step2Data, Step3Data } from './types';
+import type { Step1Data, Step2Data, Step3Data, StepKey } from './types';
 
 interface OnboardingData {
   step1?: Step1Data;
@@ -11,6 +11,8 @@ interface State {
   step: number;
   total: number;
   data: OnboardingData;
+  canProceed: Partial<Record<StepKey, boolean>>;
+  setCanProceed: (k: StepKey, v: boolean) => void;
   setStep: (s: number) => void;
   save: <K extends keyof OnboardingData>(k: K, v: OnboardingData[K]) => void;
   reset: () => void;
@@ -31,6 +33,8 @@ export const useOnboardingStore = create<State>((set) => ({
   step: 1,
   total: 3,
   data: {},
+  canProceed: {},
+  setCanProceed: (k, v) => set((s) => ({ canProceed: { ...s.canProceed, [k]: v } })),
   setStep: (step) => set({ step }),
   save: (k, v) =>
     set((s) => {

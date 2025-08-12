@@ -15,6 +15,11 @@ export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) 
   const { step, total, data, setStep, save } = useOnboardingStore();
   // const submit = useSubmitOnboarding();
 
+  // 버튼 활성화 여부 컨트롤
+  const canProceed = useOnboardingStore((s) => s.canProceed);
+  const currentKey = order[step - 1];
+  const nextDisabled = !canProceed[currentKey];
+
   // 초기 스텝 세팅
   useEffect(() => {
     if (initialStep > 1 && step !== initialStep) {
@@ -75,7 +80,7 @@ export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) 
         />
       </div>
       <div className="flex justify-center pb-2">
-        <Button className="w-xs" onClick={goNext}>
+        <Button className="w-xs" onClick={goNext} disabled={nextDisabled}>
           {step === total ? '저장' : '다음'}
         </Button>
       </div>

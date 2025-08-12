@@ -1,5 +1,5 @@
 'use client';
-import { forwardRef, useImperativeHandle, useMemo } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useMemo } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -25,8 +25,14 @@ export const Step2Form = forwardRef<StepFormHandle, Step2FormProps>(function Ste
   const form = useForm<Step2Data>({
     resolver: zodResolver(step2Schema),
     defaultValues: step2 ?? { mbti: '', position: '', preferenceType: '' },
-    mode: 'onSubmit',
+    mode: 'onChange',
   });
+
+  // 다음 버튼 활성화 여부 관련
+  const setCanProceed = useOnboardingStore((s) => s.setCanProceed);
+  useEffect(() => {
+    setCanProceed('step2', form.formState.isValid);
+  }, [form.formState.isValid, setCanProceed]);
 
   // 부모에 submit 핸들 노출
   useImperativeHandle(ref, () => ({
