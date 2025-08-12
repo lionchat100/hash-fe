@@ -1,52 +1,43 @@
-import { AuthProvider, QueryProvider, SonnerProvider, StompProvider, ThemeProvider } from '@/app/_providers';
+import { QueryProvider, SonnerProvider, StompProvider, ThemeProvider } from '@/app/_providers';
+import { SERVICE_INFO } from '@/shared/constants';
 import type { Metadata, Viewport } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
-
 export const metadata: Metadata = {
-  applicationName: 'LIONCHAT',
+  applicationName: SERVICE_INFO.NAME,
   title: {
-    default: 'LIONCHAT',
-    template: '%s | LIONCHAT',
+    default: SERVICE_INFO.NAME,
+    template: '%s | ' + SERVICE_INFO.NAME,
   },
-  description: '개발자 커피챗 플랫폼 LIONCHAT',
+  description: SERVICE_INFO.DESCRIPTION,
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'LIONCHAT',
+    title: SERVICE_INFO.NAME,
   },
   formatDetection: {
     telephone: false,
   },
   openGraph: {
     type: 'website',
-    siteName: 'LIONCHAT',
+    siteName: SERVICE_INFO.NAME,
     title: {
-      default: 'LIONCHAT',
-      template: '%s | LIONCHAT',
+      default: SERVICE_INFO.NAME,
+      template: '%s | ' + SERVICE_INFO.NAME,
     },
-    description: '개발자 커피챗 플랫폼 LIONCHAT',
+    description: SERVICE_INFO.DESCRIPTION,
   },
   twitter: {
     card: 'summary',
     title: {
-      default: 'LIONCHAT',
-      template: '%s | LIONCHAT',
+      default: SERVICE_INFO.NAME,
+      template: '%s | ' + SERVICE_INFO.NAME,
     },
-    description: '개발자 커피챗 플랫폼 LIONCHAT',
+    description: SERVICE_INFO.DESCRIPTION,
   },
-  keywords: ['라이언챗', '커피챗', '해커톤', '멋쟁이사자처럼', 'lionchat', 'likelion'],
+  keywords: ['Tokit', '커피챗', '개발자', '커뮤니티'],
   icons: {
     icon: [
       {
@@ -87,6 +78,20 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
+const pretendard = localFont({
+  src: '../../public/fonts/pretendard/PretendardVariable.woff2',
+  display: 'swap',
+  weight: '45 920',
+  variable: '--font-pretendard',
+});
+
+const suite = localFont({
+  src: '../../public/fonts/suite/SUITE-Variable.woff2',
+  display: 'swap',
+  weight: '45 920',
+  variable: '--font-suite',
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -94,16 +99,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <AuthProvider>
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="lionchat-theme">
+      <body className={`${pretendard.className} ${suite.variable} relative bg-gray-50 antialiased`}>
+        <div className="mx-auto max-w-[480px] min-w-xs bg-white">
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="tokit-theme">
             <StompProvider>
               <SonnerProvider>
                 <QueryProvider>{children}</QueryProvider>
               </SonnerProvider>
             </StompProvider>
           </ThemeProvider>
-        </AuthProvider>
+        </div>
+        <div className="h-auto" id="drawer-customPortal" />
       </body>
     </html>
   );

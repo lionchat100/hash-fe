@@ -1,2 +1,4 @@
 export { getMessageList } from './api/getMessageList';
-export type { Message, MessageList } from './model/types';
+export { getMoreMessageList } from './api/getMoreMessageList';
+export { useMessageStore } from './model/slice';
+export type { MessageReq, MessageRes, MessageAck, MessageList } from './model/types';

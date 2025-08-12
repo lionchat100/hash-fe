@@ -17,6 +17,7 @@ const eslintConfig = [
       'react/react-in-jsx-scope': 'off',
       'react/jsx-uses-react': 'off',
       'prettier/prettier': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
     },
     plugins: {
       eslintPluginPrettier,

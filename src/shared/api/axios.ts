@@ -10,6 +10,7 @@ const api: AxiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 });
 
 api.interceptors.request.use(
@@ -23,6 +24,7 @@ api.interceptors.request.use(
     return config;
   },
   (error: AxiosError) => {
+    console.error('Axios 요청 실패:', error);
     return Promise.reject(error);
   },
 );
@@ -36,7 +38,13 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`);
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
+          {},
+          {
+            withCredentials: true,
+          },
+        );
         const { accessToken } = response.data;
 
         if (typeof window !== 'undefined') {
@@ -46,7 +54,8 @@ api.interceptors.response.use(
         originalRequest.headers.set('Authorization', `Bearer ${accessToken}`);
         return api(originalRequest);
       } catch (error) {
-        console.log('refreshError', error);
+        console.error('Axios 토큰 갱신 실패:', error);
+
         if (typeof window !== 'undefined') {
           localStorage.removeItem('accessToken');
           window.location.href = '/';

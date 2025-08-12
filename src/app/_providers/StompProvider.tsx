@@ -2,17 +2,20 @@
 
 import { stompContext } from '@/shared/api/stomp';
 import { Client, IFrame } from '@stomp/stompjs';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
+import SockJS from 'sockjs-client';
 
 export const StompProvider = ({ children }: { children: ReactNode }) => {
   const [client, setClient] = useState<Client | null>(null);
   const [isConnected, setIsConnected] = useState(false);
+  const reconnectAttempts = useRef(0);
+  const maxReconnectAttempts = 5;
 
   useEffect(() => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
 
     const stompClient = new Client({
-      brokerURL: process.env.NEXT_PUBLIC_STOMP_URL!,
+      webSocketFactory: () => new SockJS(process.env.NEXT_PUBLIC_STOMP_URL!),
       connectHeaders: {
         Authorization: `Bearer ${token}`,
       },
@@ -23,25 +26,33 @@ export const StompProvider = ({ children }: { children: ReactNode }) => {
     });
 
     stompClient.onConnect = () => {
-      console.log('stomp connected');
+      console.log('stomp 연결 성공');
       setIsConnected(true);
+      reconnectAttempts.current = 0;
     };
 
     stompClient.onDisconnect = () => {
-      console.log('stomp disconnected');
+      console.log('stomp 연결 끊김');
       setIsConnected(false);
     };
 
     stompClient.onStompError = (frame: IFrame) => {
-      console.error('stomp error:', frame);
+      console.error('stomp 오류:', frame);
       setIsConnected(false);
+
+      if (reconnectAttempts.current < maxReconnectAttempts) {
+        reconnectAttempts.current++;
+        console.log(`stomp 재연결 시도 ${reconnectAttempts.current}/${maxReconnectAttempts}`);
+      } else {
+        console.log('stomp 최대 재연결 시도 횟수 초과');
+      }
     };
 
     stompClient.activate();
     setClient(stompClient);
 
     return () => {
-      console.log('stomp disconnected');
+      console.log('stomp 연결 끊김');
       stompClient.deactivate();
     };
   }, []);

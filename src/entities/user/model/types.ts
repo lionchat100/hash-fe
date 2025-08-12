@@ -3,6 +3,7 @@ export interface User {
   email: string;
   name: string;
   imageUrl: string;
+  isOnboardingCompleted: boolean;
 }
 //유저대학 타입
 export type University = {
