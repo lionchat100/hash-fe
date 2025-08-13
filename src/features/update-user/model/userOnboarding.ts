@@ -6,7 +6,7 @@ import { AllFormData, DrawerConfig, Step2FormKey } from '@/entities/user/model/t
 import { useOnboardingData } from '@/entities/user/api/getOnboardingData';
 import { onboardingDataMapper } from '@/entities/user/lib/onboardingDataMapper';
 import { uploadImagesList } from '../api/uploadImagesList';
-import { updateOnboarding } from '../api/UpdateOnboarding';
+import { updateOnboarding } from '../api/updateOnboarding';
 
 import { toast } from 'sonner';
 import { useRouter } from 'next/router';

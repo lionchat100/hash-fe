@@ -9,13 +9,13 @@ import { Progress } from '@/shared/ui/Progress';
 import { Button } from '@/shared/ui/Button';
 import { ArrowLeft } from 'lucide-react';
 
-// import { useSubmitOnboarding } from '@/features/updateUser/model/useSubmitOnboarding';
+import { useSubmitOnboarding } from '@/features/update-user/model/userOnboarding';
 
 const order: StepKey[] = ['step1', 'step2', 'step3'];
 
 export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) => {
-  const { step, total, data, setStep, save } = useOnboardingStore();
-  // const submit = useSubmitOnboarding();
+  const { step, total, setStep, save } = useOnboardingStore();
+  const submit = useSubmitOnboarding();
 
   // 버튼 활성화 여부 컨트롤
   const canProceed = useOnboardingStore((s) => s.canProceed);
@@ -45,7 +45,7 @@ export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) 
         setStep(idx + 2); // 1-based step 이동
       } else {
         // 마지막 스텝이면 서버 제출
-        // submit.mutate({ ...data, [key]: values });
+        submit.mutate();
       }
     };
 
