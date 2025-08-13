@@ -11,9 +11,6 @@ interface DrawerSelectProps<T = string> {
   value: T | null;
   renderOptions: (temp: T | null, setTemp: (v: T) => void) => React.ReactNode;
   onConfirm: (value: T) => void;
-  showVisibilityToggle?: boolean; // 공개여부 설정 버튼
-  visibilityValue?: boolean;
-  onVisibilityChange?: (val: boolean) => void;
 }
 
 export const DrawerSelect = <T extends string>({

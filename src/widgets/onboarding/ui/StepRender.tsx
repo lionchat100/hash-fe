@@ -1,7 +1,7 @@
 import { StepKey, DataByStep } from '../model/types';
 import { Step1Form } from './Step1Form';
 import { Step2Form } from './Step2Form';
-// import { Step3Form } from './Step3Form';
+import { Step3Form } from './Step3Form';
 
 export type StepFormHandle = { submit: () => void };
 
@@ -24,8 +24,8 @@ export const StepRender = ({ step, bind }: StepRenderProps) => {
       return <Step1Form ref={bind.step1.ref} onValid={bind.step1.onValid} />;
     case 2:
       return <Step2Form ref={bind.step2.ref} onValid={bind.step2.onValid} />;
-    // case 3:
-    //   return <Step3Form />;
+    case 3:
+      return <Step3Form ref={bind.step3.ref} onValid={bind.step3.onValid} />;
     default:
       return null;
   }
