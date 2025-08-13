@@ -7,6 +7,4 @@ export interface ChatRoom {
   isRead: boolean; // 마지막 메시지 읽음 여부
 }
 
-export interface ChatRoomList {
-  chatRooms: ChatRoom[]; // 채팅방 목록을 배열로 변경
-}
+export type ChatRoomList = ChatRoom[];

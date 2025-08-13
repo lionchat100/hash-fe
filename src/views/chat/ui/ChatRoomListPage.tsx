@@ -6,7 +6,6 @@ export const ChatRoomListPage = () => {
     <>
       <ChatRoomListHeader />
       <ChatRoomList />
-      {/* 네비게이션 */}
     </>
   );
 };
