@@ -1,7 +1,12 @@
+'use client';
+import { cn } from '@/shared/lib/tailwindMerge';
+import { Button } from '@/shared/ui/Button';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function OnboardingEndPage({ delayMs = 3000 }: { delayMs?: number }) {
   const [step, setStep] = useState<'splash' | 'detail'>('splash');
+  const router = useRouter();
 
   useEffect(() => {
     const t = setTimeout(() => setStep('detail'), delayMs);
@@ -9,18 +14,33 @@ export default function OnboardingEndPage({ delayMs = 3000 }: { delayMs?: number
   }, [delayMs]);
 
   return (
-    <div>
+    <div
+      className={cn(
+        'font-display-lg flex h-screen flex-col justify-center px-4 text-center align-middle text-stone-900',
+        step === 'detail' && 'relative',
+      )}
+    >
       {step === 'splash' ? (
-        <div className="flex h-dvh justify-center">
-          <div className="font-display-sm text-center">
-            <div>{}님</div>
-            <div>
-              <span className="text-primary">커피챗</span> 하실래요?
-            </div>
+        <>
+          <div>{}님</div>
+          <div>
+            <span className="text-primary">커피챗</span> 하실래요?
           </div>
-        </div>
+        </>
       ) : (
-        <div>다음</div>
+        <>
+          <div className="text-xl">
+            <div className="text-primary">커피챗이란?</div>
+            <div>부담 없이 서로를 알아가는</div>
+            <div>IT업계 문화예요</div>
+            <div className="pt-5">Tokit에서 기술 스택부터</div>
+            <div>진로 고민, 일상 이야기까지</div>
+            <div>지금 대화를 나눠보세요!</div>
+          </div>
+          <Button className="absolute bottom-3 w-11/12" onClick={() => router.push('/explore')}>
+            완성된 프로필 확인하기
+          </Button>
+        </>
       )}
     </div>
   );

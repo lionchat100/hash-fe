@@ -9,7 +9,7 @@ import { uploadImagesList } from '../api/uploadImagesList';
 import { updateOnboarding } from '../api/updateOnboarding';
 
 import { toast } from 'sonner';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 export function useOptionFilter() {
   const { data: bundle } = useOnboardingData();
