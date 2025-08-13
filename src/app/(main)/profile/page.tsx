@@ -5,6 +5,7 @@ import { useUserStore } from '@/entities/user/model/slice';
 import { Button } from '@/shared/ui/Button';
 import { Badge } from '@/shared/ui/Badge';
 import { Menu, Bell, Edit } from 'lucide-react';
+import ProfileImageSlider from '@/widgets/profile/ImageSlider';
 
 // 임시 나의 프로필 데이터 (실제로는 현재 사용자 정보에서 가져올 예정)
 const mockMyProfileData = {
@@ -19,20 +20,27 @@ const mockMyProfileData = {
     logoUrl: '/university-logo.png',
     isVisible: true,
   },
-  photos: ['/my-profile1.jpg', '/my-profile2.jpg', '/my-profile3.jpg'],
+  photos: ['/images/profiles/profile1.jpg', '/images/profiles/profile2.jpg', '/images/profiles/profile3.jpg'],
 };
 
 export default function ProfilePage() {
   const { currentUser } = useUserStore();
   const myProfile = mockMyProfileData;
+
+  // 현재 활성화된 이미지 인덱스 상태 관리
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const handleSlideNext = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % myProfile.photos.length);
-  };
+  // 프로필 사진 데이터를 ImageSlider 컴포넌트에서 요구하는 형식으로 변환
+  // string[] -> { src: string, alt: string }[] 형태로 변환
+  const profileImages = myProfile.photos.map((photo, index) => ({
+    src: photo,
+    alt: `${myProfile.name}의 프로필 사진 ${index + 1}`,
+  }));
 
-  const handleSlidePrev = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + myProfile.photos.length) % myProfile.photos.length);
+  // ImageSlider 컴포넌트에서 이미지가 변경될 때 호출되는 콜백 핸들러
+  // Swiper의 슬라이드 변경을 감지하여 현재 인덱스 상태를 업데이트
+  const handleImageChange = (index: number) => {
+    setCurrentImageIndex(index);
   };
 
   // 임시로 로그인 체크 비활성화
@@ -55,7 +63,7 @@ export default function ProfilePage() {
           </Button>
 
           {/* 중앙 제목 */}
-          <div className="text-lg font-semibold">마이페이지</div>
+          <div className="text-lg font-semibold">프로필</div>
 
           {/* 우측 알림 버튼 */}
           <Button variant="ghost" size="sm">
@@ -66,74 +74,68 @@ export default function ProfilePage() {
 
       <div className="p-4">
         <div className="relative">
-          {/* 프로필 카드 메인 영역 */}
+          {/* 프로필 카드 메인 영역 - ImageSlider 컴포넌트 사용 */}
           <div
-            className="relative w-full overflow-hidden rounded-3xl bg-cover bg-center shadow-2xl"
-            style={{
-              height: 'calc(100dvh - 200px)', // 네비바(약 72px) + 패딩 + 수정하기 버튼(약 128px) 고려
-              minHeight: '500px', // 최소 높이 보장
-              backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 100%), url('${myProfile.photos[currentImageIndex]}')`,
-            }}
-            onClick={handleSlideNext}
+            className="relative w-full overflow-hidden rounded-3xl shadow-2xl"
+            style={{ height: 'calc(100dvh - 200px)', minHeight: '500px' }}
           >
-            {/* 사진 슬라이드 동그라미 - 상단 중앙 */}
-            <div className="absolute top-3 left-1/2 z-10 -translate-x-1/2">
-              <div className="flex gap-2">
-                {myProfile.photos.map((_, index) => (
-                  <div
-                    key={index}
-                    className={`h-2 w-2 rounded-full bg-white transition-opacity ${
-                      index === currentImageIndex ? 'opacity-100' : 'opacity-60'
-                    }`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCurrentImageIndex(index);
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
+            {/* Swiper.js 기반 ImageSlider 컴포넌트 적용 */}
+            <ProfileImageSlider
+              images={profileImages} // 변환된 이미지 배열 전달
+              initialIndex={currentImageIndex} // 초기 슬라이드 인덱스
+              onChange={handleImageChange} // 슬라이드 변경 시 콜백
+              // height prop 제거 - ImageSlider가 부모 컨테이너 전체 영역을 자동으로 차지
+            />
 
-            {/* 메인 프로필 정보 */}
-            <div className="absolute right-0 bottom-0 left-0 p-6 text-white">
-              {/* 이름과 대학교 */}
-              <div className="mb-3 md:mb-4">
-                <div className="mb-2 flex items-center gap-2">
-                  <h1 className="text-3xl font-bold">{myProfile.name}</h1>
-                  <div className="flex items-center gap-1">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600">
-                      <span className="text-xs font-bold text-white">서</span>
+            {/* 메인 프로필 정보 - 추가 배경 보강과 함께 오버레이 */}
+            <div className="absolute right-0 bottom-0 left-0 z-30">
+              {/* 프로필 정보 전용 추가 배경 블러 */}
+              {/* [변경] 배경 블러 → 그라디언트 + 블러 */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent backdrop-blur-[1px]" />
+
+              {/* 실제 프로필 정보 컨테이너 */}
+              <div className="relative p-6 text-white">
+                {/* 이름과 대학교 */}
+                <div className="mb-3 md:mb-4">
+                  <div className="mb-2 flex items-center gap-2">
+                    <h1 className="text-3xl font-bold text-white">{myProfile.name}</h1>
+                    <div className="flex items-center gap-1">
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600">
+                        <span className="text-xs font-bold text-white">서</span>
+                      </div>
+                      <span className="text-sm font-medium text-white">{myProfile.university.name}</span>
                     </div>
-                    <span className="text-sm font-medium">{myProfile.university.name}</span>
                   </div>
+                  <p className="mb-3 text-sm leading-relaxed text-white opacity-90 md:mb-4 md:text-base">
+                    {myProfile.bio}
+                  </p>
                 </div>
-                <p className="sleading-relaxed mb-3 text-sm opacity-90 md:mb-4 md:text-base">{myProfile.bio}</p>
-              </div>
 
-              {/* 태그들 */}
-              <div className="mb-6 flex flex-wrap gap-2">
-                <Badge
-                  variant="outline"
-                  className="border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
-                >
-                  {myProfile.mbti}
-                </Badge>
-                <Badge
-                  variant="outline"
-                  className="border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
-                >
-                  {myProfile.position}
-                </Badge>
-                <Badge
-                  variant="outline"
-                  className="border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
-                >
-                  {myProfile.focusType === 'career_focused'
-                    ? '커리어 중심'
-                    : myProfile.focusType === 'position_focused'
-                      ? '포지션 중심'
-                      : '취향 중심'}
-                </Badge>
+                {/* 태그들 */}
+                <div className="mb-6 flex flex-wrap gap-2">
+                  <Badge
+                    variant="outline"
+                    className="border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
+                  >
+                    {myProfile.mbti}
+                  </Badge>
+                  <Badge
+                    variant="outline"
+                    className="border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
+                  >
+                    {myProfile.position}
+                  </Badge>
+                  <Badge
+                    variant="outline"
+                    className="border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
+                  >
+                    {myProfile.focusType === 'career_focused'
+                      ? '커리어 중심'
+                      : myProfile.focusType === 'position_focused'
+                        ? '포지션 중심'
+                        : '취향 중심'}
+                  </Badge>
+                </div>
               </div>
             </div>
           </div>
@@ -141,7 +143,7 @@ export default function ProfilePage() {
           {/* 수정하기 버튼 - 카드 바깥쪽 아래 */}
           <div className="mt-6">
             <Button className="h-14 w-full rounded-4xl text-lg font-semibold" size="lg">
-              <Edit className="mr-2 h-5 w-5" />
+              {/* <Edit className="mr-2 h-5 w-5" /> */}
               프로필 수정하기
             </Button>
           </div>
