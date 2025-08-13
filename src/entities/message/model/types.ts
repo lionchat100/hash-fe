@@ -19,6 +19,4 @@ export interface MessageAck {
   userId: number;
 }
 
-export interface MessageList {
-  [roomId: number]: MessageRes[];
-}
+export type MessageList = MessageRes[];

@@ -33,8 +33,8 @@ export const useLoadMessage = (roomId: number, pageSize: number = 30) => {
       console.log(`채팅방 ${roomId} 초기 메시지 로드 시작`);
       const messageList = await getMessageList(roomId);
 
-      if (messageList && messageList[roomId]) {
-        const roomMessages = messageList[roomId];
+      if (messageList && Array.isArray(messageList)) {
+        const roomMessages = messageList;
         setMessages(roomId, roomMessages);
         setCurrentRoomMessages(roomId);
 
@@ -73,8 +73,8 @@ export const useLoadMessage = (roomId: number, pageSize: number = 30) => {
       console.log(`채팅방 ${roomId} 추가 메시지 로드 시작 (lastId: ${lastMessageId})`);
       const messageList = await getMoreMessageList(roomId, parseInt(lastMessageId));
 
-      if (messageList && messageList[roomId]) {
-        const newMessages = messageList[roomId];
+      if (messageList && Array.isArray(messageList)) {
+        const newMessages = messageList;
 
         if (newMessages.length > 0) {
           // 새 메시지들을 기존 메시지 앞에 추가

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { ChatRoom } from '@/entities/chat';
 import { ChatRoomItem } from '@/entities/chat';
 import { getChatRoomList } from '@/entities/chat/api/getChatRoomList';
+import { ScrollArea } from '@/shared/ui/ScrollArea';
 
 export const ChatRoomList = () => {
   const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
@@ -15,9 +16,9 @@ export const ChatRoomList = () => {
       try {
         setIsLoading(true);
         const data = await getChatRoomList();
-        setChatRooms(data.chatRooms);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : '채팅방 목록을 불러오는데 실패했습니다.');
+        setChatRooms(data);
+      } catch (error) {
+        setError(error instanceof Error ? error.message : '채팅방 목록을 불러오는데 실패했습니다.');
       } finally {
         setIsLoading(false);
       }
@@ -51,10 +52,10 @@ export const ChatRoomList = () => {
   }
 
   return (
-    <div className="h-full">
+    <ScrollArea className="h-[calc(100vh-54px)] pb-[56px]">
       {chatRooms.map((chatRoom) => (
         <ChatRoomItem key={chatRoom.chatRoomId} chatRoom={chatRoom} />
       ))}
-    </div>
+    </ScrollArea>
   );
 };
