@@ -64,10 +64,21 @@ export interface OnboardingFormData {
   gender: Step1Data['gender'];
   position: Step2Data['position'];
   mbti: Step2Data['mbti'];
-  // imageIds: int[];
   preferenceType: Step2Data['preferenceType'];
   bio: Step3Data['bio'];
-  requiredAgreements: true;
-  isUniversityView: true;
-  marketingAgreements: false;
+  requiredAgreements: boolean;
+  isUniversityView: boolean;
+  marketingAgreements: boolean;
+  imageIds: number[];
+}
+
+export interface UploadImage {
+  imageId: number;
+  imageUrl: string;
+}
+
+export interface onboardingConfirm {
+  userId: number;
+  message: string;
+  isOnboardingCompleted: boolean;
 }
