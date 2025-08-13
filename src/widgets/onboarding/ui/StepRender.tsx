@@ -1,7 +1,5 @@
 import { StepKey, AllFormData, StepFormHandle } from '@/entities/user/model/types';
-import { Step1Form } from '@/features/update-user/ui/Step1Form';
-import { Step2Form } from '@/features/update-user/ui/Step2Form';
-import { Step3Form } from '@/features/update-user/ui/Step3Form';
+import { Step1Form, Step2Form, Step3Form } from '@/features/update-user';
 
 // StepRenderer가 받을 바인딩(스텝별 ref + onValid)
 type BindMap = {
