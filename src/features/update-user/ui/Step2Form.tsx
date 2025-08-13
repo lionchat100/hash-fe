@@ -1,18 +1,15 @@
 'use client';
-import { forwardRef, useEffect, useImperativeHandle, useMemo } from 'react';
+import { forwardRef, useEffect, useImperativeHandle } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { useOnboardingStore } from '@/widgets/onboarding/model/store';
-import { step2Schema } from '../model/validators';
-import type { Step2Data, Step2FormKey } from '../model/types';
-import type { StepFormHandle } from './StepRender';
-import { onboardingDataMapper } from '@/entities/user/lib/onboardingDataMapper';
-import { useOnboardingData } from '@/entities/user/api/getOnboardingData';
+import { useOnboardingStore } from '@/entities/user/model/slice';
+import { step2Schema } from '@/entities/user/lib/validators';
+import type { Step2Data, StepFormHandle } from '@/entities/user/model/types';
+import { useOptionFilter } from '../model/userOnboarding';
 
 import { Badge } from '@/shared/ui/Badge';
-import { DrawerSelect } from '@/widgets/onboarding/ui/DrawerSelect';
-import { DrawerConfig } from '@/entities/user/model/types';
+import { DrawerSelect } from '@/entities/user/ui/DrawerSelect';
 
 interface Step2FormProps {
   onValid: (values: Step2Data) => void;
@@ -27,6 +24,7 @@ export const Step2Form = forwardRef<StepFormHandle, Step2FormProps>(function Ste
     defaultValues: step2 ?? { mbti: '', position: '', preferenceType: '' },
     mode: 'onChange',
   });
+  const { errors } = form.formState;
 
   // 다음 버튼 활성화 여부 관련
   const setCanProceed = useOnboardingStore((s) => s.setCanProceed);
@@ -42,25 +40,10 @@ export const Step2Form = forwardRef<StepFormHandle, Step2FormProps>(function Ste
   }));
 
   // 옵션 로딩
-  const { data: bundle } = useOnboardingData();
-  // const bundle = sampleData; // mock
-  const configs = useMemo(() => (bundle ? onboardingDataMapper(bundle) : []), [bundle]);
+  const { bundle, step2Configs } = useOptionFilter();
 
-  const dataKey: Step2FormKey[] = ['mbti', 'position', 'preferenceType'];
-
-  const step2Configs = useMemo(
-    () => configs.filter((c) => dataKey.includes(c.key as Step2FormKey)) as DrawerConfig<Step2FormKey>[],
-    [configs],
-  );
-
-  const { errors } = form.formState;
-
-  // if (isLoading) {
-  //   return <div className="px-4 py-6">옵션을 불러오는 중…</div>;
-  // }
-
-  if (!step2Configs || !bundle) {
-    return <div className="px-4 py-6 text-red-500">옵션을 불러오지 못했어요.</div>;
+  if (!bundle || !step2Configs) {
+    return <div className="px-4 py-6">옵션을 불러오지 못했어요.</div>;
   }
 
   return (
@@ -85,9 +68,9 @@ export const Step2Form = forwardRef<StepFormHandle, Step2FormProps>(function Ste
                           <Badge
                             key={opt.code}
                             className={`cursor-pointer px-4 py-2 ${
-                              selected === opt.code ? 'bg-primary font-bold' : ''
+                              selected === opt.code ? 'bg-primary font-bold text-stone-100' : ''
                             }`}
-                            onClick={() => setSelected(opt.code)}
+                            onClick={() => setSelected(opt.name)}
                           >
                             {opt.name}
                           </Badge>

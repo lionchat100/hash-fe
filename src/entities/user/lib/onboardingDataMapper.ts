@@ -25,6 +25,6 @@ export const onboardingDataMapper = (bundle: OnboardingData): DrawerConfig[] => 
     label: '같이 이야기하고 싶은 친구를 선택해주세요',
     placeholder: '만나고 싶은 친구 유형을 선택해주세요',
     contentHeader: '토킷 안에서 친구들과 이런 주제로 이야기하고 싶어요',
-    items: bundle.genders,
+    items: bundle.preferenceType,
   },
 ];

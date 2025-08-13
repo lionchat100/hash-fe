@@ -1,19 +1,21 @@
 import { useEffect, useRef } from 'react';
-import { useOnboardingStore } from '../model/store';
-import { StepFormHandle, StepRender } from './StepRender';
+
+import { StepKey, AllFormData, StepFormHandle } from '@/entities/user/model/types';
+import { useOnboardingStore } from '@/entities/user/model/slice';
+import { StepRender } from './StepRender';
+
+import { PROGRESS_BY_STEP } from '@/shared/constants';
 import { Progress } from '@/shared/ui/Progress';
 import { Button } from '@/shared/ui/Button';
 import { ArrowLeft } from 'lucide-react';
-import { StepKey, DataByStep } from '../model/types';
-import { PROGRESS_BY_STEP } from '@/shared/constants';
 
-// import { useSubmitOnboarding } from '@/features/updateUser/model/useSubmitOnboarding';
+import { useSubmitOnboarding } from '@/features/update-user/model/userOnboarding';
 
 const order: StepKey[] = ['step1', 'step2', 'step3'];
 
 export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) => {
-  const { step, total, data, setStep, save } = useOnboardingStore();
-  // const submit = useSubmitOnboarding();
+  const { step, total, setStep, save } = useOnboardingStore();
+  const submit = useSubmitOnboarding();
 
   // 버튼 활성화 여부 컨트롤
   const canProceed = useOnboardingStore((s) => s.canProceed);
@@ -36,14 +38,14 @@ export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) 
   // onValid 공통 팩토리 (스텝별로 재사용)
   const onValid =
     <K extends StepKey>(key: K) =>
-    (values: DataByStep[K]) => {
+    (values: AllFormData[K]) => {
       save(key, values); // 공통 저장
       const idx = order.indexOf(key);
       if (idx < order.length - 1) {
         setStep(idx + 2); // 1-based step 이동
       } else {
         // 마지막 스텝이면 서버 제출
-        // submit.mutate({ ...data, [key]: values });
+        submit.mutate();
       }
     };
 
@@ -60,14 +62,15 @@ export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) 
   return (
     <div className="flex h-full flex-col justify-between px-4">
       <div>
-        <div className="h-[54px] pt-3 pb-2.5">
+        <header className="sticky top-0 z-10 flex h-(--space-h-header) items-center justify-center pt-3 pb-2.5">
           {step > 1 && (
-            <Button variant="ghost" size="icon" onClick={goPrev}>
+            <Button variant="ghost" size="icon" onClick={goPrev} className="absolute left-4">
               <ArrowLeft className="size-6" />
             </Button>
           )}
-        </div>
-        <div className="pt-5 pb-10">
+          <h2 className="text-xl font-semibold text-stone-900">가입하기</h2>
+        </header>
+        <div className="pt-2.5 pb-8">
           <Progress value={progressValue} />
         </div>
         <StepRender
