@@ -3,12 +3,14 @@
 import { useState } from 'react';
 import { useUserStore } from '@/entities/user/model/slice';
 import { Button } from '@/shared/ui/Button';
-import { Badge } from '@/shared/ui/Badge';
 import { Menu, Bell, Edit } from 'lucide-react';
-import ProfileImageSlider from '@/widgets/profile/ImageSlider';
+import { ProfileImageSlider } from '@/widgets/profile/ImageSlider';
+import { ProfileInfo } from '@/widgets/profile/ProfileInfo';
+import { UserMyProfile } from '@/entities/user/model/types';
 
 // 임시 나의 프로필 데이터 (실제로는 현재 사용자 정보에서 가져올 예정)
-const mockMyProfileData = {
+// UserMyProfile 타입에 맞게 구조 정의
+const mockMyProfileData: UserMyProfile = {
   id: 'me',
   name: '홍길동',
   bio: '안녕하세요! 새로운 인연을 찾고 있는 대학생입니다. 함께 성장하고 좋은 추억을 만들어 나갈 분을 찾고 있어요.',
@@ -16,7 +18,7 @@ const mockMyProfileData = {
   focusType: 'career_focused',
   position: '백엔드',
   university: {
-    name: '서울대학교',
+    name: '연세대학교',
     logoUrl: '/university-logo.png',
     isVisible: true,
   },
@@ -87,57 +89,8 @@ export default function ProfilePage() {
               // height prop 제거 - ImageSlider가 부모 컨테이너 전체 영역을 자동으로 차지
             />
 
-            {/* 메인 프로필 정보 - 추가 배경 보강과 함께 오버레이 */}
-            <div className="absolute right-0 bottom-0 left-0 z-30">
-              {/* 프로필 정보 전용 추가 배경 블러 */}
-              {/* [변경] 배경 블러 → 그라디언트 + 블러 */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent backdrop-blur-[1px]" />
-
-              {/* 실제 프로필 정보 컨테이너 */}
-              <div className="relative p-6 text-white">
-                {/* 이름과 대학교 */}
-                <div className="mb-3 md:mb-4">
-                  <div className="mb-2 flex items-center gap-2">
-                    <h1 className="text-3xl font-bold text-white">{myProfile.name}</h1>
-                    <div className="flex items-center gap-1">
-                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600">
-                        <span className="text-xs font-bold text-white">서</span>
-                      </div>
-                      <span className="text-sm font-medium text-white">{myProfile.university.name}</span>
-                    </div>
-                  </div>
-                  <p className="mb-3 text-sm leading-relaxed text-white opacity-90 md:mb-4 md:text-base">
-                    {myProfile.bio}
-                  </p>
-                </div>
-
-                {/* 태그들 */}
-                <div className="mb-6 flex flex-wrap gap-2">
-                  <Badge
-                    variant="outline"
-                    className="border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
-                  >
-                    {myProfile.mbti}
-                  </Badge>
-                  <Badge
-                    variant="outline"
-                    className="border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
-                  >
-                    {myProfile.position}
-                  </Badge>
-                  <Badge
-                    variant="outline"
-                    className="border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
-                  >
-                    {myProfile.focusType === 'career_focused'
-                      ? '커리어 중심'
-                      : myProfile.focusType === 'position_focused'
-                        ? '포지션 중심'
-                        : '취향 중심'}
-                  </Badge>
-                </div>
-              </div>
-            </div>
+            {/* 분리된 ProfileInfo 컴포넌트 사용 - 메인 프로필 정보 표시 */}
+            <ProfileInfo profile={myProfile} />
           </div>
 
           {/* 수정하기 버튼 - 카드 바깥쪽 아래 */}

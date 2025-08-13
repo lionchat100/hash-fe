@@ -16,7 +16,7 @@ type Props = {
   height?: string; // 커스텀 높이 옵션 추가
 };
 
-const ProfileImageSlider = ({ images, initialIndex = 0, onChange, className, height = 'h-[320px]' }: Props) => {
+export const ProfileImageSlider = ({ images, initialIndex = 0, onChange, className, height = 'h-[320px]' }: Props) => {
   // 현재 활성화된 슬라이드 인덱스 상태 관리
   const [activeIndex, setActiveIndex] = useState(initialIndex);
   // Swiper 인스턴스 참조를 위한 ref
@@ -103,5 +103,3 @@ const ProfileImageSlider = ({ images, initialIndex = 0, onChange, className, hei
     </div>
   );
 };
-
-export default ProfileImageSlider;
