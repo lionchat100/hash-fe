@@ -4,10 +4,9 @@ import { forwardRef, useImperativeHandle } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { useOnboardingStore } from '../model/store';
-import { step3Schema } from '../model/validators';
-import type { Step3Data } from '../model/types';
-import type { StepFormHandle } from './StepRender';
+import { useOnboardingStore } from '@/entities/user/model/slice';
+import { step3Schema } from '@/entities/user/lib/validators';
+import { Step3Data, StepFormHandle } from '@/entities/user/model/types';
 
 import { Textarea } from '@/shared/ui/Textarea';
 import { Label } from '@/shared/ui/Label';

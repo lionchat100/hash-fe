@@ -1,12 +1,12 @@
 'use client';
-import { forwardRef, useEffect, useImperativeHandle, useMemo } from 'react';
+import { forwardRef, useEffect, useImperativeHandle } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { useOnboardingStore } from '@/widgets/onboarding/model/store';
-import { step1Schema } from '../model/validators';
-import type { Step1Data } from '../model/types';
-import type { StepFormHandle } from './StepRender';
+import { useOnboardingStore } from '@/entities/user/model/slice';
+import { step1Schema } from '@/entities/user/lib/validators';
+import type { Step1Data, StepFormHandle } from '@/entities/user/model/types';
+import { useOptionFilter } from '../model/userOnboarding';
 
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
@@ -15,8 +15,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/shared/ui/Checkbox';
 
 import { cn } from '@/shared/lib/tailwindMerge';
-import { onboardingDataMapper } from '@/entities/user/lib/onboardingDataMapper';
-import { useOnboardingData } from '@/entities/user/api/getOnboardingData';
 
 interface Step1FormProps {
   onValid: (values: Step1Data) => void;
@@ -44,18 +42,11 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
       form.handleSubmit((values) => onValid(values))();
     },
   }));
-
-  // 옵션 로딩
-  const { data: bundle } = useOnboardingData();
-  // const bundle = sampleData; // mock
-  const configs = useMemo(() => (bundle ? onboardingDataMapper(bundle) : []), [bundle]);
-
-  // 옵션 데이터 필터
-  const uniConfig = useMemo(() => configs.find((c) => c.key === 'universities'), [configs]);
-
-  const genderOptions = bundle?.genders ?? [];
   const { errors } = form.formState;
   const gender = form.watch('gender');
+
+  // 옵션 로딩
+  const { bundle, uniConfig, genderOptions } = useOptionFilter();
 
   // 로딩/에러/미존재 가드 (지금은 bundle이 항상 있다고 가정)
   if (!bundle || !uniConfig) {

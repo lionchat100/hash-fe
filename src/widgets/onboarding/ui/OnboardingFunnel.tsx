@@ -1,11 +1,13 @@
 import { useEffect, useRef } from 'react';
-import { useOnboardingStore } from '../model/store';
-import { StepFormHandle, StepRender } from './StepRender';
+
+import { StepKey, AllFormData, StepFormHandle } from '@/entities/user/model/types';
+import { useOnboardingStore } from '@/entities/user/model/slice';
+import { StepRender } from './StepRender';
+
+import { PROGRESS_BY_STEP } from '@/shared/constants';
 import { Progress } from '@/shared/ui/Progress';
 import { Button } from '@/shared/ui/Button';
 import { ArrowLeft } from 'lucide-react';
-import { StepKey, DataByStep } from '../model/types';
-import { PROGRESS_BY_STEP } from '@/shared/constants';
 
 // import { useSubmitOnboarding } from '@/features/updateUser/model/useSubmitOnboarding';
 
@@ -36,7 +38,7 @@ export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) 
   // onValid 공통 팩토리 (스텝별로 재사용)
   const onValid =
     <K extends StepKey>(key: K) =>
-    (values: DataByStep[K]) => {
+    (values: AllFormData[K]) => {
       save(key, values); // 공통 저장
       const idx = order.indexOf(key);
       if (idx < order.length - 1) {

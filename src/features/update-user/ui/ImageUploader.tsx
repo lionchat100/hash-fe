@@ -1,9 +1,10 @@
 'use client';
-import * as React from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { X, Plus } from 'lucide-react';
 import { cn } from '@/shared/lib/tailwindMerge';
 import { toast } from 'sonner';
 import Image from 'next/image';
+import { UploadConfig, validateAndMergeFiles } from '../model/userImageUpload';
 
 type Preview = { file: File; url: string };
 
@@ -16,12 +17,10 @@ interface ImageUploaderProps {
 }
 
 export function ImageUploader({ value, onChange, maxFiles = 3, maxSizeMB = 5, className }: ImageUploaderProps) {
-  const [previews, setPreviews] = React.useState<Preview[]>([]);
-  const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const [previews, setPreviews] = useState<Preview[]>([]);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
-  // value -> previews 동기화
-  React.useEffect(() => {
-    // 기존 URL revoke
+  useEffect(() => {
     setPreviews((prev) => {
       prev.forEach((p) => URL.revokeObjectURL(p.url));
       return [];
@@ -38,32 +37,28 @@ export function ImageUploader({ value, onChange, maxFiles = 3, maxSizeMB = 5, cl
     inputRef.current?.click();
   };
 
+  const resetInput = () => {
+    if (inputRef.current) inputRef.current.value = '';
+  };
+
   const handleFiles = (files: FileList | null) => {
     if (!files) return;
-    const arr = Array.from(files);
 
-    // 용량 체크
-    const tooBig = arr.find((f) => f.size > maxSizeMB * 1024 * 1024);
-    if (tooBig) {
-      console.log('File too large:', tooBig.name);
-      toast.error(`각 파일 크기는 최대 ${maxSizeMB}MB까지만 가능합니다.`);
-      if (inputRef.current) {
-        inputRef.current.value = '';
+    const cfg: UploadConfig = { maxFiles, maxSizeMB };
+    const res = validateAndMergeFiles(value, files, cfg);
+
+    if (!res.ok) {
+      if (res.error === 'TOO_MANY_FILES') {
+        toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다.`);
+      } else if (res.error === 'FILE_TOO_LARGE') {
+        toast.error(`파일 크기는 최대 ${maxSizeMB}MB 미만이어야 합니다.`);
       }
+      resetInput();
       return;
     }
 
-    // 개수 체크
-    const merged = [...(value ?? []), ...arr];
-    if (merged.length > maxFiles) {
-      toast.error(`이미지는 최대 ${maxFiles}장까지 업로드할 수 있습니다.`);
-      return;
-    }
-
-    onChange(merged);
-    if (inputRef.current) {
-      inputRef.current.value = '';
-    }
+    onChange(res.next);
+    resetInput();
   };
 
   const handleRemove = (idx: number) => {
