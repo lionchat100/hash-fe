@@ -1,4 +1,4 @@
-import { MessageRes } from '../model/types';
+import { MessageRes } from '@/entities/message';
 
 export interface GroupedMessage {
   message: MessageRes;
