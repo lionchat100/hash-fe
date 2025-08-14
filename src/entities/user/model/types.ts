@@ -8,7 +8,6 @@ export interface User {
 //유저대학 타입
 export type University = {
   name: string;
-  logoUrl: string;
   isVisible: boolean;
 };
 

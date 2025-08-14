@@ -104,7 +104,7 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
 
   return (
     <div className="right-0 bottom-0 left-0 z-30">
-      <div className="relative p-6 text-white">
+      <div className="relative px-6 pb-2 text-white">
         {/* 이름 + 대학 */}
         <div className="mb-3 md:mb-4">
           <div className="mb-2 flex items-center gap-2">

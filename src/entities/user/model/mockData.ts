@@ -10,9 +10,8 @@ export const mockMyProfileData: UserMyProfile = {
   focusType: 'career_focused',
   position: '백엔드',
   university: {
-    name: '한양대학교(ERICA)',
-    logoUrl: '/university-logo.png',
+    name: '연세대학교',
     isVisible: true,
   },
-  photos: ['/images/profiles/profile1.jpg', '/images/profiles/profile2.jpg', '/images/profiles/profile3.jpg'],
+  photos: ['/images/profiles/profile1.jpg', '/images/profiles/profile2.jpg', '/images/profiles/white.jpg'],
 };

@@ -56,7 +56,6 @@ export const ProfileCard = ({ profile, className }: Props) => {
     );
   };
 
-  // ProfileCard.tsx
   return (
     <div
       className={`relative w-full overflow-hidden rounded-3xl shadow-2xl ${className ?? ''}`}
