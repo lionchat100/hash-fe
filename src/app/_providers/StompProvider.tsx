@@ -63,7 +63,7 @@ export const StompProvider = ({ children }: { children: ReactNode }) => {
       console.log('stomp 연결 끊김');
       stompClient.deactivate();
     };
-  }, []);
+  }, [router]);
 
   return <stompContext.Provider value={{ client, isConnected }}>{children}</stompContext.Provider>;
 };
