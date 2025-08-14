@@ -16,7 +16,7 @@ export interface OnboardingData {
   genders: Option[];
   universities: Option[];
   positions: Option[];
-  mbtis: Option[];
+  mbti: Option[];
   preferenceType: Option[];
 }
 
