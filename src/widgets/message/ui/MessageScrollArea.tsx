@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { MessageBubble, groupMessages } from '@/entities/message';
+import { MessageBubble, groupMessages } from '@/features/update-message';
 import { useLoadMessage } from '@/features/update-message';
 import { ScrollArea } from '@/shared/ui/ScrollArea';
 
@@ -14,6 +14,12 @@ export const MessageScrollArea = ({ roomId, className }: MessageScrollAreaProps)
   const scrollRef = useRef<HTMLDivElement>(null);
   const { messages, isLoading, isLoadingMore, hasMore, error, loadMoreMessages } = useLoadMessage(roomId);
 
+  const scrollToBottom = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  };
+
   // 스크롤 이벤트 처리 (무한 스크롤)
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop } = e.currentTarget;
@@ -22,13 +28,19 @@ export const MessageScrollArea = ({ roomId, className }: MessageScrollAreaProps)
     }
   };
 
+  useEffect(() => {
+    if (messages.length > 0 && isLoading) {
+      scrollToBottom();
+    }
+  }, [messages.length, isLoading]);
+
   // 새 메시지가 추가되면 자동으로 하단으로 스크롤
   useEffect(() => {
     if (scrollRef.current && messages.length > 0) {
-      const isAtBottom =
-        scrollRef.current.scrollTop + scrollRef.current.clientHeight >= scrollRef.current.scrollHeight - 100;
+      const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 100;
       if (isAtBottom) {
-        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        scrollToBottom();
       }
     }
   }, [messages.length]);
