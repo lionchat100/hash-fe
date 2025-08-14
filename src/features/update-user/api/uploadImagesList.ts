@@ -10,7 +10,9 @@ export const uploadImagesList = async (files: File[]): Promise<number[]> => {
       formData.append('images', file, file.name);
     });
 
-    const response = await api.post<UploadImage[]>('/images/upload/list', { formData });
+    const response = await api.post<UploadImage[]>('/images/upload/list', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
 
     if (!response) {
       throw new Error('이미지 업로드 실패');
