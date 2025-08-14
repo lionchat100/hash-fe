@@ -56,19 +56,37 @@ export const ProfileCard = ({ profile, className }: Props) => {
     );
   };
 
+  // ProfileCard.tsx
   return (
     <div
       className={`relative w-full overflow-hidden rounded-3xl shadow-2xl ${className ?? ''}`}
       style={{ height: 'calc(100dvh - 200px)', minHeight: '500px' }}
     >
-      {/* 이미지 컨텐츠 렌더링 */}
+      {/* 이미지 컨텐츠 */}
       {renderImageContent()}
 
-      {/* 그라데이션 오버레이 */}
+      {/* 그라데이션 오버레이 - 시각효과만, 클릭 막지 않으려면 pointer-events-none */}
       <div className="pointer-events-none absolute bottom-0 left-0 z-10 h-[60%] w-full bg-gradient-to-t from-black/90 via-black/20 to-transparent backdrop-blur-[0.3px]" />
 
-      {/* 분리된 ProfileInfo 컴포넌트 사용 - 메인 프로필 정보 표시 */}
-      <ProfileInfo profile={profile} />
+      {/* 오버레이 콘텐츠 래퍼 (정보 90% + 버튼 10%) */}
+      <div className="absolute inset-x-0 bottom-0 z-20">
+        <div className="flex items-end">
+          {/* 정보 영역 90% */}
+          <div className="w-[90%]">
+            {/* ProfileInfo는 absolute를 제거한 버전이어야 함 */}
+            <ProfileInfo profile={profile} />
+          </div>
+
+          {/* 버튼 레일 20% */}
+          <div className="w-[20%] p-3 pl-2">
+            <div className="flex flex-col items-stretch gap-2">
+              {/* 여기에 Like/Chat 등 버튼들 */}
+              {/* <LikeButton ... /> */}
+              {/* <StartChatButton ... /> */}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
