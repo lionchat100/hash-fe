@@ -1,9 +1,9 @@
 'use client';
 
 import { useUserStore } from '@/entities/user/model/slice';
-import { Button } from '@/shared/ui/Button';
 import { ProfileCard } from '@/widgets/profile/ProfileCard';
 import { ProfileHeader } from '@/widgets/profile/ProfileHeader';
+import { ProfileEditButton } from '@/widgets/profile/ProfileEditButton';
 import { mockMyProfileData } from '@/entities/user/model/mockData';
 
 export default function ProfilePage() {
@@ -29,12 +29,8 @@ export default function ProfilePage() {
           {/* 프로필 카드 메인 영역 - ProfileCard 컴포넌트 사용 */}
           <ProfileCard profile={myProfile} />
 
-          {/* 수정하기 버튼 - 카드 바깥쪽 아래 */}
-          <div className="mt-6">
-            <Button className="h-14 w-full rounded-4xl text-lg font-semibold" size="lg">
-              프로필 수정하기
-            </Button>
-          </div>
+          {/* 수정하기 버튼 - Widgets 컴포넌트 사용 */}
+          <ProfileEditButton profileId={myProfile.id} />
         </div>
       </div>
     </div>
