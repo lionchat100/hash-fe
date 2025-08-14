@@ -4,3 +4,4 @@ export { getChatRoomList } from './api/getChatRoomList';
 export { getInitChatRoomId } from './api/getInitChatRoomId';
 export { ChatRoomItem } from './ui/ChatRoomItem';
 export { ChatRoomListHeader } from './ui/ChatRoomListHeader';
+export { ChatRoomHeader } from './ui/ChatRoomHeader';

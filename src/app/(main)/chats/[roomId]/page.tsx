@@ -1,9 +1,12 @@
-export default async function ChatRoomPage({ params }: { params: Promise<{ roomId: string }> }) {
-  const { roomId } = await params;
+'use client';
 
+import { ChatRoomPage } from '@/views/chat';
+import { Suspense } from 'react';
+
+export default function ChattingPage() {
   return (
-    <div>
-      <h1>Chat Room: {roomId}</h1>
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <ChatRoomPage />
+    </Suspense>
   );
 }
