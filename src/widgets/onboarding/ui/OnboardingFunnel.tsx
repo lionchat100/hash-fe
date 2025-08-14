@@ -68,7 +68,7 @@ export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) 
               <ArrowLeft className="size-6" />
             </Button>
           )}
-          <h2 className="text-xl font-semibold text-stone-900">가입하기</h2>
+          <h2 className="text-xl font-semibold text-stone-900">프로필 만들기</h2>
         </header>
         <div className="pt-2.5 pb-8">
           <Progress value={progressValue} />
