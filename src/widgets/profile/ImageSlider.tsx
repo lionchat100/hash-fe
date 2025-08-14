@@ -14,9 +14,10 @@ type Props = {
   onChange?: (index: number) => void;
   className?: string;
   height?: string; // 커스텀 높이 옵션 추가
+  showIndicators?: boolean; // 인디케이터 표시 여부
 };
 
-export const ProfileImageSlider = ({ images, initialIndex = 0, onChange, className, height = 'h-[320px]' }: Props) => {
+export const ProfileImageSlider = ({ images, initialIndex = 0, onChange, className, height = 'h-[320px]', showIndicators = true }: Props) => {
   // 현재 활성화된 슬라이드 인덱스 상태 관리
   const [activeIndex, setActiveIndex] = useState(initialIndex);
   // Swiper 인스턴스 참조를 위한 ref
@@ -69,37 +70,39 @@ export const ProfileImageSlider = ({ images, initialIndex = 0, onChange, classNa
           </SwiperSlide>
         ))}
       </Swiper>
-      {/* 커스텀 동그라미 인디케이터 - 그림자 제거, 약한 테두리 */}
-      <div className="absolute top-4 left-1/2 z-20 -translate-x-1/2">
-        <div className="rounded-full px-3 py-1">
-          <div className="flex gap-3">
-            {images.map((_, index) => {
-              const isActive = index === activeIndex;
-              return (
-                <button
-                  key={index}
-                  onClick={() => handleDotClick(index)}
-                  aria-label={`${index + 1}번째 사진으로 이동`}
-                  className={[
-                    // 공통 스타일
-                    'relative h-3 w-3 cursor-pointer rounded-full transition-all duration-200 ease-in-out',
-                    // 본체 색상 + 약한 테두리
-                    isActive
-                      ? 'scale-[1.4] border border-gray-300 bg-white'
-                      : 'border border-gray-300/70 bg-gray-300 hover:scale-110 hover:bg-gray-200',
-                    // 글로우(블러)는 유지
-                    "before:absolute before:-inset-1 before:rounded-full before:content-['']",
-                    isActive
-                      ? 'before:bg-white before:opacity-70 before:blur-[6px]'
-                      : 'before:bg-gray-300 before:opacity-45 before:blur-[3px]',
-                    'focus:outline-none',
-                  ].join(' ')}
-                />
-              );
-            })}
+      {/* 커스텀 동그라미 인디케이터 - 사진이 여러 장일 때만 표시 */}
+      {showIndicators && images.length > 1 && (
+        <div className="absolute top-4 left-1/2 z-20 -translate-x-1/2">
+          <div className="rounded-full px-3 py-1">
+            <div className="flex gap-3">
+              {images.map((_, index) => {
+                const isActive = index === activeIndex;
+                return (
+                  <button
+                    key={index}
+                    onClick={() => handleDotClick(index)}
+                    aria-label={`${index + 1}번째 사진으로 이동`}
+                    className={[
+                      // 공통 스타일
+                      'relative h-3 w-3 cursor-pointer rounded-full transition-all duration-200 ease-in-out',
+                      // 본체 색상 + 약한 테두리
+                      isActive
+                        ? 'scale-[1.4] border border-gray-300 bg-white'
+                        : 'border border-gray-300/70 bg-gray-300 hover:scale-110 hover:bg-gray-200',
+                      // 글로우(블러)는 유지
+                      "before:absolute before:-inset-1 before:rounded-full before:content-['']",
+                      isActive
+                        ? 'before:bg-white before:opacity-70 before:blur-[6px]'
+                        : 'before:bg-gray-300 before:opacity-45 before:blur-[3px]',
+                      'focus:outline-none',
+                    ].join(' ')}
+                  />
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
