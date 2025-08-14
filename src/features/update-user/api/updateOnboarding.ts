@@ -3,7 +3,8 @@ import api from '@/shared/api/axios';
 
 export const updateOnboarding = async (payload: OnboardingFormData) => {
   try {
-    const response = await api.patch<onboardingConfirm>('/users/onboarding', { payload });
+    console.log(payload);
+    const response = await api.patch<onboardingConfirm>('/users/onboarding', payload);
 
     if (!response) {
       throw new Error('온보딩 실패?');
