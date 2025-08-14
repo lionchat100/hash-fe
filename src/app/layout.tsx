@@ -1,8 +1,9 @@
-import { QueryProvider, SonnerProvider, StompProvider, ThemeProvider } from '@/app/_providers';
+import { QueryProvider, SonnerProvider, ThemeProvider } from '@/app/_providers';
 import { SERVICE_INFO } from '@/shared/constants';
 import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
+import { GoogleAnalytics } from '@/shared/config/GoogleAnalytics';
 
 export const metadata: Metadata = {
   applicationName: SERVICE_INFO.NAME,
@@ -99,14 +100,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
+      <head>
+        <GoogleAnalytics />
+      </head>
       <body className={`${pretendard.className} ${suite.variable} relative bg-gray-50 antialiased`}>
         <div className="mx-auto h-dvh max-w-(--space-max-layout) min-w-xs bg-white">
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="tokit-theme">
-            <StompProvider>
-              <SonnerProvider>
-                <QueryProvider>{children}</QueryProvider>
-              </SonnerProvider>
-            </StompProvider>
+            <SonnerProvider>
+              <QueryProvider>{children}</QueryProvider>
+            </SonnerProvider>
           </ThemeProvider>
         </div>
         <div className="h-auto" id="drawer-customPortal" />

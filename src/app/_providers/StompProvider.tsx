@@ -2,6 +2,7 @@
 
 import { stompContext } from '@/shared/api/stomp';
 import { Client, IFrame } from '@stomp/stompjs';
+import { useRouter } from 'next/navigation';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import SockJS from 'sockjs-client';
 
@@ -10,9 +11,16 @@ export const StompProvider = ({ children }: { children: ReactNode }) => {
   const [isConnected, setIsConnected] = useState(false);
   const reconnectAttempts = useRef(0);
   const maxReconnectAttempts = 5;
+  const router = useRouter();
 
   useEffect(() => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+
+    if (!token) {
+      console.log('stomp 연결 실패: 토큰이 없습니다.');
+      router.push('/');
+      return;
+    }
 
     const stompClient = new Client({
       webSocketFactory: () => new SockJS(process.env.NEXT_PUBLIC_STOMP_URL!),
@@ -55,7 +63,7 @@ export const StompProvider = ({ children }: { children: ReactNode }) => {
       console.log('stomp 연결 끊김');
       stompClient.deactivate();
     };
-  }, []);
+  }, [router]);
 
   return <stompContext.Provider value={{ client, isConnected }}>{children}</stompContext.Provider>;
 };
