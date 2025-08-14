@@ -1,49 +1,33 @@
-'use client';
-
 import { Badge } from '@/shared/ui/Badge';
 import { UserMyProfile } from '@/entities/user/model/types';
 
 interface ProfileInfoProps {
-  profile?: UserMyProfile; // ← 로딩 중 null/undefined 대응
+  profile: UserMyProfile; // ← 로딩 중 null/undefined 대응
 }
 
 const getFocusTypeLabel = (focusType?: string) => {
   switch (focusType) {
     case 'career_focused':
-      return '커리어 중심';
+      return '직무 관련';
     case 'position_focused':
-      return '포지션 중심';
+      return '취업 준비';
     case 'preference_focused':
-      return '취향 중심';
+      return '일상 이야기';
     default:
-      return '취향 중심';
+      return '일상 이야기';
   }
 };
 
 export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
-  // 1) 프로필 자체가 없으면 스켈레톤/빈 상태 처리
-  if (!profile) {
-    return (
-      <div className="absolute right-0 bottom-0 left-0 z-30">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent backdrop-blur-[1px]" />
-        <div className="relative p-6 text-white">
-          <div className="h-6 w-40 animate-pulse rounded bg-white/20" />
-          <div className="mt-2 h-4 w-60 animate-pulse rounded bg-white/10" />
-        </div>
-      </div>
-    );
-  }
-
-  // 2) 대학 정보 안전 처리
+  //대학 정보 안전 처리
   const uniName = profile.university?.name ?? ''; // 없으면 빈 문자열
   const uniInitial = uniName ? uniName.slice(0, 1).toUpperCase() : '';
 
-  // 3) 대학 노출 여부(백엔드가 isVisible을 주는 설계라면)
+  //대학 노출 여부(백엔드가 isVisible을 주는 설계라면)
   const showUniversity = profile.university?.isVisible && !!uniName;
 
   return (
     <div className="absolute right-0 bottom-0 left-0 z-30">
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent backdrop-blur-[1px]" />
       <div className="relative p-6 text-white">
         {/* 이름 + 대학 */}
         <div className="mb-3 md:mb-4">
