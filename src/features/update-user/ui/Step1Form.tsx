@@ -89,7 +89,7 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
               </SelectTrigger>
               <SelectContent>
                 {uniConfig.items.map((opt) => (
-                  <SelectItem key={opt.code} value={opt.code}>
+                  <SelectItem key={opt.code} value={opt.name}>
                     {opt.name}
                   </SelectItem>
                 ))}
