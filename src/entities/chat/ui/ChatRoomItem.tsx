@@ -1,0 +1,39 @@
+import clsx from 'clsx';
+import { ChatRoom } from '../model/types';
+import Link from 'next/link';
+import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/Avatar';
+import { formatChatTime } from '@/shared/lib/dateUtils';
+
+interface ChatRoomItemProps {
+  className?: string;
+  chatRoom: ChatRoom;
+}
+
+export const ChatRoomItem = (props: ChatRoomItemProps) => {
+  const { chatRoom } = props;
+  return (
+    <Link href={`/chats/${chatRoom.chatRoomId}`} className="flex h-20 gap-3 px-4 py-3">
+      <Avatar className="h-14 w-14">
+        <AvatarImage src={chatRoom.imageUrl} alt={chatRoom.name} />
+        <AvatarFallback className="bg-gray-300">{chatRoom.name.charAt(0)}</AvatarFallback>
+      </Avatar>
+
+      <div className="flex flex-grow flex-col justify-center">
+        <div className="mb-1 flex items-center justify-between gap-3">
+          <p className="line-clamp-1 overflow-hidden text-base font-medium text-ellipsis">{chatRoom.name}</p>
+          <p className="flex-shrink-0 text-sm text-gray-500">{formatChatTime(chatRoom.lastSendAt)}</p>
+        </div>
+
+        <div className="flex items-center justify-between gap-3">
+          <p className="line-clamp-2 overflow-hidden text-sm text-ellipsis text-gray-500">{chatRoom.lastContent}</p>
+          <div
+            className={clsx(
+              'h-2 w-2 flex-shrink-0 rounded-full bg-blue-500',
+              chatRoom.isRead ? 'bg-transparent' : 'bg-blue-500',
+            )}
+          ></div>
+        </div>
+      </div>
+    </Link>
+  );
+};
