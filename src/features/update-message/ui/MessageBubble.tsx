@@ -22,11 +22,11 @@ export const MessageBubble = (props: MessageBubbleProps) => {
 
   const isMyMessage = currentUser?.id === props.message.senderId;
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!isMessageAcknowledged(message.messageId) && !isMyMessage) {
       ackMessage(message.messageId);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [message.messageId, isMyMessage]);
 
   return (
