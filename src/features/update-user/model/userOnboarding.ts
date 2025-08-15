@@ -24,6 +24,7 @@ export function useOptionFilter() {
 
   const step2Configs = useMemo(
     () => configs.filter((c) => dataKey.includes(c.key as Step2FormKey)) as DrawerConfig<Step2FormKey>[],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [configs],
   );
 
