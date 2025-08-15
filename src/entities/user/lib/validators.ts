@@ -19,7 +19,7 @@ export const step2Schema = z.object({
 export const step3Schema = z.object({
   bio: z
     .string()
-    .min(5, { message: '최소 10글자의 메세지를 작성해주세요.' })
+    .min(5, { message: '최소 5자의 메세지를 작성해주세요.' })
     .max(30, { message: '최대 30자까지 작성 가능합니다' }),
   images: z.array(z.any()).max(3, '이미지는 최대 3장까지 가능합니다.'),
 });

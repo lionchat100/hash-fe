@@ -26,7 +26,6 @@ export interface DrawerConfig<K extends EnumKey = EnumKey> {
   key: K;
   label: string;
   placeholder: string;
-  contentHeader?: string;
   items: Option[];
 }
 

@@ -9,7 +9,7 @@ import type { Step2Data, StepFormHandle } from '@/entities/user/model/types';
 import { useOptionFilter } from '../model/userOnboarding';
 
 import { Badge } from '@/shared/ui/Badge';
-import { DrawerSelect } from '@/entities/user/ui/DrawerSelect';
+import { DrawerSelect } from '@/features/update-user/ui/DrawerSelect';
 import { preferenceLableMapper } from '@/entities/user/lib/onboardingDataMapper';
 import { cn } from '@/shared/lib/tailwindMerge';
 
@@ -50,7 +50,7 @@ export const Step2Form = forwardRef<StepFormHandle, Step2FormProps>(function Ste
 
   return (
     <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
-      {step2Configs.map(({ key, label, placeholder, contentHeader, items }) => {
+      {step2Configs.map(({ key, label, placeholder, items }) => {
         return (
           <div key={key} className="space-y-2">
             <Controller
@@ -60,18 +60,18 @@ export const Step2Form = forwardRef<StepFormHandle, Step2FormProps>(function Ste
                 <DrawerSelect
                   label={label}
                   placeholder={placeholder}
-                  contentHeader={contentHeader}
                   value={field.value || ''}
                   onConfirm={field.onChange}
                   renderOptions={(selected, setSelected) => (
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex h-[250px] flex-wrap content-start gap-2">
                       {items.map((opt) => {
                         const lableText = key === 'preferenceType' ? preferenceLableMapper(opt.name) : opt.name;
                         return (
                           <Badge
                             key={opt.code}
                             className={cn(
-                              'cursor-pointer px-4 py-2',
+                              'cursor-pointer py-2.5',
+                              key === 'mbti' ? 'w-[75px] text-center' : 'px-6',
                               selected === opt.name ? 'bg-primary font-bold text-stone-100' : '',
                             )}
                             onClick={() => setSelected(opt.name)}
