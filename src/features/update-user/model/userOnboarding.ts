@@ -11,7 +11,7 @@ import { updateOnboarding } from '../api/updateOnboarding';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
-export function useOptionFilter() {
+export const useOptionFilter = () => {
   const { data: bundle } = useOnboardingData();
   // const bundle = sampleData; // mock
   const configs = useMemo(() => (bundle ? onboardingDataMapper(bundle) : []), [bundle]);
@@ -29,7 +29,7 @@ export function useOptionFilter() {
   );
 
   return { bundle, configs, uniConfig, genderOptions, step2Configs };
-}
+};
 
 export const finalOnboardingDataMapper = (data: AllFormData, imageIds: number[]) => {
   return {
@@ -47,7 +47,7 @@ export const finalOnboardingDataMapper = (data: AllFormData, imageIds: number[])
   };
 };
 
-export function useSubmitOnboarding() {
+export const useSubmitOnboarding = () => {
   const router = useRouter();
   return useMutation({
     mutationFn: async () => {
@@ -73,4 +73,4 @@ export function useSubmitOnboarding() {
       throw err;
     },
   });
-}
+};
