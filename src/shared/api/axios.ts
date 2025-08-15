@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import { tokenEventBus } from '../lib/tokenEventBus';
 
 interface ExtendedAxiosRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -49,6 +50,8 @@ api.interceptors.response.use(
 
         if (typeof window !== 'undefined') {
           localStorage.setItem('accessToken', accessToken);
+          tokenEventBus.emit(accessToken);
+          console.log('accessToken 재발급 및 이벤트 수신 완료: ', accessToken);
         }
 
         originalRequest.headers.set('Authorization', `Bearer ${accessToken}`);
