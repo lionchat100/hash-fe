@@ -40,7 +40,7 @@ export const MessageBubble = (props: MessageBubbleProps) => {
           {showAvatar && (
             <div className="flex-shrink-0">
               <Avatar className="size-10">
-                <AvatarImage src={message.imageUrl} alt={message.senderName} />
+                <AvatarImage src={message.senderImageUrl} alt={message.senderName} />
                 <AvatarFallback className="text-xs">{message.senderName.charAt(0)}</AvatarFallback>
               </Avatar>
             </div>
