@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { useSendMessage } from '../model/sendMessage';
+import { useSendMessage } from '@/features/update-message';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 import { Send } from 'lucide-react';

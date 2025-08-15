@@ -8,7 +8,7 @@ export interface MessageRes {
   chatRoomId: number;
   senderId: number;
   senderName: string;
-  imageUrl: string;
+  senderImageUrl: string;
   createdAt: string;
   content: string;
   isEnd: boolean;

@@ -1,13 +1,12 @@
 import { useCallback, useState } from 'react';
 import { useStomp } from '@/shared/api/stomp';
-import { useMessageStore } from '@/entities/message';
 import { useUserStore } from '@/entities/user';
-import { MessageReq, MessageRes } from '@/entities/message';
+import { MessageReq } from '@/entities/message';
 
 export const useSendMessage = (roomId: number) => {
   const { client } = useStomp();
   const { currentUser } = useUserStore();
-  const { addMessage } = useMessageStore();
+  // const { addMessage } = useMessageStore();
 
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -19,25 +18,18 @@ export const useSendMessage = (roomId: number) => {
         setError('메시지 내용을 입력해주세요.');
         return;
       }
-
       if (!currentUser) {
-        setError('사용자 정보를 찾을 수 없습니다.');
+        setError('사용자 정보 찾을 수 없음');
         return;
       }
-
       try {
         setIsSending(true);
         setError(null);
-
-        // 메시지 객체 생성
         const messageData: MessageReq = {
           chatRoomId: roomId,
           content: content.trim(),
         };
-
-        console.log(`메시지 전송 시작:`, messageData);
-
-        // STOMP를 통해 메시지 전송
+        console.log(`메시지 전송: ${messageData}`);
         if (client && client.connected) {
           client.publish({
             destination: '/app/chat.sendMessage',
@@ -49,39 +41,35 @@ export const useSendMessage = (roomId: number) => {
         } else {
           throw new Error('STOMP 클라이언트가 연결되지 않았습니다.');
         }
-
-        // 로컬에 즉시 메시지 추가 (낙관적 업데이트)
-        const optimisticMessage: MessageRes = {
-          messageId: `temp-${Date.now()}`, // 임시 ID
-          chatRoomId: roomId,
-          senderId: currentUser.id,
-          senderName: currentUser.name,
-          imageUrl: currentUser.imageUrl,
-          createdAt: new Date().toISOString(),
-          content: content.trim(),
-          isEnd: false,
-        };
-
-        addMessage(roomId, optimisticMessage);
-        console.log('메시지 전송 완료 (낙관적 업데이트)');
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : '메시지 전송 중 오류가 발생했습니다.';
+        // const optimisticMessage: MessageRes = {
+        //   messageId: `temp-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+        //   chatRoomId: roomId,
+        //   senderId: currentUser.id,
+        //   senderName: currentUser.name,
+        //   imageUrl: currentUser.imageUrl,
+        //   createdAt: new Date().toISOString(),
+        //   content: content.trim(),
+        //   isEnd: false,
+        // };
+        // addMessage(roomId, optimisticMessage);
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : '메시지 전송 중 오류 발생';
         setError(errorMessage);
-        console.error('메시지 전송 실패:', err);
+        console.error('메시지 전송 실패:', error);
       } finally {
         setIsSending(false);
       }
     },
-    [roomId, client, currentUser, addMessage],
+    [roomId, client, currentUser],
   );
 
-  // 메시지 전송 상태 리셋
+  // 메시지 전송 상태 초기화
   const resetSendState = useCallback(() => {
     setIsSending(false);
     setError(null);
   }, []);
 
-  // 에러 리셋
+  // 에러 초기화
   const resetError = useCallback(() => {
     setError(null);
   }, []);
@@ -95,14 +83,12 @@ export const useSendMessage = (roomId: number) => {
   );
 
   return {
-    isSending, // 메시지 전송 상태
-    error, // 에러 메시지
-    canSend: canSendMessage, // 메시지 전송 가능 여부
-
-    sendMessage, // 메시지 전송
-    resetSendState, // 메시지 전송 상태 리셋
-    resetError, // 에러 리셋
-
-    currentUser, // 현재 사용자
+    isSending,
+    error,
+    canSend: canSendMessage,
+    sendMessage,
+    resetError,
+    resetSendState,
+    currentUser,
   };
 };
