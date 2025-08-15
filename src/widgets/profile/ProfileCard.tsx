@@ -14,14 +14,14 @@ export const ProfileCard = ({ profile, className }: Props) => {
   // 현재 활성화된 이미지 인덱스 상태 관리
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // 프로필 사진 개수 확인
-  const photoCount = profile.photos.length;
+  // 프로필 사진 개수 확인 (API 응답에서는 imageUrls 필드 사용)
+  const photoCount = profile.imageUrls.length;
   const hasMultiplePhotos = photoCount > 1;
 
   // 프로필 사진 데이터를 ImageSlider 컴포넌트에서 요구하는 형식으로 변환
-  // string[] -> { src: string, alt: string }[] 형태로 변환
-  const profileImages = profile.photos.map((photo, index) => ({
-    src: photo,
+  // imageUrls(string[]) -> { src: string, alt: string }[] 형태로 변환
+  const profileImages = profile.imageUrls.map((imageUrl, index) => ({
+    src: imageUrl,
     alt: `${profile.name}의 프로필 사진 ${index + 1}`,
   }));
 

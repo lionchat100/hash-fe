@@ -44,21 +44,21 @@ https://api.tokit.co.kr/oauth2/authorization/kakao
 클라이언트가 OAuth2 인증 후 발급받은 임시 인증 코드를 서버에 보내 액세스 토큰과 리프레시 토큰(쿠키)을 발급받습니다.
 
 성공
-HTTP request
+HTTP 요청
 POST /api/auth/token HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
+Host: localhost:44193
 Content-Length: 53
 
 {
-"code" : "436f1a47-1ddf-4f8b-8763-4eb085c81356"
+"code" : "0ad5e3f3-f932-4dd7-a851-71d5a0a7f390"
 }
-HTTP response
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: refresh_token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ajEyMzRAZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImlkIjoyMSwianRpIjoiMmVlMWJkMTAtNWI5ZC00OTA4LWE0NTUtNDFkYjczNmIzNTJmIiwiaWF0IjoxNzU0ODkyNDQxLCJleHAiOjE3NTYxMDIwNDF9.WBjGkOXg3KNr70gFfUo1ctdm-vk2su4oOjQB-IZpXN4; Path=/; Domain=tokit.co.kr; Max-Age=1209600; Expires=Mon, 25 Aug 2025 06:07:21 GMT; Secure; HttpOnly; SameSite=Lax
+Set-Cookie: refresh_token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ajEyMzRAZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImlkIjoxLCJqdGkiOiIxYjYyOTFkNi04YjNhLTQwNzUtYjM3NS0zYTUzMjBiZmY5YTciLCJpYXQiOjE3NTUxODM2MjksImV4cCI6MTc1NjM5MzIyOX0.bnBhCj9mZyB_0RXgYyWSBbe5u0FSaH3oBHgsNprjTnk; Path=/; Domain=tokit.co.kr; Max-Age=1209600; Expires=Thu, 28 Aug 2025 15:00:29 GMT; Secure; HttpOnly; SameSite=Lax
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
@@ -66,24 +66,24 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:21 GMT
+Date: Thu, 14 Aug 2025 15:00:29 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 265
+Content-Length: 264
 
 {
-"accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ajEyMzRAZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImlkIjoyMSwianRpIjoiMmVlZjkzZDgtY2ZiZi00NWY2LTg3NDItNWNiZGZkMjRkNDBkIiwiaWF0IjoxNzU0ODkyNDQxLCJleHAiOjE3NTQ5Nzg4NDF9.MCtE1ZYCvwJPnke3aj9RNmNrveBST9ot1fb0mgeWk3U"
+"accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ajEyMzRAZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImlkIjoxLCJqdGkiOiIxNDU0MDE4NS03ZjNjLTRkOGYtYjEwOS1kMjUyY2NiN2Q1OTgiLCJpYXQiOjE3NTUxODM2MjksImV4cCI6MTc1NTI3MDAyOX0.zlDGylSm04nW993JWnapJ2kYvOArfg3v689OqHac8W0"
 }
 액세스 토큰 재발급
 만료된 액세스 토큰을 갱신하기 위해, 쿠키에 저장된 유효한 리프레시 토큰을 사용하여 새로운 액세스 토큰을 요청합니다.
 
 성공
-HTTP request
+HTTP 요청
 POST /api/auth/refresh HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=ISO-8859-1
-Host: localhost:33303
-Cookie: refresh_token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ajEyMzRAZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImlkIjoyMSwianRpIjoiMDU1MWM2MWItMWM0ZC00MGFkLWE0ODktNTdhOWRmY2RhMDEwIiwiaWF0IjoxNzU0ODkyNDQyLCJleHAiOjE3NTYxMDIwNDJ9.ski1fDOyMEu8M3xIyO2JKr3artrGhmzhH4KaZRBvJWw
-HTTP response
+Host: localhost:44193
+Cookie: refresh_token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ajEyMzRAZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImlkIjoxLCJqdGkiOiI4MjM0NzYxNS0wZGM0LTRhOTAtYWFmOS1hYmRiNWE2ZTI5YWYiLCJpYXQiOjE3NTUxODM2MzAsImV4cCI6MTc1NjM5MzIzMH0.\_FhBJ_Kdi1uzscAkqAMOLU16y7xvfEXMmZhB_izqP50
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -95,24 +95,24 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:22 GMT
+Date: Thu, 14 Aug 2025 15:00:30 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 265
+Content-Length: 264
 
 {
-"accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ajEyMzRAZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImlkIjoyMSwianRpIjoiYjYxY2I2NWEtNzJkZC00NjViLTljMGEtNDk0MDAyYzBjYjk0IiwiaWF0IjoxNzU0ODkyNDQyLCJleHAiOjE3NTQ5Nzg4NDJ9.kpjCoFfZghNl16a03aEXF1wlmRk2YS0sugKKs7rpq-o"
+"accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ajEyMzRAZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImlkIjoxLCJqdGkiOiI5ZDgyZTFmMi1lODc5LTQzNjYtODZlZS1hM2M5MzA2YTM2NzIiLCJpYXQiOjE3NTUxODM2MzAsImV4cCI6MTc1NTI3MDAzMH0.v7o-rZ8Xo3D0me8onLyB7eMBWzqVoNP7xV17pmx6_eY"
 }
 로그아웃
 쿠키에 저장된 리프레시 토큰을 서버에서 무효화하고, 클라이언트의 쿠키를 삭제합니다.
 
 성공
-HTTP request
+HTTP 요청
 POST /api/auth/logout HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=ISO-8859-1
-Host: localhost:33303
-Cookie: refresh_token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ajEyMzRAZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImlkIjoyMSwianRpIjoiNjFhZWY0ZWItM2YzOS00MjYxLThlNTUtYzIxZjIwOTUwNmVjIiwiaWF0IjoxNzU0ODkyNDQxLCJleHAiOjE3NTYxMDIwNDF9.wbXJWf6IoOQbQ0U2wp0zWUvjmYX2rAwqcZLouiT8_WY
-HTTP response
+Host: localhost:44193
+Cookie: refresh_token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ajEyMzRAZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImlkIjoxLCJqdGkiOiI2NGRiZGY4MS1jYmJiLTQyYjItOGQ3YS0yNGE0MzNlZGM2YjIiLCJpYXQiOjE3NTUxODM2MjksImV4cCI6MTc1NjM5MzIyOX0.KZRSGOitjjF-q7aYCJKwOF1gtbW2MC_CBLObg47g_0c
+HTTP 응답
 HTTP/1.1 204 No Content
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -123,17 +123,17 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-Date: Mon, 11 Aug 2025 06:07:21 GMT
+Date: Thu, 14 Aug 2025 15:00:29 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 내 정보 조회
 유효한 액세스 토큰을 사용하여 현재 로그인된 사용자의 정보를 조회합니다.
 
 성공
-HTTP request
+HTTP 요청
 GET /api/users/me HTTP/1.1
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -145,13 +145,13 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:20 GMT
+Date: Thu, 14 Aug 2025 15:00:28 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 136
+Content-Length: 135
 
 {
-"id" : 21,
+"id" : 1,
 "email" : "wj1234@gmail.com",
 "name" : "정원준",
 "imageUrl" : "https://www",
@@ -160,32 +160,38 @@ Content-Length: 136
 실패 (토큰 없음)
 인증 토큰 없이 요청 시 401 Unauthorized 에러를 반환합니다.
 
-HTTP request
+HTTP 요청
 GET /api/users/me HTTP/1.1
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 401 Unauthorized
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: JSESSIONID=14EBA5A77B5EF2E4054916DF927E9A2C; Path=/; HttpOnly
+Set-Cookie: JSESSIONID=CE2D5B82257FE00C13EF115E10C289E3; Path=/; HttpOnly
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-Date: Mon, 11 Aug 2025 06:07:20 GMT
+Date: Thu, 14 Aug 2025 15:00:28 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 사용자 관리
-온보딩에 필요한 이넘 리스트를 불러옵니다
-신규 회원이 온보딩 과정으로 진입하면 필요 이넘 리스트를 불러옵니다.
+어드민 유저는 유저를 밴할수 있습니다.
+어드민 유저는 유저아이디를 통해 해당 유저를 밴할 수 있습니다.
 
-HTTP request
-GET /api/users/onboarding/labels HTTP/1.1
+HTTP 요청
+POST /api/admin/ban HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+Content-Length: 90
+
+{
+"email" : "wj1234@gmail.com",
+"reason" : "부적절한 행동으로 인한 차단"
+}
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -197,10 +203,134 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:38 GMT
+Date: Thu, 14 Aug 2025 15:00:25 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 4925
+Content-Length: 251
+
+{
+"message" : "사용자 정지를 성공하였습니다.",
+"bannedUserId" : 1,
+"bannedUserEmail" : "wj1234@gmail.com",
+"reason" : "부적절한 행동으로 인한 차단",
+"role" : "BANNED",
+"bannedAt" : "2025-08-14T15:00:25.591029654"
+}
+어드민 유저는 밴된 유저를 해지 할수 있습니다.
+어드민 유저는 유저아이디를 통해 밴된 유저를 해지 할 수 있습니다.
+
+HTTP 요청
+PATCH /api/admin/unban HTTP/1.1
+Content-Type: application/json
+Host: localhost:44193
+Content-Length: 76
+
+{
+"email" : "tokit@gmail.com",
+"reason" : "반성하여 차단 해제"
+}
+HTTP 응답
+HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 14 Aug 2025 15:00:26 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+Content-Length: 232
+
+{
+"message" : "사용자 해지를 성공하였습니다.",
+"unbanUserId" : 2,
+"unbanUserEmail" : "tokit@gmail.com",
+"reason" : "반성하여 차단 해제",
+"role" : "USER",
+"unbanAt" : "2025-08-14T15:00:26.328283872"
+}
+유저는 밴시스템에 접근할수 없습니다.
+유저는 밴시스템에 접근할 수 없습니다. .
+
+HTTP 요청
+POST /api/admin/ban HTTP/1.1
+Content-Type: application/json
+Host: localhost:44193
+Content-Length: 89
+
+{
+"email" : "tokit@gmail.com",
+"reason" : "부적절한 행동으로 인한 차단"
+}
+HTTP 응답
+HTTP/1.1 401 Unauthorized
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Set-Cookie: JSESSIONID=F6D07DAFFAE861290D10A3E2EFF5AF8C; Path=/; HttpOnly
+Date: Thu, 14 Aug 2025 15:00:26 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+유저는 밴해제시스템에 접근할수 없습니다.
+유저는 밴해제시스템에 접근할 수 없습니다. .
+
+HTTP 요청
+PATCH /api/admin/unban HTTP/1.1
+Content-Type: application/json
+Host: localhost:44193
+Content-Length: 76
+
+{
+"email" : "tokit@gmail.com",
+"reason" : "반성하여 차단 해제"
+}
+HTTP 응답
+HTTP/1.1 401 Unauthorized
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Set-Cookie: JSESSIONID=9A3595BD084A0F9529F5A0F4462783E0; Path=/; HttpOnly
+Date: Thu, 14 Aug 2025 15:00:27 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+온보딩에 필요한 이넘 리스트를 불러옵니다
+신규 회원이 온보딩 과정으로 진입하면 필요 이넘 리스트를 불러옵니다.
+
+HTTP 요청
+GET /api/users/onboarding/labels HTTP/1.1
+Content-Type: application/json
+Host: localhost:44193
+HTTP 응답
+HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 14 Aug 2025 15:03:20 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+Content-Length: 4890
 
 {
 "genders" : [ {
@@ -211,9 +341,6 @@ Content-Length: 4925
 "name" : "남성"
 } ],
 "universities" : [ {
-"code" : "LIKELION",
-"name" : "멋사대학교"
-}, {
 "code" : "CATHOLIC",
 "name" : "가톨릭대학교"
 }, {
@@ -368,105 +495,108 @@ Content-Length: 4925
 "name" : "홍익대학교"
 } ],
 "positions" : [ {
-"code" : "BACKEND",
-"name" : "백엔드"
-}, {
 "code" : "FRONTEND",
 "name" : "프론트엔드"
 }, {
-"code" : "UX_UI",
-"name" : "UX/UI 디자이너"
-}, {
-"code" : "PM",
-"name" : "PM"
+"code" : "BACKEND",
+"name" : "백엔드"
 }, {
 "code" : "FULLSTACK",
 "name" : "풀스택"
+}, {
+"code" : "AI",
+"name" : "AI"
+}, {
+"code" : "UX_UI",
+"name" : "디자인"
+}, {
+"code" : "PM",
+"name" : "PM"
 } ],
-"mbtis" : [ {
-"code" : "ENTJ",
-"name" : "ENTJ"
-}, {
-"code" : "ENTP",
-"name" : "ENTP"
-}, {
-"code" : "ENFJ",
-"name" : "ENFJ"
-}, {
-"code" : "ENFP",
-"name" : "ENFP"
-}, {
-"code" : "ESTJ",
-"name" : "ESTJ"
-}, {
-"code" : "ESTP",
-"name" : "ESTP"
-}, {
-"code" : "ESFJ",
-"name" : "ESFJ"
-}, {
-"code" : "ESFP",
-"name" : "ESFP"
-}, {
-"code" : "INTJ",
-"name" : "INTJ"
-}, {
-"code" : "INTP",
-"name" : "INTP"
-}, {
-"code" : "INFJ",
-"name" : "INFJ"
-}, {
-"code" : "INFP",
-"name" : "INFP"
-}, {
+"mbti" : [ {
 "code" : "ISTJ",
 "name" : "ISTJ"
-}, {
-"code" : "ISTP",
-"name" : "ISTP"
 }, {
 "code" : "ISFJ",
 "name" : "ISFJ"
 }, {
+"code" : "INFJ",
+"name" : "INFJ"
+}, {
+"code" : "INTJ",
+"name" : "INTJ"
+}, {
+"code" : "ISTP",
+"name" : "ISTP"
+}, {
 "code" : "ISFP",
 "name" : "ISFP"
+}, {
+"code" : "INFP",
+"name" : "INFP"
+}, {
+"code" : "INTP",
+"name" : "INTP"
+}, {
+"code" : "ESTP",
+"name" : "ESTP"
+}, {
+"code" : "ESFP",
+"name" : "ESFP"
+}, {
+"code" : "ENFP",
+"name" : "ENFP"
+}, {
+"code" : "ENTP",
+"name" : "ENTP"
+}, {
+"code" : "ESTJ",
+"name" : "ESTJ"
+}, {
+"code" : "ESFJ",
+"name" : "ESFJ"
+}, {
+"code" : "ENTJ",
+"name" : "ENTJ"
+}, {
+"code" : "ENFJ",
+"name" : "ENFJ"
 } ],
 "preferenceType" : [ {
-"code" : "PREFERENCE_FOCUSED",
-"name" : "PREFERENCE_FOCUSED"
-}, {
 "code" : "POSITION_FOCUSED",
-"name" : "POSITION_FOCUSED"
+"name" : "직무 관련"
 }, {
 "code" : "CAREER_FOCUSED",
-"name" : "CAREER_FOCUSED"
+"name" : "취업 준비"
+}, {
+"code" : "PREFERENCE_FOCUSED",
+"name" : "일상 이야기"
 } ]
 }
 온보딩 완료
 신규 회원이 온보딩 과정을 완료하여 프로필 정보를 등록합니다.
 
 성공
-HTTP request
+HTTP 요청
 PATCH /api/users/onboarding HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-Content-Length: 362
+Host: localhost:44193
+Content-Length: 346
 
 {
+"gender" : "여성",
+"imageIds" : [ 35, 36 ],
+"mbti" : "INTJ",
+"position" : "백엔드",
+"nickname" : "토킷개발자",
+"bio" : "안녕하세요 토킷입니다.",
+"university" : "서울대학교",
+"marketingAgreements" : false,
 "isUniversityView" : true,
 "requiredAgreements" : true,
-"preferenceType" : "PREFERENCE_FOCUSED",
-"gender" : "WOMEN",
-"mbti" : "ENFP",
-"position" : "백엔드",
-"userPhotos" : [ "photo1.jpg" ],
-"nickname" : "멋진 사자",
-"bio" : "안녕하세요 멋진사자 입니다.",
-"university" : "멋사대학교",
-"marketingAgreement" : false
+"preferenceType" : "직무 관련"
 }
-HTTP response
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -478,13 +608,13 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:39 GMT
+Date: Thu, 14 Aug 2025 15:03:21 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 106
+Content-Length: 105
 
 {
-"userId" : 22,
+"userId" : 2,
 "message" : "온보딩이 완료되었습니다.",
 "isOnboardingCompleted" : true
 }
@@ -495,10 +625,10 @@ Content-Length: 106
 이메일, 이름, 이미지 URL을 보내 즉시 액세스 토큰을 발급받습니다. 실제 OAuth2 인증 과정을 생략합니다.
 
 성공
-HTTP request
+HTTP 요청
 POST /api/test/login HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
+Host: localhost:44193
 Content-Length: 88
 
 {
@@ -506,7 +636,7 @@ Content-Length: 88
 "email" : "wj1234@gmail.com",
 "name" : "정원준"
 }
-HTTP response
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -518,115 +648,252 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:19 GMT
+Date: Thu, 14 Aug 2025 15:00:28 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 265
+Content-Length: 264
 
 {
-"accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ajEyMzRAZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImlkIjoyMSwianRpIjoiNmVkMTU5NjMtZTFmYS00MmY5LWI0MWUtMzgzN2FiZTc1Yzg4IiwiaWF0IjoxNzU0ODkyNDM5LCJleHAiOjE3NTQ5Nzg4Mzl9.pj06V4wI5J6ben3NOkoU7kYo7q9NjwcFzSqb_Bo8klI"
+"accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ajEyMzRAZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImlkIjoxLCJqdGkiOiI2Mzg0YmNkZS01YWE5LTQzYjUtOWRhNS0yMTg0ODA5YWUwNzQiLCJpYXQiOjE3NTUxODM2MjgsImV4cCI6MTc1NTI3MDAyOH0.gH38uM7vRM-LU1EVrCuBXc-BvKvrhh8lV4NAjRQjv_o"
 }
 채팅
-채팅 관련 기능입니다. 채팅방 생성 및 목록 조회는 REST API로, 메시지 송수신은 REST API와 WebSocket(STOMP)을 함께 사용합니다.
+채팅방 생성
+상대방의 id를 통해 새 채팅방을 생성합니다. 이미 채팅방이 존재할 경우 존재하는 채팅방의 id를 반환합니다.
 
-아래는 메시지 송수신 전반의 흐름입니다.
-
-메시지 전송 (클라이언트 → 서버) 클라이언트는 상황에 따라 POST /api/chats/message REST API 또는 WebSocket(STOMP) 메시지를 통해 채팅 메시지를 서버로 전송할 수 있습니다. 서버는 메시지를 데이터베이스에 저장합니다.
-
-메시지 발행 및 실시간 푸시 (서버 → 클라이언트) 저장된 메시지는 메시지 브로커(RabbitMQ 등)에 발행되고, WebSocket을 통해 연결된 모든 클라이언트에 실시간 푸시됩니다.
-
-메시지 수신 확인 (클라이언트 → 서버) 클라이언트가 푸시된 메시지를 수신하면, /app/message.ack STOMP 메시지를 서버로 전송하여 읽음(전송 완료) 상태로 갱신합니다.
-
-미수신 메시지 재전송 (서버 → 클라이언트) 클라이언트가 오프라인이었을 경우, WebSocket 재연결 시 서버가 이전에 받지 못한 메시지를 찾아 일괄 푸시합니다.
-
-메시지 전송 (REST API)
-클라이언트가 채팅 메시지를 서버로 전송합니다. 서버는 메시지를 저장한 뒤 메시지 브로커를 통해 WebSocket 구독자들에게 전달합니다.
-
-요청 본문 예시
+성공
+HTTP 요청
+POST /api/chatrooms/init HTTP/1.1
+Content-Type: application/json
+Host: localhost:44193
+Content-Length: 23
 
 {
-"chatRoomId": 1,
-"senderName": "홍길동",
-"senderId": 2,
-"receiverId": 3,
-"content": "안녕하세요!"
+"receiverId" : 24
 }
-설명
-
-chatRoomId — 메시지를 보낼 채팅방의 ID (채팅방이 없을 경우, 서버에서 새로 생성)
-
-senderName — 메시지를 보낸 사용자의 이름
-
-senderId — 메시지를 보낸 사용자의 ID
-
-receiverId — 메시지를 받을 사용자의 ID
-
-content — 전송할 메시지 내용
-
-응답 본문 예시
+HTTP 응답
+HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 14 Aug 2025 15:00:41 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+Content-Length: 22
 
 {
-"messageId": "60c72b2f6b8c9b2f6b8c9b2f",
-"chatRoomId": 1,
-"senderName": "사용자이름",
-"senderId": 2,
-"timestamp": "2025-08-04T20:42:52.104Z",
-"content": "안녕하세요!"
+"chatRoomId" : 1
 }
-설명
+채팅 메시지 전송
+채팅 메시지를 전송합니다.
 
-messageId — 저장된 메시지의 고유 ID
+요청 경로: /app/chat.sendMessage/{roomId}
 
-chatRoomId — 메시지가 속한 채팅방의 ID
+별도의 응답값이 반환되지 않습니다. 하위 response는 무시해주세요.
 
-senderName — 메시지를 보낸 사용자의 이름
+성공
+HTTP 요청
+POST /api/test/chat/messages HTTP/1.1
+Content-Type: application/json
+Host: localhost:44193
+Content-Length: 80
 
-senderId — 메시지를 보낸 사용자의 ID
+{
+"chatRoomId" : 1,
+"content" : "안녕하세요, 첫 메시지입니다."
+}
+HTTP 응답
+HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Date: Thu, 14 Aug 2025 15:00:40 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+채팅 내역 조회
+특정 채팅방에 대한 채팅 초기 내역을 조회합니다.
 
-timestamp — 서버에 메시지가 저장된 시간 (UTC)
+성공
+HTTP 요청
+GET /api/chatrooms/chats/messages?roomId=1 HTTP/1.1
+Host: localhost:44193
+HTTP 응답
+HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 14 Aug 2025 15:00:40 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+Content-Length: 764
 
-content — 전송된 메시지 내용
+[ {
+"messageId" : "689dfa18fde0c16885496cc9",
+"chatRoomId" : 1,
+"senderId" : 1,
+"senderName" : "정원준",
+"senderImageUrl" : "https://www",
+"createdAt" : "2025-08-14T15:00:40.553Z",
+"content" : "반갑습니다.",
+"isEnd" : false
+}, {
+"messageId" : "689dfa18fde0c16885496cc8",
+"chatRoomId" : 1,
+"senderId" : 24,
+"senderName" : "성이름",
+"senderImageUrl" : "https://www",
+"createdAt" : "2025-08-14T15:00:40.505Z",
+"content" : "아, 네. 안녕하세요.",
+"isEnd" : false
+}, {
+"messageId" : "689dfa18fde0c16885496cc7",
+"chatRoomId" : 1,
+"senderId" : 1,
+"senderName" : "정원준",
+"senderImageUrl" : "https://www",
+"createdAt" : "2025-08-14T15:00:40.445Z",
+"content" : "첫 번째 메시지",
+"isEnd" : false
+} ]
+채팅 내역 lastId를 기준으로 조회
+특정 채팅방에 대한 채팅 내역을 조회합니다.
 
-메시지 전송 (WebSocket)
-STOMP를 통해 특정 채팅방으로 메시지를 전송합니다. 서버는 이 메시지를 저장한 후, 해당 채팅방을 구독 중인 모든 클라이언트에게 브로드캐스팅합니다.
+성공
+HTTP 요청
+GET /api/chatrooms/chats/messages?roomId=1&lastId=0 HTTP/1.1
+Host: localhost:44193
+HTTP 응답
+HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 14 Aug 2025 15:00:39 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+Content-Length: 764
 
-항목 설명 예시
-Endpoint
+[ {
+"messageId" : "689dfa17fde0c16885496cc5",
+"chatRoomId" : 1,
+"senderId" : 1,
+"senderName" : "정원준",
+"senderImageUrl" : "https://www",
+"createdAt" : "2025-08-14T15:00:39.383Z",
+"content" : "반갑습니다.",
+"isEnd" : false
+}, {
+"messageId" : "689dfa17fde0c16885496cc4",
+"chatRoomId" : 1,
+"senderId" : 24,
+"senderName" : "성이름",
+"senderImageUrl" : "https://www",
+"createdAt" : "2025-08-14T15:00:39.327Z",
+"content" : "아, 네. 안녕하세요.",
+"isEnd" : false
+}, {
+"messageId" : "689dfa17fde0c16885496cc3",
+"chatRoomId" : 1,
+"senderId" : 1,
+"senderName" : "정원준",
+"senderImageUrl" : "https://www",
+"createdAt" : "2025-08-14T15:00:39.268Z",
+"content" : "첫 번째 메시지",
+"isEnd" : false
+} ]
+채팅방 리스트 조회
+요청자의 채팅방 리스트를 조회합니다.
 
-STOMP SEND 목적지
+성공
+HTTP 요청
+GET /api/chatrooms HTTP/1.1
+Host: localhost:44193
+HTTP 응답
+HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 14 Aug 2025 15:00:42 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+Content-Length: 425
 
-/app/chat.sendMessage
+[ {
+"chatRoomId" : 2,
+"name" : "김백엔드",
+"lastContent" : "김백엔드님, 안녕하세요.",
+"lastSendAt" : "2025-08-14T15:00:42.02612Z",
+"imageUrl" : "https://test.com/image6.jpg",
+"isRead" : true
+}, {
+"chatRoomId" : 1,
+"name" : "성이름",
+"lastContent" : "동적 사용자2님, 안녕하세요?",
+"lastSendAt" : "2025-08-14T15:00:41.947656Z",
+"imageUrl" : "https://www",
+"isRead" : true
+} ]
+채팅 읽음 신호
+채팅 메시지를 읽었다는 신호(MessageAck)를 WebSocket으로 전송합니다. 서버는 해당 메시지의 읽음 상태를 업데이트합니다.
 
-Subscribe
+요청 경로: /app/message.ack
 
-구독할 토픽 경로
+요청 필드
+필드명 타입 필수 여부 설명
+메시지 ID
 
-/topic/chatroom/{roomId}
+끈
 
-Request Body
+✅
 
-메시지 요청 객체 (JSON)
+읽음 처리할 메시지의 고유 ID
 
-{"chatRoomId": 1, "content": "안녕하세요!", "date": "2025-08-04T20:42:52.104"}
+사용자 ID
 
-메시지 읽음 확인 (WebSocket)
-클라이언트가 수신한 메시지를 읽었음을 서버에 알립니다. 서버는 해당 메시지의 상태를 SENT(전송 완료)로 갱신합니다.
+긴
 
-항목 설명 예시
-Endpoint
+✅
 
-STOMP SEND 목적지
+읽은 사용자의 ID
 
-/app/message.ack
-
-Request Body
-
-읽음 확인 요청 객체 (JSON)
-
-{"messageId": "a1b2c3d4", "userId": 2}
-
-미수신 메시지 전달
-클라이언트가 WebSocket에 새로 연결되면, 서버는 이전에 받지 못한 메시지를 찾아 일괄 전송합니다. 이 동작은 서버 내부적으로 처리되며, 별도의 요청이 필요하지 않습니다.
+요청 예시
+{
+"messageId": "64df7a8e2f1a4c3b98b7c001",
+"userId": 42
+}
+응답
+별도의 응답 본문은 없습니다. 읽음 신호 수신 후 서버 로그에 처리 결과가 기록됩니다.
 
 피드 댓글
 피드에 대한 댓글 관련 기능입니다.
@@ -637,16 +904,16 @@ Request Body
 요청 헤더: Authorization 헤더에 Bearer 토큰이 필요합니다.
 
 성공
-HTTP request
+HTTP 요청
 POST /api/feeds/1/comments HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
+Host: localhost:44193
 Content-Length: 53
 
 {
 "content" : "이것은 댓글 내용입니다."
 }
-HTTP response
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -658,7 +925,7 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:36 GMT
+Date: Thu, 14 Aug 2025 15:03:12 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 Content-Length: 21
@@ -674,16 +941,16 @@ Content-Length: 21
 경로 파라미터: `commentId`며, 수정할 댓글의 ID입니다.
 
 성공
-HTTP request
+HTTP 요청
 PATCH /api/feeds/comments/1 HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
+Host: localhost:44193
 Content-Length: 63
 
 {
 "content" : "이것은 새로운 댓글 내용입니다."
 }
-HTTP response
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -695,7 +962,7 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:37 GMT
+Date: Thu, 14 Aug 2025 15:03:14 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 Content-Length: 21
@@ -711,11 +978,11 @@ Content-Length: 21
 경로 파라미터: `commentId`며, 삭제할 댓글의 ID입니다.
 
 성공
-HTTP request
+HTTP 요청
 DELETE /api/feeds/comments/1 HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -725,7 +992,7 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-Date: Mon, 11 Aug 2025 06:07:36 GMT
+Date: Thu, 14 Aug 2025 15:03:09 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 피드 댓글 전체 조회
@@ -736,11 +1003,11 @@ Connection: keep-alive
 페이지네이션: page`와 `size 쿼리 파라미터를 사용하여 페이징을 제어할 수 있습니다. (예: ?page=0&size=10)
 
 성공
-HTTP request
+HTTP 요청
 GET /api/feeds/1/comments HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -752,64 +1019,64 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:35 GMT
+Date: Thu, 14 Aug 2025 15:03:06 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 1742
+Content-Length: 1738
 
 {
 "content" : [ {
 "id" : 1,
 "feedId" : 1,
 "feedCommentUserResponse" : {
-"userId" : 21,
+"userId" : 1,
 "name" : "정원준",
 "imageUrl" : "https://www"
 },
 "content" : "댓글1",
 "likeCount" : 0,
 "isLiked" : false,
-"createdAt" : "2025-08-11T06:07:35.746879",
-"updatedAt" : "2025-08-11T06:07:35.746879"
+"createdAt" : "2025-08-14T15:02:57.529106",
+"updatedAt" : "2025-08-14T15:02:57.529106"
 }, {
 "id" : 2,
 "feedId" : 1,
 "feedCommentUserResponse" : {
-"userId" : 21,
+"userId" : 1,
 "name" : "정원준",
 "imageUrl" : "https://www"
 },
 "content" : "댓글2",
 "likeCount" : 0,
 "isLiked" : false,
-"createdAt" : "2025-08-11T06:07:35.767822",
-"updatedAt" : "2025-08-11T06:07:35.767822"
+"createdAt" : "2025-08-14T15:03:00.648634",
+"updatedAt" : "2025-08-14T15:03:00.648634"
 }, {
 "id" : 3,
 "feedId" : 1,
 "feedCommentUserResponse" : {
-"userId" : 21,
+"userId" : 1,
 "name" : "정원준",
 "imageUrl" : "https://www"
 },
 "content" : "댓글3",
 "likeCount" : 0,
 "isLiked" : false,
-"createdAt" : "2025-08-11T06:07:35.789765",
-"updatedAt" : "2025-08-11T06:07:35.789765"
+"createdAt" : "2025-08-14T15:03:03.765005",
+"updatedAt" : "2025-08-14T15:03:03.765005"
 }, {
 "id" : 4,
 "feedId" : 1,
 "feedCommentUserResponse" : {
-"userId" : 21,
+"userId" : 1,
 "name" : "정원준",
 "imageUrl" : "https://www"
 },
 "content" : "댓글4",
 "likeCount" : 0,
 "isLiked" : false,
-"createdAt" : "2025-08-11T06:07:35.818622",
-"updatedAt" : "2025-08-11T06:07:35.818622"
+"createdAt" : "2025-08-14T15:03:06.881868",
+"updatedAt" : "2025-08-14T15:03:06.881868"
 } ],
 "pageable" : {
 "pageNumber" : 0,
@@ -835,75 +1102,28 @@ Content-Length: 1742
 "last" : true,
 "empty" : false
 }
-피드 댓글 좋아요
-특정 댓글에 '좋아요’를 누릅니다. 한 사용자는 댓글당 한 번만 좋아요를 누를 수 있으며, 반복 호출해도 카운트는 중복으로 증가하지 않습니다.
+피드 댓글 작성 속도 제한
+과도한 요청을 방지하기 위해 댓글 작성 기능에는 속도 제한이 적용됩니다.
 
-요청 헤더: Authorization 헤더에 Bearer 토큰이 필요합니다.
+단기 제한: 3초에 1개의 댓글만 작성할 수 있습니다.
 
-경로 파라미터: `commentId`에 좋아요를 누를 댓글의 ID를 명시해야 합니다.
+장기 제한: 10분에 5개의 댓글만 작성할 수 있습니다.
 
-성공
-HTTP request
-POST /api/feeds/comments/1/like HTTP/1.1
-Content-Type: application/x-www-form-urlencoded; charset=ISO-8859-1
-Host: localhost:33303
-HTTP response
-HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Date: Mon, 11 Aug 2025 06:07:33 GMT
-Keep-Alive: timeout=60
-Connection: keep-alive
-피드 댓글 좋아요 취소
-눌렀던 '좋아요’를 취소합니다.
+제한을 초과하여 API를 호출할 경우, 429 Too Many Requests 상태 코드가 반환됩니다.
 
-요청 헤더: Authorization 헤더에 Bearer 토큰이 필요합니다.
+실패 (3초 제한 위반)
+3초 이내에 연속으로 댓글 작성을 요청하여 실패하는 경우입니다.
 
-경로 파라미터: `commentId`에 좋아요를 취소할 댓글의 ID를 명시해야 합니다.
-
-성공
-HTTP request
-DELETE /api/feeds/comments/1/like HTTP/1.1
-Host: localhost:33303
-HTTP response
-HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Date: Mon, 11 Aug 2025 06:07:34 GMT
-Keep-Alive: timeout=60
-Connection: keep-alive
-피드
-피드에 관련한 기능입니다.
-
-피드 작성
-새로운 피드를 작성합니다.
-
-요청 헤더: Authorization 헤더에 Bearer 토큰이 필요합니다.
-
-성공
-HTTP request
-POST /api/feeds HTTP/1.1
+HTTP 요청
+POST /api/feeds/1/comments HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-Content-Length: 58
+Host: localhost:44193
+Content-Length: 70
 
 {
-"title" : "Test Title",
-"content" : "Test Content"
+"content" : "이것은 속도 제한 테스트 댓글입니다."
 }
-HTTP response
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -915,7 +1135,129 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:30 GMT
+Date: Thu, 14 Aug 2025 15:02:28 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+Content-Length: 21
+
+{
+"commentId" : 2
+}
+실패 (10분 제한 위반)
+10분 이내에 6번째 댓글 작성을 요청하여 실패하는 경우입니다.
+
+HTTP 요청
+POST /api/feeds/1/comments HTTP/1.1
+Content-Type: application/json
+Host: localhost:44193
+Content-Length: 69
+
+{
+"content" : "이것은 10분 제한 테스트 댓글입니다."
+}
+HTTP 응답
+HTTP/1.1 429 Too Many Requests
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 14 Aug 2025 15:02:46 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+Content-Length: 123
+
+{
+"status" : 429,
+"code" : "TOO_MANY_API_REQUEST_EXCEPTION",
+"message" : "API 요청 횟수를 초과했습니다."
+}
+피드 댓글 좋아요
+특정 댓글에 '좋아요’를 누릅니다. 한 사용자는 댓글당 한 번만 좋아요를 누를 수 있으며, 반복 호출해도 카운트는 중복으로 증가하지 않습니다.
+
+요청 헤더: Authorization 헤더에 Bearer 토큰이 필요합니다.
+
+경로 파라미터: `commentId`에 좋아요를 누를 댓글의 ID를 명시해야 합니다.
+
+성공
+HTTP 요청
+POST /api/feeds/comments/1/like HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=ISO-8859-1
+Host: localhost:44193
+HTTP 응답
+HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Date: Thu, 14 Aug 2025 15:02:48 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+피드 댓글 좋아요 취소
+눌렀던 '좋아요’를 취소합니다.
+
+요청 헤더: Authorization 헤더에 Bearer 토큰이 필요합니다.
+
+경로 파라미터: `commentId`에 좋아요를 취소할 댓글의 ID를 명시해야 합니다.
+
+성공
+HTTP 요청
+DELETE /api/feeds/comments/1/like HTTP/1.1
+Host: localhost:44193
+HTTP 응답
+HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Date: Thu, 14 Aug 2025 15:02:52 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+피드
+피드에 관련한 기능입니다.
+
+피드 작성
+새로운 피드를 작성합니다. 피드는 한 유저가 3초에 한 번만 작성할 수 있으며, 10분에 5개만 작성할 수 있습니다.
+
+요청 헤더: Authorization 헤더에 Bearer 토큰이 필요합니다.
+
+성공
+HTTP 요청
+POST /api/feeds HTTP/1.1
+Content-Type: application/json
+Host: localhost:44193
+Content-Length: 58
+
+{
+"title" : "Test Title",
+"content" : "Test Content"
+}
+HTTP 응답
+HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 14 Aug 2025 15:01:58 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 Content-Length: 18
@@ -931,11 +1273,11 @@ Content-Length: 18
 페이지네이션: lastId, size 쿼리 파라미터를 사용하여 페이징을 제어할 수 있습니다. (예: ?lastId=10&size=10)
 
 성공
-HTTP request
+HTTP 요청
 GET /api/feeds HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -947,10 +1289,10 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:27 GMT
+Date: Thu, 14 Aug 2025 15:01:22 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 2152
+Content-Length: 2147
 
 {
 "content" : [ {
@@ -958,14 +1300,14 @@ Content-Length: 2152
 "id" : 5,
 "title" : "Test Title 5",
 "content" : "Test Content 5",
-"createdAt" : "2025-08-11T06:07:27.480021",
+"createdAt" : "2025-08-14T15:01:19.376579",
 "likeCount" : 0,
 "isLiked" : false,
 "commentCount" : 0
 },
 "writer" : {
-"name" : "성이름",
-"id" : 22,
+"name" : "김토킷",
+"id" : 2,
 "profileImageUrl" : "https://www"
 }
 }, {
@@ -973,14 +1315,14 @@ Content-Length: 2152
 "id" : 4,
 "title" : "Test Title 4",
 "content" : "Test Content 4",
-"createdAt" : "2025-08-11T06:07:27.455327",
+"createdAt" : "2025-08-14T15:01:16.258845",
 "likeCount" : 0,
 "isLiked" : false,
 "commentCount" : 0
 },
 "writer" : {
-"name" : "성이름",
-"id" : 22,
+"name" : "김토킷",
+"id" : 2,
 "profileImageUrl" : "https://www"
 }
 }, {
@@ -988,14 +1330,14 @@ Content-Length: 2152
 "id" : 3,
 "title" : "Test Title 3",
 "content" : "Test Content 3",
-"createdAt" : "2025-08-11T06:07:27.425277",
+"createdAt" : "2025-08-14T15:01:13.141252",
 "likeCount" : 0,
 "isLiked" : false,
 "commentCount" : 0
 },
 "writer" : {
-"name" : "성이름",
-"id" : 22,
+"name" : "김토킷",
+"id" : 2,
 "profileImageUrl" : "https://www"
 }
 }, {
@@ -1003,14 +1345,14 @@ Content-Length: 2152
 "id" : 2,
 "title" : "Test Title 2",
 "content" : "Test Content 2",
-"createdAt" : "2025-08-11T06:07:27.401449",
+"createdAt" : "2025-08-14T15:01:10.022928",
 "likeCount" : 0,
 "isLiked" : false,
 "commentCount" : 0
 },
 "writer" : {
-"name" : "성이름",
-"id" : 22,
+"name" : "김토킷",
+"id" : 2,
 "profileImageUrl" : "https://www"
 }
 }, {
@@ -1018,14 +1360,14 @@ Content-Length: 2152
 "id" : 1,
 "title" : "Test Title 1",
 "content" : "Test Content 1",
-"createdAt" : "2025-08-11T06:07:27.376591",
+"createdAt" : "2025-08-14T15:01:06.902519",
 "likeCount" : 0,
 "isLiked" : false,
 "commentCount" : 0
 },
 "writer" : {
-"name" : "성이름",
-"id" : 22,
+"name" : "김토킷",
+"id" : 2,
 "profileImageUrl" : "https://www"
 }
 } ],
@@ -1061,11 +1403,11 @@ Content-Length: 2152
 페이지네이션: lastlLikeCount,lastId, size 쿼리 파라미터를 사용하여 페이징을 제어할 수 있습니다. (예: ?lastLikeCount=10&lastId=10&size=10)
 
 성공
-HTTP request
+HTTP 요청
 GET /api/feeds/hot HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -1077,10 +1419,10 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:26 GMT
+Date: Thu, 14 Aug 2025 15:01:04 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 2147
+Content-Length: 2141
 
 {
 "content" : [ {
@@ -1088,14 +1430,14 @@ Content-Length: 2147
 "id" : 3,
 "title" : "Test Title 3",
 "content" : "Test Content 3",
-"createdAt" : "2025-08-11T06:07:25.843607",
+"createdAt" : "2025-08-14T15:00:54.46833",
 "likeCount" : 2,
 "isLiked" : true,
 "commentCount" : 0
 },
 "writer" : {
-"name" : "성이름",
-"id" : 22,
+"name" : "김토킷",
+"id" : 2,
 "profileImageUrl" : "https://www"
 }
 }, {
@@ -1103,14 +1445,14 @@ Content-Length: 2147
 "id" : 1,
 "title" : "Test Title 1",
 "content" : "Test Content 1",
-"createdAt" : "2025-08-11T06:07:25.763694",
+"createdAt" : "2025-08-14T15:00:48.232086",
 "likeCount" : 2,
 "isLiked" : true,
 "commentCount" : 0
 },
 "writer" : {
-"name" : "성이름",
-"id" : 22,
+"name" : "김토킷",
+"id" : 2,
 "profileImageUrl" : "https://www"
 }
 }, {
@@ -1118,14 +1460,14 @@ Content-Length: 2147
 "id" : 5,
 "title" : "Test Title 5",
 "content" : "Test Content 5",
-"createdAt" : "2025-08-11T06:07:25.951574",
+"createdAt" : "2025-08-14T15:01:00.705002",
 "likeCount" : 1,
 "isLiked" : true,
 "commentCount" : 0
 },
 "writer" : {
-"name" : "성이름",
-"id" : 22,
+"name" : "김토킷",
+"id" : 2,
 "profileImageUrl" : "https://www"
 }
 }, {
@@ -1133,14 +1475,14 @@ Content-Length: 2147
 "id" : 4,
 "title" : "Test Title 4",
 "content" : "Test Content 4",
-"createdAt" : "2025-08-11T06:07:25.901199",
+"createdAt" : "2025-08-14T15:00:57.586758",
 "likeCount" : 0,
 "isLiked" : false,
 "commentCount" : 0
 },
 "writer" : {
-"name" : "성이름",
-"id" : 22,
+"name" : "김토킷",
+"id" : 2,
 "profileImageUrl" : "https://www"
 }
 }, {
@@ -1148,14 +1490,14 @@ Content-Length: 2147
 "id" : 2,
 "title" : "Test Title 2",
 "content" : "Test Content 2",
-"createdAt" : "2025-08-11T06:07:25.801864",
+"createdAt" : "2025-08-14T15:00:51.350856",
 "likeCount" : 0,
 "isLiked" : false,
 "commentCount" : 0
 },
 "writer" : {
-"name" : "성이름",
-"id" : 22,
+"name" : "김토킷",
+"id" : 2,
 "profileImageUrl" : "https://www"
 }
 } ],
@@ -1191,11 +1533,11 @@ Content-Length: 2147
 경로 파라미터: `feedId`에 삭제할 댓글의 ID를 명시해야 합니다.
 
 성공
-HTTP request
+HTTP 요청
 DELETE /api/feeds/1 HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -1205,7 +1547,7 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-Date: Mon, 11 Aug 2025 06:07:29 GMT
+Date: Thu, 14 Aug 2025 15:01:38 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 피드 좋아요
@@ -1216,11 +1558,11 @@ Connection: keep-alive
 경로 파라미터: `feedId`에 좋아요를 누를 댓글의 ID를 명시해야 합니다.
 
 성공
-HTTP request
+HTTP 요청
 POST /api/feeds/1/like HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=ISO-8859-1
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -1230,7 +1572,7 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-Date: Mon, 11 Aug 2025 06:07:26 GMT
+Date: Thu, 14 Aug 2025 15:01:05 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 피드 좋아요 취소
@@ -1241,10 +1583,10 @@ Connection: keep-alive
 경로 파라미터: `feedId`에 좋아요를 취소할 댓글의 ID를 명시해야 합니다.
 
 성공
-HTTP request
+HTTP 요청
 DELETE /api/feeds/1/like HTTP/1.1
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -1254,7 +1596,7 @@ X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-Date: Mon, 11 Aug 2025 06:07:28 GMT
+Date: Thu, 14 Aug 2025 15:01:25 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 유저 카드 추천 시스템
@@ -1271,11 +1613,11 @@ Connection: keep-alive
 기본 조회
 기본적인 추천 카드 조회 요청입니다.
 
-HTTP request
+HTTP 요청
 GET /api/users/card/list?size=10 HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -1287,120 +1629,120 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:40 GMT
+Date: Thu, 14 Aug 2025 15:03:23 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 3399
+Content-Length: 3425
 
 [ {
-"userId" : 2,
-"name" : "이리액트",
+"userId" : 4,
+"nickname" : "리액트킹",
 "university" : "연세대학교(신촌)",
 "isUniversityVisible" : true,
 "position" : "프론트엔드",
-"imageUrls" : [ "https://test.com/photo2-3.jpg", "https://test.com/photo2-2.jpg", "https://test.com/photo2-1.jpg" ],
+"imageUrls" : [ "https://test.com/photo2-1.jpg", "https://test.com/photo2-2.jpg", "https://test.com/photo2-3.jpg" ],
 "bio" : "React 전문 개발자입니다!",
-"focusType" : "POSITION_FOCUSED",
+"focusType" : "직무 관련",
 "isLikedByMe" : false
 }, {
-"userId" : 4,
-"name" : "최유엑스",
+"userId" : 6,
+"nickname" : "UX디자이너",
 "university" : "이화여자대학교",
 "isUniversityVisible" : true,
-"position" : "UX/UI 디자이너",
-"imageUrls" : [ "https://test.com/photo4-2.jpg", "https://test.com/photo4-1.jpg" ],
+"position" : "디자인",
+"imageUrls" : [ "https://test.com/photo4-1.jpg", "https://test.com/photo4-2.jpg" ],
 "bio" : "UX/UI 디자이너로 사용자 경험을 설계합니다",
-"focusType" : "POSITION_FOCUSED",
+"focusType" : "직무 관련",
 "isLikedByMe" : false
 }, {
-"userId" : 3,
-"name" : "박뷰js",
+"userId" : 5,
+"nickname" : "뷰제이에스",
 "university" : "성균관대학교",
 "isUniversityVisible" : true,
 "position" : "프론트엔드",
 "imageUrls" : [ "https://test.com/photo3-1.jpg" ],
 "bio" : "Vue.js로 멋진 웹을 만들어요",
-"focusType" : "PREFERENCE_FOCUSED",
+"focusType" : "일상 이야기",
 "isLikedByMe" : false
 }, {
-"userId" : 5,
-"name" : "정디자인",
+"userId" : 7,
+"nickname" : "창의디자이너",
 "university" : "홍익대학교",
 "isUniversityVisible" : true,
-"position" : "UX/UI 디자이너",
+"position" : "디자인",
 "imageUrls" : [ "https://test.com/photo5-1.jpg" ],
 "bio" : "창의적인 디자인으로 세상을 바꿔요",
-"focusType" : "PREFERENCE_FOCUSED",
+"focusType" : "일상 이야기",
 "isLikedByMe" : false
 }, {
-"userId" : 20,
-"name" : "정올인원",
+"userId" : 22,
+"nickname" : "효율개발자",
 "university" : "서울대학교",
 "isUniversityVisible" : true,
 "position" : "풀스택",
 "imageUrls" : [ "https://test.com/photo20-1.jpg", "https://test.com/photo20-2.jpg" ],
 "bio" : "실용적이고 효율적인 개발을 추구합니다",
-"focusType" : "CAREER_FOCUSED",
+"focusType" : "취업 준비",
 "isLikedByMe" : false
 }, {
-"userId" : 19,
-"name" : "최리더",
+"userId" : 21,
+"nickname" : "액션리더",
 "university" : "이화여자대학교",
 "isUniversityVisible" : false,
 "position" : "PM",
 "imageUrls" : [ "https://test.com/photo19-1.jpg" ],
 "bio" : "액션형 프로젝트 리더",
-"focusType" : "PREFERENCE_FOCUSED",
+"focusType" : "일상 이야기",
 "isLikedByMe" : false
 }, {
-"userId" : 18,
-"name" : "박멀티",
+"userId" : 20,
+"nickname" : "융합개발자",
 "university" : "숙명여자대학교",
 "isUniversityVisible" : true,
 "position" : "풀스택",
 "imageUrls" : [ "https://test.com/photo18-1.jpg" ],
 "bio" : "다양한 기술을 융합하는 개발자",
-"focusType" : "POSITION_FOCUSED",
+"focusType" : "직무 관련",
 "isLikedByMe" : false
 }, {
-"userId" : 17,
-"name" : "이웹개발",
+"userId" : 19,
+"nickname" : "즐거운개발자",
 "university" : "동덕여자대학교",
 "isUniversityVisible" : true,
 "position" : "프론트엔드",
 "imageUrls" : [ "https://test.com/photo17-1.jpg", "https://test.com/photo17-2.jpg" ],
 "bio" : "즐겁게 웹 개발하는 개발자",
-"focusType" : "PREFERENCE_FOCUSED",
+"focusType" : "일상 이야기",
 "isLikedByMe" : false
 }, {
-"userId" : 16,
-"name" : "김개발자",
+"userId" : 18,
+"nickname" : "안정개발자",
 "university" : "국민대학교",
 "isUniversityVisible" : false,
 "position" : "백엔드",
 "imageUrls" : [ "https://test.com/photo16-1.jpg" ],
 "bio" : "꼼꼼하고 안정적인 개발을 지향합니다",
-"focusType" : "POSITION_FOCUSED",
+"focusType" : "직무 관련",
 "isLikedByMe" : false
 }, {
-"userId" : 15,
-"name" : "정크리에이터",
+"userId" : 17,
+"nickname" : "감성디자이너",
 "university" : "성신여자대학교",
 "isUniversityVisible" : true,
-"position" : "UX/UI 디자이너",
+"position" : "디자인",
 "imageUrls" : [ "https://test.com/photo15-1.jpg" ],
 "bio" : "감성적인 디자인을 추구해요",
-"focusType" : "PREFERENCE_FOCUSED",
+"focusType" : "일상 이야기",
 "isLikedByMe" : false
 } ]
 특정 사용자 제외 조회
 이미 매칭을 거절했거나 채팅을 나눈 사용자들을 제외하고 추천받을 수 있습니다.
 
-HTTP request
+HTTP 요청
 GET /api/users/card/list?size=10&excludeUserIds=2%2C3 HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -1412,370 +1754,370 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:41 GMT
+Date: Thu, 14 Aug 2025 15:03:23 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 3389
+Content-Length: 3425
 
 [ {
 "userId" : 4,
-"name" : "최유엑스",
-"university" : "이화여자대학교",
-"isUniversityVisible" : true,
-"position" : "UX/UI 디자이너",
-"imageUrls" : [ "https://test.com/photo4-1.jpg", "https://test.com/photo4-2.jpg" ],
-"bio" : "UX/UI 디자이너로 사용자 경험을 설계합니다",
-"focusType" : "POSITION_FOCUSED",
-"isLikedByMe" : false
-}, {
-"userId" : 5,
-"name" : "정디자인",
-"university" : "홍익대학교",
-"isUniversityVisible" : true,
-"position" : "UX/UI 디자이너",
-"imageUrls" : [ "https://test.com/photo5-1.jpg" ],
-"bio" : "창의적인 디자인으로 세상을 바꿔요",
-"focusType" : "PREFERENCE_FOCUSED",
-"isLikedByMe" : false
-}, {
-"userId" : 20,
-"name" : "정올인원",
-"university" : "서울대학교",
-"isUniversityVisible" : true,
-"position" : "풀스택",
-"imageUrls" : [ "https://test.com/photo20-1.jpg", "https://test.com/photo20-2.jpg" ],
-"bio" : "실용적이고 효율적인 개발을 추구합니다",
-"focusType" : "CAREER_FOCUSED",
-"isLikedByMe" : false
-}, {
-"userId" : 19,
-"name" : "최리더",
-"university" : "이화여자대학교",
-"isUniversityVisible" : false,
-"position" : "PM",
-"imageUrls" : [ "https://test.com/photo19-1.jpg" ],
-"bio" : "액션형 프로젝트 리더",
-"focusType" : "PREFERENCE_FOCUSED",
-"isLikedByMe" : false
-}, {
-"userId" : 18,
-"name" : "박멀티",
-"university" : "숙명여자대학교",
-"isUniversityVisible" : true,
-"position" : "풀스택",
-"imageUrls" : [ "https://test.com/photo18-1.jpg" ],
-"bio" : "다양한 기술을 융합하는 개발자",
-"focusType" : "POSITION_FOCUSED",
-"isLikedByMe" : false
-}, {
-"userId" : 17,
-"name" : "이웹개발",
-"university" : "동덕여자대학교",
-"isUniversityVisible" : true,
-"position" : "프론트엔드",
-"imageUrls" : [ "https://test.com/photo17-1.jpg", "https://test.com/photo17-2.jpg" ],
-"bio" : "즐겁게 웹 개발하는 개발자",
-"focusType" : "PREFERENCE_FOCUSED",
-"isLikedByMe" : false
-}, {
-"userId" : 16,
-"name" : "김개발자",
-"university" : "국민대학교",
-"isUniversityVisible" : false,
-"position" : "백엔드",
-"imageUrls" : [ "https://test.com/photo16-1.jpg" ],
-"bio" : "꼼꼼하고 안정적인 개발을 지향합니다",
-"focusType" : "POSITION_FOCUSED",
-"isLikedByMe" : false
-}, {
-"userId" : 15,
-"name" : "정크리에이터",
-"university" : "성신여자대학교",
-"isUniversityVisible" : true,
-"position" : "UX/UI 디자이너",
-"imageUrls" : [ "https://test.com/photo15-1.jpg" ],
-"bio" : "감성적인 디자인을 추구해요",
-"focusType" : "PREFERENCE_FOCUSED",
-"isLikedByMe" : false
-}, {
-"userId" : 14,
-"name" : "최올라운드",
-"university" : "인하대학교",
-"isUniversityVisible" : true,
-"position" : "풀스택",
-"imageUrls" : [ "https://test.com/photo14-1.jpg", "https://test.com/photo14-2.jpg", "https://test.com/photo14-3.jpg" ],
-"bio" : "창의적인 올라운드 개발자",
-"focusType" : "POSITION_FOCUSED",
-"isLikedByMe" : false
-}, {
-"userId" : 13,
-"name" : "박기획",
-"university" : "한양대학교(ERICA)",
-"isUniversityVisible" : false,
-"position" : "PM",
-"imageUrls" : [ "https://test.com/photo13-1.jpg" ],
-"bio" : "사람과 기술을 연결하는 PM",
-"focusType" : "PREFERENCE_FOCUSED",
-"isLikedByMe" : false
-} ]
-연속 조회 (중복 방지)
-연속으로 카드를 조회할 때 이전에 본 사용자는 자동으로 제외됩니다.
-
-HTTP request
-GET /api/users/card/list?size=5 HTTP/1.1
-Content-Type: application/json
-Host: localhost:33303
-HTTP response
-HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Content-Type: application/json
-Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:42 GMT
-Keep-Alive: timeout=60
-Connection: keep-alive
-Content-Length: 1637
-
-[ {
-"userId" : 19,
-"name" : "최리더",
-"university" : "이화여자대학교",
-"isUniversityVisible" : false,
-"position" : "PM",
-"imageUrls" : [ "https://test.com/photo19-1.jpg" ],
-"bio" : "액션형 프로젝트 리더",
-"focusType" : "PREFERENCE_FOCUSED",
-"isLikedByMe" : false
-}, {
-"userId" : 18,
-"name" : "박멀티",
-"university" : "숙명여자대학교",
-"isUniversityVisible" : true,
-"position" : "풀스택",
-"imageUrls" : [ "https://test.com/photo18-1.jpg" ],
-"bio" : "다양한 기술을 융합하는 개발자",
-"focusType" : "POSITION_FOCUSED",
-"isLikedByMe" : false
-}, {
-"userId" : 17,
-"name" : "이웹개발",
-"university" : "동덕여자대학교",
-"isUniversityVisible" : true,
-"position" : "프론트엔드",
-"imageUrls" : [ "https://test.com/photo17-1.jpg", "https://test.com/photo17-2.jpg" ],
-"bio" : "즐겁게 웹 개발하는 개발자",
-"focusType" : "PREFERENCE_FOCUSED",
-"isLikedByMe" : false
-}, {
-"userId" : 16,
-"name" : "김개발자",
-"university" : "국민대학교",
-"isUniversityVisible" : false,
-"position" : "백엔드",
-"imageUrls" : [ "https://test.com/photo16-1.jpg" ],
-"bio" : "꼼꼼하고 안정적인 개발을 지향합니다",
-"focusType" : "POSITION_FOCUSED",
-"isLikedByMe" : false
-}, {
-"userId" : 15,
-"name" : "정크리에이터",
-"university" : "성신여자대학교",
-"isUniversityVisible" : true,
-"position" : "UX/UI 디자이너",
-"imageUrls" : [ "https://test.com/photo15-1.jpg" ],
-"bio" : "감성적인 디자인을 추구해요",
-"focusType" : "PREFERENCE_FOCUSED",
-"isLikedByMe" : false
-} ]
-클러스터 부족 시 랜덤 보완
-같은 클러스터 사용자가 부족한 경우 다른 클러스터에서 랜덤으로 보완하여 요청한 개수만큼 반환합니다.
-
-HTTP request
-GET /api/users/card/list?size=15 HTTP/1.1
-Content-Type: application/json
-Host: localhost:33303
-HTTP response
-HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Content-Type: application/json
-Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:42 GMT
-Keep-Alive: timeout=60
-Connection: keep-alive
-Content-Length: 5116
-
-[ {
-"userId" : 2,
-"name" : "이리액트",
+"nickname" : "리액트킹",
 "university" : "연세대학교(신촌)",
 "isUniversityVisible" : true,
 "position" : "프론트엔드",
-"imageUrls" : [ "https://test.com/photo2-3.jpg", "https://test.com/photo2-2.jpg", "https://test.com/photo2-1.jpg" ],
+"imageUrls" : [ "https://test.com/photo2-1.jpg", "https://test.com/photo2-2.jpg", "https://test.com/photo2-3.jpg" ],
 "bio" : "React 전문 개발자입니다!",
-"focusType" : "POSITION_FOCUSED",
+"focusType" : "직무 관련",
 "isLikedByMe" : false
 }, {
-"userId" : 4,
-"name" : "최유엑스",
+"userId" : 6,
+"nickname" : "UX디자이너",
 "university" : "이화여자대학교",
 "isUniversityVisible" : true,
-"position" : "UX/UI 디자이너",
-"imageUrls" : [ "https://test.com/photo4-2.jpg", "https://test.com/photo4-1.jpg" ],
+"position" : "디자인",
+"imageUrls" : [ "https://test.com/photo4-1.jpg", "https://test.com/photo4-2.jpg" ],
 "bio" : "UX/UI 디자이너로 사용자 경험을 설계합니다",
-"focusType" : "POSITION_FOCUSED",
+"focusType" : "직무 관련",
 "isLikedByMe" : false
 }, {
-"userId" : 3,
-"name" : "박뷰js",
+"userId" : 5,
+"nickname" : "뷰제이에스",
 "university" : "성균관대학교",
 "isUniversityVisible" : true,
 "position" : "프론트엔드",
 "imageUrls" : [ "https://test.com/photo3-1.jpg" ],
 "bio" : "Vue.js로 멋진 웹을 만들어요",
-"focusType" : "PREFERENCE_FOCUSED",
+"focusType" : "일상 이야기",
 "isLikedByMe" : false
 }, {
-"userId" : 5,
-"name" : "정디자인",
+"userId" : 7,
+"nickname" : "창의디자이너",
 "university" : "홍익대학교",
 "isUniversityVisible" : true,
-"position" : "UX/UI 디자이너",
+"position" : "디자인",
 "imageUrls" : [ "https://test.com/photo5-1.jpg" ],
 "bio" : "창의적인 디자인으로 세상을 바꿔요",
-"focusType" : "PREFERENCE_FOCUSED",
+"focusType" : "일상 이야기",
 "isLikedByMe" : false
 }, {
-"userId" : 20,
-"name" : "정올인원",
+"userId" : 22,
+"nickname" : "효율개발자",
 "university" : "서울대학교",
 "isUniversityVisible" : true,
 "position" : "풀스택",
 "imageUrls" : [ "https://test.com/photo20-1.jpg", "https://test.com/photo20-2.jpg" ],
 "bio" : "실용적이고 효율적인 개발을 추구합니다",
-"focusType" : "CAREER_FOCUSED",
+"focusType" : "취업 준비",
 "isLikedByMe" : false
 }, {
-"userId" : 19,
-"name" : "최리더",
+"userId" : 21,
+"nickname" : "액션리더",
 "university" : "이화여자대학교",
 "isUniversityVisible" : false,
 "position" : "PM",
 "imageUrls" : [ "https://test.com/photo19-1.jpg" ],
 "bio" : "액션형 프로젝트 리더",
-"focusType" : "PREFERENCE_FOCUSED",
+"focusType" : "일상 이야기",
 "isLikedByMe" : false
 }, {
-"userId" : 18,
-"name" : "박멀티",
+"userId" : 20,
+"nickname" : "융합개발자",
 "university" : "숙명여자대학교",
 "isUniversityVisible" : true,
 "position" : "풀스택",
 "imageUrls" : [ "https://test.com/photo18-1.jpg" ],
 "bio" : "다양한 기술을 융합하는 개발자",
-"focusType" : "POSITION_FOCUSED",
+"focusType" : "직무 관련",
 "isLikedByMe" : false
 }, {
-"userId" : 17,
-"name" : "이웹개발",
+"userId" : 19,
+"nickname" : "즐거운개발자",
 "university" : "동덕여자대학교",
 "isUniversityVisible" : true,
 "position" : "프론트엔드",
 "imageUrls" : [ "https://test.com/photo17-1.jpg", "https://test.com/photo17-2.jpg" ],
 "bio" : "즐겁게 웹 개발하는 개발자",
-"focusType" : "PREFERENCE_FOCUSED",
+"focusType" : "일상 이야기",
 "isLikedByMe" : false
 }, {
-"userId" : 16,
-"name" : "김개발자",
+"userId" : 18,
+"nickname" : "안정개발자",
 "university" : "국민대학교",
 "isUniversityVisible" : false,
 "position" : "백엔드",
 "imageUrls" : [ "https://test.com/photo16-1.jpg" ],
 "bio" : "꼼꼼하고 안정적인 개발을 지향합니다",
-"focusType" : "POSITION_FOCUSED",
+"focusType" : "직무 관련",
 "isLikedByMe" : false
 }, {
-"userId" : 15,
-"name" : "정크리에이터",
+"userId" : 17,
+"nickname" : "감성디자이너",
 "university" : "성신여자대학교",
 "isUniversityVisible" : true,
-"position" : "UX/UI 디자이너",
+"position" : "디자인",
 "imageUrls" : [ "https://test.com/photo15-1.jpg" ],
 "bio" : "감성적인 디자인을 추구해요",
-"focusType" : "PREFERENCE_FOCUSED",
+"focusType" : "일상 이야기",
+"isLikedByMe" : false
+} ]
+연속 조회 (중복 방지)
+연속으로 카드를 조회할 때 이전에 본 사용자는 자동으로 제외됩니다.
+
+HTTP 요청
+GET /api/users/card/list?size=5 HTTP/1.1
+Content-Type: application/json
+Host: localhost:44193
+HTTP 응답
+HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 14 Aug 2025 15:03:24 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+Content-Length: 1654
+
+[ {
+"userId" : 21,
+"nickname" : "액션리더",
+"university" : "이화여자대학교",
+"isUniversityVisible" : false,
+"position" : "PM",
+"imageUrls" : [ "https://test.com/photo19-1.jpg" ],
+"bio" : "액션형 프로젝트 리더",
+"focusType" : "일상 이야기",
 "isLikedByMe" : false
 }, {
-"userId" : 14,
-"name" : "최올라운드",
+"userId" : 20,
+"nickname" : "융합개발자",
+"university" : "숙명여자대학교",
+"isUniversityVisible" : true,
+"position" : "풀스택",
+"imageUrls" : [ "https://test.com/photo18-1.jpg" ],
+"bio" : "다양한 기술을 융합하는 개발자",
+"focusType" : "직무 관련",
+"isLikedByMe" : false
+}, {
+"userId" : 19,
+"nickname" : "즐거운개발자",
+"university" : "동덕여자대학교",
+"isUniversityVisible" : true,
+"position" : "프론트엔드",
+"imageUrls" : [ "https://test.com/photo17-1.jpg", "https://test.com/photo17-2.jpg" ],
+"bio" : "즐겁게 웹 개발하는 개발자",
+"focusType" : "일상 이야기",
+"isLikedByMe" : false
+}, {
+"userId" : 18,
+"nickname" : "안정개발자",
+"university" : "국민대학교",
+"isUniversityVisible" : false,
+"position" : "백엔드",
+"imageUrls" : [ "https://test.com/photo16-1.jpg" ],
+"bio" : "꼼꼼하고 안정적인 개발을 지향합니다",
+"focusType" : "직무 관련",
+"isLikedByMe" : false
+}, {
+"userId" : 17,
+"nickname" : "감성디자이너",
+"university" : "성신여자대학교",
+"isUniversityVisible" : true,
+"position" : "디자인",
+"imageUrls" : [ "https://test.com/photo15-1.jpg" ],
+"bio" : "감성적인 디자인을 추구해요",
+"focusType" : "일상 이야기",
+"isLikedByMe" : false
+} ]
+클러스터 부족 시 랜덤 보완
+같은 클러스터 사용자가 부족한 경우 다른 클러스터에서 랜덤으로 보완하여 요청한 개수만큼 반환합니다.
+
+HTTP 요청
+GET /api/users/card/list?size=15 HTTP/1.1
+Content-Type: application/json
+Host: localhost:44193
+HTTP 응답
+HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 14 Aug 2025 15:03:24 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+Content-Length: 5166
+
+[ {
+"userId" : 4,
+"nickname" : "리액트킹",
+"university" : "연세대학교(신촌)",
+"isUniversityVisible" : true,
+"position" : "프론트엔드",
+"imageUrls" : [ "https://test.com/photo2-1.jpg", "https://test.com/photo2-2.jpg", "https://test.com/photo2-3.jpg" ],
+"bio" : "React 전문 개발자입니다!",
+"focusType" : "직무 관련",
+"isLikedByMe" : false
+}, {
+"userId" : 6,
+"nickname" : "UX디자이너",
+"university" : "이화여자대학교",
+"isUniversityVisible" : true,
+"position" : "디자인",
+"imageUrls" : [ "https://test.com/photo4-1.jpg", "https://test.com/photo4-2.jpg" ],
+"bio" : "UX/UI 디자이너로 사용자 경험을 설계합니다",
+"focusType" : "직무 관련",
+"isLikedByMe" : false
+}, {
+"userId" : 5,
+"nickname" : "뷰제이에스",
+"university" : "성균관대학교",
+"isUniversityVisible" : true,
+"position" : "프론트엔드",
+"imageUrls" : [ "https://test.com/photo3-1.jpg" ],
+"bio" : "Vue.js로 멋진 웹을 만들어요",
+"focusType" : "일상 이야기",
+"isLikedByMe" : false
+}, {
+"userId" : 7,
+"nickname" : "창의디자이너",
+"university" : "홍익대학교",
+"isUniversityVisible" : true,
+"position" : "디자인",
+"imageUrls" : [ "https://test.com/photo5-1.jpg" ],
+"bio" : "창의적인 디자인으로 세상을 바꿔요",
+"focusType" : "일상 이야기",
+"isLikedByMe" : false
+}, {
+"userId" : 22,
+"nickname" : "효율개발자",
+"university" : "서울대학교",
+"isUniversityVisible" : true,
+"position" : "풀스택",
+"imageUrls" : [ "https://test.com/photo20-1.jpg", "https://test.com/photo20-2.jpg" ],
+"bio" : "실용적이고 효율적인 개발을 추구합니다",
+"focusType" : "취업 준비",
+"isLikedByMe" : false
+}, {
+"userId" : 21,
+"nickname" : "액션리더",
+"university" : "이화여자대학교",
+"isUniversityVisible" : false,
+"position" : "PM",
+"imageUrls" : [ "https://test.com/photo19-1.jpg" ],
+"bio" : "액션형 프로젝트 리더",
+"focusType" : "일상 이야기",
+"isLikedByMe" : false
+}, {
+"userId" : 20,
+"nickname" : "융합개발자",
+"university" : "숙명여자대학교",
+"isUniversityVisible" : true,
+"position" : "풀스택",
+"imageUrls" : [ "https://test.com/photo18-1.jpg" ],
+"bio" : "다양한 기술을 융합하는 개발자",
+"focusType" : "직무 관련",
+"isLikedByMe" : false
+}, {
+"userId" : 19,
+"nickname" : "즐거운개발자",
+"university" : "동덕여자대학교",
+"isUniversityVisible" : true,
+"position" : "프론트엔드",
+"imageUrls" : [ "https://test.com/photo17-1.jpg", "https://test.com/photo17-2.jpg" ],
+"bio" : "즐겁게 웹 개발하는 개발자",
+"focusType" : "일상 이야기",
+"isLikedByMe" : false
+}, {
+"userId" : 18,
+"nickname" : "안정개발자",
+"university" : "국민대학교",
+"isUniversityVisible" : false,
+"position" : "백엔드",
+"imageUrls" : [ "https://test.com/photo16-1.jpg" ],
+"bio" : "꼼꼼하고 안정적인 개발을 지향합니다",
+"focusType" : "직무 관련",
+"isLikedByMe" : false
+}, {
+"userId" : 17,
+"nickname" : "감성디자이너",
+"university" : "성신여자대학교",
+"isUniversityVisible" : true,
+"position" : "디자인",
+"imageUrls" : [ "https://test.com/photo15-1.jpg" ],
+"bio" : "감성적인 디자인을 추구해요",
+"focusType" : "일상 이야기",
+"isLikedByMe" : false
+}, {
+"userId" : 16,
+"nickname" : "올라운더",
 "university" : "인하대학교",
 "isUniversityVisible" : true,
 "position" : "풀스택",
 "imageUrls" : [ "https://test.com/photo14-1.jpg", "https://test.com/photo14-2.jpg", "https://test.com/photo14-3.jpg" ],
 "bio" : "창의적인 올라운드 개발자",
-"focusType" : "POSITION_FOCUSED",
+"focusType" : "직무 관련",
 "isLikedByMe" : false
 }, {
-"userId" : 13,
-"name" : "박기획",
+"userId" : 15,
+"nickname" : "PM리더",
 "university" : "한양대학교(ERICA)",
 "isUniversityVisible" : false,
 "position" : "PM",
 "imageUrls" : [ "https://test.com/photo13-1.jpg" ],
 "bio" : "사람과 기술을 연결하는 PM",
-"focusType" : "PREFERENCE_FOCUSED",
+"focusType" : "일상 이야기",
 "isLikedByMe" : false
 }, {
-"userId" : 12,
-"name" : "이매니저",
+"userId" : 14,
+"nickname" : "프로젝트매니저",
 "university" : "서강대학교",
 "isUniversityVisible" : true,
 "position" : "PM",
 "imageUrls" : [ "https://test.com/photo12-1.jpg", "https://test.com/photo12-2.jpg" ],
 "bio" : "프로젝트 관리 전문가입니다",
-"focusType" : "POSITION_FOCUSED",
+"focusType" : "직무 관련",
 "isLikedByMe" : false
 }, {
-"userId" : 11,
-"name" : "김풀스택",
+"userId" : 13,
+"nickname" : "풀스택개발자",
 "university" : "중앙대학교",
 "isUniversityVisible" : true,
 "position" : "풀스택",
 "imageUrls" : [ "https://test.com/photo11-1.jpg" ],
 "bio" : "풀스택 개발자로 전체를 아우르는 개발을 해요",
-"focusType" : "PREFERENCE_FOCUSED",
+"focusType" : "일상 이야기",
 "isLikedByMe" : false
 }, {
-"userId" : 10,
-"name" : "정파이썬",
+"userId" : 12,
+"nickname" : "파이썬데이터",
 "university" : "성균관대학교",
 "isUniversityVisible" : true,
 "position" : "백엔드",
 "imageUrls" : [ "https://test.com/photo10-1.jpg", "https://test.com/photo10-2.jpg" ],
 "bio" : "Python으로 데이터를 다루는 개발자",
-"focusType" : "POSITION_FOCUSED",
+"focusType" : "직무 관련",
 "isLikedByMe" : false
 } ]
 백엔드 개발자 클러스터 추천
 백엔드 개발자의 추천 패턴을 확인할 수 있습니다.
 
-HTTP request
+HTTP 요청
 GET /api/users/card/list?size=10 HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -1787,120 +2129,120 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:42 GMT
+Date: Thu, 14 Aug 2025 15:03:24 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 3342
+Content-Length: 3400
 
 [ {
-"userId" : 7,
-"name" : "이스프링",
+"userId" : 9,
+"nickname" : "스프링마스터",
 "university" : "연세대학교(신촌)",
 "isUniversityVisible" : false,
 "position" : "백엔드",
 "imageUrls" : [ "https://test.com/photo7-1.jpg" ],
 "bio" : "Spring Framework 마스터",
-"focusType" : "PREFERENCE_FOCUSED",
+"focusType" : "일상 이야기",
 "isLikedByMe" : false
 }, {
-"userId" : 10,
-"name" : "정파이썬",
+"userId" : 12,
+"nickname" : "파이썬데이터",
 "university" : "성균관대학교",
 "isUniversityVisible" : true,
 "position" : "백엔드",
 "imageUrls" : [ "https://test.com/photo10-1.jpg", "https://test.com/photo10-2.jpg" ],
 "bio" : "Python으로 데이터를 다루는 개발자",
-"focusType" : "POSITION_FOCUSED",
+"focusType" : "직무 관련",
 "isLikedByMe" : false
 }, {
-"userId" : 8,
-"name" : "박자바",
+"userId" : 10,
+"nickname" : "자바개발자",
 "university" : "서울대학교",
 "isUniversityVisible" : true,
 "position" : "백엔드",
 "imageUrls" : [ "https://test.com/photo8-1.jpg", "https://test.com/photo8-2.jpg", "https://test.com/photo8-3.jpg" ],
 "bio" : "Java로 견고한 시스템을 구축해요",
-"focusType" : "POSITION_FOCUSED",
+"focusType" : "직무 관련",
 "isLikedByMe" : false
 }, {
-"userId" : 9,
-"name" : "최노드",
+"userId" : 11,
+"nickname" : "노드제이에스",
 "university" : "연세대학교(신촌)",
 "isUniversityVisible" : false,
 "position" : "백엔드",
 "imageUrls" : [ "https://test.com/photo9-1.jpg" ],
 "bio" : "Node.js 백엔드 개발자",
-"focusType" : "PREFERENCE_FOCUSED",
+"focusType" : "일상 이야기",
 "isLikedByMe" : false
 }, {
-"userId" : 20,
-"name" : "정올인원",
+"userId" : 22,
+"nickname" : "효율개발자",
 "university" : "서울대학교",
 "isUniversityVisible" : true,
 "position" : "풀스택",
 "imageUrls" : [ "https://test.com/photo20-1.jpg", "https://test.com/photo20-2.jpg" ],
 "bio" : "실용적이고 효율적인 개발을 추구합니다",
-"focusType" : "CAREER_FOCUSED",
+"focusType" : "취업 준비",
 "isLikedByMe" : false
 }, {
-"userId" : 19,
-"name" : "최리더",
+"userId" : 21,
+"nickname" : "액션리더",
 "university" : "이화여자대학교",
 "isUniversityVisible" : false,
 "position" : "PM",
 "imageUrls" : [ "https://test.com/photo19-1.jpg" ],
 "bio" : "액션형 프로젝트 리더",
-"focusType" : "PREFERENCE_FOCUSED",
+"focusType" : "일상 이야기",
 "isLikedByMe" : false
 }, {
-"userId" : 18,
-"name" : "박멀티",
+"userId" : 20,
+"nickname" : "융합개발자",
 "university" : "숙명여자대학교",
 "isUniversityVisible" : true,
 "position" : "풀스택",
 "imageUrls" : [ "https://test.com/photo18-1.jpg" ],
 "bio" : "다양한 기술을 융합하는 개발자",
-"focusType" : "POSITION_FOCUSED",
+"focusType" : "직무 관련",
 "isLikedByMe" : false
 }, {
-"userId" : 17,
-"name" : "이웹개발",
+"userId" : 19,
+"nickname" : "즐거운개발자",
 "university" : "동덕여자대학교",
 "isUniversityVisible" : true,
 "position" : "프론트엔드",
 "imageUrls" : [ "https://test.com/photo17-1.jpg", "https://test.com/photo17-2.jpg" ],
 "bio" : "즐겁게 웹 개발하는 개발자",
-"focusType" : "PREFERENCE_FOCUSED",
+"focusType" : "일상 이야기",
 "isLikedByMe" : false
 }, {
-"userId" : 16,
-"name" : "김개발자",
+"userId" : 18,
+"nickname" : "안정개발자",
 "university" : "국민대학교",
 "isUniversityVisible" : false,
 "position" : "백엔드",
 "imageUrls" : [ "https://test.com/photo16-1.jpg" ],
 "bio" : "꼼꼼하고 안정적인 개발을 지향합니다",
-"focusType" : "POSITION_FOCUSED",
+"focusType" : "직무 관련",
 "isLikedByMe" : false
 }, {
-"userId" : 15,
-"name" : "정크리에이터",
+"userId" : 17,
+"nickname" : "감성디자이너",
 "university" : "성신여자대학교",
 "isUniversityVisible" : true,
-"position" : "UX/UI 디자이너",
+"position" : "디자인",
 "imageUrls" : [ "https://test.com/photo15-1.jpg" ],
 "bio" : "감성적인 디자인을 추구해요",
-"focusType" : "PREFERENCE_FOCUSED",
+"focusType" : "일상 이야기",
 "isLikedByMe" : false
 } ]
 본인 카드 조회 (qr용)
 유저 id를 통해 유저 프로필카드를 볼 수 있습니다.
 
-HTTP request
-GET /api/users/card HTTP/1.1
+HTTP 요청
+GET /api/users/profile HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -1912,20 +2254,20 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:41 GMT
+Date: Thu, 14 Aug 2025 15:03:23 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 362
+Content-Length: 370
 
 {
-"userId" : 1,
-"name" : "김프론트",
+"userId" : 3,
+"nickname" : "프론트마스터",
 "university" : "서울대학교",
 "isUniversityVisible" : true,
 "position" : "프론트엔드",
 "imageUrls" : [ "https://test.com/photo1-1.jpg", "https://test.com/photo1-2.jpg" ],
 "bio" : "안녕하세요! 프론트엔드 개발자입니다.",
-"focusType" : "PREFERENCE_FOCUSED",
+"focusType" : "일상 이야기",
 "isLikedByMe" : false
 }
 추천 시스템 특징
@@ -1946,7 +2288,7 @@ university: 대학교명
 
 isUniversityVisible: 대학교 공개 여부
 
-position: 직무 (BACKEND, FRONTEND, UX_UI, PM, FULLSTACK)
+position: 직무 (백엔드, 프런트엔드, UX_UI, PM, 풀스택)
 
 imageUrls: 프로필 이미지 URL 목록
 
@@ -1954,22 +2296,22 @@ imageUrls: 프로필 이미지 URL 목록
 인증 실패
 인증 토큰 없이 요청 시 401 Unauthorized를 반환합니다.
 
-HTTP request
+HTTP 요청
 GET /api/users/card/list?size=10 HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 401 Unauthorized
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: JSESSIONID=ABE0D23F91D17DCC7A7E69958117EB8D; Path=/; HttpOnly
+Set-Cookie: JSESSIONID=364864578E47E0359BB5EA47F4201B1F; Path=/; HttpOnly
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-Date: Mon, 11 Aug 2025 06:07:39 GMT
+Date: Thu, 14 Aug 2025 15:03:21 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 유저 좋아요 시스템
@@ -1990,11 +2332,11 @@ Connection: keep-alive
 좋아요 생성
 처음 좋아요를 누르는 경우입니다.
 
-HTTP request
+HTTP 요청
 POST /api/user/likes/2 HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -2006,7 +2348,7 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:46 GMT
+Date: Thu, 14 Aug 2025 15:03:31 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 Content-Length: 22
@@ -2017,11 +2359,11 @@ Content-Length: 22
 좋아요 취소 (토글)
 이미 좋아요한 사용자에게 다시 요청하여 좋아요를 취소하는 경우입니다.
 
-HTTP request
+HTTP 요청
 POST /api/user/likes/3 HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -2033,7 +2375,7 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:45 GMT
+Date: Thu, 14 Aug 2025 15:03:31 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 Content-Length: 23
@@ -2044,11 +2386,11 @@ Content-Length: 23
 여러 사용자 좋아요
 한 사용자가 여러 명에게 연속으로 좋아요를 누를 수 있습니다.
 
-HTTP request
+HTTP 요청
 GET /api/user/likes/lists HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -2060,50 +2402,50 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:45 GMT
+Date: Thu, 14 Aug 2025 15:03:31 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 1401
+Content-Length: 1278
 
 [ {
 "userId" : 2,
-"name" : "이리액트",
+"nickname" : null,
+"university" : null,
+"isUniversityVisible" : null,
+"position" : null,
+"imageUrls" : [ ],
+"bio" : null,
+"focusType" : null,
+"isLikedByMe" : true
+}, {
+"userId" : 3,
+"nickname" : "프론트마스터",
+"university" : "서울대학교",
+"isUniversityVisible" : true,
+"position" : "프론트엔드",
+"imageUrls" : [ "https://test.com/photo1-1.jpg", "https://test.com/photo1-2.jpg" ],
+"bio" : "안녕하세요! 프론트엔드 개발자입니다.",
+"focusType" : "일상 이야기",
+"isLikedByMe" : true
+}, {
+"userId" : 4,
+"nickname" : "리액트킹",
 "university" : "연세대학교(신촌)",
 "isUniversityVisible" : true,
 "position" : "프론트엔드",
 "imageUrls" : [ "https://test.com/photo2-1.jpg", "https://test.com/photo2-2.jpg", "https://test.com/photo2-3.jpg" ],
 "bio" : "React 전문 개발자입니다!",
-"focusType" : "POSITION_FOCUSED",
+"focusType" : "직무 관련",
 "isLikedByMe" : true
 }, {
-"userId" : 3,
-"name" : "박뷰js",
+"userId" : 5,
+"nickname" : "뷰제이에스",
 "university" : "성균관대학교",
 "isUniversityVisible" : true,
 "position" : "프론트엔드",
 "imageUrls" : [ "https://test.com/photo3-1.jpg" ],
 "bio" : "Vue.js로 멋진 웹을 만들어요",
-"focusType" : "PREFERENCE_FOCUSED",
-"isLikedByMe" : true
-}, {
-"userId" : 4,
-"name" : "최유엑스",
-"university" : "이화여자대학교",
-"isUniversityVisible" : true,
-"position" : "UX/UI 디자이너",
-"imageUrls" : [ "https://test.com/photo4-1.jpg", "https://test.com/photo4-2.jpg" ],
-"bio" : "UX/UI 디자이너로 사용자 경험을 설계합니다",
-"focusType" : "POSITION_FOCUSED",
-"isLikedByMe" : true
-}, {
-"userId" : 5,
-"name" : "정디자인",
-"university" : "홍익대학교",
-"isUniversityVisible" : true,
-"position" : "UX/UI 디자이너",
-"imageUrls" : [ "https://test.com/photo5-1.jpg" ],
-"bio" : "창의적인 디자인으로 세상을 바꿔요",
-"focusType" : "PREFERENCE_FOCUSED",
+"focusType" : "일상 이야기",
 "isLikedByMe" : true
 } ]
 좋아요한 사용자 목록 조회
@@ -2114,11 +2456,11 @@ Content-Length: 1401
 좋아요 목록 조회
 사용자가 좋아요한 사용자들의 상세 정보를 조회합니다.
 
-HTTP request
+HTTP 요청
 GET /api/user/likes/lists HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -2130,50 +2472,50 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:45 GMT
+Date: Thu, 14 Aug 2025 15:03:28 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 1021
+Content-Length: 1042
 
 [ {
 "userId" : 6,
-"name" : "김백엔드",
+"nickname" : "UX디자이너",
+"university" : "이화여자대학교",
+"isUniversityVisible" : true,
+"position" : "디자인",
+"imageUrls" : [ "https://test.com/photo4-1.jpg", "https://test.com/photo4-2.jpg" ],
+"bio" : "UX/UI 디자이너로 사용자 경험을 설계합니다",
+"focusType" : "직무 관련",
+"isLikedByMe" : true
+}, {
+"userId" : 7,
+"nickname" : "창의디자이너",
+"university" : "홍익대학교",
+"isUniversityVisible" : true,
+"position" : "디자인",
+"imageUrls" : [ "https://test.com/photo5-1.jpg" ],
+"bio" : "창의적인 디자인으로 세상을 바꿔요",
+"focusType" : "일상 이야기",
+"isLikedByMe" : true
+}, {
+"userId" : 8,
+"nickname" : "백엔드전문가",
 "university" : "서울대학교",
 "isUniversityVisible" : false,
 "position" : "백엔드",
 "imageUrls" : [ "https://test.com/photo6-1.jpg", "https://test.com/photo6-2.jpg" ],
 "bio" : "서버 개발 전문가입니다",
-"focusType" : "POSITION_FOCUSED",
-"isLikedByMe" : true
-}, {
-"userId" : 7,
-"name" : "이스프링",
-"university" : "연세대학교(신촌)",
-"isUniversityVisible" : false,
-"position" : "백엔드",
-"imageUrls" : [ "https://test.com/photo7-1.jpg" ],
-"bio" : "Spring Framework 마스터",
-"focusType" : "PREFERENCE_FOCUSED",
-"isLikedByMe" : true
-}, {
-"userId" : 8,
-"name" : "박자바",
-"university" : "서울대학교",
-"isUniversityVisible" : true,
-"position" : "백엔드",
-"imageUrls" : [ "https://test.com/photo8-1.jpg", "https://test.com/photo8-2.jpg", "https://test.com/photo8-3.jpg" ],
-"bio" : "Java로 견고한 시스템을 구축해요",
-"focusType" : "POSITION_FOCUSED",
+"focusType" : "직무 관련",
 "isLikedByMe" : true
 } ]
 빈 좋아요 목록
 아직 아무도 좋아요하지 않은 경우 빈 배열을 반환합니다.
 
-HTTP request
+HTTP 요청
 GET /api/user/likes/lists HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -2185,7 +2527,7 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:44 GMT
+Date: Thu, 14 Aug 2025 15:03:28 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 Content-Length: 3
@@ -2194,11 +2536,11 @@ Content-Length: 3
 사용자 정보 검증
 좋아요 목록에서 반환되는 사용자 정보의 완성도를 확인할 수 있습니다.
 
-HTTP request
+HTTP 요청
 GET /api/user/likes/lists HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -2210,20 +2552,20 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:45 GMT
+Date: Thu, 14 Aug 2025 15:03:30 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 384
+Content-Length: 545
 
 [ {
 "userId" : 2,
-"name" : "이리액트",
-"university" : "연세대학교(신촌)",
+"nickname" : "토킷개발자",
+"university" : "서울대학교",
 "isUniversityVisible" : true,
-"position" : "프론트엔드",
-"imageUrls" : [ "https://test.com/photo2-1.jpg", "https://test.com/photo2-2.jpg", "https://test.com/photo2-3.jpg" ],
-"bio" : "React 전문 개발자입니다!",
-"focusType" : "POSITION_FOCUSED",
+"position" : "백엔드",
+"imageUrls" : [ "https://tokit-bucket.s3.ap-northeast-2.amazonaws.com/profile/fc1cbde7-3327-4571-a934-fe0e60ec13ff_test-image180222637202334750.jpg", "https://tokit-bucket.s3.ap-northeast-2.amazonaws.com/profile/c0d3eb1c-a779-4827-9937-0268eca6498d_test-image14714762262092548954.jpg" ],
+"bio" : "안녕하세요 토킷입니다.",
+"focusType" : "직무 관련",
 "isLikedByMe" : true
 } ]
 카드 조회 시 좋아요 상태 반영
@@ -2232,11 +2574,11 @@ Content-Length: 384
 좋아요하지 않은 사용자
 좋아요를 누르지 않은 사용자들의 카드에서는 `isLikedByMe`가 `false`로 표시됩니다.
 
-HTTP request
+HTTP 요청
 GET /api/users/card/list?size=5 HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -2248,60 +2590,60 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:44 GMT
+Date: Thu, 14 Aug 2025 15:03:27 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 1707
+Content-Length: 1692
 
 [ {
-"userId" : 7,
-"name" : "이스프링",
-"university" : "연세대학교(신촌)",
-"isUniversityVisible" : false,
-"position" : "백엔드",
-"imageUrls" : [ "https://test.com/photo7-1.jpg" ],
-"bio" : "Spring Framework 마스터",
-"focusType" : "PREFERENCE_FOCUSED",
-"isLikedByMe" : false
-}, {
-"userId" : 10,
-"name" : "정파이썬",
-"university" : "성균관대학교",
-"isUniversityVisible" : true,
-"position" : "백엔드",
-"imageUrls" : [ "https://test.com/photo10-2.jpg", "https://test.com/photo10-1.jpg" ],
-"bio" : "Python으로 데이터를 다루는 개발자",
-"focusType" : "POSITION_FOCUSED",
-"isLikedByMe" : false
-}, {
-"userId" : 8,
-"name" : "박자바",
-"university" : "서울대학교",
-"isUniversityVisible" : true,
-"position" : "백엔드",
-"imageUrls" : [ "https://test.com/photo8-3.jpg", "https://test.com/photo8-2.jpg", "https://test.com/photo8-1.jpg" ],
-"bio" : "Java로 견고한 시스템을 구축해요",
-"focusType" : "POSITION_FOCUSED",
-"isLikedByMe" : false
-}, {
-"userId" : 9,
-"name" : "최노드",
-"university" : "연세대학교(신촌)",
-"isUniversityVisible" : false,
-"position" : "백엔드",
-"imageUrls" : [ "https://test.com/photo9-1.jpg" ],
-"bio" : "Node.js 백엔드 개발자",
-"focusType" : "PREFERENCE_FOCUSED",
-"isLikedByMe" : false
-}, {
-"userId" : 20,
-"name" : "정올인원",
+"userId" : 22,
+"nickname" : "효율개발자",
 "university" : "서울대학교",
 "isUniversityVisible" : true,
 "position" : "풀스택",
 "imageUrls" : [ "https://test.com/photo20-1.jpg", "https://test.com/photo20-2.jpg" ],
 "bio" : "실용적이고 효율적인 개발을 추구합니다",
-"focusType" : "CAREER_FOCUSED",
+"focusType" : "취업 준비",
+"isLikedByMe" : false
+}, {
+"userId" : 21,
+"nickname" : "액션리더",
+"university" : "이화여자대학교",
+"isUniversityVisible" : false,
+"position" : "PM",
+"imageUrls" : [ "https://test.com/photo19-1.jpg" ],
+"bio" : "액션형 프로젝트 리더",
+"focusType" : "일상 이야기",
+"isLikedByMe" : false
+}, {
+"userId" : 20,
+"nickname" : "융합개발자",
+"university" : "숙명여자대학교",
+"isUniversityVisible" : true,
+"position" : "풀스택",
+"imageUrls" : [ "https://test.com/photo18-1.jpg" ],
+"bio" : "다양한 기술을 융합하는 개발자",
+"focusType" : "직무 관련",
+"isLikedByMe" : false
+}, {
+"userId" : 19,
+"nickname" : "즐거운개발자",
+"university" : "동덕여자대학교",
+"isUniversityVisible" : true,
+"position" : "프론트엔드",
+"imageUrls" : [ "https://test.com/photo17-1.jpg", "https://test.com/photo17-2.jpg" ],
+"bio" : "즐겁게 웹 개발하는 개발자",
+"focusType" : "일상 이야기",
+"isLikedByMe" : false
+}, {
+"userId" : 18,
+"nickname" : "안정개발자",
+"university" : "국민대학교",
+"isUniversityVisible" : false,
+"position" : "백엔드",
+"imageUrls" : [ "https://test.com/photo16-1.jpg" ],
+"bio" : "꼼꼼하고 안정적인 개발을 지향합니다",
+"focusType" : "직무 관련",
 "isLikedByMe" : false
 } ]
 인증 및 권한
@@ -2310,53 +2652,53 @@ Content-Length: 1707
 좋아요 권한 없음
 인증되지 않은 사용자가 좋아요를 시도하면 401 Unauthorized를 반환합니다.
 
-HTTP request
+HTTP 요청
 POST /api/user/likes/2 HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 401 Unauthorized
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: JSESSIONID=A756D906DC82611CF302B24E8532A5BD; Path=/; HttpOnly
+Set-Cookie: JSESSIONID=8104B37F4B776156B7A1835E3E549339; Path=/; HttpOnly
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-Date: Mon, 11 Aug 2025 06:07:43 GMT
+Date: Thu, 14 Aug 2025 15:03:25 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 좋아요 목록 조회 권한 없음
 인증되지 않은 사용자가 좋아요 목록을 조회하려 하면 401 Unauthorized를 반환합니다.
 
-HTTP request
+HTTP 요청
 GET /api/user/likes/lists HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 401 Unauthorized
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: JSESSIONID=418267146A3F54D05201498E5F3B3DBC; Path=/; HttpOnly
+Set-Cookie: JSESSIONID=7BC7C4AAE1A89C51B45313D2CA73224A; Path=/; HttpOnly
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-Date: Mon, 11 Aug 2025 06:07:43 GMT
+Date: Thu, 14 Aug 2025 15:03:25 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 자기 자신 좋아요 방지
 자기 자신에게 좋아요를 시도하는 경우의 처리 방식입니다. (비즈니스 로직에 따라 허용/차단 결정)
 
-HTTP request
+HTTP 요청
 POST /api/user/likes/1 HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 400 Bad Request
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -2368,7 +2710,7 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:44 GMT
+Date: Thu, 14 Aug 2025 15:03:26 GMT
 Connection: close
 Content-Length: 134
 
@@ -2383,11 +2725,11 @@ Content-Length: 134
 좋아요 알림 발송
 좋아요 생성 시 이벤트 기반으로 상대방에게 알림이 전송됩니다.
 
-HTTP request
+HTTP 요청
 POST /api/user/likes/6 HTTP/1.1
 Content-Type: application/json
-Host: localhost:33303
-HTTP response
+Host: localhost:44193
+HTTP 응답
 HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -2399,7 +2741,7 @@ Pragma: no-cache
 Expires: 0
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Mon, 11 Aug 2025 06:07:43 GMT
+Date: Thu, 14 Aug 2025 15:03:25 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 Content-Length: 22
@@ -2443,3 +2785,150 @@ isLikedByMe: 좋아요 상태 (항상 true)
 404 Not Found _ 존재하지 않는 사용자에게 좋아요 시도 시 _ 잘못된 사용자 ID 사용 시
 
 400 Bad Request _ 자기 자신에게 좋아요 시도 시 (비즈니스 로직에 따라) _ 잘못된 요청 파라미터 사용 시
+
+이미지 시스템
+이미지를 업로드
+이미지를 업로드하면 성공한다.
+
+http-요청 \*
+
+POST /api/images/upload/list HTTP/1.1
+Content-Type: multipart/form-data; boundary="jS1C_feE6jbyqap2dn9V0uCfgbOsfk1"; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Host: localhost:50540
+
+Content-Disposition: form-data; name=images; filename=test-image3043501392012353777.jpg
+Content-Type: image/jpeg
+
+dummy-image-content
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm--
+http-응답
+
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Tue, 12 Aug 2025 11:06:38 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+Content-Length: 520
+
+{
+"imageId" : 34,
+"imageUrl" : "https://tokit-bucket.s3.ap-northeast-2.amazonaws.com/profile/7dfd70a5-688f-4bd4-8748-b094549ace74_test-image15025584236384328391.jpg"
+}
+이미지를 2개 업로드
+이미지를 2장 업로드시 성공한다.
+
+ttp 요청
+
+POST /api/images/upload/list HTTP/1.1
+Content-Type: multipart/form-data; boundary="jS1C_feE6jbyqap2dn9V0uCfgbOsfk1"; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Host: localhost:50540
+
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=images; filename=test-image10758199083426670388.jpg
+Content-Type: image/jpeg
+
+dummy-image-content
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=images; filename=test-image3043501392012353777.jpg
+Content-Type: image/jpeg
+
+dummy-image-content
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm--
+http-응답
+
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Tue, 12 Aug 2025 11:06:38 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+Content-Length: 520
+
+[ {
+"imageId" : 34,
+"imageUrl" : "https://tokit-bucket.s3.ap-northeast-2.amazonaws.com/profile/7dfd70a5-688f-4bd4-8748-b094549ace74_test-image15025584236384328391.jpg"
+}, {
+"imageId" : 35,
+"imageUrl" : "https://tokit-bucket.s3.ap-northeast-2.amazonaws.com/profile/8e073a6e-f425-4333-9cbd-dde03ddbaf1e_test-image2039754421573724872.jpg"
+}, {
+"imageId" : 36,
+"imageUrl" : "https://tokit-bucket.s3.ap-northeast-2.amazonaws.com/profile/07250f84-92ed-4484-bb91-33e3dae9cfa9_test-image16214962724622048079.jpg"
+} ]
+이미지 삭제
+업로드된 이미지를 성공적으로 삭제한다.
+
+http-요청
+
+DELETE /api/images/34 HTTP/1.1
+Host: localhost:50540
+http-응답
+
+HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Date: Tue, 12 Aug 2025 11:06:40 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+이미지 없는 이미지 삭제
+존재 하지 않는 이미지를 삭제 404 반환한다.
+
+http-요청 t
+
+DELETE /api/images/9999 HTTP/1.1
+Host: localhost:50540
+http-응답
+
+HTTP/1.1 404 Not Found
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Date: Tue, 12 Aug 2025 11:06:38 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+남의 이미지 삭제
+남의 이미지를 삭제시도하면 403 반환한다.
+
+http-요청
+
+DELETE /api/images/34 HTTP/1.1
+Host: localhost:50540
+http-응답
+
+HTTP/1.1 403 Forbidden
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Date: Tue, 12 Aug 2025 11:06:38 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive

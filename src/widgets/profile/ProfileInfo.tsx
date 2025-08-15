@@ -19,8 +19,8 @@ const getFocusTypeLabel = (focusType?: string) => {
 };
 
 export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
-  //대학 정보 안전 처리
-  const uniName = profile.university?.name ?? ''; // 없으면 빈 문자열
+  // 대학 정보 안전 처리 (API 응답에서는 university가 문자열로 제공)
+  const uniName = profile.university ?? ''; // API에서 직접 문자열로 제공
   const uniInitial = uniName ? uniName.slice(0, 1).toUpperCase() : '';
 
   // 대학교 이름과 로고 파일명 매핑
@@ -99,8 +99,8 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
 
   const universityLogo = getUniversityLogo(uniName);
 
-  //대학 노출 여부(백엔드가 isVisible을 주는 설계라면)
-  const showUniversity = profile.university?.isVisible && !!uniName;
+  // 대학 노출 여부 (API 응답에서 isUniversityVisible 필드로 제공)
+  const showUniversity = profile.isUniversityVisible && !!uniName;
 
   return (
     <div className="right-0 bottom-0 left-0 z-30">
@@ -148,6 +148,7 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
 
         {/* 태그들 */}
         <div className="mb-6 flex flex-wrap gap-2">
+          {/* MBTI는 현재 API에서 제공하지 않으므로 주석 처리
           {!!profile.mbti && (
             <Badge
               variant="outline"
@@ -156,6 +157,7 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
               {profile.mbti}
             </Badge>
           )}
+          */}
 
           {!!profile.position && (
             <Badge
