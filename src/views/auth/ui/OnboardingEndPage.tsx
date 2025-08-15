@@ -21,7 +21,7 @@ export default function OnboardingEndPage({ delayMs = 3000 }: { delayMs?: number
     return () => clearTimeout(t);
   }, [delayMs]);
 
-  if (!user) return LoadingPage;
+  if (!user) return <LoadingPage />;
 
   return (
     <div
