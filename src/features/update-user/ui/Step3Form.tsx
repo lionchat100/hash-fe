@@ -39,7 +39,7 @@ export const Step3Form = forwardRef<StepFormHandle, Step3FormProps>(function Ste
   const { errors } = form.formState;
 
   return (
-    <form className="space-y-6 px-4" onSubmit={(e) => e.preventDefault()}>
+    <form className="space-y-7" onSubmit={(e) => e.preventDefault()}>
       {/* 이미지 업로더 */}
       <Controller
         name="images"
@@ -59,12 +59,13 @@ export const Step3Form = forwardRef<StepFormHandle, Step3FormProps>(function Ste
       {errors.images?.message && <p className="text-sm text-red-500">{errors.images.message as string}</p>}
       {/* 소개 텍스트 */}
       <div className="space-y-2">
-        <Label className="text-sm font-medium">저는</Label>
+        <Label className="text-lg font-semibold text-stone-900">자신을 소개해주세요</Label>
         <Textarea
           placeholder="예시. 데이터와 디자인을 모두 좋아하는 23살 대학생입니다. 다양한 전공의 사람들과 협업해보고 싶어요."
           {...form.register('bio')}
           rows={5}
         />
+        <p className="text-right text-sm text-stone-400">최소 5자 ~ 최대 30자</p>
         {errors.bio?.message && <p className="text-sm text-red-500">{errors.bio.message as string}</p>}
       </div>{' '}
     </form>

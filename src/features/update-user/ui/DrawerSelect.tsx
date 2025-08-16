@@ -7,7 +7,6 @@ import { cn } from '@/shared/lib/tailwindMerge';
 interface DrawerSelectProps<T = string> {
   label: string; // Form label
   placeholder: string; // Button placeholder
-  contentHeader?: string; // Drawer 내부 헤더
   value: T | null;
   renderOptions: (temp: T | null, setTemp: (v: T) => void) => React.ReactNode;
   onConfirm: (value: T) => void;
@@ -16,7 +15,6 @@ interface DrawerSelectProps<T = string> {
 export const DrawerSelect = <T extends string>({
   label,
   placeholder,
-  contentHeader,
   value,
   renderOptions,
   onConfirm,
@@ -41,8 +39,8 @@ export const DrawerSelect = <T extends string>({
   };
 
   return (
-    <div className="space-y-1">
-      <div className="flex items-center gap-[14px]">
+    <>
+      <div className="flex items-center gap-2">
         <div className="text-base font-semibold">{label}</div>
       </div>
       <Drawer open={open} onOpenChange={handleOpenChange}>
@@ -50,20 +48,35 @@ export const DrawerSelect = <T extends string>({
         <DrawerTrigger asChild>
           <Button
             variant="drawerSelect"
+            size="drawerSelect"
             className={cn('w-full justify-between text-base text-stone-600', !value && 'text-stone-500')}
           >
             {value || placeholder}
-            <ChevronDown className="size-4" />
+            <ChevronDown className="size-6" />
           </Button>
         </DrawerTrigger>
         <DrawerContent className="space-y-5 px-8">
-          <div className="text-2xl font-medium">{contentHeader || label}</div>
+          <div className="text-2xl font-bold text-stone-600">
+            {label === 'MBTI' ? (
+              <>
+                자신의 <span className="text-stone-900">MBTI</span>를 선택해주세요
+              </>
+            ) : label === '꿈꾸는 커리어 영역' ? (
+              <>
+                꿈꾸는 <span className="text-stone-900">커리어 영역</span>를<br /> 선택해주세요
+              </>
+            ) : (
+              <>
+                관심있는 <span className="text-stone-900">대화 주제</span>를<br /> 선택해주세요
+              </>
+            )}
+          </div>
           {renderOptions(temp, setTemp)}
           <Button onClick={handleConfirm} className="my-2 w-full">
             확인
           </Button>
         </DrawerContent>
       </Drawer>
-    </div>
+    </>
   );
 };

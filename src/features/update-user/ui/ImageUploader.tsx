@@ -49,9 +49,9 @@ export function ImageUploader({ value, onChange, maxFiles = 3, maxSizeMB = 5, cl
 
     if (!res.ok) {
       if (res.error === 'TOO_MANY_FILES') {
-        toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다.`);
+        toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
       } else if (res.error === 'FILE_TOO_LARGE') {
-        toast.error(`파일 크기는 최대 ${maxSizeMB}MB 미만이어야 합니다.`);
+        toast.error(`파일 크기가 ${maxSizeMB}MB 이상으로 업로드 불가합니다`);
       }
       resetInput();
       return;
@@ -73,18 +73,20 @@ export function ImageUploader({ value, onChange, maxFiles = 3, maxSizeMB = 5, cl
       {/* 썸네일 리스트 */}
       <div className="flex flex-wrap gap-3">
         {previews.map((p, i) => (
-          <div key={i} className="relative h-24 w-24 overflow-hidden rounded-md border">
-            {/* 대표 태그: 첫 번째 */}
-            {i === 0 && (
-              <span className="absolute top-1 left-1 z-10 rounded bg-black/70 px-1.5 py-0.5 text-[10px] text-white">
-                대표
-              </span>
-            )}
-            <Image src={p.url} alt={`preview-${i}`} className="h-full w-full object-cover" width="96" height="96" />
+          <div key={i} className="relative">
+            <div className="rounded-20 relative h-[110px] w-[110px] overflow-hidden border">
+              {/* 대표 태그: 첫 번째 */}
+              {i === 0 && (
+                <div className="absolute bottom-0 z-10 w-full bg-stone-900 px-1.5 py-1.5 text-center text-xs font-bold text-stone-100">
+                  대표 사진
+                </div>
+              )}
+              <Image src={p.url} alt={`preview-${i}`} className="h-full w-full object-cover" width="110" height="110" />
+            </div>
             {/* 삭제 버튼 */}
             <button
               type="button"
-              className="absolute -top-2 -right-2 rounded-full bg-white p-1 shadow"
+              className="absolute -top-2 -right-1 rounded-full bg-stone-900 p-0.5 text-stone-100"
               onClick={() => handleRemove(i)}
               aria-label="삭제"
             >
@@ -98,7 +100,7 @@ export function ImageUploader({ value, onChange, maxFiles = 3, maxSizeMB = 5, cl
           <button
             type="button"
             onClick={handleClickAdd}
-            className="hover:bg-muted/50 flex h-24 w-24 items-center justify-center rounded-md border"
+            className="hover:bg-muted/50 rounded-20 flex h-[110px] w-[110px] items-center justify-center border border-stone-400 text-stone-400"
             aria-label="이미지 추가"
           >
             <Plus className="h-6 w-6" />
@@ -115,7 +117,7 @@ export function ImageUploader({ value, onChange, maxFiles = 3, maxSizeMB = 5, cl
         className="hidden"
         onChange={(e) => handleFiles(e.target.files)}
       />
-      <p className="text-muted-foreground text-xs">
+      <p className="text-sm text-stone-400">
         * 사진은 최대 {maxFiles}장 가능, 용량은 1장당 {maxSizeMB}MB 미만 가능합니다
       </p>
     </div>

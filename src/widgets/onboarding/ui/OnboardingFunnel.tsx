@@ -7,7 +7,7 @@ import { StepRender } from './StepRender';
 import { PROGRESS_BY_STEP } from '@/shared/constants';
 import { Progress } from '@/shared/ui/Progress';
 import { Button } from '@/shared/ui/Button';
-import { ArrowLeft } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 
 import { useSubmitOnboarding } from '@/features/update-user/model/userOnboarding';
 
@@ -64,8 +64,8 @@ export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) 
       <div>
         <header className="sticky top-0 z-10 flex h-(--space-h-header) items-center justify-center pt-3 pb-2.5">
           {step > 1 && (
-            <Button variant="ghost" size="icon" onClick={goPrev} className="absolute left-4">
-              <ArrowLeft className="size-6" />
+            <Button variant="ghost" size="icon" onClick={goPrev} className="absolute left-0">
+              <ChevronLeft className="size-6" />
             </Button>
           )}
           <h2 className="text-xl font-semibold text-stone-900">프로필 만들기</h2>

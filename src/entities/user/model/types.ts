@@ -6,6 +6,18 @@ export interface User {
   isOnboardingCompleted: boolean;
 }
 
+export interface UserProfile {
+  userId: number;
+  nickname: string;
+  university: string;
+  isUniversityVisible: boolean;
+  position: string;
+  imageUrls: string[];
+  bio: string;
+  focusType: string;
+  isLikedByMe: boolean;
+}
+
 // onboarding enums 타입 정의
 type Option = {
   code: string;
@@ -26,7 +38,6 @@ export interface DrawerConfig<K extends EnumKey = EnumKey> {
   key: K;
   label: string;
   placeholder: string;
-  contentHeader?: string;
   items: Option[];
 }
 
