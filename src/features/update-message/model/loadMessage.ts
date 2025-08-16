@@ -11,7 +11,7 @@ export const useLoadMessage = (roomId: number) => {
     lastMessageId,
     setMessages,
     prependMessages,
-    setCurrentRoomMessages,
+    setCurrentRoomId,
     setLoading,
     setLoadingMore,
     setHasMore,
@@ -30,6 +30,7 @@ export const useLoadMessage = (roomId: number) => {
       if (messageList && Array.isArray(messageList)) {
         const roomMessages = messageList.reverse();
         setMessages(roomId, roomMessages);
+        setCurrentRoomId(roomId);
         if (roomMessages.length > 0) {
           setLastMessageId(roomMessages[0].messageId);
           setHasMore(!roomMessages[0].isEnd);
@@ -39,6 +40,7 @@ export const useLoadMessage = (roomId: number) => {
         console.log(`채팅방 ${roomId} 초기 메시지 ${roomMessages.length}개 로드 완료`);
       } else {
         setMessages(roomId, []);
+        setCurrentRoomId(roomId);
         setHasMore(false);
       }
     } catch (error) {
@@ -48,7 +50,7 @@ export const useLoadMessage = (roomId: number) => {
     } finally {
       setLoading(false);
     }
-  }, [roomId, setMessages, setLastMessageId, setHasMore, setLoading]);
+  }, [roomId, setMessages, setCurrentRoomId, setLastMessageId, setHasMore, setLoading]);
 
   // 추가 메시지 로드
   const loadMoreMessages = useCallback(async () => {
@@ -80,9 +82,9 @@ export const useLoadMessage = (roomId: number) => {
   // 새 메시지 수신 시 자동으로 currentRoomMessages 업데이트
   useEffect(() => {
     if (currentRoomId === roomId) {
-      setCurrentRoomMessages(roomId);
+      setCurrentRoomId(roomId);
     }
-  }, [roomId, currentRoomId, setCurrentRoomMessages]);
+  }, [roomId, currentRoomId, setCurrentRoomId]);
 
   // 컴포넌트 마운트 시 초기 메시지 로드
   useEffect(() => {

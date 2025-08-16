@@ -12,7 +12,7 @@ interface MessageState {
   setMessages: (roomId: number, messages: MessageList) => void;
   addMessage: (roomId: number, message: MessageRes) => void;
   prependMessages: (roomId: number, messages: MessageList) => void;
-  setCurrentRoomMessages: (roomId: number) => void;
+  setCurrentRoomId: (roomId: number | null) => void;
   setLoading: (loading: boolean) => void;
   setLoadingMore: (loading: boolean) => void;
   setHasMore: (hasMore: boolean) => void;
@@ -36,6 +36,7 @@ export const useMessageStore = create<MessageState>((set) => ({
         ...state.messages,
         [roomId]: messages,
       },
+      currentRoomMessages: state.currentRoomId === roomId ? messages : state.currentRoomMessages,
     }));
   },
 
@@ -62,14 +63,15 @@ export const useMessageStore = create<MessageState>((set) => ({
           ...state.messages,
           [roomId]: updatedMessages,
         },
+        currentRoomMessages: state.currentRoomId === roomId ? updatedMessages : state.currentRoomMessages,
       };
     });
   },
 
-  setCurrentRoomMessages: (roomId: number) => {
+  setCurrentRoomId: (roomId: number | null) => {
     set((state) => ({
       currentRoomId: roomId,
-      currentRoomMessages: state.messages[roomId] || [],
+      currentRoomMessages: roomId ? state.messages[roomId] || [] : [],
     }));
   },
 
