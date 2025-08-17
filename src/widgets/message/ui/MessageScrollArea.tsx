@@ -1,105 +1,139 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { MessageBubble, groupMessages } from '@/features/update-message';
-import { useLoadMessage } from '@/features/update-message';
+import { useEffect, useRef, useCallback, useMemo, useLayoutEffect, useState } from 'react';
+import { useMessageQuery, MessageBubble, groupMessages } from '@/entities/message';
 import { ScrollArea } from '@/shared/ui/ScrollArea';
+import { Skeleton } from '@/shared/ui/Skeleton';
 
 interface MessageScrollAreaProps {
   roomId: number;
   className?: string;
 }
 
+const TOP_THRESHOLD = 100; // 상단 임계값
+const BOTTOM_THRESHOLD = 120; // 하단 임계값
+
 export const MessageScrollArea = ({ roomId, className }: MessageScrollAreaProps) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const { messages, isLoading, isLoadingMore, hasMore, error, loadMoreMessages } = useLoadMessage(roomId);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const [isNearBottom, setIsNearBottom] = useState(true);
 
-  const scrollToBottom = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error } = useMessageQuery(roomId);
+
+  // 메시지 평탄화 / 그룹화 (메모이즈)
+  const allMessages = useMemo(() => (data?.pages ? data.pages.flat() : []), [data?.pages]);
+  const groupedMessages = useMemo(() => groupMessages(allMessages), [allMessages]);
+
+  const handleScroll = useCallback(() => {
+    const element = viewportRef.current;
+    if (!element) return;
+    const { scrollTop, scrollHeight, clientHeight } = element;
+
+    // 상단 임계값 체크
+    if (scrollTop < TOP_THRESHOLD && hasNextPage && !isFetchingNextPage) {
+      const before = element.scrollHeight;
+      fetchNextPage().then(() => {
+        const after = element.scrollHeight;
+        element.scrollTop = element.scrollTop + (after - before);
+      });
     }
-  };
 
-  // 스크롤 이벤트 처리 (무한 스크롤)
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const { scrollTop } = e.currentTarget;
-    if (scrollTop === 0 && hasMore && !isLoadingMore) {
-      loadMoreMessages();
-    }
-  };
+    // 하단 임계값 체크
+    const distFromBottom = scrollHeight - (scrollTop + clientHeight);
+    setIsNearBottom(distFromBottom < BOTTOM_THRESHOLD);
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
+  // 방 진입/전환 시 한 번 바닥으로
+  useLayoutEffect(() => {
+    const element = viewportRef.current;
+    if (!element) return;
+    requestAnimationFrame(() => {
+      element.scrollTop = element.scrollHeight;
+      setIsNearBottom(true);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roomId]);
+
+  // 새 데이터 수신 시: 사용자가 바닥 근처일 때만 자동 하단 스크롤
   useEffect(() => {
-    if (messages.length > 0 && isLoading) {
-      scrollToBottom();
+    const element = viewportRef.current;
+    if (!element) return;
+    if (isFetchingNextPage) return;
+    if (isNearBottom) {
+      element.scrollTop = element.scrollHeight;
     }
-  }, [messages.length, isLoading]);
+  }, [data?.pages, isFetchingNextPage, isNearBottom]);
 
-  // 새 메시지가 추가되면 자동으로 하단으로 스크롤
-  useEffect(() => {
-    if (scrollRef.current && messages.length > 0) {
-      const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
-      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 100;
-      if (isAtBottom) {
-        scrollToBottom();
-      }
-    }
-  }, [messages.length]);
-
-  // 그룹화된 메시지 생성
-  const groupedMessages = groupMessages(messages);
-
+  // 로딩 중일 때
   if (isLoading) {
     return (
-      <div className={`flex flex-1 items-center justify-center ${className}`}>
-        <div className="text-muted-foreground">메시지를 불러오는 중...</div>
+      <div className={`flex-1 overflow-hidden ${className}`}>
+        <ScrollArea className="h-full">
+          <div className="space-y-4 p-4">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <div key={index} className="flex gap-2">
+                <Skeleton className="h-10 w-10 rounded-full" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-4 w-20" />
+                  <Skeleton className="h-12 w-3/4" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </ScrollArea>
       </div>
     );
   }
 
+  // 에러 발생 시
   if (error) {
     return (
-      <div className={`flex flex-1 items-center justify-center ${className}`}>
-        <div className="text-destructive text-center">
-          <div>메시지 로드 중 오류가 발생했습니다.</div>
-          <div className="mt-1 text-sm">{error}</div>
-        </div>
+      <div className={`flex-1 overflow-hidden ${className}`}>
+        <ScrollArea className="h-full">
+          <div className="flex h-full items-center justify-center">
+            <p className="text-muted-foreground">메시지를 불러오는 중 오류가 발생했습니다.</p>
+          </div>
+        </ScrollArea>
+      </div>
+    );
+  }
+
+  // 메시지가 없을 때
+  if (!data || data.pages.length === 0 || allMessages.length === 0) {
+    return (
+      <div className={`flex-1 overflow-hidden ${className}`}>
+        <ScrollArea className="h-full">
+          <div className="flex h-full items-center justify-center">
+            <p className="text-muted-foreground">아직 메시지가 없습니다.</p>
+          </div>
+        </ScrollArea>
       </div>
     );
   }
 
   return (
     <div className={`flex-1 overflow-hidden ${className}`}>
-      <ScrollArea className="h-full" onScroll={handleScroll}>
-        <div ref={scrollRef} className="py-4">
-          {/* 추가 메시지 로딩 표시 */}
-          {isLoadingMore && (
-            <div className="flex justify-center py-2">
-              <div className="text-muted-foreground text-sm">이전 메시지를 불러오는 중...</div>
-            </div>
-          )}
-
-          {/* 메시지 목록 */}
-          {groupedMessages.map((groupedMessage) => (
-            <MessageBubble
-              key={groupedMessage.message.messageId}
-              message={groupedMessage.message}
-              showAvatar={groupedMessage.showAvatar}
-              showName={groupedMessage.showName}
-              showTime={groupedMessage.showTime}
-              isGrouped={groupedMessage.isGrouped}
-            />
-          ))}
-
-          {/* 메시지가 없을 때 */}
-          {messages.length === 0 && !isLoading && (
-            <div className="flex items-center justify-center py-8">
-              <div className="text-muted-foreground text-center">
-                <div>아직 메시지가 없습니다.</div>
-                <div className="mt-1 text-sm">첫 번째 메시지를 보내보세요!</div>
-              </div>
+      <ScrollArea className="h-full" ref={viewportRef} onScroll={handleScroll} viewportClassName="overflow-y-auto">
+        {/* 상단 로딩 인디케이터 */}
+        <div className="sticky top-0 z-10 flex justify-center">
+          {isFetchingNextPage && (
+            <div className="bg-background/80 mt-2 inline-flex items-center gap-2 rounded-full px-3 py-1 backdrop-blur">
+              <div className="border-primary h-4 w-4 animate-spin rounded-full border-b-2" />
+              <span className="text-muted-foreground text-xs">메시지를 불러오는 중…</span>
             </div>
           )}
         </div>
+
+        {/* 메시지 목록 */}
+        {groupedMessages.map((groupedMessage) => (
+          <MessageBubble
+            key={groupedMessage.message.messageId}
+            message={groupedMessage.message}
+            showAvatar={groupedMessage.showAvatar}
+            showName={groupedMessage.showName}
+            showTime={groupedMessage.showTime}
+            isGrouped={groupedMessage.isGrouped}
+          />
+        ))}
       </ScrollArea>
     </div>
   );
