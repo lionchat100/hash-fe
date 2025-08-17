@@ -16,7 +16,7 @@ export const ChatRoomView = ({ roomId }: { roomId: number }) => {
       setCurrentRoom(null);
       setPersonName(null);
     };
-  }, [roomId, setCurrentRoom]);
+  }, [roomId, setCurrentRoom, setPersonName]);
 
   useChatSubscription(roomId);
 

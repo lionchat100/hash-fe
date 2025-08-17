@@ -50,7 +50,6 @@ export const MessageScrollArea = ({ roomId, className }: MessageScrollAreaProps)
       element.scrollTop = element.scrollHeight;
       setIsNearBottom(true);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId]);
 
   // 새 데이터 수신 시: 사용자가 바닥 근처일 때만 자동 하단 스크롤

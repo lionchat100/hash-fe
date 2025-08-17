@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useRef } from 'react';
 import { IMessage, StompSubscription } from '@stomp/stompjs';
 import { useStomp } from '@/shared/api/stomp';

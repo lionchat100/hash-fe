@@ -76,6 +76,7 @@ export const MessageInput = ({ roomId, className }: MessageInputProps) => {
           type="text"
           value={message}
           onChange={(e) => onChange(e.target.value)}
+          onKeyDown={handleKeyPress}
           placeholder="메시지를 입력해주세요."
           disabled={isSending}
           className="focus:ring-primary rounded-full border-none bg-red-50 px-8 py-3 text-sm focus:ring-2 focus:outline-none disabled:opacity-100"
