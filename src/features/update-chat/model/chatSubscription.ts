@@ -9,7 +9,7 @@ import { MessageRes } from '@/entities/message';
 
 export const useChatSubscription = (roomId: number) => {
   const { client, isConnected } = useStomp();
-  const { currentRoomId } = useChatStore();
+  const { currentRoomId, setPersonName, personName } = useChatStore();
   const { currentUser } = useUserStore();
   const queryClient = useQueryClient();
 
@@ -43,16 +43,19 @@ export const useChatSubscription = (roomId: number) => {
   const onMessage = useCallback(
     (frame: IMessage) => {
       try {
-        const msg: MessageRes = JSON.parse(frame.body);
-        if (msg.chatRoomId !== roomId) return;
+        const message: MessageRes = JSON.parse(frame.body);
+        if (message.chatRoomId !== roomId) return;
         if (!isActiveRoom) return;
-        pushLiveMessage(queryClient, roomId, msg);
-        sendAck(msg.messageId, msg.senderId);
+        pushLiveMessage(queryClient, roomId, message);
+        if (!personName && currentUser && message.senderId !== currentUser.id) {
+          setPersonName(message.senderName);
+        }
+        sendAck(message.messageId, message.senderId);
       } catch (e) {
         console.error('message parsing failed:', e);
       }
     },
-    [roomId, isActiveRoom, queryClient, sendAck],
+    [roomId, isActiveRoom, queryClient, sendAck, personName, currentUser, setPersonName],
   );
 
   useEffect(() => {

@@ -5,18 +5,28 @@ import { useChatSubscription } from '@/features/update-chat';
 import { MessageScrollArea } from '@/widgets/message';
 import { MessageInput } from '@/features/update-message';
 import { useChatStore } from '@/entities/chat';
-import { MessageHeader } from '@/entities/message';
+import { MessageHeader, useMessageQuery } from '@/entities/message';
+import { useUserStore } from '@/entities/user';
 
 export const ChatRoomView = ({ roomId }: { roomId: number }) => {
   const { setCurrentRoom, setPersonName, personName } = useChatStore();
+  const { currentUser } = useUserStore();
+  const { data } = useMessageQuery(roomId);
 
   useEffect(() => {
     setCurrentRoom(roomId);
-    return () => {
-      setCurrentRoom(null);
-      setPersonName(null);
-    };
-  }, [roomId, setCurrentRoom, setPersonName]);
+    return () => setCurrentRoom(null);
+  }, [roomId, setCurrentRoom]);
+
+  useEffect(() => {
+    if (personName) return;
+    if (!currentUser?.id) return;
+    const pages = data?.pages;
+    if (!pages?.length) return;
+    const flatDesc = pages.flat();
+    const other = flatDesc.find((m) => m.senderId !== currentUser.id);
+    if (other?.senderName) setPersonName(other.senderName);
+  }, [data?.pages, currentUser?.id, personName, setPersonName]);
 
   useChatSubscription(roomId);
 
