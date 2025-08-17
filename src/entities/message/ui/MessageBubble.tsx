@@ -3,8 +3,6 @@ import { MessageRes } from '@/entities/message';
 import { useUserStore } from '@/entities/user';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/Avatar';
 import { formatChatTime } from '@/shared/lib/dateUtils';
-import { useAckMessage } from '@/features/update-message';
-import { useEffect } from 'react';
 
 interface MessageBubbleProps {
   className?: string;
@@ -17,17 +15,8 @@ interface MessageBubbleProps {
 
 export const MessageBubble = (props: MessageBubbleProps) => {
   const { currentUser } = useUserStore();
-  const { ackMessage, isMessageAcknowledged } = useAckMessage();
   const { message, showAvatar, showName, showTime } = props;
-
   const isMyMessage = currentUser?.id === props.message.senderId;
-
-  useEffect(() => {
-    if (!isMessageAcknowledged(message.messageId) && !isMyMessage) {
-      ackMessage(message.messageId);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [message.messageId, isMyMessage]);
 
   return (
     <div
