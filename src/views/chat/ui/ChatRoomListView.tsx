@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 
 export const ChatRoomListView = () => {
   const { clearChat } = useChatStore();
-  
+
   useEffect(() => {
     clearChat();
   }, [clearChat]);
