@@ -1,2 +1,2 @@
-export { ChatRoomListPage } from './ui/ChatRoomListPage';
-export { ChatRoomPage } from './ui/ChatRoomPage';
+export { ChatRoomListView } from './ui/ChatRoomListView';
+export { ChatRoomView } from './ui/ChatRoomView';
