@@ -1,7 +1,7 @@
 import { ChatRoomListHeader } from '@/entities/chat';
 import { ChatRoomList } from '@/widgets/chat';
 
-export const ChatRoomListPage = () => {
+export const ChatRoomListView = () => {
   return (
     <>
       <ChatRoomListHeader />

@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosHeaders, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 import { tokenEventBus } from '../lib/tokenEventBus';
 
 interface ExtendedAxiosRequestConfig extends InternalAxiosRequestConfig {
@@ -14,56 +14,77 @@ const api: AxiosInstance = axios.create({
   withCredentials: true,
 });
 
-api.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('accessToken');
-      if (token) {
-        config.headers.set('Authorization', `Bearer ${token}`);
-      }
-    }
-    return config;
-  },
-  (error: AxiosError) => {
-    console.error('Axios 요청 실패:', error);
-    return Promise.reject(error);
-  },
-);
+api.interceptors.request.use((config) => {
+  const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+  if (token) {
+    (config.headers ||= new AxiosHeaders()).set('Authorization', `Bearer ${token}`);
+  }
+  return config;
+});
+
+type Pending = {
+  resolve: (value: any) => void;
+  reject: (reason?: any) => void;
+  original: ExtendedAxiosRequestConfig;
+};
+
+let isRefreshing = false;
+let pendingQueue: Pending[] = [];
+
+const raw = axios.create({ withCredentials: true });
+
+async function refreshToken(): Promise<string> {
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`;
+  const response = await raw.post(url, {});
+  return response.data.accessToken as string;
+}
 
 api.interceptors.response.use(
-  (response: AxiosResponse) => {
-    return response;
-  },
+  (response) => response,
   async (error: AxiosError) => {
-    const originalRequest = error.config as ExtendedAxiosRequestConfig | undefined;
-    if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
-      originalRequest._retry = true;
-      try {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
-          {},
-          {
-            withCredentials: true,
-          },
-        );
-        const { accessToken } = response.data;
+    const status = error.response?.status;
+    const original = error.config as ExtendedAxiosRequestConfig & { _retry?: boolean };
 
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('accessToken', accessToken);
-          tokenEventBus.emit(accessToken);
-          console.log('accessToken 재발급 및 이벤트 수신 완료: ', accessToken);
-        }
+    if (!status || !original) return Promise.reject(error);
+    if (original.url?.includes('/auth/refresh')) return Promise.reject(error);
 
-        originalRequest.headers.set('Authorization', `Bearer ${accessToken}`);
-        return api(originalRequest);
-      } catch (error) {
-        console.error('Axios 토큰 갱신 실패:', error);
+    const isExpiry = status === 401;
 
-        if (typeof window !== 'undefined') {
+    if (isExpiry && !original._retry) {
+      original._retry = true;
+
+      if (!isRefreshing) {
+        isRefreshing = true;
+        try {
+          const newToken = await refreshToken();
+
+          localStorage.setItem('accessToken', newToken);
+          api.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+          tokenEventBus.emit(newToken);
+
+          pendingQueue.forEach(({ resolve, original }) => {
+            (original.headers ||= new AxiosHeaders()).set('Authorization', `Bearer ${newToken}`);
+            resolve(api(original));
+          });
+          pendingQueue = [];
+          (original.headers ||= new AxiosHeaders()).set('Authorization', `Bearer ${newToken}`);
+          return api(original);
+        } catch (error) {
+          pendingQueue.forEach(({ reject }) => reject(error));
+          pendingQueue = [];
+
           localStorage.removeItem('accessToken');
-          window.location.href = '/';
+          window.dispatchEvent(new CustomEvent('app:logout'));
+          if (typeof window !== 'undefined') window.location.href = '/';
+          return Promise.reject(error);
+        } finally {
+          isRefreshing = false;
         }
       }
+
+      return new Promise((resolve, reject) => {
+        pendingQueue.push({ resolve, reject, original });
+      });
     }
     return Promise.reject(error);
   },

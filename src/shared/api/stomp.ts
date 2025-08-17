@@ -4,8 +4,9 @@ import { Client } from '@stomp/stompjs';
 import { createContext, useContext } from 'react';
 
 type StompContextType = {
-  client: Client | null;
+  readonly client: Client | null;
   isConnected: boolean;
+  reconnectWithNewToken?: (token: string) => void;
 };
 
 export const stompContext = createContext<StompContextType>({
@@ -13,6 +14,4 @@ export const stompContext = createContext<StompContextType>({
   isConnected: false,
 });
 
-export const useStomp = () => {
-  return useContext(stompContext);
-};
+export const useStomp = () => useContext(stompContext);
