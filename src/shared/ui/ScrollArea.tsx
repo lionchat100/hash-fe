@@ -8,7 +8,7 @@ import { cn } from '@/shared/lib/tailwindMerge';
 type RootProps = React.ComponentProps<typeof ScrollAreaPrimitive.Root>;
 
 type ScrollAreaProps = RootProps & {
-  viewportRef?: React.RefObject<HTMLDivElement>;
+  viewportRef?: React.Ref<HTMLDivElement>;
   onViewportScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
   viewportClassName?: string;
 };
@@ -24,7 +24,7 @@ function ScrollArea({
   return (
     <ScrollAreaPrimitive.Root data-slot="scroll-area" className={cn('relative', className)} {...props}>
       <ScrollAreaPrimitive.Viewport
-        ref={viewportRef as any}
+        ref={viewportRef}
         onScroll={onViewportScroll}
         data-slot="scroll-area-viewport"
         className={cn(

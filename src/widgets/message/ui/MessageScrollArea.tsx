@@ -20,25 +20,46 @@ export const MessageScrollArea = ({ roomId, className }: MessageScrollAreaProps)
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error } = useMessageQuery(roomId);
 
   // 메시지 평탄화 / 그룹화 (메모이즈)
-  const allMessages = useMemo(() => (data?.pages ? data.pages.flat() : []), [data?.pages]);
+  const allMessages = useMemo(() => {
+    if (!data?.pages) return [];
+
+    const flatDesc = data.pages.flat();
+    console.log(
+      '[order:raw (desc)]',
+      flatDesc.map((m) => ({ id: m.messageId, at: m.createdAt, c: m.content })),
+    );
+
+    const asc = flatDesc.slice().reverse();
+    console.log(
+      '[order:asc]',
+      asc.map((m) => ({ id: m.messageId, at: m.createdAt, c: m.content })),
+    );
+
+    return asc;
+  }, [data?.pages]);
+
   const groupedMessages = useMemo(() => groupMessages(allMessages), [allMessages]);
 
   const handleScroll = useCallback(() => {
     const element = viewportRef.current;
     if (!element) return;
     const { scrollTop, scrollHeight, clientHeight } = element;
+    // 하단 임계값 체크
+    const distFromBottom = scrollHeight - (scrollTop + clientHeight);
+
+    console.log('[scroll]', { scrollTop, scrollHeight, clientHeight, distFromBottom, hasNextPage, isFetchingNextPage });
 
     // 상단 임계값 체크
     if (scrollTop < TOP_THRESHOLD && hasNextPage && !isFetchingNextPage) {
+      console.log('[trigger] fetchNextPage()');
       const before = element.scrollHeight;
       fetchNextPage().then(() => {
         const after = element.scrollHeight;
         element.scrollTop = element.scrollTop + (after - before);
+        console.log('[after fetchNextPage]', { before, after, newScrollTop: element.scrollTop });
       });
     }
 
-    // 하단 임계값 체크
-    const distFromBottom = scrollHeight - (scrollTop + clientHeight);
     setIsNearBottom(distFromBottom < BOTTOM_THRESHOLD);
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
@@ -49,6 +70,7 @@ export const MessageScrollArea = ({ roomId, className }: MessageScrollAreaProps)
     requestAnimationFrame(() => {
       element.scrollTop = element.scrollHeight;
       setIsNearBottom(true);
+      console.log('[enter] scroll to bottom', { scrollTop: element.scrollTop, scrollHeight: element.scrollHeight });
     });
   }, [roomId]);
 
@@ -59,6 +81,10 @@ export const MessageScrollArea = ({ roomId, className }: MessageScrollAreaProps)
     if (isFetchingNextPage) return;
     if (isNearBottom) {
       element.scrollTop = element.scrollHeight;
+      console.log('[auto-bottom] due to near bottom', {
+        scrollTop: element.scrollTop,
+        scrollHeight: element.scrollHeight,
+      });
     }
   }, [data?.pages, isFetchingNextPage, isNearBottom]);
 
@@ -110,8 +136,13 @@ export const MessageScrollArea = ({ roomId, className }: MessageScrollAreaProps)
   }
 
   return (
-    <div className={`flex-1 overflow-hidden ${className}`}>
-      <ScrollArea className="h-full" ref={viewportRef} onScroll={handleScroll} viewportClassName="overflow-y-auto">
+    <div className={`min-h-0 flex-1 overflow-hidden ${className}`}>
+      <ScrollArea
+        className="h-full"
+        viewportRef={viewportRef}
+        onViewportScroll={handleScroll}
+        viewportClassName="overflow-y-auto"
+      >
         {/* 상단 로딩 인디케이터 */}
         <div className="sticky top-0 z-10 flex justify-center">
           {isFetchingNextPage && (

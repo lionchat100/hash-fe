@@ -4,26 +4,29 @@ import { QueryClient } from '@tanstack/react-query';
 
 export function pushLiveMessage(qc: QueryClient, roomId: number, msg: MessageRes) {
   const key = ['messages', roomId] as const;
-
   qc.setQueryData<any>(key, (old: any) => {
-    if (!old?.pages?.length) return old;
-
-    // 이미 존재하면 무시
-    for (const page of old.pages as MessageRes[][]) {
-      if (page.some((m) => m.messageId === msg.messageId)) return old;
+    if (!old) return old;
+    const pages: MessageRes[][] = Array.isArray(old.pages) ? old.pages.map((p: MessageRes[]) => [...p]) : [[]];
+    const pageParams = Array.isArray(old.pageParams) ? [...old.pageParams] : [];
+    for (const p of pages) {
+      if (p.some((m) => m.messageId === msg.messageId)) {
+        return old;
+      }
     }
-
-    const pages = (old.pages as MessageRes[][]).map((p) => [...p]);
-    const first = pages[0];
-
-    // 최신은 앞쪽으로 삽입
-    first.unshift(msg);
-
-    // 페이지 크기 유지
-    if (first.length > MESSAGE_PAGE_SIZE) {
-      first.pop();
+    if (!pages.length) pages.push([]);
+    pages[0].unshift(msg);
+    let i = 0;
+    while (i < pages.length) {
+      if (pages[i].length <= MESSAGE_PAGE_SIZE) break;
+      const overflow = pages[i].splice(MESSAGE_PAGE_SIZE);
+      if (pages[i + 1]) {
+        pages[i + 1] = [...overflow, ...pages[i + 1]];
+      } else {
+        pages[i + 1] = overflow;
+        pageParams[i + 1] = pageParams.length ? pageParams[pageParams.length - 1] : null;
+      }
+      i++;
     }
-
-    return { ...old, pages };
+    return { ...old, pages, pageParams };
   });
 }
