@@ -1,5 +1,6 @@
 import { Badge } from '@/shared/ui/Badge';
 import { UserMyProfile } from '@/entities/user/model/types';
+import Image from 'next/image';
 
 interface ProfileInfoProps {
   profile: UserMyProfile; // ← 로딩 중 null/undefined 대응
@@ -116,7 +117,7 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
                 {universityLogo ? (
                   // 로고 이미지가 있는 경우
                   <div className="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm">
-                    <img
+                    <Image
                       src={universityLogo.path}
                       alt={`${uniName} 로고`}
                       className="h-5 w-5 rounded-full object-contain"

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useUserStore } from '@/entities/user/model/slice';
 import { ProfileCard } from '@/widgets/profile/ProfileCard';
 import { ProfileHeader } from '@/widgets/profile/ProfileHeader';
 import { ProfileEditButton } from '@/widgets/profile/ProfileEditButton';
