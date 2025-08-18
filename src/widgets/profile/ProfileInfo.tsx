@@ -108,7 +108,7 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
         {/* 이름 + 대학 */}
         <div className="mb-3 md:mb-4">
           <div className="mb-2 flex items-center gap-2">
-            <h1 className="text-3xl font-bold text-white">{profile.name}</h1>
+            <h1 className="text-3xl font-bold text-white">{profile.nickname}</h1>
 
             {/* 대학 정보는 있을 때만 */}
             {showUniversity && (

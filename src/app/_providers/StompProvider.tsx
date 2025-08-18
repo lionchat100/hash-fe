@@ -86,6 +86,14 @@ export const StompProvider = ({ children }: { children: ReactNode }) => {
 
     if (!token) {
       console.log('STOMP 연결 실패: 토큰이 없습니다.');
+
+      // 개발 환경에서는 토큰이 없어도 페이지 접근 허용
+      if (process.env.NODE_ENV === 'development') {
+        console.log('개발 환경: 토큰 없이도 페이지 접근 허용');
+        return;
+      }
+
+      // 프로덕션 환경에서는 홈으로 리다이렉트
       router.push('/');
       return;
     }

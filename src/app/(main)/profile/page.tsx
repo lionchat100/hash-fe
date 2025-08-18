@@ -9,8 +9,6 @@ import { getUserProfile } from '@/entities/user/api/getUserProfile';
 import { UserMyProfile } from '@/entities/user/model/types';
 
 export default function ProfilePage() {
-  const { currentUser } = useUserStore();
-  
   // API 호출 상태 관리
   const [profileData, setProfileData] = useState<UserMyProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -22,23 +20,23 @@ export default function ProfilePage() {
       try {
         setIsLoading(true);
         setError(null);
-        
+
         console.log('🔄 프로필 데이터 로드 시작...');
-        
+
         // 백엔드 API에서 현재 사용자의 프로필 카드 데이터 조회
         const data = await getUserProfile();
-        
+
         console.log('✅ 프로필 데이터 로드 성공:', data);
         setProfileData(data);
       } catch (err) {
         console.error('❌ 프로필 데이터 로드 실패:', err);
-        
+
         // 에러 상세 정보 로그
         if (err instanceof Error) {
           console.error('에러 메시지:', err.message);
           console.error('에러 스택:', err.stack);
         }
-        
+
         setError('프로필 데이터를 불러오는데 실패했습니다.');
       } finally {
         setIsLoading(false);
@@ -80,13 +78,8 @@ export default function ProfilePage() {
         <div className="p-4">
           <div className="flex h-96 items-center justify-center">
             <div className="text-center">
-              <div className="text-lg text-red-600 mb-2">
-                {error || '프로필 데이터를 찾을 수 없습니다.'}
-              </div>
-              <button 
-                onClick={() => window.location.reload()} 
-                className="text-blue-600 underline"
-              >
+              <div className="mb-2 text-lg text-red-600">{error || '프로필 데이터를 찾을 수 없습니다.'}</div>
+              <button onClick={() => window.location.reload()} className="text-blue-600 underline">
                 다시 시도
               </button>
             </div>

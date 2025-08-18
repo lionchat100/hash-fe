@@ -5,7 +5,6 @@ export interface User {
   imageUrl: string;
   isOnboardingCompleted: boolean;
 }
-<<<<<<< HEAD
 //유저대학 타입
 export type University = {
   name: string;
@@ -30,7 +29,7 @@ export type UserMyProfile = {
   /** 사용자 ID (API에서는 userId로 제공) */
   userId: number;
   /** 사용자 이름 */
-  name: string;
+  nickname: string;
   /** 자기소개 */
   bio: string;
   /** 선호 매칭 타입 - "PREFERENCE_FOCUSED", "POSITION_FOCUSED", "CAREER_FOCUSED" */
@@ -46,7 +45,6 @@ export type UserMyProfile = {
   /** 좋아요 상태 (본인 카드이므로 항상 false) */
   isLikedByMe: boolean;
 };
-=======
 
 // onboarding enums 타입 정의
 type Option = {
@@ -124,4 +122,3 @@ export interface onboardingConfirm {
   message: string;
   isOnboardingCompleted: boolean;
 }
->>>>>>> bdb6fe75124bfe8f4a88574656b806aad40ca8d7

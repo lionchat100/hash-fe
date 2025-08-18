@@ -22,7 +22,7 @@ export const ProfileCard = ({ profile, className }: Props) => {
   // imageUrls(string[]) -> { src: string, alt: string }[] 형태로 변환
   const profileImages = profile.imageUrls.map((imageUrl, index) => ({
     src: imageUrl,
-    alt: `${profile.name}의 프로필 사진 ${index + 1}`,
+    alt: `${profile.nickname}의 프로필 사진 ${index + 1}`,
   }));
 
   // ImageSlider 컴포넌트에서 이미지가 변경될 때 호출되는 콜백 핸들러
