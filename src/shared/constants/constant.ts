@@ -10,3 +10,4 @@ export const PROGRESS_BY_STEP: Record<number, number> = {
 };
 
 export const PAGE_SIZE = 20;
+export const MESSAGE_MAX_LEN = 300;

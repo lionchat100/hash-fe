@@ -1,94 +1,72 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useStomp } from '@/shared/api/stomp';
 import { useUserStore } from '@/entities/user';
-import { MessageReq } from '@/entities/message';
+import { useMessageStore } from '@/entities/message';
+import { useChatStore } from '@/entities/chat';
+import { buildMessagePayload } from '@/features/update-message';
 
 export const useSendMessage = (roomId: number) => {
-  const { client } = useStomp();
+  const { client, isConnected } = useStomp();
   const { currentUser } = useUserStore();
-  // const { addMessage } = useMessageStore();
+  const { currentRoomId } = useChatStore();
+  const { clearMessageDraft } = useMessageStore();
 
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const isActiveRoom = useMemo(() => currentRoomId === roomId, [currentRoomId, roomId]);
+
+  const canSend = useMemo(() => {
+    return !!client && isConnected && !!currentUser && !isSending && isActiveRoom;
+  }, [client, isConnected, currentUser, isSending, isActiveRoom]);
+
   // 메시지 전송
   const sendMessage = useCallback(
-    async (content: string) => {
-      if (!content.trim()) {
-        setError('메시지 내용을 입력해주세요.');
-        return;
+    async (raw: string): Promise<boolean> => {
+      const built = buildMessagePayload(roomId, raw);
+      if (!built.ok) {
+        setError(built.error);
+        return false;
       }
       if (!currentUser) {
         setError('사용자 정보 찾을 수 없음');
-        return;
+        return false;
       }
+      if (!client || !isConnected) {
+        setError('연결이 끊어졌습니다.');
+        return false;
+      }
+      if (!isActiveRoom) {
+        setError('현재 활성화된 채팅방이 아닙니다.');
+        return false;
+      }
+
       try {
         setIsSending(true);
         setError(null);
-        const messageData: MessageReq = {
-          chatRoomId: roomId,
-          content: content.trim(),
-        };
-        console.log(`메시지 전송: ${messageData}`);
-        if (client && client.connected) {
-          client.publish({
-            destination: '/app/chat.sendMessage',
-            body: JSON.stringify(messageData),
-            headers: {
-              'content-type': 'application/json',
-            },
-          });
-        } else {
-          throw new Error('STOMP 클라이언트가 연결되지 않았습니다.');
-        }
-        // const optimisticMessage: MessageRes = {
-        //   messageId: `temp-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
-        //   chatRoomId: roomId,
-        //   senderId: currentUser.id,
-        //   senderName: currentUser.name,
-        //   imageUrl: currentUser.imageUrl,
-        //   createdAt: new Date().toISOString(),
-        //   content: content.trim(),
-        //   isEnd: false,
-        // };
-        // addMessage(roomId, optimisticMessage);
+        client.publish({
+          destination: '/app/chat.sendMessage',
+          body: JSON.stringify(built.value),
+          headers: { 'content-type': 'application/json' },
+        });
+        clearMessageDraft(roomId);
+        return true;
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : '메시지 전송 중 오류 발생';
-        setError(errorMessage);
-        console.error('메시지 전송 실패:', error);
+        const message = error instanceof Error ? error.message : '메시지 전송 중 오류 발생';
+        setError(message);
+        return false;
       } finally {
         setIsSending(false);
       }
     },
-    [roomId, client, currentUser],
-  );
-
-  // 메시지 전송 상태 초기화
-  const resetSendState = useCallback(() => {
-    setIsSending(false);
-    setError(null);
-  }, []);
-
-  // 에러 초기화
-  const resetError = useCallback(() => {
-    setError(null);
-  }, []);
-
-  // 메시지 전송 가능 여부 확인
-  const canSendMessage = useCallback(
-    (content: string) => {
-      return !!client && client.connected && !!currentUser && content.trim().length > 0 && !isSending;
-    },
-    [client, currentUser, isSending],
+    [client, isConnected, currentUser, isActiveRoom, roomId, clearMessageDraft],
   );
 
   return {
     isSending,
     error,
-    canSend: canSendMessage,
+    canSend, // 버튼 비활성화용
     sendMessage,
-    resetError,
-    resetSendState,
-    currentUser,
+    resetError: () => setError(null),
   };
 };
