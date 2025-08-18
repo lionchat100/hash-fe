@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "pnpm next dev",
-    "build": "pnpm next build"
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.9",
@@ -35,7 +38,6 @@
     "react-hook-form": "^7.62.0",
     "sockjs-client": "^1.6.1",
     "sonner": "^2.0.6",
-    "swiper": "^11.2.10",
     "tailwind-merge": "^3.3.1",
     "vaul": "^1.1.2",
     "zod": "^4.0.14",
