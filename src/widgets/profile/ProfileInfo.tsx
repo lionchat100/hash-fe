@@ -152,7 +152,7 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
           {!!profile.mbti && (
             <Badge
               variant="outline"
-              className="border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 text-xs"
+              className="border-white/50 bg-white/10 text-xs text-white backdrop-blur-sm hover:bg-white/20"
             >
               {profile.mbti}
             </Badge>
@@ -161,7 +161,7 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
           {!!profile.position && (
             <Badge
               variant="outline"
-              className="border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 text-xs"
+              className="border-white/50 bg-white/10 text-xs text-white backdrop-blur-sm hover:bg-white/20"
             >
               {profile.position}
             </Badge>
@@ -169,7 +169,7 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
 
           <Badge
             variant="outline"
-            className="border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 text-xs"
+            className="border-white/50 bg-white/10 text-xs text-white backdrop-blur-sm hover:bg-white/20"
           >
             {getFocusTypeLabel(profile.focusType)}
           </Badge>

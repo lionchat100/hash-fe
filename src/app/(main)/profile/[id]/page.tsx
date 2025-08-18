@@ -9,19 +9,19 @@ import { UserProfile } from '@/entities/user/model/types';
 
 /**
  * 상대방 프로필 페이지 컴포넌트
- * 
+ *
  * URL: /profile/[id]
- * 
+ *
  * 기능:
  * - URL 파라미터에서 사용자 ID 추출
  * - 해당 사용자의 프로필 정보 조회 (API)
  * - 프로필 헤더 + 프로필 카드 렌더링
  * - 좋아요/채팅 기능 제공
- * 
+ *
  * 컴포넌트 구조:
  * - OtherProfileHeader: 뒤로가기 + 닉네임 + 신고 버튼
  * - OtherProfileCard: 이미지 슬라이더 + 프로필 정보 + 액션 버튼들
- * 
+ *
  * 상태 관리:
  * - profileData: 상대방 프로필 데이터
  * - isLoading: 데이터 로딩 상태
@@ -79,18 +79,18 @@ export default function OtherProfilePage() {
   const handleLikeClick = async (targetUserId: number, currentLikeState: boolean) => {
     try {
       console.log(`${currentLikeState ? '좋아요 취소' : '좋아요'} 요청: 사용자 ${targetUserId}`);
-      
+
       // TODO: 실제 좋아요 API 호출
       // const result = await toggleUserLike(targetUserId);
-      
+
       // 임시: 프로필 데이터의 좋아요 상태 토글
       if (profileData) {
         setProfileData({
           ...profileData,
-          isLikedByMe: !currentLikeState
+          isLikedByMe: !currentLikeState,
         });
       }
-      
+
       console.log(`✅ 좋아요 상태 변경 완료: ${!currentLikeState}`);
     } catch (error) {
       console.error('좋아요 처리 실패:', error);
@@ -102,11 +102,11 @@ export default function OtherProfilePage() {
   const handleChatClick = async (targetUserId: number) => {
     try {
       console.log(`채팅 시작 요청: 사용자 ${targetUserId}`);
-      
+
       // TODO: 실제 채팅방 생성 API 호출
       // const chatRoom = await createChatRoom(targetUserId);
       // router.push(`/chat/${chatRoom.id}`);
-      
+
       console.log(`✅ 채팅방 생성 요청 완료 (구현 예정)`);
     } catch (error) {
       console.error('채팅 시작 실패:', error);
@@ -151,13 +151,8 @@ export default function OtherProfilePage() {
         <div className="p-4">
           <div className="flex h-96 items-center justify-center">
             <div className="text-center">
-              <div className="mb-2 text-lg text-red-600">
-                {error || '프로필 데이터를 찾을 수 없습니다.'}
-              </div>
-              <button 
-                onClick={() => window.location.reload()} 
-                className="text-blue-600 underline"
-              >
+              <div className="mb-2 text-lg text-red-600">{error || '프로필 데이터를 찾을 수 없습니다.'}</div>
+              <button onClick={() => window.location.reload()} className="text-blue-600 underline">
                 다시 시도
               </button>
             </div>
@@ -171,20 +166,13 @@ export default function OtherProfilePage() {
   return (
     <div className="min-h-dvh">
       {/* 상대방 프로필 전용 헤더 */}
-      <OtherProfileHeader 
-        nickname={profileData.nickname}
-        onReportClick={handleReportClick}
-      />
+      <OtherProfileHeader nickname={profileData.nickname} onReportClick={handleReportClick} />
 
       {/* 메인 컨텐츠 영역 */}
       <div className="p-4">
         <div className="relative">
           {/* 상대방 프로필 카드 - 실제 API 데이터 사용 */}
-          <OtherProfileCard 
-            profile={profileData}
-            onLikeClick={handleLikeClick}
-            onChatClick={handleChatClick}
-          />
+          <OtherProfileCard profile={profileData} onLikeClick={handleLikeClick} onChatClick={handleChatClick} />
         </div>
       </div>
     </div>

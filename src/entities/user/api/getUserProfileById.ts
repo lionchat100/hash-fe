@@ -5,7 +5,7 @@ import { mockOtherProfilesData } from '../model/mockData';
 /**
  * 특정 사용자의 프로필 정보를 ID로 조회합니다.
  * 상대방 프로필 페이지에서 사용됩니다.
- * 
+ *
  * @param userId - 조회할 사용자의 ID
  * @returns Promise<UserProfile> 사용자 프로필 데이터
  * @throws API 호출 실패 시 에러
@@ -20,7 +20,7 @@ export const getUserProfileById = async (userId: string): Promise<UserProfile> =
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const mockProfile = mockOtherProfilesData[userId];
-      
+
       if (mockProfile) {
         console.log(`✅ Mock: 사용자 ${userId} 프로필 조회 성공`);
         resolve(mockProfile);
