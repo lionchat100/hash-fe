@@ -1,14 +1,8 @@
-export interface Post {
+import { PageResponse } from '@/shared/model/types';
+
+export interface FeedReq {
   title: string;
   content: string;
-}
-
-export interface CommonTypesInFeed {
-  id: number;
-  content: string;
-  createdAt: string;
-  likeCount: number;
-  isLiked: boolean;
 }
 
 export interface UserBrief {
@@ -17,39 +11,13 @@ export interface UserBrief {
   imageUrl?: string; // profileImageUrl 동일화
 }
 
-export interface PageInfo {
-  pageable: {
-    pageNumber: number;
-    pageSize: number;
-    sort: {
-      sorted: boolean;
-      empty: boolean;
-      unsorted: boolean;
-    };
-    offset: number;
-    paged: boolean;
-    unpaged: boolean;
-  };
-  size: number;
-  number: number;
-  sort: {
-    sorted: boolean;
-    empty: boolean;
-    unsorted: boolean;
-  };
-  numberOfElements: number;
-  first: boolean;
-  last: boolean;
-  empty: boolean;
-}
-
-// 제네릭으로 content 타입만 바꾸기
-export interface PageResponse<T> extends PageInfo {
-  content: T[];
-}
-
-export interface Feed extends CommonTypesInFeed {
+export interface Feed {
+  id: number;
   title: string;
+  content: string;
+  createdAt: string;
+  likeCount: number;
+  isLiked: boolean;
   commentCount: number;
 }
 
@@ -58,7 +26,7 @@ export interface FeedItem {
   writer: UserBrief;
 }
 
-export type FeedPageResponse = PageResponse<FeedItem>;
+export type FeedRes = PageResponse<FeedItem>;
 
 // 정렬용
 export type Sort = 'latest' | 'popular';
