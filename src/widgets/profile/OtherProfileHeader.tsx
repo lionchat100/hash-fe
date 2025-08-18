@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/shared/ui/Button';
-import { ArrowLeft, MoreVertical } from 'lucide-react';
+import { ChevronLeft, Siren } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 interface OtherProfileHeaderProps {
@@ -54,7 +54,7 @@ export const OtherProfileHeader = ({
           className="flex h-10 w-10 items-center justify-center p-0"
           aria-label="뒤로가기"
         >
-          <ArrowLeft className="h-5 w-5" />
+          <ChevronLeft className="h-5 w-5" />
         </Button>
 
         {/* 가운데: 상대방 닉네임 */}
@@ -72,7 +72,7 @@ export const OtherProfileHeader = ({
           className="flex h-10 w-10 items-center justify-center p-0"
           aria-label="더보기 옵션"
         >
-          <MoreVertical className="h-5 w-5" />
+          <Siren className="h-5 w-5" />
         </Button>
       </div>
     </header>
