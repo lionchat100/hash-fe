@@ -1,5 +1,5 @@
 import api from '@/shared/api/axios';
-import { FeedPageResponse, Sort } from '../model/types';
+import { FeedRes, Sort } from '../model/types';
 import { PAGE_SIZE } from '@/shared/constants/constant';
 
 export const getFeedList = async ({ pageParam, sort }: { pageParam?: number | null; sort: Sort }) => {
@@ -11,6 +11,6 @@ export const getFeedList = async ({ pageParam, sort }: { pageParam?: number | nu
   };
   if (pageParam) params.lastId = pageParam;
 
-  const response = await api.get<FeedPageResponse>(PATH[sort], { params });
+  const response = await api.get<FeedRes>(PATH[sort], { params });
   return response.data;
 };

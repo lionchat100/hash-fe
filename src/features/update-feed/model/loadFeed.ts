@@ -1,9 +1,9 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { getFeedList } from '@/entities/feed/api/getFeedList';
-import { FeedPageResponse } from '@/entities/feed/model/types';
+import { FeedRes } from '@/entities/feed/model/types';
 
-function getNextPageParam(lastPage: FeedPageResponse) {
+function getNextPageParam(lastPage: FeedRes) {
   const items = lastPage.content;
   if (!items.length) return undefined; // 더 없음
 
