@@ -1,4 +1,3 @@
-import UserCard from "../profile-card/ProfileCard";
+import UserCard from '../profile-card/ProfileCard';
 
-const UserCardList=() => {
-}
+const UserCardList = () => {};

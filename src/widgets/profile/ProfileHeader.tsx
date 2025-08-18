@@ -14,12 +14,7 @@ export const ProfileHeader = () => {
       <div className="sticky top-0 z-20 border-b bg-white/90 backdrop-blur-sm">
         <div className="flex items-center justify-between p-3">
           {/* 햄버거 메뉴 */}
-          <Button 
-            variant="ghost" 
-            size="sm"
-            className="cursor-pointer"
-            onClick={() => setIsSidebarOpen(true)}
-          >
+          <Button variant="ghost" size="sm" className="cursor-pointer" onClick={() => setIsSidebarOpen(true)}>
             <Menu className="size-6" />
           </Button>
 
@@ -36,10 +31,7 @@ export const ProfileHeader = () => {
       </div>
 
       {/* 사이드바 */}
-      <ProfileSidebar 
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
-      />
+      <ProfileSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
     </>
   );
 };

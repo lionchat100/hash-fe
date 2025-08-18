@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ProfileImageSlider } from './ImageSlider';
 import { ProfileInfo } from './ProfileInfo';
 import { UserMyProfile } from '@/entities/user/model/types';
+import Image from 'next/image';
 
 type Props = {
   profile: UserMyProfile;
@@ -36,7 +37,7 @@ export const ProfileCard = ({ profile, className }: Props) => {
     if (!hasMultiplePhotos) {
       // 사진이 1장인 경우 단일 이미지 표시
       return (
-        <img
+        <Image
           src={profileImages[0].src}
           alt={profileImages[0].alt}
           className="h-full w-full object-cover"
