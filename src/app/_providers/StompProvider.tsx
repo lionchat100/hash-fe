@@ -79,36 +79,7 @@ export const StompProvider = ({ children }: { children: ReactNode }) => {
     if (token) activateWithToken(token);
   }, [activateWithToken]);
 
-<<<<<<< HEAD
-    if (!token) {
-      console.log('STOMP 연결 실패: 토큰이 없습니다.');
-
-      // 개발 환경에서는 토큰이 없어도 페이지 접근 허용
-      if (process.env.NODE_ENV === 'development') {
-        console.log('개발 환경: 토큰 없이도 페이지 접근 허용');
-        return;
-      }
-
-      // 프로덕션 환경에서는 홈으로 리다이렉트
-      router.push('/');
-      return;
-    }
-
-    currentTokenRef.current = token;
-    const stompClient = createStompClient(token);
-    stompClient.activate();
-    setClient(stompClient);
-
-    return () => {
-      console.log('STOMP 연결 끊김');
-      stompClient.deactivate();
-    };
-  }, [router, createStompClient]);
-
-  // 토큰 변경 감지 (의존성 배열에서 client 제거)
-=======
   // 토큰 변경 감지
->>>>>>> 66d5ab7d8eaa4fe877b09a86bb59fdf05396807f
   useEffect(() => {
     const unsubscribe = tokenEventBus.subscribe(reconnectWithNewToken);
     return unsubscribe;
