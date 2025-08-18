@@ -148,21 +148,20 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
 
         {/* 태그들 */}
         <div className="mb-6 flex flex-wrap gap-2">
-          {/* MBTI는 현재 API에서 제공하지 않으므로 주석 처리
+          {/* MBTI 태그 - API에서 mbti 필드 제공됨 */}
           {!!profile.mbti && (
             <Badge
               variant="outline"
-              className="border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
+              className="border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 text-xs"
             >
               {profile.mbti}
             </Badge>
           )}
-          */}
 
           {!!profile.position && (
             <Badge
               variant="outline"
-              className="border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
+              className="border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 text-xs"
             >
               {profile.position}
             </Badge>
@@ -170,7 +169,7 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
 
           <Badge
             variant="outline"
-            className="border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
+            className="border-white/50 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 text-xs"
           >
             {getFocusTypeLabel(profile.focusType)}
           </Badge>

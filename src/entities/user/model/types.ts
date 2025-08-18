@@ -19,6 +19,8 @@ export type UserMyProfile = {
   nickname: string;
   /** 자기소개 */
   bio: string;
+  /** MBTI 성격 유형 - "ENFP", "INTJ" 등 */
+  mbti: string;
   /** 선호 매칭 타입 - "PREFERENCE_FOCUSED", "POSITION_FOCUSED", "CAREER_FOCUSED" */
   focusType: string;
   /** 직무 (한글) - "백엔드", "프론트엔드", "UX/UI 디자이너", "PM", "풀스택" */
@@ -41,6 +43,8 @@ export interface UserProfile {
   position: string;
   imageUrls: string[];
   bio: string;
+  /** MBTI 성격 유형 - "ENFP", "INTJ" 등 */
+  mbti: string;
   focusType: string;
   isLikedByMe: boolean;
 }

@@ -5,6 +5,7 @@ import type { Swiper as SwiperType } from 'swiper/types';
 import { A11y, Keyboard } from 'swiper/modules'; // Navigation, Pagination 모듈 제거
 // Swiper 기본 CSS만 import (navigation, pagination CSS 제거)
 import 'swiper/css';
+import { cn } from '@/shared/lib/tailwindMerge';
 
 type ImageItem = { src: string; alt?: string };
 
@@ -89,7 +90,7 @@ export const ProfileImageSlider = ({
                     key={index}
                     onClick={() => handleDotClick(index)}
                     aria-label={`${index + 1}번째 사진으로 이동`}
-                    className={[
+                    className={cn(
                       // 공통 스타일
                       'relative h-3 w-3 cursor-pointer rounded-full transition-all duration-200 ease-in-out',
                       // 본체 색상 + 약한 테두리
@@ -102,7 +103,7 @@ export const ProfileImageSlider = ({
                         ? 'before:bg-white before:opacity-70 before:blur-[6px]'
                         : 'before:bg-gray-400 before:opacity-45 before:blur-[3px]',
                       'focus:outline-none',
-                    ].join(' ')}
+                    )}
                   />
                 );
               })}
