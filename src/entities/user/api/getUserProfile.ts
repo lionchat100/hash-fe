@@ -1,4 +1,5 @@
 import api from '@/shared/api/axios';
+<<<<<<< HEAD
 import { UserMyProfile } from '../model/types';
 
 /**
@@ -12,5 +13,11 @@ import { UserMyProfile } from '../model/types';
  */
 export const getUserProfile = async (): Promise<UserMyProfile> => {
   const response = await api.get<UserMyProfile>('/users/card');
+=======
+import { UserProfile } from '../model/types';
+
+export const getUserProfile = async () => {
+  const response = await api.get<UserProfile>('/users/profile');
+>>>>>>> 66d5ab7d8eaa4fe877b09a86bb59fdf05396807f
   return response.data;
 };

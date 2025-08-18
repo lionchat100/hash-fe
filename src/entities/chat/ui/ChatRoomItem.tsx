@@ -3,6 +3,7 @@ import { ChatRoom } from '../model/types';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/Avatar';
 import { formatChatTime } from '@/shared/lib/dateUtils';
+import { useChatStore } from '..';
 
 interface ChatRoomItemProps {
   className?: string;
@@ -11,8 +12,14 @@ interface ChatRoomItemProps {
 
 export const ChatRoomItem = (props: ChatRoomItemProps) => {
   const { chatRoom } = props;
+  const { setPersonName } = useChatStore();
+
+  const handleRoomClick = () => {
+    setPersonName(chatRoom.name);
+  };
+
   return (
-    <Link href={`/chats/${chatRoom.chatRoomId}`} className="flex h-20 gap-3 px-4 py-3">
+    <Link href={`/chats/${chatRoom.chatRoomId}`} className="flex h-20 gap-3 px-4 py-3" onClick={handleRoomClick}>
       <Avatar className="h-14 w-14">
         <AvatarImage src={chatRoom.imageUrl} alt={chatRoom.name} />
         <AvatarFallback className="bg-gray-300">{chatRoom.name.charAt(0)}</AvatarFallback>

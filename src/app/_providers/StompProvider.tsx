@@ -3,87 +3,83 @@
 import { stompContext } from '@/shared/api/stomp';
 import { tokenEventBus } from '@/shared/lib/tokenEventBus';
 import { Client, IFrame } from '@stomp/stompjs';
-import { useRouter } from 'next/navigation';
-import { ReactNode, useEffect, useRef, useState, useCallback } from 'react';
+import { ReactNode, useRef, useState, useCallback, useMemo, useEffect } from 'react';
 import SockJS from 'sockjs-client';
 
+const bc = typeof window !== 'undefined' ? new BroadcastChannel('auth') : null;
+
 export const StompProvider = ({ children }: { children: ReactNode }) => {
-  const [client, setClient] = useState<Client | null>(null);
   const [isConnected, setIsConnected] = useState(false);
-  const reconnectAttempts = useRef(0);
-  const maxReconnectAttempts = 5;
-  const router = useRouter();
+  const clientRef = useRef<Client | null>(null);
   const currentTokenRef = useRef<string | null>(null);
+  const reconnectTimer = useRef<number | null>(null);
+  const switchingRef = useRef(false);
 
-  // STOMP 클라이언트 생성 함수
-  const createStompClient = useCallback(
-    (token: string) => {
-      const stompClient = new Client({
-        webSocketFactory: () => new SockJS(process.env.NEXT_PUBLIC_STOMP_URL!),
-        connectHeaders: {
-          Authorization: `Bearer ${token}`,
-        },
-        reconnectDelay: 5000,
-        heartbeatIncoming: 4000,
-        heartbeatOutgoing: 4000,
-      });
+  const createStompClient = useCallback((token: string) => {
+    const stompClient = new Client({
+      webSocketFactory: () => new SockJS(process.env.NEXT_PUBLIC_STOMP_URL!),
+      connectHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+      reconnectDelay: 5000,
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000,
+      debug: () => {}, // 프로덕션 디버깅 메시지 비활성화
+    });
 
-      stompClient.onConnect = () => {
-        console.log('STOMP 연결 성공');
-        setIsConnected(true);
-        reconnectAttempts.current = 0;
-      };
+    stompClient.onConnect = () => setIsConnected(true);
+    stompClient.onDisconnect = () => setIsConnected(false);
+    stompClient.onStompError = (frame: IFrame) => {
+      console.error('STOMP 오류:', frame.headers?.message, frame.body);
+      setIsConnected(false);
+    };
+    stompClient.onWebSocketClose = () => {
+      setIsConnected(false);
+    };
+    return stompClient;
+  }, []);
 
-      stompClient.onDisconnect = () => {
-        console.log('STOMP 연결 끊김');
-        setIsConnected(false);
-      };
+  const activateWithToken = useCallback(
+    async (token: string) => {
+      if (!token) return; // 로그아웃 시 연결 끊기
+      if (currentTokenRef.current === token && clientRef.current?.active) return;
+      if (switchingRef.current) return;
+      switchingRef.current = true;
 
-      stompClient.onStompError = (frame: IFrame) => {
-        console.error('STOMP 오류:', frame);
-        setIsConnected(false);
-
-        if (reconnectAttempts.current < maxReconnectAttempts) {
-          reconnectAttempts.current++;
-          console.log(`STOMP 재연결 시도 ${reconnectAttempts.current}/${maxReconnectAttempts}`);
-        } else {
-          console.log('STOMP 최대 재연결 시도 횟수 초과');
+      const prev = clientRef.current;
+      if (prev) {
+        try {
+          await prev.deactivate();
+        } catch {
+          // 비활성화 실패 시 무시
         }
-      };
-
-      return stompClient;
+      }
+      const next = createStompClient(token);
+      clientRef.current = next;
+      currentTokenRef.current = token;
+      next.activate();
     },
-    [maxReconnectAttempts],
+    [createStompClient],
   );
 
-  // 토큰 변경 시 재연결
   const reconnectWithNewToken = useCallback(
     (newToken: string) => {
-      // 같은 토큰이면 재연결하지 않음
-      if (currentTokenRef.current === newToken) {
-        return;
-      }
-
-      console.log('새로운 토큰으로 STOMP 재연결 시도');
-
-      // 기존 클라이언트가 있으면 비활성화
-      if (client) {
-        client.deactivate();
-      }
-
-      // 새로운 클라이언트 생성 및 연결
-      const newStompClient = createStompClient(newToken);
-      newStompClient.activate();
-      setClient(newStompClient);
-      currentTokenRef.current = newToken;
+      if (reconnectTimer.current) window.clearTimeout(reconnectTimer.current);
+      reconnectTimer.current = window.setTimeout(() => {
+        activateWithToken(newToken);
+        bc?.postMessage(newToken);
+      }, 150);
     },
-    [client, createStompClient],
+    [activateWithToken],
   );
 
   // 초기 연결
   useEffect(() => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+    if (token) activateWithToken(token);
+  }, [activateWithToken]);
 
+<<<<<<< HEAD
     if (!token) {
       console.log('STOMP 연결 실패: 토큰이 없습니다.');
 
@@ -110,10 +106,35 @@ export const StompProvider = ({ children }: { children: ReactNode }) => {
   }, [router, createStompClient]);
 
   // 토큰 변경 감지 (의존성 배열에서 client 제거)
+=======
+  // 토큰 변경 감지
+>>>>>>> 66d5ab7d8eaa4fe877b09a86bb59fdf05396807f
   useEffect(() => {
     const unsubscribe = tokenEventBus.subscribe(reconnectWithNewToken);
     return unsubscribe;
   }, [reconnectWithNewToken]);
 
-  return <stompContext.Provider value={{ client, isConnected }}>{children}</stompContext.Provider>;
+  // 멀티탭 전파 감지
+  useEffect(() => {
+    if (!bc) return;
+    const onMsg = (e: MessageEvent<string>) => {
+      if (!e.data) return;
+      reconnectWithNewToken(e.data);
+    };
+    bc.addEventListener('message', onMsg);
+    return () => bc.removeEventListener('message', onMsg);
+  }, [reconnectWithNewToken]);
+
+  const value = useMemo(
+    () => ({
+      get client() {
+        return clientRef.current;
+      },
+      isConnected,
+      reconnectWithNewToken,
+    }),
+    [isConnected, reconnectWithNewToken],
+  );
+
+  return <stompContext.Provider value={value as any}>{children}</stompContext.Provider>;
 };

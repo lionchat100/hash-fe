@@ -11,7 +11,7 @@ import { updateOnboarding } from '../api/updateOnboarding';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
-export function useOptionFilter() {
+export const useOptionFilter = () => {
   const { data: bundle } = useOnboardingData();
   // const bundle = sampleData; // mock
   const configs = useMemo(() => (bundle ? onboardingDataMapper(bundle) : []), [bundle]);
@@ -24,11 +24,12 @@ export function useOptionFilter() {
 
   const step2Configs = useMemo(
     () => configs.filter((c) => dataKey.includes(c.key as Step2FormKey)) as DrawerConfig<Step2FormKey>[],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [configs],
   );
 
   return { bundle, configs, uniConfig, genderOptions, step2Configs };
-}
+};
 
 export const finalOnboardingDataMapper = (data: AllFormData, imageIds: number[]) => {
   return {
@@ -46,7 +47,7 @@ export const finalOnboardingDataMapper = (data: AllFormData, imageIds: number[])
   };
 };
 
-export function useSubmitOnboarding() {
+export const useSubmitOnboarding = () => {
   const router = useRouter();
   return useMutation({
     mutationFn: async () => {
@@ -72,4 +73,4 @@ export function useSubmitOnboarding() {
       throw err;
     },
   });
-}
+};

@@ -1,7 +1,8 @@
+// UI
 export { MessageInput } from './ui/MessageInput';
+
+// Model
 export { useSendMessage } from './model/sendMessage';
-export { useLoadMessage } from './model/loadMessage';
-export { useAckMessage } from './model/ackMessage';
-export { MessageBubble } from './ui/MessageBubble';
-export { groupMessages } from './lib/messageGrouping';
-export type { GroupedMessage } from './lib/messageGrouping';
+
+// Lib
+export { buildMessagePayload } from './lib/messageValidate';

@@ -23,7 +23,6 @@ export const ChatRoomList = () => {
         setIsLoading(false);
       }
     };
-
     fetchChatRooms();
   }, []);
 

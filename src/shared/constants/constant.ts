@@ -8,3 +8,5 @@ export const PROGRESS_BY_STEP: Record<number, number> = {
   2: 75,
   3: 100,
 };
+
+export const MESSAGE_MAX_LEN = 300;
