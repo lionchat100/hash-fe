@@ -50,9 +50,13 @@ export function useToggleLike() {
 
       const isLiked = current?.isLiked;
 
+      console.log(`Toggling like for feed ${id}, currently liked: ${isLiked}`);
+
       if (isLiked) {
+        console.log(`Unliking feed ${id}`);
         await unlikeFeed({ id });
       } else {
+        console.log(`Liking feed ${id}`);
         await likeFeed({ id });
       }
     },

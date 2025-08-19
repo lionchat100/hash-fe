@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useMemo, useRef } from 'react';
-import { useFeedsInfinite, useTabScrollPreserver } from '@/features/update-feed/model/loadFeed';
+import { useFeedsInfinite, useTabScrollPreserver } from '@/features/update-feed/model/feedLoad';
 import { Sort } from '@/entities/feed/model/types';
 import { FeedCard } from '@/widgets/feed/ui/FeedCard';
 import { ScrollArea } from '@/shared/ui/ScrollArea';

@@ -1,11 +1,10 @@
-import { formatRelativeTime } from '@/shared/lib/dateUtils';
-import { FeedItem } from '../../../entities/feed/model/types';
-// import { cn } from '@/shared/lib/tailwindMerge';
-import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/Avatar';
+import { FeedItem } from '@/entities/feed/model/types';
 import { useUserStore } from '@/entities/user';
 import { EllipsisVertical } from 'lucide-react';
-import { LikeButton } from '../../../features/update-feed/ui/LikeButton';
-import { Comment } from '../../../features/update-comment/ui/Comment';
+import { LikeButton } from '@/features/update-feed/ui/LikeButton';
+import { Comment } from '@/features/update-comment/ui/CommentButton';
+import { formatRelativeTime } from '@/shared/lib/dateUtils';
+import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/Avatar';
 
 interface Props {
   className?: string;
@@ -34,8 +33,8 @@ export const FeedCard = (props: Props) => {
         {isMyFeed && <EllipsisVertical size="3" />}
       </div>
       <div className="space-y-1">
-        <div className="text-lg font-bold text-stone-900">{item.feed.title}</div>
-        <div className="font-medium text-stone-800">{item.feed.content}</div>
+        <div className="text-2xl font-bold text-stone-900">{item.feed.title}</div>
+        <div className="text-base font-medium text-stone-800">{item.feed.content}</div>
       </div>
       <div className="flex gap-4">
         <LikeButton item={item} />
