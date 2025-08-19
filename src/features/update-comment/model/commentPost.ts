@@ -1,5 +1,5 @@
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
-import { postComment } from '../api/update-comment';
+import { postComment } from '../api/postComment';
 import { CommentItem, CommentRes, PageParam } from '@/entities/comment/model/types';
 import { useUserStore } from '@/entities/user';
 

@@ -1,5 +1,5 @@
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteComment } from '../api/update-comment';
+import { deleteComment } from '../api/deleteComment';
 import { CommentRes, PageParam } from '@/entities/comment/model/types';
 
 export function useDeleteComment(feedId: number) {
