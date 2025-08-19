@@ -16,7 +16,7 @@ interface MessageBubbleProps {
 export const MessageBubble = (props: MessageBubbleProps) => {
   const { currentUser } = useUserStore();
   const { message, showAvatar, showName, showTime } = props;
-  const isMyMessage = currentUser?.id === props.message.senderId;
+  const isMyMessage = currentUser?.id === props.message.id;
 
   return (
     <div
@@ -29,14 +29,14 @@ export const MessageBubble = (props: MessageBubbleProps) => {
           {showAvatar && (
             <div className="flex-shrink-0">
               <Avatar className="size-10">
-                <AvatarImage src={message.senderImageUrl} alt={message.senderName} />
-                <AvatarFallback className="text-xs">{message.senderName.charAt(0)}</AvatarFallback>
+                <AvatarImage src={message.imageUrl} alt={message.nickname} />
+                <AvatarFallback className="text-xs">{message.nickname.charAt(0)}</AvatarFallback>
               </Avatar>
             </div>
           )}
           {/* 메시지 컨텐츠 */}
           <div className={clsx('flex max-w-[90%] flex-col', showTime && 'mb-3')}>
-            {showName && <span className="mb-2 text-base font-semibold">{message.senderName}</span>}
+            {showName && <span className="mb-2 text-base font-semibold">{message.nickname}</span>}
             <div className="flex items-end gap-2">
               <div className={clsx('bg-muted rounded-[8px] px-[10px] py-[10px] text-base', !showAvatar && 'ml-12')}>
                 {message.content}
