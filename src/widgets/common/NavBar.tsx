@@ -3,14 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/shared/lib/tailwindMerge';
-import { House, MessageCircleMore, CircleUserRound, SquareChartGantt } from 'lucide-react';
-
-const navItems = [
-  { key: 'explore', Icon: House, label: '홈' },
-  { key: 'chats', Icon: MessageCircleMore, label: '채팅' },
-  { key: 'feed', Icon: SquareChartGantt, label: '광장' },
-  { key: 'profile', Icon: CircleUserRound, label: '마이페이지' },
-] as const;
+import { navItems } from './libs/nav';
 
 export default function NavBar() {
   const pathname = usePathname();

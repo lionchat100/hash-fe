@@ -5,7 +5,36 @@ export interface User {
   imageUrl: string;
   isOnboardingCompleted: boolean;
 }
+//유저대학 타입
+export type University = {
+  name: string;
+  isVisible: boolean;
+};
 
+//내 프로필카드 타입 (API 응답 구조와 일치)
+export type UserMyProfile = {
+  /** 사용자 ID (API에서는 userId로 제공) */
+  userId: number;
+  /** 사용자 이름 */
+  nickname: string;
+  /** 자기소개 */
+  bio: string;
+  /** MBTI 성격 유형 - "ENFP", "INTJ" 등 */
+  mbti: string;
+  /** 선호 매칭 타입 - "PREFERENCE_FOCUSED", "POSITION_FOCUSED", "CAREER_FOCUSED" */
+  focusType: string;
+  /** 직무 (한글) - "백엔드", "프론트엔드", "UX/UI 디자이너", "PM", "풀스택" */
+  position: string;
+  /** 대학교명 (한글) */
+  university: string;
+  /** 대학교 공개 여부 */
+  isUniversityVisible: boolean;
+  /** 프로필 이미지 URL 목록 (API에서는 imageUrls로 제공) */
+  imageUrls: string[];
+  /** 좋아요 상태 (본인 카드이므로 항상 false) */
+  isLikedByMe: boolean;
+};
+//유저프로필카드 타입
 export interface UserProfile {
   userId: number;
   nickname: string;
@@ -14,6 +43,8 @@ export interface UserProfile {
   position: string;
   imageUrls: string[];
   bio: string;
+  /** MBTI 성격 유형 - "ENFP", "INTJ" 등 */
+  mbti: string;
   focusType: string;
   isLikedByMe: boolean;
 }

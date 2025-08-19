@@ -1,15 +1,15 @@
 import api from '@/shared/api/axios';
-import { FeedRes, Sort } from '../model/types';
-import { PAGE_SIZE } from '@/shared/constants/constant';
+import { Cursor, FeedRes, Sort } from '../model/types';
+import { buildParams } from '../libs/buildParams';
 
-export const getFeedList = async ({ pageParam, sort }: { pageParam?: number | null; sort: Sort }) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const params: Record<string, any> = { size: PAGE_SIZE };
+export const getFeedList = async (sort: Sort, cursor?: Cursor) => {
   const PATH: Record<Sort, string> = {
     latest: '/feeds',
     popular: '/feeds/hot',
+    my: '/feeds/me',
   };
-  if (pageParam) params.lastId = pageParam;
+
+  const params = buildParams(sort, cursor);
 
   const response = await api.get<FeedRes>(PATH[sort], { params });
   return response.data;

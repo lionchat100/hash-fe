@@ -6,16 +6,16 @@ export interface CommentReq {
 
 export interface Comment {
   id: number;
+  feedId: number;
   content: string;
   createdAt: string;
-  updatedAt: string;
   likeCount: number;
   isLiked: boolean;
 }
 
 export interface UserBrief {
   id: number;
-  name: string;
+  nickname: string;
   imageUrl?: string; // profileImageUrl 동일화
 }
 

@@ -15,6 +15,10 @@ export const CallbackPage = () => {
     const handleOAuthCallback = async () => {
       const code = searchParams.get('code');
 
+      console.log('🔍 현재 URL:', window.location.href);
+      console.log('🔍 현재 도메인:', window.location.hostname);
+      console.log('🔍 현재 포트:', window.location.port);
+
       if (!code) {
         console.error('OAuth 로그인 실패: code가 없습니다.');
         return router.push('/');
@@ -24,12 +28,18 @@ export const CallbackPage = () => {
       setError(null);
 
       try {
+        console.log('🔄 OAuth 로그인 시작...');
         const result = await userOAuthLogin(code);
+        console.log('✅ OAuth 로그인 결과:', result);
 
         if (result.success) {
           if (result.user?.isOnboardingCompleted) {
+            console.log('🚀 /explore로 이동 예정...');
+            console.log('🚀 현재 hostname:', window.location.hostname);
             router.push('/explore');
           } else {
+            console.log('🚀 /onboarding으로 이동 예정...');
+            console.log('🚀 현재 hostname:', window.location.hostname);
             router.push('/onboarding');
           }
         } else {

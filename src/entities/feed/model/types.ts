@@ -7,7 +7,7 @@ export interface FeedReq {
 
 export interface UserBrief {
   id: number;
-  name: string;
+  nickname: string;
   imageUrl?: string; // profileImageUrl 동일화
 }
 
@@ -28,5 +28,14 @@ export interface FeedItem {
 
 export type FeedRes = PageResponse<FeedItem>;
 
-// 정렬용
-export type Sort = 'latest' | 'popular';
+// 정렬, 필터용
+export type Sort = 'latest' | 'popular' | 'my';
+
+export interface CursorDefault {
+  lastId?: number | null;
+}
+export interface CursorPopular {
+  lastLikeCount?: number | null;
+  lastId?: number | null;
+}
+export type Cursor = CursorDefault | CursorPopular;
