@@ -6,9 +6,9 @@ export interface MessageReq {
 export interface MessageRes {
   messageId: string;
   chatRoomId: number;
-  senderId: number;
-  senderName: string;
-  senderImageUrl: string;
+  id: number;
+  nickname: string;
+  imageUrl: string;
   createdAt: string;
   content: string;
   isEnd: boolean;
@@ -16,7 +16,7 @@ export interface MessageRes {
 
 export interface MessageAck {
   messageId: string;
-  userId: number;
+  id: number;
 }
 
 export type MessageList = MessageRes[];
