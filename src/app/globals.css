@@ -70,6 +70,8 @@
   --color-success: var(--color-success);
   --color-warning: var(--color-warning);
   --color-link: var(--color-link);
+
+  --box-shadow-top: var(--box-shadow-top);
 }
 
 :root {
@@ -139,6 +141,8 @@
   --color-success: #52c41a;
   --color-warning: #faad14;
   --color-link: #1890ff;
+
+  --box-shadow-top: 0px -2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .dark {

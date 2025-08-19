@@ -3,27 +3,39 @@ import { useState } from 'react';
 import { usePostComment } from '../model/commentPost';
 import { Input } from '@/shared/ui/Input';
 import { Button } from '@/shared/ui/Button';
+import { ChevronUp, LoaderCircle } from 'lucide-react';
 
-export const CommentInput = ({ feedId, disabled }: { feedId: number | null; disabled?: boolean }) => {
-  const [val, setVal] = useState('');
-  const mutation = usePostComment(feedId ?? 0);
+type Props = {
+  feedId: number;
+  disabled?: boolean;
+  onPosted?: () => void;
+};
+
+export const CommentInput = ({ feedId, disabled, onPosted }: Props) => {
+  const [comment, setComment] = useState('');
+  const post = usePostComment(feedId);
 
   const onSend = () => {
-    const trimmed = val.trim();
-    if (!trimmed || !feedId || mutation.isPending) return;
+    const trimmed = comment.trim();
+    if (!trimmed || !feedId || post.isPending) return;
 
-    mutation.mutate(trimmed, {
-      onSuccess: () => setVal(''),
+    post.mutate(trimmed, {
+      onSuccess: () => {
+        setComment('');
+        onPosted?.();
+      },
     });
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="flex items-center gap-6.5">
       <Input
-        value={val}
-        onChange={(e) => setVal(e.target.value)}
-        placeholder="댓글을 입력하세요"
-        disabled={disabled || mutation.isPending}
+        type="text"
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        placeholder="메시지를 입력해주세요."
+        disabled={disabled || post.isPending}
+        className="focus:ring-primary rounded-full border-none bg-stone-50 px-4 py-3 text-sm focus:ring-2 focus:outline-none disabled:opacity-100"
         onKeyDown={(e) => {
           if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -31,8 +43,17 @@ export const CommentInput = ({ feedId, disabled }: { feedId: number | null; disa
           }
         }}
       />
-      <Button disabled={disabled || mutation.isPending} onClick={onSend}>
-        보내기
+      <Button
+        type="button"
+        disabled={disabled || post.isPending}
+        onClick={onSend}
+        className="hover:bg-primary/90 h-10 w-10 rounded-full bg-stone-300 text-stone-500 disabled:opacity-100"
+      >
+        {post.isPending ? (
+          <LoaderCircle className="size-6 animate-spin" color="black" />
+        ) : (
+          <ChevronUp className="size-6" color="black" />
+        )}
       </Button>
     </div>
   );

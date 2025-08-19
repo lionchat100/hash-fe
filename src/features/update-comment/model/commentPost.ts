@@ -1,9 +1,11 @@
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { postComment } from '../api/update-comment';
 import { CommentItem, CommentRes, PageParam } from '@/entities/comment/model/types';
+import { useUserStore } from '@/entities/user';
 
 export function usePostComment(feedId: number) {
   const qc = useQueryClient();
+  const { currentUser } = useUserStore();
   type Cache = InfiniteData<CommentRes, PageParam>;
   const commentKey = (feedId: number) => ['comments', feedId] as const;
 
@@ -21,7 +23,7 @@ export function usePostComment(feedId: number) {
         createdAt: new Date().toISOString(),
         likeCount: 0,
         isLiked: false,
-        feedCommentUserResponse: { id: -1, nickname: '나' },
+        writer: { id: -1, nickname: currentUser?.name ?? '', imageUrl: currentUser?.imageUrl ?? '' },
       };
 
       // 맨 마지막 삽입
