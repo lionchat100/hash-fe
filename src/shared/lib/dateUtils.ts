@@ -18,12 +18,10 @@ export const formatRelativeTime = (dateString: string): string => {
   const diffHour = Math.floor(diffMin / 60);
   const diffDay = Math.floor(diffHour / 24);
 
-  // 이 부분은 기획 확인 필요
   if (diffMin < 1) return '방금 전';
   if (diffMin < 60) return `${diffMin}분 전`;
   if (diffHour < 24) return `${diffHour}시간 전`;
-  if (diffDay === 1) return '어제';
-  if (diffDay < 7) return `${diffDay}일 전`;
+  if (diffDay >= 1 && diffDay < 7) return `${diffDay}일 전`;
 
   // 일주일 이상이면 날짜로 표시
   return created.toLocaleDateString('ko-KR', {
