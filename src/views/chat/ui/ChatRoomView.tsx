@@ -24,8 +24,8 @@ export const ChatRoomView = ({ roomId }: { roomId: number }) => {
     const pages = data?.pages;
     if (!pages?.length) return;
     const flatDesc = pages.flat();
-    const other = flatDesc.find((m) => m.senderId !== currentUser.id);
-    if (other?.senderName) setPersonName(other.senderName);
+    const other = flatDesc.find((m) => m.id !== currentUser.id);
+    if (other?.nickname) setPersonName(other.nickname);
   }, [data?.pages, currentUser?.id, personName, setPersonName]);
 
   useChatSubscription(roomId);

@@ -20,7 +20,7 @@ export const groupMessages = (messages: MessageRes[]): GroupedMessage[] => {
     const prevMessage = i > 0 ? messages[i - 1] : null;
 
     // 이전 메시지와 비교하여 그룹화 여부 결정
-    const isSameSender = prevMessage?.senderId === currentMessage.senderId;
+    const isSameSender = prevMessage?.id === currentMessage.id;
     const isWithinTimeThreshold = prevMessage
       ? Math.abs(new Date(currentMessage.createdAt).getTime() - new Date(prevMessage.createdAt).getTime()) <
         timeThreshold
@@ -38,7 +38,7 @@ export const groupMessages = (messages: MessageRes[]): GroupedMessage[] => {
     const nextMessage = i < messages.length - 1 ? messages[i + 1] : null;
     const isLastInGroup =
       !nextMessage ||
-      nextMessage.senderId !== currentMessage.senderId ||
+      nextMessage.id !== currentMessage.id ||
       Math.abs(new Date(nextMessage.createdAt).getTime() - new Date(currentMessage.createdAt).getTime()) >=
         timeThreshold;
 
