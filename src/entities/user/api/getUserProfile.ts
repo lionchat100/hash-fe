@@ -11,6 +11,6 @@ import { UserMyProfile } from '../model/types';
  * @throws API 호출 실패 시 에러
  */
 export const getUserProfile = async (): Promise<UserMyProfile> => {
-  const response = await api.get<UserMyProfile>('/users/card');
+  const response = await api.get<UserMyProfile>('/users/profile');
   return response.data;
 };

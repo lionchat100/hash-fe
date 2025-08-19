@@ -8,7 +8,7 @@ export const Endpoints = {
     me: '/users/me',
     onboarding: '/users/onboarding',
     cardList: '/users/card/list',
-    myCard: '/users/card',
+    myCard: '/users/profile',
   },
   auth: {
     refresh: '/auth/refresh',
