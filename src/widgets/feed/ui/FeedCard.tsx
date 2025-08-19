@@ -40,7 +40,7 @@ export const FeedCard = (props: Props) => {
   };
 
   return (
-    <div className="flex flex-col gap-4 border-b border-stone-200 py-3 last:border-0">
+    <div className="flex flex-col gap-4 border-b border-stone-200 py-4 last:border-0">
       <div className="flex w-full justify-between">
         <div className="flex items-center gap-2">
           <div className="flex-shrink-0">

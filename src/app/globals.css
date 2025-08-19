@@ -72,6 +72,7 @@
   --color-link: var(--color-link);
 
   --box-shadow-top: var(--box-shadow-top);
+  --box-shadow-floating: var(--box-shadow-floating);
 }
 
 :root {
@@ -143,6 +144,7 @@
   --color-link: #1890ff;
 
   --box-shadow-top: 0px -2px 4px rgba(0, 0, 0, 0.05);
+  --box-shadow-floating: 0 0 8px rgba(0, 0, 0, 0.3);
 }
 
 .dark {
