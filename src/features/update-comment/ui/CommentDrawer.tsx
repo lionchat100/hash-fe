@@ -1,7 +1,6 @@
-// features/comments/ui/CommentDrawer.tsx
 'use client';
 
-import { Drawer, DrawerContent, DrawerFooter, DrawerTitle } from '@/shared/ui/Drawer';
+import { Drawer, DrawerContent, DrawerDescription, DrawerFooter, DrawerTitle } from '@/shared/ui/Drawer';
 import { useCommentsInfinite } from '../model/commentLoad';
 import { useInView } from 'react-intersection-observer';
 import { CommentInput } from './CommentInput';
@@ -46,6 +45,9 @@ export function CommentDrawer({ feedId, open, onOpenChange }: Props) {
     <Drawer open={open} onOpenChange={handleOpenChange}>
       <DrawerContent className="h-[60vh] bg-white">
         <DrawerTitle className="text-balck px-8 text-2xl font-semibold">댓글</DrawerTitle>
+        <DrawerDescription className="hidden px-8 text-sm text-stone-500">
+          댓글을 작성하고 다른 사람들과 소통해보세요.
+        </DrawerDescription>
 
         <div className="flex-1 space-y-4 overflow-y-auto px-8 py-5">
           {status === 'pending' && <div>불러오는 중…</div>}
@@ -53,15 +55,7 @@ export function CommentDrawer({ feedId, open, onOpenChange }: Props) {
           {status === 'success' && (
             <div className="space-y-5">
               {data?.pages.flatMap((page) =>
-                page.content.map((c) => (
-                  <CommentCard
-                    key={c.id}
-                    item={c}
-                    // feedId={feedId}
-                    // onOpenChange={onOpenChange}
-                    // className="border-b border-stone-200 last:border-0"
-                  />
-                )),
+                page.content.map((c) => <CommentCard key={c.id} item={c} onDeleted={markDirty} />),
               )}
             </div>
           )}

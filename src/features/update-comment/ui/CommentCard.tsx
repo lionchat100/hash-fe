@@ -1,20 +1,40 @@
+'use client';
+import { useState } from 'react';
 import { CommentItem } from '@/entities/comment/model/types';
 import { useUserStore } from '@/entities/user';
 import { formatRelativeTime } from '@/shared/lib/dateUtils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/Avatar';
 import { Button } from '@/shared/ui/Button';
+import { DeleteDialog } from '@/shared/ui/DeleteDialog';
+import { useDeleteComment } from '../model/commentDelete';
 
 interface Props {
   item: CommentItem;
+  onDeleted?: () => void;
 }
 
-export const CommentCard = (props: Props) => {
-  const { item } = props;
+export const CommentCard = ({ item, onDeleted }: Props) => {
+  const [showWarningModal, setShowWarningModal] = useState(false);
+
   const { currentUser } = useUserStore();
   const isMyComment = item.writer.id === currentUser?.id;
 
-  const onDelet = () => {
-    alert(`${item.id} 삭제기능?`);
+  const del = useDeleteComment(item.feedId);
+
+  const handleDeleteClick = () => {
+    setShowWarningModal(true);
+  };
+
+  const onDelete = async () => {
+    if (del.isPending) return;
+
+    try {
+      await del.mutateAsync(item.id);
+      setShowWarningModal(false);
+      onDeleted?.();
+    } catch (e) {
+      console.error('❌ delete failed', e);
+    }
   };
 
   return (
@@ -31,12 +51,18 @@ export const CommentCard = (props: Props) => {
           <div className="text-xs text-stone-700">{formatRelativeTime(item.createdAt)}</div>
         </div>
         {isMyComment && (
-          <Button variant="zero" onClick={onDelet} className="px-2 py-1 text-xs font-normal text-stone-500">
+          <Button variant="zero" onClick={handleDeleteClick} className="px-2 py-1 text-xs font-normal text-stone-500">
             삭제
           </Button>
         )}
       </div>
       <div className="pr-1.5 pl-9 text-sm">{item.content}</div>
+      <DeleteDialog
+        open={showWarningModal}
+        onOpenChange={setShowWarningModal}
+        onDelete={onDelete}
+        onCancel={() => setShowWarningModal(false)}
+      />
     </div>
   );
 };
