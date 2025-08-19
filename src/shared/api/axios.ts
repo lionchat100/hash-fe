@@ -58,6 +58,7 @@ api.interceptors.response.use(
         try {
           const newToken = await refreshToken();
 
+          console.log('🔄 액세스 토큰 재발급 성공:', newToken.substring(0, 20) + '...');
           localStorage.setItem('accessToken', newToken);
           api.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
           tokenEventBus.emit(newToken);

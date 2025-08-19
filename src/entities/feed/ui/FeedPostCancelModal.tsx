@@ -13,8 +13,8 @@ export const FeedPostCancelModal = ({ open, onOpenChange, onConfirm, onCancel }:
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>작성 중인 글이 있습니다</DialogTitle>
-          <DialogDescription>작성중인 글이 저장되지 않고 사라집니다.</DialogDescription>
+          <DialogTitle>뒤로가기</DialogTitle>
+          <DialogDescription>작성 중인 글이 저장되지 않고 사라집니다</DialogDescription>
         </DialogHeader>
         <DialogFooter className="gap-2">
           <Button variant="outline" onClick={onCancel}>
