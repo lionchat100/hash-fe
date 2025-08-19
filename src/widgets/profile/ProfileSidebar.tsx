@@ -65,13 +65,7 @@ export const ProfileSidebar = ({ isOpen, onClose }: Props) => {
           {/* 하단 로고 및 텍스트 */}
           <div className="mt-auto pb-4">
             <div className="mb-3 flex justify-center">
-              <Image
-                src="/images/Tokit_produce.svg"
-                alt="Tokit Produce"
-                width={32}
-                height={32}
-                className="h-8 w-auto"
-              />
+              <Image src="/images/Tokit_produce.svg" alt="Tokit Produce" width={400} height={100} />
             </div>
             <p className="text-center text-[10px] text-gray-300">
               PM_NYH OCY KHH FE_KYW PSM SH BE_JWJ LCM LSH RSB DS_LYJ PSA

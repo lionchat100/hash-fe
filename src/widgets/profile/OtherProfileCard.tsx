@@ -20,28 +20,23 @@ interface OtherProfileCardProps {
 
 /**
  * 상대방 프로필 페이지 전용 프로필 카드 컴포넌트
- * 
+ *
  * 기본 구조는 마이프로필카드와 동일하지만, 다음 차이점이 있습니다:
  * - ProfileInfo 오른쪽에 좋아요/채팅 버튼 추가
  * - UserProfile 타입 사용 (UserMyProfile 대신)
  * - 상호작용 기능 강화 (좋아요, 채팅 시작)
- * 
+ *
  * 레이아웃:
  * - 이미지 슬라이더 (전체 영역)
  * - 그라데이션 오버레이 (하단)
  * - 프로필 정보 (80%) + 액션 버튼들 (20%)
- * 
+ *
  * @param profile - 상대방의 프로필 데이터
  * @param className - 추가할 CSS 클래스
  * @param onLikeClick - 좋아요 버튼 클릭 시 호출되는 함수
  * @param onChatClick - 채팅 시작 버튼 클릭 시 호출되는 함수
  */
-export const OtherProfileCard = ({ 
-  profile, 
-  className,
-  onLikeClick,
-  onChatClick
-}: OtherProfileCardProps) => {
+export const OtherProfileCard = ({ profile, className, onLikeClick, onChatClick }: OtherProfileCardProps) => {
   // 현재 활성화된 이미지 인덱스 상태 관리
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 

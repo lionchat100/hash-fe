@@ -13,19 +13,16 @@ interface OtherProfileHeaderProps {
 
 /**
  * 상대방 프로필 페이지 전용 헤더 컴포넌트
- * 
+ *
  * 기능:
  * - 뒤로가기 버튼 (이전 페이지로 이동)
  * - 상대방 닉네임 표시
  * - 신고 버튼 (더보기 아이콘으로 표현)
- * 
+ *
  * @param nickname - 상대방의 닉네임
  * @param onReportClick - 신고 버튼 클릭 시 호출되는 함수
  */
-export const OtherProfileHeader = ({ 
-  nickname, 
-  onReportClick 
-}: OtherProfileHeaderProps) => {
+export const OtherProfileHeader = ({ nickname, onReportClick }: OtherProfileHeaderProps) => {
   const router = useRouter();
 
   // 뒤로가기 버튼 클릭 핸들러
@@ -54,14 +51,12 @@ export const OtherProfileHeader = ({
           className="flex h-10 w-10 items-center justify-center p-0"
           aria-label="뒤로가기"
         >
-          <ChevronLeft className="h-5 w-5" />
+          <ChevronLeft className="size-6" />
         </Button>
 
         {/* 가운데: 상대방 닉네임 */}
         <div className="flex-1 text-center">
-          <h1 className="text-lg font-semibold text-gray-900 truncate px-4">
-            {nickname}
-          </h1>
+          <h1 className="truncate px-4 text-lg font-semibold text-gray-900">{nickname}</h1>
         </div>
 
         {/* 오른쪽: 신고(더보기) 버튼 */}
@@ -72,7 +67,7 @@ export const OtherProfileHeader = ({
           className="flex h-10 w-10 items-center justify-center p-0"
           aria-label="더보기 옵션"
         >
-          <Siren className="h-5 w-5" />
+          <Siren className="size-6" />
         </Button>
       </div>
     </header>
