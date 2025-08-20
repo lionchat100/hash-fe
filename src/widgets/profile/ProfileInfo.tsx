@@ -1,5 +1,6 @@
 import { Badge } from '@/shared/ui/Badge';
 import { UserMyProfile } from '@/entities/user/model/types';
+import Image from 'next/image';
 
 interface ProfileInfoProps {
   profile: UserMyProfile; // ← 로딩 중 null/undefined 대응

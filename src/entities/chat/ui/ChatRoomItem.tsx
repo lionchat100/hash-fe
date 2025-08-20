@@ -15,19 +15,19 @@ export const ChatRoomItem = (props: ChatRoomItemProps) => {
   const { setPersonName } = useChatStore();
 
   const handleRoomClick = () => {
-    setPersonName(chatRoom.name);
+    setPersonName(chatRoom.nickname);
   };
 
   return (
     <Link href={`/chats/${chatRoom.chatRoomId}`} className="flex h-20 gap-3 px-4 py-3" onClick={handleRoomClick}>
       <Avatar className="h-14 w-14">
-        <AvatarImage src={chatRoom.imageUrl} alt={chatRoom.name} />
-        <AvatarFallback className="bg-gray-300">{chatRoom.name.charAt(0)}</AvatarFallback>
+        <AvatarImage src={chatRoom.imageUrl} alt={chatRoom.nickname} />
+        <AvatarFallback className="bg-gray-300">{chatRoom.nickname.charAt(0)}</AvatarFallback>
       </Avatar>
 
       <div className="flex flex-grow flex-col justify-center">
         <div className="mb-1 flex items-center justify-between gap-3">
-          <p className="line-clamp-1 overflow-hidden text-base font-medium text-ellipsis">{chatRoom.name}</p>
+          <p className="line-clamp-1 overflow-hidden text-base font-medium text-ellipsis">{chatRoom.nickname}</p>
           <p className="flex-shrink-0 text-sm text-gray-500">{formatChatTime(chatRoom.lastSendAt)}</p>
         </div>
 

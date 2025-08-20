@@ -20,21 +20,21 @@ export const useChatSubscription = (roomId: number) => {
   const shouldSubscribe = isConnected && isActiveRoom;
 
   const sendAck = useCallback(
-    (messageId: string, senderId: number) => {
+    (messageId: string, id: number) => {
       if (!client || !client.connected || !currentUser) return;
       if (!isActiveRoom) return;
-      if (senderId === currentUser.id) return;
+      if (id === currentUser.id) return;
       if (ackedRef.current.has(messageId)) return;
       ackedRef.current.add(messageId);
       try {
         client.publish({
           destination: '/app/message.ack',
-          body: JSON.stringify({ messageId, userId: currentUser.id }),
+          body: JSON.stringify({ messageId, id: currentUser.id }),
           headers: { 'content-type': 'application/json' },
         });
-      } catch (e) {
+      } catch (error) {
         ackedRef.current.delete(messageId);
-        console.error('ack publish failed:', e);
+        console.error('ack publish failed:', error);
       }
     },
     [client, currentUser, isActiveRoom],
@@ -47,12 +47,12 @@ export const useChatSubscription = (roomId: number) => {
         if (message.chatRoomId !== roomId) return;
         if (!isActiveRoom) return;
         pushLiveMessage(queryClient, roomId, message);
-        if (!personName && currentUser && message.senderId !== currentUser.id) {
-          setPersonName(message.senderName);
+        if (!personName && currentUser && message.id !== currentUser.id) {
+          setPersonName(message.nickname);
         }
-        sendAck(message.messageId, message.senderId);
-      } catch (e) {
-        console.error('message parsing failed:', e);
+        sendAck(message.messageId, message.id);
+      } catch (error) {
+        console.error('message parsing failed:', error);
       }
     },
     [roomId, isActiveRoom, queryClient, sendAck, personName, currentUser, setPersonName],

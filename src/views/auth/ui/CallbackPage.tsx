@@ -1,5 +1,7 @@
 'use client';
 
+import { getUserProfile } from '@/entities/user';
+import { useProfileStore } from '@/entities/user/model/slice';
 import { userOAuthLogin } from '@/features/update-user';
 import { SERVICE_INFO } from '@/shared/constants';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -11,16 +13,14 @@ export const CallbackPage = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const profileStore = useProfileStore();
+
   useEffect(() => {
     const handleOAuthCallback = async () => {
       const code = searchParams.get('code');
 
-      console.log('🔍 현재 URL:', window.location.href);
-      console.log('🔍 현재 도메인:', window.location.hostname);
-      console.log('🔍 현재 포트:', window.location.port);
-
       if (!code) {
-        console.error('OAuth 로그인 실패: code가 없습니다.');
+        console.error('OAuth 로그인 실패: 임시 코드 없음');
         return router.push('/');
       }
 
@@ -28,30 +28,35 @@ export const CallbackPage = () => {
       setError(null);
 
       try {
-        console.log('🔄 OAuth 로그인 시작...');
         const result = await userOAuthLogin(code);
-        console.log('✅ OAuth 로그인 결과:', result);
-
         if (result.success) {
           if (result.user?.isOnboardingCompleted) {
-            console.log('🚀 /explore로 이동 예정...');
-            console.log('🚀 현재 hostname:', window.location.hostname);
-            router.push('/explore');
+            try {
+              const currentProfile = await getUserProfile();
+              if (currentProfile) {
+                profileStore.setCurrentProfile(currentProfile);
+                console.log('OAuth 로그인 성공: 유저, 프로필 조회 성공', currentProfile);
+                router.push('/explore');
+              } else {
+                console.error('프로필 조회 실패: 프로필 없음');
+                setError('프로필 조회에 실패했습니다.');
+              }
+            } catch (error) {
+              console.error('프로필 조회 실패: 예상치 못한 오류', error);
+              setError('프로필 조회에 실패했습니다.');
+            }
           } else {
-            console.log('🚀 /onboarding으로 이동 예정...');
-            console.log('🚀 현재 hostname:', window.location.hostname);
+            console.log('OAuth 로그인 성공: 유저 온보딩 미완료');
             router.push('/onboarding');
           }
         } else {
-          throw new Error('OAuth 로그인 실패');
+          console.error('OAuth 로그인 실패: 토큰 발급 실패');
+          setError('토큰 발급에 실패했습니다.');
+          router.push('/');
         }
       } catch (error) {
-        console.error('OAuth 로그인 실패:', error);
-        setError('OAuth 로그인에 실패했습니다.');
-
-        setTimeout(() => {
-          router.push('/');
-        }, 3000);
+        console.error('OAuth 로그인 실패: 예상치 못한 오류', error);
+        setError('예상치 못한 오류가 발생했습니다.');
       } finally {
         setIsProcessing(false);
       }
