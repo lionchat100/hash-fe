@@ -62,6 +62,7 @@ export const Step3Form = forwardRef<StepFormHandle, Step3FormProps>(function Ste
         <Label className="text-lg font-semibold text-stone-900">자신을 소개해주세요</Label>
         <Textarea
           placeholder="예시. 데이터와 디자인을 모두 좋아하는 23살 대학생입니다. 다양한 전공의 사람들과 협업해보고 싶어요."
+          className="resize-none"
           {...form.register('bio')}
           rows={5}
         />

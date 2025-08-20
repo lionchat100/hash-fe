@@ -5,13 +5,8 @@ import { useRouter } from 'next/navigation';
 import { FeedPolicyCard, FeedPostHeader } from '@/entities/feed';
 import { FeedPostForm, FeedPostFormRef } from '@/features/update-feed';
 import { FeedPostCancelModal } from '@/entities/feed/ui/FeedPostCancelModal';
-import clsx from 'clsx';
 
-interface FeedPostViewProps {
-  className?: string;
-}
-
-export const FeedPostView = (props: FeedPostViewProps) => {
+export const FeedPostView = () => {
   const router = useRouter();
   const formRef = useRef<FeedPostFormRef>(null);
   const [isFormValid, setIsFormValid] = useState(false);

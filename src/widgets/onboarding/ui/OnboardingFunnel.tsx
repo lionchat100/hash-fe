@@ -60,9 +60,9 @@ export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) 
   const progressValue = PROGRESS_BY_STEP[step] ?? 50;
 
   return (
-    <div className="flex h-full flex-col justify-between px-4">
+    <div className="flex h-dvh flex-col justify-between px-4">
       <div>
-        <header className="sticky top-0 z-10 flex h-(--space-h-header) items-center justify-center pt-3 pb-2.5">
+        <header className="safe-pt sticky top-0 z-10 flex h-(--space-h-header) items-center justify-center pt-3 pb-2.5">
           {step > 1 && (
             <Button variant="ghost" size="icon" onClick={goPrev} className="absolute left-0">
               <ChevronLeft className="size-6" />

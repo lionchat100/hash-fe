@@ -40,6 +40,7 @@ export const ProfileCard = ({ profile, className }: Props) => {
         <Image
           src={profileImages[0].src}
           alt={profileImages[0].alt}
+          fill
           className="h-full w-full object-cover"
           style={{ borderRadius: 'inherit' }}
         />

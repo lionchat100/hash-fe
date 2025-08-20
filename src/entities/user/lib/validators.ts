@@ -10,6 +10,7 @@ export const step1Schema = z.object({
   university: z.string().nonempty({ message: '대학을 선택해주세요' }),
   isUniversityView: z.boolean(),
   gender: z.string().nonempty({ message: '성별을 선택해주세요' }),
+  nicknameVerified: z.boolean(),
 });
 export const step2Schema = z.object({
   mbti: z.string().min(1),
