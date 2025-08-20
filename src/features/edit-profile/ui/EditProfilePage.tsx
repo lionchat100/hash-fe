@@ -8,7 +8,7 @@ import { Button } from '@/shared/ui/Button';
 import { Textarea } from '@/shared/ui/Textarea';
 import { DrawerSelect } from '@/features/update-user/ui/DrawerSelect';
 import { ProfileImageUploader } from './ProfileImageUploader';
-import { uploadImagesList, ImageUploadResponse } from '@/features/update-user/api/uploadImagesList';
+import { uploadImagesList } from '@/features/update-user/api/uploadImagesList';
 import { updateProfile, UpdateProfileRequest } from '../model/updateProfile';
 import { getUserProfile } from '@/entities/user/api/getUserProfile';
 import { UserMyProfile } from '@/entities/user/model/types';
@@ -85,12 +85,11 @@ export const EditProfilePage = () => {
         // 새로 업로드된 이미지 처리
         if (uploadedImages.length > 0) {
           console.log('🖼️ 새 이미지 업로드 중...', uploadedImages.length, '개');
-          const uploadResponse: ImageUploadResponse[] = await uploadImagesList(uploadedImages);
+          const uploadResponse: number[] = await uploadImagesList(uploadedImages);
 
           if (uploadResponse.length > 0) {
-            const newImageIds = uploadResponse.map((img) => img.imageId);
-            allImageIds.push(...newImageIds);
-            console.log('✅ 새 이미지 업로드 완료. imageIds:', newImageIds);
+            allImageIds.push(...uploadResponse);
+            console.log('✅ 새 이미지 업로드 완료. imageIds:', uploadResponse);
           } else {
             throw new Error('이미지 업로드 응답이 비어있습니다');
           }
