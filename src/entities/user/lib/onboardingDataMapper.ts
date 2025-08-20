@@ -3,7 +3,7 @@ import type { DrawerConfig, OnboardingData } from '@/entities/user/model/types';
 export const onboardingDataMapper = (bundle: OnboardingData): DrawerConfig[] => [
   {
     key: 'universities',
-    label: '대학',
+    label: '소속',
     placeholder: '선택',
     items: bundle.universities,
   },
@@ -15,8 +15,8 @@ export const onboardingDataMapper = (bundle: OnboardingData): DrawerConfig[] => 
   },
   {
     key: 'position',
-    label: '꿈꾸는 커리어 영역',
-    placeholder: '관심있는 커리어 영역을 선택해주세요',
+    label: '자신의 커리어 영역',
+    placeholder: '자신의 커리어 영역을 선택해주세요',
     items: bundle.positions,
   },
   {
