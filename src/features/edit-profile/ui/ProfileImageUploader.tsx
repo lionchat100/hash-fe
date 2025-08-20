@@ -107,8 +107,8 @@ export function ProfileImageUploader({
       resetInput();
       return;
     }
-
-    const res = validateAndMergeFiles(value, files, { ...cfg, maxFiles: remainingSlots });
+    const maxForNewFiles = Math.max(0, maxFiles - existingImages.length);
+    const res = validateAndMergeFiles(value, files, { ...cfg, maxFiles: maxForNewFiles });
 
     if (!res.ok) {
       if (res.error === 'TOO_MANY_FILES') {
