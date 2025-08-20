@@ -6,6 +6,8 @@ export interface GetUserCardsParams {
   size?: number;
   /** 포지션별 필터링 */
   position?: string;
+  /** 제외할 사용자 ID 목록 (쉼표로 구분) */
+  excludeUserIds?: string; // [추가]
 }
 
 /**
@@ -24,7 +26,7 @@ export interface GetUserCardsParams {
  * @throws API 호출 실패 시 에러
  */
 export const getUserCards = async (params: GetUserCardsParams = {}): Promise<UserProfile[]> => {
-  const { size = 10, position } = params;
+  const { size = 10, position, excludeUserIds } = params; // [변경]
 
   // 쿼리 파라미터 구성
   const queryParams = new URLSearchParams();
@@ -39,39 +41,17 @@ export const getUserCards = async (params: GetUserCardsParams = {}): Promise<Use
     queryParams.append('position', position);
   }
 
+  // [추가] 문서상 list에서 보장, category에서도 수용 가능하면 서버가 무시/처리
+  if (excludeUserIds) {
+    queryParams.append('excludeUserIds', excludeUserIds);
+  }
+
   const fullUrl = `${endpoint}?${queryParams.toString()}`;
-  
-  console.log('🔄 카드 추천 API 호출 상세 정보:');
-  console.log('  - 엔드포인트:', endpoint);
-  console.log('  - 전체 URL:', fullUrl);
-  console.log('  - 요청 파라미터:', {
-    size,
-    position,
-    originalParams: params
-  });
-  console.log('  - 쿼리 문자열:', queryParams.toString());
 
   try {
-    console.log('📡 API 요청 시작...');
     const response = await api.get<UserProfile[]>(fullUrl);
-    
-    console.log('✅ 카드 추천 API 응답 상세:');
-    console.log('  - 응답 상태:', response.status);
-    console.log('  - 응답 데이터 개수:', response.data.length);
-    console.log('  - 응답 데이터 (첫 3개):', response.data.slice(0, 3));
-    console.log('  - 전체 응답 데이터:', response.data);
-    
     return response.data;
   } catch (error) {
-    console.error('❌ 카드 추천 API 에러 상세:', {
-      message: error instanceof Error ? error.message : '알 수 없는 에러',
-      error,
-      endpoint,
-      fullUrl,
-      params
-    });
     throw error;
   }
 };
-
-// getUserCardsByPosition 함수 제거: 이제 getUserCards의 position 파라미터를 직접 사용

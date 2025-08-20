@@ -1,3 +1,5 @@
+// ✅ 변경 파일: ExploreView.tsx (질문에서 준 마지막 버전 기준)
+
 'use client';
 
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
@@ -32,7 +34,8 @@ export const ExploreView = () => {
     return !!el?.closest('button, a, [role="button"], [data-no-nav]');
   };
 
-  // excludeUserIds는 사용하지 않음 (제거)
+  // [추가] 이미 로드한 userId 문자열 (excludeUserIds 용)
+  const excludeUserIds = useMemo(() => (cards.length ? cards.map((c) => c.userId).join(',') : undefined), [cards]);
 
   // [변경] 최신 상태 ref에 isLoading 포함
   const currentStateRef = useRef({
@@ -59,15 +62,18 @@ export const ExploreView = () => {
 
         const fetch = async () => {
           if (currentPosition === 'ALL') {
-            // 전체 추천 (클러스터링 기반)
+            // 전체 추천 (클러스터링 기반) + [추가] 제외 목록 전달
             return await getUserCards({
               size: PAGE_SIZE,
+              excludeUserIds, // [추가]
             });
           } else {
             // 포지션별 필터링 추천 (API 문서의 category 엔드포인트 사용)
+            // [추가] category에서도 제외 목록을 전달(서버가 수용하면 활용, 미수용 시 무시)
             return await getUserCards({
               size: PAGE_SIZE,
               position: currentPosition,
+              excludeUserIds, // [추가]
             });
           }
         };
@@ -84,8 +90,19 @@ export const ExploreView = () => {
         }
 
         if (isMore) {
-          // 더보기 시 기존 카드에 추가
-          setCards((prev) => [...prev, ...newCards]);
+          // [보완] 혹시 서버가 exclude를 못 지켜도 프론트에서 한 번 더 중복 제거
+          setCards((prev) => {
+            const seen = new Set(prev.map((c) => c.userId));
+            const deduped = newCards.filter((c) => !seen.has(c.userId));
+
+            // [추가] 신규 아이템이 0개면 더 이상 불러오지 않도록 종료
+            if (deduped.length === 0) {
+              setHasMore(false);
+              return prev;
+            }
+
+            return [...prev, ...deduped];
+          });
         } else {
           // 첫 로드 또는 필터 변경 시 새로 설정
           setCards(newCards);
@@ -98,7 +115,7 @@ export const ExploreView = () => {
         setIsLoadingMore(false);
       }
     },
-    [], // excludeUserIds 제거
+    [excludeUserIds], // [변경] 제외 목록이 바뀌면 로딩 함수 갱신
   );
 
   // [변경] 무한스크롤: isLoading도 차단 조건에 추가
@@ -157,7 +174,7 @@ export const ExploreView = () => {
     console.log('🔄 필터 적용 시작:');
     console.log('  - 선택된 포지션:', selectedPosition);
     console.log('  - 현재 카드 수:', cards.length);
-    
+
     // [보완] 상태 초기화 후 새 필터로 다시 로드
     setCards([]);
     setHasMore(true);
