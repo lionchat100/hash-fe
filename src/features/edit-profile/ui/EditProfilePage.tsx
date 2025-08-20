@@ -186,7 +186,7 @@ export const EditProfilePage = () => {
       </div>
 
       {/* 메인 컨텐츠 */}
-      <div className="space-y-6 p-4">
+      <div className="space-y-6 p-4 pb-24">
         {/* 이미지 업로드 섹션 */}
         <div className="space-y-3">
           <ProfileImageUploader
@@ -261,15 +261,16 @@ export const EditProfilePage = () => {
         </div>
       </div>
 
-      {/* 하단 저장 버튼 */}
+      {/* 하단 저장 버튼 - ProfileEditButton과 동일한 스타일 */}
       <div className="fixed right-0 bottom-0 left-0 border-t border-gray-100 bg-white p-4">
         <div className="mx-auto max-w-md">
           <Button
             onClick={handleSave}
             disabled={isSaving}
-            className="h-12 w-full rounded-lg bg-gray-800 font-semibold text-white hover:bg-gray-900 disabled:opacity-50"
+            className="h-14 w-full cursor-pointer rounded-4xl text-lg font-semibold disabled:opacity-50"
+            size="lg"
           >
-            {isSaving ? '수정 완료' : '수정 완료'}
+            {isSaving ? '수정 중...' : '수정 완료'}
           </Button>
         </div>
       </div>

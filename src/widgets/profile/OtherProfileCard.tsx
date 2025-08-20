@@ -59,6 +59,18 @@ export const OtherProfileCard = ({ profile, className, onLikeClick, onChatClick 
 
   // 사진이 1장인 경우 단일 이미지 표시, 여러 장인 경우 슬라이더 사용
   const renderImageContent = () => {
+    // 이미지가 없는 경우 기본 플레이스홀더 표시
+    if (photoCount === 0) {
+      return (
+        <div className="flex h-full w-full items-center justify-center bg-gray-200">
+          <div className="text-center text-gray-500">
+            <div className="mb-4 text-6xl">👤</div>
+            <p>프로필 이미지가 없습니다</p>
+          </div>
+        </div>
+      );
+    }
+
     if (!hasMultiplePhotos) {
       // 사진이 1장인 경우 단일 이미지 표시
       return (
@@ -96,7 +108,7 @@ export const OtherProfileCard = ({ profile, className, onLikeClick, onChatClick 
       <div className="pointer-events-none absolute bottom-0 left-0 z-10 h-[60%] w-full bg-gradient-to-t from-black/90 via-black/20 to-transparent backdrop-blur-[0.3px]" />
 
       {/* 오버레이 콘텐츠 래퍼 (정보 80% + 버튼 20%) */}
-      <div className="absolute inset-x-0 bottom-0 z-20">
+      <div className="absolute inset-x-0 bottom-0 z-10">
         <div className="flex items-end">
           {/* 프로필 정보 영역 80% */}
           <div className="w-[80%]">
