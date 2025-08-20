@@ -46,7 +46,7 @@ export default function ProfilePage() {
   // 로딩 중 UI
   if (isLoading) {
     return (
-      <div className="min-h-dvh">
+      <div className="min-h-dvh pb-20">
         <ProfileHeader />
         <div className="p-4">
           <LoadingSpinner text="프로필을 불러오는 중이에요" size={160} className="h-96" />
@@ -58,7 +58,7 @@ export default function ProfilePage() {
   // 에러 발생 시 UI
   if (error || !profileData) {
     return (
-      <div className="min-h-dvh">
+      <div className="min-h-dvh pb-20">
         <ProfileHeader />
         <div className="p-4">
           <div className="flex h-96 items-center justify-center">
@@ -75,7 +75,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-dvh">
+    <div className="min-h-dvh pb-15">
       {/* 헤더 */}
       <ProfileHeader />
 
