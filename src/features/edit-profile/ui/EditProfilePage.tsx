@@ -21,7 +21,6 @@ const FOCUS_OPTIONS = [
   '일상 이야기',
 ];
 
-
 export const EditProfilePage = () => {
   const router = useRouter();
 
@@ -91,6 +90,13 @@ export const EditProfilePage = () => {
       // 3) 최종 이미지 id 배열 (기존 + 신규), 최대 3장 방어
       const finalImageIds = [...keptExistingIds, ...newIds].slice(0, 3);
 
+      // [필수] 이미지 최소 1장 검증
+      if (finalImageIds.length === 0) {
+        toast.error('프로필 사진은 최소 1장 이상 등록해야 합니다.');
+        setIsSaving(false);
+        return;
+      }
+
       const updateData: UpdateProfileRequest = {
         // [중요] 매번 수정 요청 시 현재 전체 이미지 구성을 전송
         // 기존 이미지(변경하지 않은 사진) + 새로 업로드한 이미지 ID들을 모두 포함
@@ -109,9 +115,9 @@ export const EditProfilePage = () => {
 
       // 변경사항이 하나도 없는 경우 (이미지/텍스트 모두 동일)
       const currentImageUrls = profileData?.imageUrls || [];
-      const hasImageChanges = 
-        finalImageIds.length !== currentImageUrls.length || 
-        uploadedImages.length > 0 || 
+      const hasImageChanges =
+        finalImageIds.length !== currentImageUrls.length ||
+        uploadedImages.length > 0 ||
         existingImages.length !== currentImageUrls.length;
 
       if (
@@ -155,6 +161,10 @@ export const EditProfilePage = () => {
     setExistingImages((prev) => prev.filter((_, i) => i !== index));
   };
 
+  // 총 이미지 개수 계산 (기존 + 새로 업로드)
+  const totalImageCount = existingImages.length + uploadedImages.length;
+  const hasMinimumImages = totalImageCount >= 1;
+
   // 로딩 중
   if (isLoading) {
     return (
@@ -189,7 +199,7 @@ export const EditProfilePage = () => {
             value={uploadedImages}
             onChange={setUploadedImages}
             // [수정] UploadImage[] → string[] 변환하여 전달
-            existingImages={existingImages.map(img => img.imageUrl)}
+            existingImages={existingImages.map((img) => img.imageUrl)}
             onRemoveExistingImage={handleRemoveExistingImage}
             maxFiles={3}
             maxSizeMB={5}
