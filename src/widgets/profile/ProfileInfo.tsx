@@ -120,6 +120,8 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
                     <Image
                       src={universityLogo.path}
                       alt={`${uniName} 로고`}
+                      width={20}
+                      height={20}
                       className="h-5 w-5 rounded-full object-contain"
                       onError={(e) => {
                         // 이미지 로드 실패 시 이니셜로 fallback
