@@ -176,6 +176,16 @@
   }
 }
 
+/* 커스텀 애니메이션 */
+@keyframes wiggle {
+  0%, 100% { 
+    transform: rotate(-10deg); 
+  }
+  50% { 
+    transform: rotate(10deg); 
+  }
+}
+
 @layer utilities {
   .font-display-lg {
     font-family: var(--font-suite);
@@ -193,5 +203,9 @@
     font-family: var(--font-suite);
     font-size: 24px;
     font-weight: bold;
+  }
+
+  .animate-wiggle {
+    animation: wiggle 1s ease-in-out infinite;
   }
 }

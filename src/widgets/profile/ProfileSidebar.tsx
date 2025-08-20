@@ -29,7 +29,7 @@ export const ProfileSidebar = ({ isOpen, onClose }: Props) => {
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent side="left" className="w-96 [&>button>svg]:size-4.5">
+      <SheetContent side="left" className="w-70 [&>button>svg]:size-4.5">
         <SheetHeader>
           <SheetTitle></SheetTitle>
         </SheetHeader>
