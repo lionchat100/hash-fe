@@ -1,21 +1,22 @@
 import Link from 'next/link';
-import { Siren, SquarePen } from 'lucide-react';
+import { LucidePencilLine, Siren } from 'lucide-react';
 import { Button } from '@/shared/ui/Button';
 
 export const FeedHeader = () => {
   return (
-    <div className="">
-      <div className="flex items-center justify-between bg-white">
-        <Link href="/feed/post">
-          <Button variant="ghost" size="icon" className="p-7">
-            <SquarePen className="size-6" />
-          </Button>
+    <>
+      <div className="flex h-(--space-h-header) items-center justify-center bg-white">
+        <Link
+          href="/feed/post"
+          className="bg-primary fixed right-4 bottom-19 z-20 rounded-full p-4 shadow-(--box-shadow-floating)"
+        >
+          <LucidePencilLine className="size-6 text-white" />
         </Link>
-        <div className="text-lg font-medium">게시판</div>
-        <Button variant="ghost" size="icon" className="p-7">
+        <h1 className="text-xl font-semibold">게시판</h1>
+        <Button variant="ghost" size="icon" className="absolute top-4 right-4">
           <Siren className="size-6" />
         </Button>
       </div>
-    </div>
+    </>
   );
 };

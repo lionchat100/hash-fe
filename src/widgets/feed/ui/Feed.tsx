@@ -13,7 +13,7 @@ export default function FeedTabs() {
         <TabsList className="sticky top-0 z-10 grid w-full grid-cols-3">
           <TabsTrigger value="latest">최신순</TabsTrigger>
           <TabsTrigger value="popular">인기순</TabsTrigger>
-          <TabsTrigger value="my">내 글</TabsTrigger>
+          <TabsTrigger value="my">내가 쓴 글</TabsTrigger>
         </TabsList>
 
         {/* 탭 패널들: 모두 마운트된 상태로 유지 */}
