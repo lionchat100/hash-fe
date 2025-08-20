@@ -188,8 +188,8 @@ export const EditProfilePage = () => {
           <ProfileImageUploader
             value={uploadedImages}
             onChange={setUploadedImages}
-            // [변경] 기존 이미지 객체를 그대로 넘김
-            existingImages={existingImages}
+            // [수정] UploadImage[] → string[] 변환하여 전달
+            existingImages={existingImages.map(img => img.imageUrl)}
             onRemoveExistingImage={handleRemoveExistingImage}
             maxFiles={3}
             maxSizeMB={5}
