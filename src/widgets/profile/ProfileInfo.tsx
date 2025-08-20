@@ -107,40 +107,40 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
       <div className="relative px-6 pb-2 text-white">
         {/* 이름 + 대학 */}
         <div className="mb-3 md:mb-4">
+          {/* 대학 정보는 있을 때만 */}
+          {showUniversity && (
+            <div className="mb-1 flex items-center gap-1">
+              {universityLogo ? (
+                // 로고 이미지가 있는 경우
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm">
+                  <img
+                    src={universityLogo.path}
+                    alt={`${uniName} 로고`}
+                    className="h-5 w-5 rounded-full object-contain"
+                    onError={(e) => {
+                      // 이미지 로드 실패 시 이니셜로 fallback
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      const parent = target.parentElement;
+                      if (parent) {
+                        parent.innerHTML = `<span class="text-xs font-bold text-white">${uniInitial}</span>`;
+                        parent.className = 'flex h-6 w-6 items-center justify-center rounded-full bg-blue-600';
+                      }
+                    }}
+                  />
+                </div>
+              ) : (
+                // 로고 이미지가 없는 경우 기존 이니셜 표시
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600">
+                  <span className="text-xs font-bold text-white">{uniInitial}</span>
+                </div>
+              )}
+              <span className="text-sm font-medium text-white">{uniName}</span>
+            </div>
+          )}
+
           <div className="mb-2 flex items-center gap-2">
             <h1 className="text-3xl font-bold text-white">{profile.nickname}</h1>
-
-            {/* 대학 정보는 있을 때만 */}
-            {showUniversity && (
-              <div className="flex items-center gap-1">
-                {universityLogo ? (
-                  // 로고 이미지가 있는 경우
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm">
-                    <img
-                      src={universityLogo.path}
-                      alt={`${uniName} 로고`}
-                      className="h-5 w-5 rounded-full object-contain"
-                      onError={(e) => {
-                        // 이미지 로드 실패 시 이니셜로 fallback
-                        const target = e.target as HTMLImageElement;
-                        target.style.display = 'none';
-                        const parent = target.parentElement;
-                        if (parent) {
-                          parent.innerHTML = `<span class="text-xs font-bold text-white">${uniInitial}</span>`;
-                          parent.className = 'flex h-6 w-6 items-center justify-center rounded-full bg-blue-600';
-                        }
-                      }}
-                    />
-                  </div>
-                ) : (
-                  // 로고 이미지가 없는 경우 기존 이니셜 표시
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600">
-                    <span className="text-xs font-bold text-white">{uniInitial}</span>
-                  </div>
-                )}
-                <span className="text-sm font-medium text-white">{uniName}</span>
-              </div>
-            )}
           </div>
 
           <p className="mb-3 text-sm leading-relaxed text-white opacity-90 md:mb-4 md:text-base">{profile.bio}</p>
@@ -152,7 +152,7 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
           {!!profile.mbti && (
             <Badge
               variant="outline"
-              className="border-white/50 bg-white/10 text-xs text-white backdrop-blur-sm hover:bg-white/20"
+              className="rounded-full border-none bg-white/20 px-3 py-2 text-sm text-white backdrop-blur-sm hover:bg-white/20"
             >
               {profile.mbti}
             </Badge>
@@ -161,7 +161,7 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
           {!!profile.position && (
             <Badge
               variant="outline"
-              className="border-white/50 bg-white/10 text-xs text-white backdrop-blur-sm hover:bg-white/20"
+              className="rounded-full border-none bg-white/20 px-3 py-2 text-sm text-white backdrop-blur-sm hover:bg-white/20"
             >
               {profile.position}
             </Badge>
@@ -169,7 +169,7 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
 
           <Badge
             variant="outline"
-            className="border-white/50 bg-white/10 text-xs text-white backdrop-blur-sm hover:bg-white/20"
+            className="rounded-full border-none bg-white/20 px-3 py-2 text-sm text-white backdrop-blur-sm hover:bg-white/20"
           >
             {getFocusTypeLabel(profile.focusType)}
           </Badge>
