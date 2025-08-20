@@ -1,7 +1,7 @@
 import { PageResponse } from '@/shared/model/types';
 
 export interface CommentReq {
-  contents: string;
+  content: string;
 }
 
 export interface Comment {
@@ -20,7 +20,12 @@ export interface UserBrief {
 }
 
 export interface CommentItem extends Comment {
-  feedCommentUserResponse: UserBrief;
+  writer: UserBrief;
 }
 
 export type CommentRes = PageResponse<CommentItem>;
+
+export interface PageParam {
+  size?: number;
+  lastId?: number | null;
+}

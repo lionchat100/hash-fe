@@ -20,12 +20,9 @@ export default function ProfilePage() {
         setIsLoading(true);
         setError(null);
 
-        console.log('🔄 프로필 데이터 로드 시작...');
-
         // 백엔드 API에서 현재 사용자의 프로필 카드 데이터 조회
         const data = await getUserProfile();
 
-        console.log('✅ 프로필 데이터 로드 성공:', data);
         setProfileData(data);
       } catch (err) {
         console.error('❌ 프로필 데이터 로드 실패:', err);
@@ -39,21 +36,11 @@ export default function ProfilePage() {
         setError('프로필 데이터를 불러오는데 실패했습니다.');
       } finally {
         setIsLoading(false);
-        console.log('🏁 프로필 데이터 로드 완료');
       }
     };
 
     loadProfileData();
   }, []);
-
-  // 임시로 로그인 체크 비활성화
-  // if (!currentUser) {
-  //   return (
-  //     <div className="flex h-screen items-center justify-center">
-  //       <div className="text-lg">로그인이 필요합니다.</div>
-  //     </div>
-  //   );
-  // }
 
   // 로딩 중 UI
   if (isLoading) {

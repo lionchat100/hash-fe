@@ -50,11 +50,8 @@ export function useToggleLike() {
 
       const isLiked = current?.isLiked;
 
-      if (isLiked) {
-        await unlikeFeed({ id });
-      } else {
-        await likeFeed({ id });
-      }
+      // 좋아요 상태에 따라 API 호출 - 반전되는 값은 대체 왜?
+      return isLiked ? await likeFeed({ id }) : await unlikeFeed({ id });
     },
     onMutate: async ({ id }) => {
       // 1) 이전 상태 저장
