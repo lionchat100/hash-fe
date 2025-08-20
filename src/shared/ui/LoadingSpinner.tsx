@@ -52,7 +52,7 @@ export const LoadingSpinner = ({
         </div>
 
         {/* 로딩 텍스트 */}
-        {text && <div className="animate-pulse text-sm font-medium text-gray-600">{text}</div>}
+        {text && <div className="font-display-sm animate-pulse text-gray-600">{text}</div>}
       </div>
     </div>
   );
