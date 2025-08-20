@@ -1,5 +1,6 @@
 'use client';
 import LoadingPage from '@/app/loading';
+import Image from 'next/image';
 import { getUserProfile } from '@/entities/user/api/getUserProfile';
 import { UserMyProfile, UserProfile } from '@/entities/user/model/types';
 import { cn } from '@/shared/lib/tailwindMerge';
@@ -27,18 +28,27 @@ export default function OnboardingEndPage({ delayMs = 3000 }: { delayMs?: number
   return (
     <div
       className={cn(
-        'flex h-dvh flex-col justify-center px-4 align-middle text-stone-900',
+        'flex h-dvh flex-col items-center justify-center px-4 text-stone-900',
+        step === 'splash' && 'font-display-lg',
         step !== 'splash' && 'relative',
         step !== 'profile' && 'text-center',
       )}
     >
       {step === 'splash' && (
-        <div className="font-display-lg">
-          <div>{user.nickname}님</div>
+        <>
+          <Image
+            src="/images/logo/tokit_info.svg"
+            alt="Loading"
+            width={24}
+            height={31}
+            priority
+            className="h-31 w-24"
+          />
+          <div className="pt-2">{user.nickname}님</div>
           <div>
             <span className="text-primary">커피챗</span> 하실래요?
           </div>
-        </div>
+        </>
       )}
       {step === 'detail' && (
         <>
@@ -59,7 +69,18 @@ export default function OnboardingEndPage({ delayMs = 3000 }: { delayMs?: number
       )}
       {step === 'profile' && (
         <>
-          <div className="safe-pt absolute top-0 left-0 h-(--space-h-header) w-full text-center">Tokit</div>
+          <div className="safe-pt absolute top-0 left-0 h-(--space-h-header) w-full text-center">
+            <div className="flex h-full items-center">
+              <Image
+                src="/images/logo/tokit_symbol.svg"
+                alt="Loading"
+                width={92}
+                height={20}
+                priority
+                className="h-5 w-full"
+              />
+            </div>
+          </div>
           <ProfileCard profile={user as UserMyProfile} />
           <div className="safe-pb absolute bottom-3 w-11/12">
             <Button className="w-full" onClick={() => router.push('/explore')}>

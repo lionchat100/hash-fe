@@ -11,6 +11,7 @@ export interface LoadingSpinnerProps {
   fullScreen?: boolean;
   /** 커스텀 className */
   className?: string;
+  image?: string;
 }
 
 /**
@@ -33,6 +34,7 @@ export const LoadingSpinner = ({
   size = 160,
   fullScreen = false,
   className = '',
+  image = 'loading',
 }: LoadingSpinnerProps) => {
   const containerClass = fullScreen ? 'fixed inset-0 z-50 bg-white bg-opacity-90' : 'w-full';
 
@@ -42,7 +44,7 @@ export const LoadingSpinner = ({
         {/* 토킷 로고 스피너 */}
         <div className="animate-wiggle mb-4" style={{ width: size, height: size }}>
           <Image
-            src="/images/logo/tokit_loading.svg"
+            src={`/images/logo/tokit_${image}.svg`}
             alt="Loading"
             width={size}
             height={size}
@@ -52,7 +54,9 @@ export const LoadingSpinner = ({
         </div>
 
         {/* 로딩 텍스트 */}
-        {text && <div className="font-display-sm animate-pulse text-gray-600">{text}</div>}
+        {text && (
+          <div className="font-display-sm animate-pulse text-center whitespace-pre-line text-gray-600">{text}</div>
+        )}
       </div>
     </div>
   );
