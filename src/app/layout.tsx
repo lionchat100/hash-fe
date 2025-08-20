@@ -105,7 +105,7 @@ export default function RootLayout({
         <GoogleAnalytics />
       </head>
       <body className={`${pretendard.className} ${suite.variable} relative bg-gray-50 antialiased`}>
-        <div className="pageContiner mx-auto max-w-(--space-max-layout) min-w-xs bg-white">
+        <div className="pageContainer mx-auto max-w-(--space-max-layout) min-w-xs bg-white">
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="tokit-theme">
             <SonnerProvider>
               <QueryProvider>{children}</QueryProvider>

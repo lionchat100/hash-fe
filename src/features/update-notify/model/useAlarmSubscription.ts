@@ -14,7 +14,6 @@ export const useAlarmSubscription = () => {
 
   useEffect(() => {
     if (!client || !isConnected || !userId) {
-      console.warn(`[ALARM] 구독 불가 - client:${!!client}, connected:${isConnected}, userId:${userId}`);
       // 연결이 끊겼거나 userId가 사라지면 기존 구독 해제
       if (subRef.current) {
         try {
@@ -59,8 +58,6 @@ export const useAlarmSubscription = () => {
     subRef.current = sub;
     prevTopicRef.current = topic;
 
-    console.log('🔔 [ALARM] Subscribed:', topic, 'id:', sub.id);
-
     return () => {
       if (subRef.current) {
         try {
@@ -68,7 +65,6 @@ export const useAlarmSubscription = () => {
         } catch {}
         subRef.current = null;
         prevTopicRef.current = null;
-        console.log('🚪 [ALARM] Unsubscribed:', topic);
       }
     };
   }, [client, isConnected, userId, bump]);
