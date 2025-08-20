@@ -77,21 +77,21 @@ export const MessageInput = ({ roomId, className }: MessageInputProps) => {
           value={message}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyPress}
-          placeholder="메시지를 입력해주세요."
+          placeholder="메시지를 입력해주세요"
           disabled={isSending}
-          className="focus:ring-primary rounded-full border-none bg-red-50 px-8 py-3 text-sm focus:ring-2 focus:outline-none disabled:opacity-100"
+          className="rounded-full border-none bg-stone-300 px-8 py-5 text-sm placeholder:text-sm placeholder:text-stone-500 focus-visible:ring-0"
         />
         <Button
           type="button"
           onClick={handleSendMessage}
           disabled={disableSend}
           aria-label="메시지 전송"
-          className="bg-primary text-primary-foreground hover:bg-primary/90 h-10 w-10 rounded-full disabled:opacity-100"
+          className="size-10 rounded-full bg-stone-300 hover:bg-stone-900 hover:text-stone-100"
         >
           {isSending ? (
             <LoaderCircle className="size-6 animate-spin" color="black" />
           ) : (
-            <ChevronUp className="size-6" color="black" />
+            <ChevronUp className="size-6 text-stone-500" />
           )}
         </Button>
       </div>
