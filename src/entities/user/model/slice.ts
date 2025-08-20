@@ -1,14 +1,9 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { User, StepKey, AllFormData } from './types';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { User, StepKey, AllFormData, UserMyProfile } from './types';
 
 interface UserState {
-  isAuthenticated: boolean;
-  isLoading: boolean;
   currentUser: User | null;
-
-  setAuth: (auth: boolean) => void;
-  setLoading: (loading: boolean) => void;
   setCurrentUser: (currentUser: User | null) => void;
   clearUser: () => void;
 }
@@ -16,39 +11,29 @@ interface UserState {
 export const useUserStore = create<UserState>()(
   persist(
     (set) => ({
-      isAuthenticated: false,
-      isLoading: false,
       currentUser: null,
-
-      setAuth: (auth: boolean) => {
-        set({ isAuthenticated: auth });
-      },
-
-      setLoading: (loading: boolean) => {
-        set({ isLoading: loading });
-      },
-
-      setCurrentUser: (currentUser: User | null) => {
-        set({ currentUser });
-      },
-
-      clearUser: () => {
-        set({
-          isAuthenticated: false,
-          currentUser: null,
-          isLoading: false,
-        });
-      },
+      setCurrentUser: (currentUser: User | null) => set({ currentUser }),
+      clearUser: () => set({ currentUser: null }),
     }),
     {
-      name: 'user-storage',
-      partialize: (state) => ({
-        isAuthenticated: state.isAuthenticated,
-        currentUser: state.currentUser,
-      }),
+      name: 'userStorage',
+      storage: createJSONStorage(() => sessionStorage),
+      partialize: (state) => ({ currentUser: state.currentUser ? { id: state.currentUser.id } : null }),
     },
   ),
 );
+
+interface ProfileState {
+  currentProfile: UserMyProfile | null;
+  setCurrentProfile: (currentProfile: UserMyProfile | null) => void;
+  clearProfile: () => void;
+}
+
+export const useProfileStore = create<ProfileState>()((set) => ({
+  currentProfile: null,
+  setCurrentProfile: (currentProfile: UserMyProfile | null) => set({ currentProfile }),
+  clearProfile: () => set({ currentProfile: null }),
+}));
 
 interface OnboardingState {
   step: number;
