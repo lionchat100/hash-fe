@@ -64,6 +64,7 @@ export interface Step1Data {
   university: string;
   isUniversityView: boolean;
   gender: string;
+  nicknameVerified: boolean;
 }
 export interface Step2Data {
   mbti: string;
@@ -102,8 +103,12 @@ export interface UploadImage {
   imageUrl: string;
 }
 
-export interface onboardingConfirm {
+export interface OnboardingRes {
   userId: number;
   message: string;
   isOnboardingCompleted: boolean;
+}
+
+export interface NicknameCheckRes {
+  available: boolean;
 }

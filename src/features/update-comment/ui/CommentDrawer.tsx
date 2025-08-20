@@ -41,6 +41,8 @@ export function CommentDrawer({ feedId, open, onOpenChange }: Props) {
     },
   });
 
+  const isEmpty = data?.pages.flatMap((page) => page.content).length === 0;
+
   return (
     <Drawer open={open} onOpenChange={handleOpenChange}>
       <DrawerContent className="h-[60vh] bg-white">
@@ -52,20 +54,24 @@ export function CommentDrawer({ feedId, open, onOpenChange }: Props) {
         <div className="flex-1 space-y-4 overflow-y-auto px-8 py-5">
           {status === 'pending' && <div>불러오는 중…</div>}
           {status === 'error' && <div>댓글을 불러오지 못했어요.</div>}
-          {status === 'success' && (
-            <div className="space-y-5">
-              {data?.pages.flatMap((page) =>
-                page.content.map((c) => <CommentCard key={c.id} item={c} onDeleted={markDirty} />),
-              )}
-            </div>
-          )}
+          {status === 'success' &&
+            // 댓글이 없을 때
+            (isEmpty ? (
+              <div className="font-display-sm flex h-full items-center justify-center">아직 댓글이 없어요</div>
+            ) : (
+              <div className="space-y-5">
+                {data?.pages.flatMap((page) =>
+                  page.content.map((c) => <CommentCard key={c.id} item={c} onDeleted={markDirty} />),
+                )}
+              </div>
+            ))}
 
           {/* 무한 스크롤 트리거 */}
-          {hasNextPage && <div ref={ref} className="h-8" />}
+          {hasNextPage && <div ref={ref} className="h-1" />}
           {isFetchingNextPage && <div className="text-center text-sm">더 불러오는 중…</div>}
         </div>
 
-        <DrawerFooter className="shadow-(--box-shadow-top)">
+        <DrawerFooter className="safe-pb absolute right-0 bottom-0 left-0 bg-white !pb-4 shadow-(--box-shadow-top)">
           <CommentInput feedId={feedId} disabled={!enabled} onPosted={markDirty} />
         </DrawerFooter>
       </DrawerContent>
