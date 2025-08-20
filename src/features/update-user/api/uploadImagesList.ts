@@ -8,9 +8,9 @@ export interface ImageUploadResponse {
 
 /**
  * 이미지 시스템 API를 사용한 이미지 업로드
- * 
+ *
  * API 엔드포인트: POST /api/images/upload/list
- * 
+ *
  * @param files - 업로드할 파일 배열
  * @returns Promise<ImageUploadResponse[]> - imageId와 imageUrl을 포함한 응답 배열
  */

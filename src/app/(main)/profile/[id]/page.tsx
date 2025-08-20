@@ -132,11 +132,7 @@ export default function OtherProfilePage() {
           </div>
         </div>
         <div className="p-4">
-          <LoadingSpinner 
-            text="프로필을 불러오는 중..." 
-            size={120}
-            className="h-96"
-          />
+          <LoadingSpinner text="프로필을 불러오는 중..." size={120} className="h-96" />
         </div>
       </div>
     );

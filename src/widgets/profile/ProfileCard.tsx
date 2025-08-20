@@ -25,15 +25,17 @@ export const ProfileCard = ({ profile, className }: Props) => {
 
   // 프로필 사진 데이터를 ImageSlider 컴포넌트에서 요구하는 형식으로 변환
   // 이미지가 없으면 기본 이미지 사용
-  const profileImages = hasImages 
+  const profileImages = hasImages
     ? profile.imageUrls.map((imageUrl, index) => ({
         src: imageUrl,
         alt: `${profile.nickname}의 프로필 사진 ${index + 1}`,
       }))
-    : [{
-        src: defaultImageUrl,
-        alt: `${profile.nickname}의 기본 프로필 사진`,
-      }];
+    : [
+        {
+          src: defaultImageUrl,
+          alt: `${profile.nickname}의 기본 프로필 사진`,
+        },
+      ];
 
   // ImageSlider 컴포넌트에서 이미지가 변경될 때 호출되는 콜백 핸들러
   // Swiper의 슬라이드 변경을 감지하여 현재 인덱스 상태를 업데이트
