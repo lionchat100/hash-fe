@@ -7,8 +7,8 @@ type Props = {
 };
 
 export const ProfileEditButton = ({ profileId, className }: Props) => {
-  // 프로필 수정 페이지 경로 생성
-  const editPath = profileId ? `/profile/edit/${profileId}` : '/profile/edit';
+  // 현재 로그인된 사용자의 프로필 수정 페이지로 이동
+  const editPath = '/profile/edit';
 
   return (
     <div className={`mt-2 ${className ?? ''}`}>

@@ -23,7 +23,7 @@ export default function ProfilePage() {
 
         // 백엔드 API에서 현재 사용자의 프로필 카드 데이터 조회
         const data = await getUserProfile();
-
+        console.log(data);
         setProfileData(data);
       } catch (err) {
         console.error('❌ 프로필 데이터 로드 실패:', err);
