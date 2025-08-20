@@ -23,7 +23,7 @@ export const ProfileHeader = () => {
 
           {/* 알림 버튼 - Link로 변경 */}
           <Button variant="ghost" size="sm" asChild>
-            <Link href="/notifications">
+            <Link href="/alarm">
               <Bell className="size-6" />
             </Link>
           </Button>
