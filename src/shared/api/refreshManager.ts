@@ -1,3 +1,4 @@
+import { clearUserData } from '@/entities/user';
 import axios, { AxiosInstance } from 'axios';
 
 type RefreshResult = { accessToken: string };
@@ -56,7 +57,7 @@ class RefreshManager {
       this.failers.forEach((f) => f(error));
       // 글로벌 로그아웃 처리
       if (typeof window !== 'undefined') {
-        localStorage.removeItem('accessToken');
+        clearUserData();
         location.href = '/';
       }
       throw error;
