@@ -182,6 +182,17 @@
   }
 }
 
+/* 커스텀 애니메이션 */
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+
 @layer utilities {
   .font-display-lg {
     font-family: var(--font-suite);
@@ -199,5 +210,43 @@
     font-family: var(--font-suite);
     font-size: 24px;
     font-weight: bold;
+  }
+
+  .scrollbar-hide {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
+  }
+
+  .safe-pt {
+    padding-top: max(env(safe-area-inset-top), constant(safe-area-inset-top), 0px);
+  }
+  .safe-pb {
+    padding-bottom: max(env(safe-area-inset-bottom), constant(safe-area-inset-bottom), 0px);
+  }
+  .safe-pl {
+    padding-left: max(env(safe-area-inset-left), constant(safe-area-inset-left), 0px);
+  }
+  .safe-pr {
+    padding-right: max(env(safe-area-inset-right), constant(safe-area-inset-right), 0px);
+  }
+
+  .pageContainer {
+    min-height: 100vh; /* fallback */
+    min-height: 100dvh; /* 최신 브라우저에서 실제 기기 높이 */
+    padding-bottom: max(env(safe-area-inset-bottom), constant(safe-area-inset-bottom), 0px);
+    padding-top: max(env(safe-area-inset-top), constant(safe-area-inset-top), 0px);
+  }
+
+  /* safe padding 시각화 */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    outline: 2px dashed red;
+    pointer-events: none;
+    z-index: 999999;
   }
 }

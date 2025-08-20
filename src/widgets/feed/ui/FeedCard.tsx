@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/entities/user';
 import { FeedItem } from '@/entities/feed/model/types';
 import { LikeButton } from '@/features/update-feed/ui/LikeButton';
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export const FeedCard = (props: Props) => {
+  const route = useRouter();
   const [showWarningModal, setShowWarningModal] = useState(false);
 
   const { currentUser } = useUserStore();
@@ -43,13 +45,18 @@ export const FeedCard = (props: Props) => {
     <div className="flex flex-col gap-4 border-b border-stone-200 py-4 last:border-0">
       <div className="flex w-full justify-between">
         <div className="flex items-center gap-2">
-          <div className="flex-shrink-0">
-            <Avatar className="size-7">
-              <AvatarImage src={item.writer.imageUrl} alt={item.writer.nickname} />
-              <AvatarFallback className="text-xs">{item.writer.nickname.charAt(0)}</AvatarFallback>
-            </Avatar>
+          <div
+            className="flex cursor-pointer items-center gap-2"
+            onClick={() => route.push(`/profile/${item.writer.id}`)}
+          >
+            <div className="flex-shrink-0">
+              <Avatar className="size-7">
+                <AvatarImage src={item.writer.imageUrl} alt={item.writer.nickname} />
+                <AvatarFallback className="text-xs">{item.writer.nickname.charAt(0)}</AvatarFallback>
+              </Avatar>
+            </div>
+            <div className="text-sm font-medium text-stone-900">{item.writer.nickname}</div>
           </div>
-          <div className="text-sm font-medium text-stone-900">{item.writer.nickname}</div>
           <div className="text-xs text-stone-700">{formatRelativeTime(item.feed.createdAt)}</div>
         </div>
         {/* 삭제 기능 추가 */}

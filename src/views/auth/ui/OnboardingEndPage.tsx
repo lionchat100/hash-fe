@@ -1,9 +1,10 @@
 'use client';
 import LoadingPage from '@/app/loading';
 import { getUserProfile } from '@/entities/user/api/getUserProfile';
-import { UserProfile } from '@/entities/user/model/types';
+import { UserMyProfile, UserProfile } from '@/entities/user/model/types';
 import { cn } from '@/shared/lib/tailwindMerge';
 import { Button } from '@/shared/ui/Button';
+import { ProfileCard } from '@/widgets/profile/ProfileCard';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -26,21 +27,22 @@ export default function OnboardingEndPage({ delayMs = 3000 }: { delayMs?: number
   return (
     <div
       className={cn(
-        'font-display-lg flex h-screen flex-col justify-center px-4 text-center align-middle text-stone-900',
+        'flex h-dvh flex-col justify-center px-4 align-middle text-stone-900',
         step !== 'splash' && 'relative',
+        step !== 'profile' && 'text-center',
       )}
     >
       {step === 'splash' && (
-        <>
+        <div className="font-display-lg">
           <div>{user.nickname}님</div>
           <div>
             <span className="text-primary">커피챗</span> 하실래요?
           </div>
-        </>
+        </div>
       )}
       {step === 'detail' && (
         <>
-          <div className="text-xl">
+          <div className="text-xl font-semibold">
             <div className="text-primary">커피챗이란?</div>
             <div>부담 없이 서로를 알아가는</div>
             <div>IT업계 문화예요</div>
@@ -48,17 +50,22 @@ export default function OnboardingEndPage({ delayMs = 3000 }: { delayMs?: number
             <div>진로 고민, 일상 이야기까지</div>
             <div>지금 대화를 나눠보세요!</div>
           </div>
-          <Button className="absolute bottom-3 w-11/12" onClick={() => setStep('profile')}>
-            완성된 프로필 확인하기
-          </Button>
+          <div className="safe-pb absolute bottom-3 w-11/12">
+            <Button className="w-full" onClick={() => setStep('profile')}>
+              완성된 프로필 확인하기
+            </Button>
+          </div>
         </>
       )}
       {step === 'profile' && (
         <>
-          <div>{user.nickname}님 프로필카드</div>
-          <Button className="absolute bottom-3 w-11/12" onClick={() => router.push('/explore')}>
-            시작하기
-          </Button>
+          <div className="safe-pt absolute top-0 left-0 h-(--space-h-header) w-full text-center">Tokit</div>
+          <ProfileCard profile={user as UserMyProfile} />
+          <div className="safe-pb absolute bottom-3 w-11/12">
+            <Button className="w-full" onClick={() => router.push('/explore')}>
+              시작하기
+            </Button>
+          </div>
         </>
       )}
     </div>

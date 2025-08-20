@@ -22,6 +22,8 @@ export const DrawerSelect = <T extends string>({
   const [open, setOpen] = useState(false);
   const [temp, setTemp] = useState<T | null>(value ?? null);
 
+  const canEdit = label === 'MBTI' || label === '자신의 커리어 영역';
+
   useEffect(() => {
     if (open) setTemp(value ?? null);
   }, [open, value]);
@@ -41,7 +43,10 @@ export const DrawerSelect = <T extends string>({
   return (
     <>
       <div className="flex items-center gap-2">
-        <div className="text-base font-semibold">{label}</div>
+        <div className="text-base font-semibold">
+          {label}
+          {canEdit && <span className="pl-2 text-sm font-medium text-stone-400">*설정 후 변경 불가</span>}
+        </div>
       </div>
       <Drawer open={open} onOpenChange={handleOpenChange}>
         <DrawerTitle className="hidden">{label}</DrawerTitle>
@@ -61,9 +66,9 @@ export const DrawerSelect = <T extends string>({
               <>
                 자신의 <span className="text-stone-900">MBTI</span>를 선택해주세요
               </>
-            ) : label === '꿈꾸는 커리어 영역' ? (
+            ) : label === '자신의 커리어 영역' ? (
               <>
-                꿈꾸는 <span className="text-stone-900">커리어 영역</span>를<br /> 선택해주세요
+                자신의 <span className="text-stone-900">커리어 영역</span>를<br /> 선택해주세요
               </>
             ) : (
               <>
