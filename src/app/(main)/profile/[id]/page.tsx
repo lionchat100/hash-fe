@@ -6,6 +6,7 @@ import { OtherProfileHeader } from '@/widgets/profile/OtherProfileHeader';
 import { OtherProfileCard } from '@/widgets/profile/OtherProfileCard';
 import { getUserProfileById } from '@/entities/user/api/getUserProfileById';
 import { UserProfile } from '@/entities/user/model/types';
+import { LoadingSpinner } from '@/shared/ui/LoadingSpinner';
 
 /**
  * 상대방 프로필 페이지 컴포넌트
@@ -127,13 +128,11 @@ export default function OtherProfilePage() {
       <div className="min-h-dvh">
         <div className="sticky top-0 z-50 border-b bg-white/90 backdrop-blur-sm">
           <div className="flex h-14 items-center justify-center">
-            <div className="text-lg font-semibold text-gray-900">프로필 로딩 중...</div>
+            <div className="text-lg font-semibold text-gray-900">프로필</div>
           </div>
         </div>
         <div className="p-4">
-          <div className="flex h-96 items-center justify-center">
-            <div className="text-lg text-gray-600">프로필을 불러오는 중...</div>
-          </div>
+          <LoadingSpinner text="프로필을 불러오는 중..." size={120} className="h-96" />
         </div>
       </div>
     );
