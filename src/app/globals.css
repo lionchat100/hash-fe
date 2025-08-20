@@ -4,15 +4,6 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  /* ============================================
-   * tailwind.config.ts에서 이관된 설정들
-   * ============================================ */
-
-  /* Content Path 설정 - v4에서는 자동 감지하므로 불필요
-   * 기존: content: ['./src/shared/**\/*.{js,ts,jsx,tsx,mdx}', ...]
-   */
-
-  /* Colors - tailwind.config.ts의 colors 섹션에서 이관 */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

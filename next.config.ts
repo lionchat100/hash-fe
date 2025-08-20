@@ -8,5 +8,10 @@ const withPWA = withPWAInit({
 });
 
 export default withPWA({
-  // Your Next.js config
+  images: {
+    domains: [
+      'tokit-bucket.s3.ap-northeast-2.amazonaws.com',
+      'test.com', // 개발/테스트용 도메인
+    ],
+  },
 });
