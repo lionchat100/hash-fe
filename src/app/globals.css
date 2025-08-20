@@ -212,10 +212,6 @@
     font-weight: bold;
   }
 
-<<<<<<< HEAD
-  .animate-wiggle {
-    animation: wiggle 1s ease-in-out infinite;
-=======
   .scrollbar-hide {
     &::-webkit-scrollbar {
       display: none;
@@ -252,6 +248,5 @@
     outline: 2px dashed red;
     pointer-events: none;
     z-index: 999999;
->>>>>>> 0e0b72e11146697e3f7b22ca769e713a4c50cb90
   }
 }

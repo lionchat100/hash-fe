@@ -62,7 +62,7 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
       순천대학교: 'png',
       순천향대학교: 'png',
       숭실대학교: 'png',
-      연세대학교: 'png',
+      '연세대학교(신촌)': 'png',
       영남대학교: 'png',
       영남이공대학교: 'jpg',
       을지대학교: 'png',
@@ -114,9 +114,11 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
               {universityLogo ? (
                 // 로고 이미지가 있는 경우
                 <div className="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm">
-                  <img
+                  <Image
                     src={universityLogo.path}
                     alt={`${uniName} 로고`}
+                    width={20}
+                    height={20}
                     className="h-5 w-5 rounded-full object-contain"
                     onError={(e) => {
                       // 이미지 로드 실패 시 이니셜로 fallback

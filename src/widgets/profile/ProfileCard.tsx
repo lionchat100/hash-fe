@@ -54,7 +54,6 @@ export const ProfileCard = ({ profile, className }: Props) => {
           fill
           className="h-full w-full object-cover"
           style={{ borderRadius: 'inherit' }}
-          fill
           onError={(e) => {
             // 이미지 로드 실패 시 기본 이미지로 대체
             const target = e.target as HTMLImageElement;
