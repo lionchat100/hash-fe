@@ -1,14 +1,16 @@
 import { Siren } from 'lucide-react';
 import { Button } from '@/shared/ui/Button';
+import { NotificationBell } from '@/widgets/common/NotificationBell';
 
 export const FeedHeader = () => {
   return (
     <>
-      <header className="safe-pt relative flex h-(--space-h-header) items-center justify-center bg-white">
-        <h1 className="text-xl font-semibold">게시판</h1>
-        <Button variant="ghost" size="icon" className="absolute top-4 right-4">
+      <header className="safe-pt relative flex h-(--space-h-header) items-center justify-between bg-white px-4">
+        <Button variant="ghost" size="icon">
           <Siren className="size-6" />
         </Button>
+        <h1 className="text-xl font-semibold">게시판</h1>
+        <NotificationBell />
       </header>
     </>
   );

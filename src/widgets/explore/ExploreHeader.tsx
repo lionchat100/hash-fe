@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
-import { SlidersHorizontal, Bell } from 'lucide-react';
+import { SlidersHorizontal } from 'lucide-react';
+import { NotificationBell } from '@/widgets/common/NotificationBell';
 
 interface ExploreHeaderProps {
   /** 필터 버튼 클릭 핸들러 */
@@ -35,14 +35,8 @@ export const ExploreHeader = ({ onFilterClick }: ExploreHeaderProps) => {
           <Image src="/images/logo/tokit_symbol.svg" alt="Tokit" width={90} height={10} />
         </div>
 
-        {/* 우측: 알림 링크 */}
-        <Link
-          href="/alarm"
-          aria-label="알림 보기"
-          className="flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-gray-100 active:bg-gray-200"
-        >
-          <Bell className="size-6 text-gray-700" />
-        </Link>
+        {/* 우측: 알림 아이콘 */}
+        <NotificationBell />
       </div>
     </div>
   );
