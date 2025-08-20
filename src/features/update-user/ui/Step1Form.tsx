@@ -42,7 +42,7 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
   const setCanProceed = useOnboardingStore((s) => s.setCanProceed);
   useEffect(() => {
     setCanProceed('step1', form.formState.isValid && !!form.watch('nicknameVerified'));
-  }, [form.formState.isValid, form.watch('nicknameVerified'), setCanProceed]);
+  }, [form.formState.isValid, form, setCanProceed]);
 
   // 부모에 submit 핸들 노출
   useImperativeHandle(ref, () => ({
