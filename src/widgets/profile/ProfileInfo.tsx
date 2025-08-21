@@ -1,10 +1,10 @@
 import { Badge } from '@/shared/ui/Badge';
-import { UserMyProfile } from '@/entities/user/model/types';
+import { UserProfile } from '@/entities/user/model/types';
 import Image from 'next/image';
 import { useState } from 'react'; // [추가] 로고 로드 실패 상태 관리
 
 interface ProfileInfoProps {
-  profile: UserMyProfile; // ← 로딩 중 null/undefined 대응
+  profile: UserProfile; // ← 로딩 중 null/undefined 대응
 }
 
 export const ProfileInfo = ({ profile }: ProfileInfoProps) => {

@@ -15,6 +15,7 @@ export type UserMyProfile = {
   position: string;
   university: string;
   isUniversityVisible: boolean;
+  imageIds: number[];
   imageUrls: string[];
   isLikedByMe: boolean;
 };
