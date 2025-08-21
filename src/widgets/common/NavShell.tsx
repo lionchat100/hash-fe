@@ -4,7 +4,7 @@ import { AlarmSubscriber } from '@/features/update-notify/ui/AlarmSubscriber';
 import NavBar from './NavBar';
 
 export default function NavShell({ children }: { children: React.ReactNode }) {
-  const allowedPaths = ['/explore', '/chats', '/feed', '/profile'];
+  const allowedPaths = ['/explore', '/chats', '/feeds', '/profile'];
   const pathname = usePathname();
   const isNavVisible = allowedPaths.includes(pathname);
 

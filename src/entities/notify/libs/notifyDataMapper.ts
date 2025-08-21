@@ -15,7 +15,7 @@ export const typeToCardData = (n: NotificationItem): NotificationCardMapData => 
       return {
         title: '게시글에 댓글이 달렸어요',
         body: '누군가 당신의 생각에 답했어요. 지금 확인해보세요.',
-        href: `/feed?tab=my`,
+        href: `/feeds?tab=my`,
         imageUrl: n.imageUrl,
         createdAt: formatChatTime(n.createdAt),
       };
@@ -23,13 +23,13 @@ export const typeToCardData = (n: NotificationItem): NotificationCardMapData => 
       return {
         title: '게시글에 좋아요♥가 달렸어요',
         body: '누군가 당신의 생각에 반응했어요. 확인해 보세요!',
-        href: `/feed?tab=my`,
+        href: `/feeds?tab=my`,
         imageUrl: n.imageUrl,
         createdAt: formatChatTime(n.createdAt),
       };
     case 'PROFILE_LIKE':
       return {
-        title: `${n.senderId}님이 좋아요♥를 보냈어요!`,
+        title: `${n.senderNickName}님이 좋아요♥를 보냈어요!`,
         body: '누군가에게 관심을 받으셨어요! 확인해볼까요?',
         href: `/profile/${n.targetId}`,
         imageUrl: n.imageUrl,

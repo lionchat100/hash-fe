@@ -35,16 +35,33 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
       isUniversityView: false,
       gender: '',
       nicknameVerified: false,
+      privacyConsent: false,
     },
     mode: 'onChange',
+    shouldUnregister: false,
   });
 
   // 다음 버튼 활성화 여부 관련
   const setCanProceed = useOnboardingStore((s) => s.setCanProceed);
   useEffect(() => {
-    setCanProceed('step1', form.formState.isValid && !!form.watch('nicknameVerified'));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [form.formState.isValid, form.watch('nicknameVerified'), setCanProceed]);
+    const sub = form.watch(() => {
+      const nicknameState = form.getFieldState('nickname', form.formState);
+      const uniState = form.getFieldState('university', form.formState);
+      const genderState = form.getFieldState('gender', form.formState);
+
+      const nickname = form.getValues('nickname');
+      const verified = form.getValues('nicknameVerified');
+      const verifiedNickname = form.getValues('verifiedNickname');
+      const consent = form.getValues('privacyConsent');
+
+      const verifiedOk = verified && verifiedNickname === nickname;
+
+      const can = verifiedOk && consent && !nicknameState.invalid && !uniState.invalid && !genderState.invalid;
+
+      setCanProceed('step1', can);
+    });
+    return () => sub.unsubscribe();
+  }, [form, setCanProceed]);
 
   // 부모에 submit 핸들 노출
   useImperativeHandle(ref, () => ({
@@ -52,18 +69,47 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
       form.handleSubmit((values) => onValid(values))();
     },
   }));
-  const { errors } = form.formState;
-  const gender = form.watch('gender');
-  const nickname = form.watch('nickname');
-  const verified = form.watch('nicknameVerified');
 
   useEffect(() => {
-    // 닉네임이 바뀌면 중복확인 상태 리셋
-    if (form.getValues('nicknameVerified')) {
-      form.setValue('nicknameVerified', false, { shouldDirty: true, shouldValidate: true });
+    if (step1) {
+      form.reset(step1, {
+        keepTouched: false,
+        keepDirty: false,
+        keepErrors: false,
+      });
+      queueMicrotask(() => {
+        form.trigger(['nickname', 'university', 'gender', 'privacyConsent', 'nicknameVerified']);
+      });
+    }
+  }, [step1, form]);
+
+  const {
+    formState: { errors, touchedFields, submitCount },
+  } = form;
+
+  // 헬퍼: 해당 필드 에러를 보여줄지 결정
+  const showErr = (name: keyof Step1Data) => !!errors[name] && (touchedFields[name] || submitCount > 0);
+  const gender = form.watch('gender');
+
+  const nickname = form.watch('nickname');
+  const verified = form.watch('nicknameVerified');
+  const verifiedNickname = form.watch('verifiedNickname'); // ✅ 추가
+  const isVerifiedFrozen = verified && verifiedNickname === nickname;
+
+  const saveToStore = useOnboardingStore((s) => s.save);
+  useEffect(() => {
+    const cur = form.getValues('nickname');
+    const snap = form.getValues('verifiedNickname');
+    const verifiedNow = form.getValues('nicknameVerified');
+
+    if (verifiedNow && cur !== snap) {
+      form.setValue('nicknameVerified', false, { shouldDirty: true, shouldValidate: false, shouldTouch: false });
+      saveToStore('step1', { ...form.getValues() });
+      // canProceed 갱신용 내부 검증만 수행
+      queueMicrotask(() => form.trigger(['nickname', 'university', 'gender', 'privacyConsent', 'nicknameVerified']));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nickname]);
+  }, [nickname]); // nickname 변경에만 반응
 
   const check = useCheckNickname();
   const [open, setOpen] = useState(false);
@@ -79,8 +125,7 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
       const res = await check.mutateAsync(name);
       setResult(res);
       setOpen(true);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (e) {
+    } catch {
       setResult({ available: false });
       setOpen(true);
     }
@@ -88,7 +133,14 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
 
   const handleModalConfirm = () => {
     if (result?.available) {
-      form.setValue('nicknameVerified', true, { shouldDirty: true, shouldValidate: true });
+      const current = form.getValues('nickname');
+      form.setValue('nicknameVerified', true, { shouldDirty: true, shouldValidate: false, shouldTouch: false });
+      form.setValue('verifiedNickname', current, { shouldDirty: true, shouldValidate: false, shouldTouch: false });
+      saveToStore('step1', { ...form.getValues(), nicknameVerified: true, verifiedNickname: current });
+      // canProceed 계산만 필요하면 조용히 내부 검증만 돌려줌(문구는 게이트로 안 보임)
+      queueMicrotask(() =>
+        form.trigger(['nickname', 'university', 'gender', 'privacyConsent', 'nicknameVerified', 'verifiedNickname']),
+      );
     }
     setOpen(false);
   };
@@ -101,6 +153,7 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
     return <LoadingSpinner />;
   }
 
+  const nickState = form.getFieldState('nickname', form.formState);
   return (
     <>
       <form className="space-y-9" onSubmit={(e) => e.preventDefault()}>
@@ -121,15 +174,17 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
               size="sm"
               className={cn(
                 '!rounded-20 absolute right-2.5 bottom-1 z-5 border px-3 py-2 disabled:border-stone-200 disabled:bg-stone-50 disabled:text-stone-500',
-                verified ? 'border-stone-400 bg-stone-50 text-stone-500' : 'bg-primary border-primary text-stone-100',
+                isVerifiedFrozen
+                  ? 'border-stone-400 bg-stone-50 text-stone-500'
+                  : 'bg-primary border-primary text-stone-100',
               )}
               onClick={handleClickCheck}
-              disabled={verified || check.isPending || !nickname || !!errors.nickname}
+              disabled={isVerifiedFrozen || check.isPending || nickState.invalid || !nickState.isDirty}
             >
-              {verified ? '확인 완료' : check.isPending ? '확인 중…' : '중복 확인'}
+              {isVerifiedFrozen ? '확인 완료' : check.isPending ? '확인 중…' : '중복 확인'}
             </Button>
           </div>
-          {errors.nickname && <p className="text-sm text-red-500">{errors.nickname.message as string}</p>}
+          {showErr('nickname') && <p className="text-sm text-red-500">{errors.nickname?.message as string}</p>}
         </div>
 
         <div className="space-y-2">
@@ -144,7 +199,7 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
                 onCheckedChange={(v) => form.setValue('isUniversityView', !!v, { shouldDirty: true })}
               />
               <Label htmlFor="universityPublic" className="text-sm">
-                소속 정보 공개
+                비공개
               </Label>
             </div>
           </div>
@@ -166,7 +221,7 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
               </Select>
             )}
           />
-          {errors.university?.message && <p className="text-sm text-red-500">{errors.university.message as string}</p>}
+          {showErr('university') && <p className="text-sm text-red-500">{errors.university?.message as string}</p>}
         </div>
 
         {/* 성별 */}
@@ -195,7 +250,23 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
               </Button>
             ))}
           </div>
-          {errors.gender?.message && <p className="text-sm text-red-500">{errors.gender.message as string}</p>}
+          {showErr('gender') && <p className="text-sm text-red-500">{errors.gender?.message as string}</p>}
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex items-start gap-2">
+            <Checkbox
+              id="privacyConsent"
+              checked={form.watch('privacyConsent')}
+              onCheckedChange={(v) => form.setValue('privacyConsent', !!v, { shouldDirty: true, shouldValidate: true })}
+            />
+            <Label htmlFor="privacyConsent" className="text-sm leading-5">
+              개인정보 처리 방침 동의(필수)
+            </Label>
+          </div>
+          {showErr('privacyConsent') && (
+            <p className="text-sm text-red-500">{errors.privacyConsent?.message as string}</p>
+          )}
         </div>
       </form>
       <CheckConfirmDialog
