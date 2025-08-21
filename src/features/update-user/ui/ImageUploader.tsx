@@ -4,7 +4,8 @@ import { X, Plus } from 'lucide-react';
 import { cn } from '@/shared/lib/tailwindMerge';
 import { toast } from 'sonner';
 import Image from 'next/image';
-import { UploadConfig, validateAndMergeFiles } from '../model/userImageUpload';
+import { toAcceptAttr, UploadConfig, validateAndMergeFilesV2 } from '../model/userImageUpload';
+import { ALLOWED_EXT, ALLOWED_MIME } from '@/shared/constants/constant';
 
 type Preview = { file: File; url: string };
 
@@ -44,14 +45,29 @@ export function ImageUploader({ value, onChange, maxFiles = 3, maxSizeMB = 5, cl
   const handleFiles = (files: FileList | null) => {
     if (!files) return;
 
-    const cfg: UploadConfig = { maxFiles, maxSizeMB };
-    const res = validateAndMergeFiles(value, files, cfg);
+    const cfg: UploadConfig = { maxFiles, maxSizeMB, allowedExt: ALLOWED_EXT, allowedMime: ALLOWED_MIME };
+    const res = validateAndMergeFilesV2(value, files, cfg);
 
     if (!res.ok) {
-      if (res.error === 'TOO_MANY_FILES') {
-        toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
-      } else if (res.error === 'FILE_TOO_LARGE') {
-        toast.error(`파일 크기가 ${maxSizeMB}MB 이상으로 업로드 불가합니다`);
+      switch (res.error) {
+        case 'TOO_MANY_FILES':
+          toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
+          break;
+        case 'INVALID_TYPE': {
+          // 상세 사유가 있으면 최대 3개까지 노출
+          const msg =
+            res.rejects
+              ?.slice(0, 3)
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              .map((r: { name: any }) => `${r.name}: 허용되지 않은 형식`)
+              .join('\n') ?? '허용되지 않은 형식의 파일이 포함되어 있어요.';
+          toast.error(`${msg}\n(허용: ${ALLOWED_EXT.join(', ')})`);
+          break;
+        }
+        case 'FILE_TOO_LARGE': {
+          toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
+          break;
+        }
       }
       resetInput();
       return;
@@ -112,7 +128,7 @@ export function ImageUploader({ value, onChange, maxFiles = 3, maxSizeMB = 5, cl
       <input
         ref={inputRef}
         type="file"
-        accept="image/*"
+        accept={toAcceptAttr(ALLOWED_EXT, ALLOWED_MIME)}
         multiple
         className="hidden"
         onChange={(e) => handleFiles(e.target.files)}

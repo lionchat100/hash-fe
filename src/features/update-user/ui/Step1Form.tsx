@@ -41,28 +41,6 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
     shouldUnregister: false,
   });
 
-  // 다음 버튼 활성화 여부 관련
-  const setCanProceed = useOnboardingStore((s) => s.setCanProceed);
-  useEffect(() => {
-    const sub = form.watch(() => {
-      const nicknameState = form.getFieldState('nickname', form.formState);
-      const uniState = form.getFieldState('university', form.formState);
-      const genderState = form.getFieldState('gender', form.formState);
-
-      const nickname = form.getValues('nickname');
-      const verified = form.getValues('nicknameVerified');
-      const verifiedNickname = form.getValues('verifiedNickname');
-      const consent = form.getValues('privacyConsent');
-
-      const verifiedOk = verified && verifiedNickname === nickname;
-
-      const can = verifiedOk && consent && !nicknameState.invalid && !uniState.invalid && !genderState.invalid;
-
-      setCanProceed('step1', can);
-    });
-    return () => sub.unsubscribe();
-  }, [form, setCanProceed]);
-
   // 부모에 submit 핸들 노출
   useImperativeHandle(ref, () => ({
     submit: () => {
@@ -93,8 +71,15 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
 
   const nickname = form.watch('nickname');
   const verified = form.watch('nicknameVerified');
-  const verifiedNickname = form.watch('verifiedNickname'); // ✅ 추가
+  const verifiedNickname = form.watch('verifiedNickname');
   const isVerifiedFrozen = verified && verifiedNickname === nickname;
+
+  // 다음 버튼 활성화 여부 관련
+  const setCanProceed = useOnboardingStore((s) => s.setCanProceed);
+  useEffect(() => {
+    const verifiedOk = verified && verifiedNickname === nickname;
+    setCanProceed('step1', form.formState.isValid && verifiedOk);
+  }, [form.formState.isValid, nickname, verified, verifiedNickname, setCanProceed]);
 
   const saveToStore = useOnboardingStore((s) => s.save);
   useEffect(() => {
