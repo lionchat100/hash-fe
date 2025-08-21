@@ -1,5 +1,3 @@
-// ✅ 변경 파일: ExploreView.tsx (질문에서 준 마지막 버전 기준)
-
 'use client';
 
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
@@ -252,7 +250,7 @@ export const ExploreView = () => {
               className="cursor-pointer"
             >
               {/* 참고: OtherProfileCard 내의 좋아요/채팅 버튼에 data-no-nav 속성을 달면 더욱 안전해요. */}
-              <OtherProfileCard profile={card} onLikeClick={handleLikeClick} onChatClick={handleChatClick} />
+              <OtherProfileCard profile={card} onChatClick={handleChatClick} />
             </div>
           ))}
         </div>

@@ -171,7 +171,7 @@ export default function OtherProfilePage() {
       <div className="p-4">
         <div className="relative">
           {/* 상대방 프로필 카드 - 실제 API 데이터 사용 */}
-          <OtherProfileCard profile={profileData} onLikeClick={handleLikeClick} onChatClick={handleChatClick} />
+          <OtherProfileCard profile={profileData} onChatClick={handleChatClick} />
         </div>
       </div>
     </div>
