@@ -25,12 +25,8 @@ export const ExploreView = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-<<<<<<< HEAD
   const [selectedPosition, setSelectedPosition] = useState<PositionFilter>(null);
-=======
-  const [selectedPosition, setSelectedPosition] = useState<PositionFilter>('ALL');
   const { startChat, isLoading: isChatLoading } = useChatStartOnExplore();
->>>>>>> f1a4a8161b99b1483bfbad9cb12662bfea41fa88
 
   const observerTarget = useRef<HTMLDivElement>(null);
 
