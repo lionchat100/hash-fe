@@ -67,8 +67,12 @@ export const FeedCard = (props: Props) => {
         )}
       </div>
       <div className="space-y-2 pb-2">
-        <div className="text-2xl font-bold text-stone-900">{item.feed.title}</div>
-        <div className="text-base font-medium text-stone-800">{item.feed.content}</div>
+        <div className="line-clamp-2 text-2xl font-bold [overflow-wrap:anywhere] break-all text-stone-900">
+          {item.feed.title}
+        </div>
+        <div className="line-clamp-[12] w-full text-base font-medium [overflow-wrap:anywhere] break-all text-stone-800">
+          {item.feed.content}
+        </div>
       </div>
       <div className="flex gap-4">
         <LikeButton item={item} />
