@@ -17,6 +17,7 @@ import { Checkbox } from '@/shared/ui/Checkbox';
 import { cn } from '@/shared/lib/tailwindMerge';
 import { useCheckNickname } from '../model/userNicknameCheck';
 import { CheckConfirmDialog } from './CheckConfirmDialog';
+import { LoadingSpinner } from '@/shared/ui/LoadingSpinner';
 
 interface Step1FormProps {
   onValid: (values: Step1Data) => void;
@@ -42,7 +43,8 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
   const setCanProceed = useOnboardingStore((s) => s.setCanProceed);
   useEffect(() => {
     setCanProceed('step1', form.formState.isValid && !!form.watch('nicknameVerified'));
-  }, [form.formState.isValid, form, setCanProceed]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.formState.isValid, form.watch('nicknameVerified'), setCanProceed]);
 
   // 부모에 submit 핸들 노출
   useImperativeHandle(ref, () => ({
@@ -77,6 +79,7 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
       const res = await check.mutateAsync(name);
       setResult(res);
       setOpen(true);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
       setResult({ available: false });
       setOpen(true);
@@ -95,7 +98,7 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
 
   // 로딩/에러/미존재 가드 (지금은 bundle이 항상 있다고 가정)
   if (!bundle || !uniConfig) {
-    return <div className="px-4 py-6">옵션을 불러오지 못했어요.</div>;
+    return <LoadingSpinner />;
   }
 
   return (
@@ -110,6 +113,7 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
             <Input
               placeholder="2~8자 이내, 한글,영문, 숫자만 가능"
               {...form.register('nickname')}
+              maxLength={8}
               disabled={check.isPending}
             />
             <Button
@@ -120,7 +124,7 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
                 verified ? 'border-stone-400 bg-stone-50 text-stone-500' : 'bg-primary border-primary text-stone-100',
               )}
               onClick={handleClickCheck}
-              disabled={verified || check.isPending || !nickname}
+              disabled={verified || check.isPending || !nickname || !!errors.nickname}
             >
               {verified ? '확인 완료' : check.isPending ? '확인 중…' : '중복 확인'}
             </Button>

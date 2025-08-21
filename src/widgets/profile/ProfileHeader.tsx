@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { Button } from '@/shared/ui/Button';
-import { Menu, Bell } from 'lucide-react';
-import Link from 'next/link';
+import { Menu } from 'lucide-react';
 import { ProfileSidebar } from './ProfileSidebar';
+import { NotificationBell } from '../common/NotificationBell';
 
 export const ProfileHeader = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -19,14 +19,10 @@ export const ProfileHeader = () => {
           </Button>
 
           {/* 제목 */}
-          <div className="text-lg font-semibold">프로필</div>
+          <div className="text-xl font-semibold">프로필</div>
 
           {/* 알림 버튼 - Link로 변경 */}
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="/notifications">
-              <Bell className="size-6" />
-            </Link>
-          </Button>
+          <NotificationBell />
         </div>
       </div>
 
