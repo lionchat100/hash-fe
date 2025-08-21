@@ -45,7 +45,7 @@ export const CommentCard = ({ item, onDeleted }: Props) => {
         <div className="flex items-center gap-2">
           <div
             className="flex cursor-pointer items-center gap-2"
-            onClick={() => route.push(`/profile/${item.writer.id}`)}
+            onClick={() => route.push(isMyComment ? `/profile` : `/profile/${item.writer.id}`)}
           >
             <div className="flex-shrink-0">
               <Avatar className="size-7">

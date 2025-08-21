@@ -14,6 +14,7 @@ import { toast } from 'sonner';
 interface Props {
   className?: string;
   item: FeedItem;
+  sortMy: boolean;
 }
 
 export const FeedCard = (props: Props) => {
@@ -21,7 +22,7 @@ export const FeedCard = (props: Props) => {
   const [showWarningModal, setShowWarningModal] = useState(false);
 
   const { currentUser } = useUserStore();
-  const { item } = props;
+  const { item, sortMy } = props;
   const isMyFeed = currentUser?.id === props.item.writer.id;
 
   const handleDeleteClick = () => {
@@ -47,7 +48,7 @@ export const FeedCard = (props: Props) => {
         <div className="flex items-center gap-2">
           <div
             className="flex cursor-pointer items-center gap-2"
-            onClick={() => route.push(`/profile/${item.writer.id}`)}
+            onClick={() => route.push(isMyFeed ? `/profile` : `/profile/${item.writer.id}`)}
           >
             <div className="flex-shrink-0">
               <Avatar className="size-7">
@@ -60,7 +61,7 @@ export const FeedCard = (props: Props) => {
           <div className="text-xs text-stone-700">{formatRelativeTime(item.feed.createdAt)}</div>
         </div>
         {/* 삭제 기능 추가 */}
-        {isMyFeed && (
+        {isMyFeed && sortMy && (
           <Button variant="zero" onClick={handleDeleteClick} className="px-2 py-1 text-xs font-normal text-stone-500">
             삭제
           </Button>
