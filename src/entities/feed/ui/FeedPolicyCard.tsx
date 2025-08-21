@@ -1,17 +1,11 @@
-import clsx from 'clsx';
-
-interface FeedPolicyCardProps {
-  className?: string;
-}
-
-export const FeedPolicyCard = (props: FeedPolicyCardProps) => {
+export const FeedPolicyCard = () => {
   return (
-    <div className={clsx('rounded-lg bg-white p-4 shadow-md', props.className)}>
-      <div className="flex items-center">
-        <div className="size-10 rounded-full bg-gray-200">정책 사항</div>
-        <div className="flex flex-col">
-          <div>당신은 변호사를 선임할 수 있습니다.</div>
-          <div>당신의 발언은 법정에서 불리하게 작용할 수 있으며 어쩌구 저쩌구</div>
+    <div className="p-4">
+      <div className="flex flex-col gap-3 rounded-xl bg-stone-200 p-5 text-sm font-medium text-stone-500">
+        <div>보안정책 사항</div>
+        <div>
+          Tokit은 건전한 네트워킹 공간을 지향합니다. 욕설, 비방, 성적 발언, 불법 정보 유포 등 운영 정책에 위반되는
+          행위는 사전 경고 없이 삭제 및 이용 제한이 될 수 있습니다.
         </div>
       </div>
     </div>

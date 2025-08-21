@@ -7,10 +7,12 @@ export const step1Schema = z.object({
     .string()
     .nonempty({ message: '이름을 입력해주세요' })
     .regex(usernameRegex, { message: '사용할 수 없는 닉네임입니다' }),
-  university: z.string().nonempty({ message: '대학을 선택해주세요' }),
+  university: z.string().nonempty({ message: '소속을 선택해주세요' }),
   isUniversityView: z.boolean(),
   gender: z.string().nonempty({ message: '성별을 선택해주세요' }),
   nicknameVerified: z.boolean(),
+  verifiedNickname: z.string().optional().nullable(),
+  privacyConsent: z.boolean().refine((v) => v === true, { message: '개인정보 처리방침에 동의해 주세요' }),
 });
 export const step2Schema = z.object({
   mbti: z.string().min(1),
