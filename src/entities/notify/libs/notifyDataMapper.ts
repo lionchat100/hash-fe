@@ -29,7 +29,7 @@ export const typeToCardData = (n: NotificationItem): NotificationCardMapData => 
       };
     case 'PROFILE_LIKE':
       return {
-        title: `${n.senderId}님이 좋아요♥를 보냈어요!`,
+        title: `${n.senderNickName}님이 좋아요♥를 보냈어요!`,
         body: '누군가에게 관심을 받으셨어요! 확인해볼까요?',
         href: `/profile/${n.targetId}`,
         imageUrl: n.imageUrl,
