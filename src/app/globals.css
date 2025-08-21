@@ -224,7 +224,7 @@
     padding-top: max(env(safe-area-inset-top), constant(safe-area-inset-top), 0px);
   }
   .safe-pb {
-    padding-bottom: max(env(safe-area-inset-bottom), constant(safe-area-inset-bottom), 0px);
+    padding-bottom: max(env(safe-area-inset-bottom), constant(safe-area-inset-bottom), 12px);
   }
   .safe-pl {
     padding-left: max(env(safe-area-inset-left), constant(safe-area-inset-left), 0px);
@@ -236,7 +236,7 @@
   .pageContainer {
     min-height: 100vh; /* fallback */
     min-height: 100dvh; /* 최신 브라우저에서 실제 기기 높이 */
-    padding-bottom: max(env(safe-area-inset-bottom), constant(safe-area-inset-bottom), 0px);
+    padding-bottom: max(env(safe-area-inset-bottom), constant(safe-area-inset-bottom), 12px);
     padding-top: max(env(safe-area-inset-top), constant(safe-area-inset-top), 0px);
   }
 
