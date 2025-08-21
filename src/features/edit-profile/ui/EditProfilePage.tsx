@@ -11,7 +11,7 @@ import { ProfileImageUploader } from './ProfileImageUploader';
 import { uploadImagesList } from '@/features/update-user/api/uploadImagesList';
 import { updateProfile, UpdateProfileRequest } from '../model/updateProfile';
 import { getUserProfile } from '@/entities/user/api/getUserProfile';
-import { UserMyProfile } from '@/entities/user/model/types';
+import { UserMyProfile, UploadImage } from '@/entities/user/model/types'; // [변경] UploadImage 추가
 import { LoadingSpinner } from '@/shared/ui/LoadingSpinner';
 
 const FOCUS_OPTIONS = [
@@ -31,7 +31,8 @@ export const EditProfilePage = () => {
 
   // 폼 상태
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
-  const [existingImages, setExistingImages] = useState<string[]>([]);
+  // [변경] 기존 이미지를 (id + url)로 보관
+  const [existingImages, setExistingImages] = useState<UploadImage[]>([]);
   const [bio, setBio] = useState('');
   const [focusType, setFocusType] = useState(''); // ← preference → focus로 통일 (한글 값 그대로 보관)
 
@@ -43,11 +44,21 @@ export const EditProfilePage = () => {
         const data = await getUserProfile();
         setProfileData(data);
         setBio(data.bio || '');
-        setExistingImages(data.imageUrls || []);
+
+        // [변경] 서버가 응답하는 이미지 리스트에서 id+url을 보관
+        // - 백엔드 응답: data.imageUrls: string[] -> UploadImage[] 형태로 변환 필요
+        // - 실제 이미지 ID는 별도 API에서 관리되므로, URL 기준으로 임시 ID 부여
+        const imageUrls = data.imageUrls || [];
+        const images: UploadImage[] = imageUrls.map((url: string, index: number) => ({
+          imageId: index + 1, // 임시 ID (실제로는 서버에서 이미지 ID를 함께 제공해야 함)
+          imageUrl: url,
+        }));
+
+        setExistingImages(images);
 
         // 기존: 영↔한 매핑 후 코드 저장
-        // 변경: 서버 응답 값(한글)을 그대로 상태에 저장
-        setFocusType(data.focusType || '');
+        // 변경: UI 상태는 한글로 들고 있다가 저장 시 코드로 변환
+        setFocusType(data.focusType ?? ''); // 서버에 한글 필드가 없으면 빈 값
       } catch (error) {
         console.error('프로필 데이터 로드 실패:', error);
         toast.error('프로필 데이터를 불러오는데 실패했습니다.');
@@ -69,61 +80,53 @@ export const EditProfilePage = () => {
     try {
       setIsSaving(true);
 
-      const updateData: UpdateProfileRequest = {};
+      // [변경] 항상 현재 UI 상태 기준으로 최종 imageIds 구성
+      // 1) 남아있는 기존 이미지들의 id
+      const keptExistingIds = existingImages.map((img) => img.imageId);
 
-      // 이미지 변경 체크
-      const originalImageUrls = profileData?.imageUrls || [];
-      const hasImageChanges =
-        uploadedImages.length > 0 ||
-        existingImages.length !== originalImageUrls.length ||
-        !existingImages.every((img, idx) => img === originalImageUrls[idx]);
+      // 2) 새로 업로드한 파일들을 업로드하여 id 확보
+      const newIds = uploadedImages.length > 0 ? await uploadImagesList(uploadedImages) : [];
 
-      // 이미지가 변경된 경우
-      if (hasImageChanges) {
-        const allImageIds: number[] = [];
+      // 3) 최종 이미지 id 배열 (기존 + 신규), 최대 3장 방어
+      const finalImageIds = [...keptExistingIds, ...newIds].slice(0, 3);
 
-        // 새로 업로드된 이미지 처리
-        if (uploadedImages.length > 0) {
-          console.log('🖼️ 새 이미지 업로드 중...', uploadedImages.length, '개');
-          const uploadResponse: number[] = await uploadImagesList(uploadedImages);
-
-          if (uploadResponse.length > 0) {
-            allImageIds.push(...uploadResponse);
-            console.log('✅ 새 이미지 업로드 완료. imageIds:', uploadResponse);
-          } else {
-            throw new Error('이미지 업로드 응답이 비어있습니다');
-          }
-        }
-
-        // 기존 이미지는 유지 (기존 이미지의 imageId는 알 수 없으므로 새 이미지만 전송)
-        // 서버에서 기존 이미지를 모두 교체하는 방식으로 처리
-        if (allImageIds.length > 0) {
-          // 항상 배열 형태로 전송 (일관성 유지)
-          updateData.imageIds = allImageIds;
-          console.log('📤 전송할 imageIds (배열):', updateData.imageIds);
-        } else {
-          // 새로 업로드된 이미지가 없고 기존 이미지가 삭제된 경우
-          updateData.imageIds = [];
-          console.log('🗑️ 모든 이미지 삭제');
-          toast.info('이미지가 모두 삭제되었습니다');
-        }
+      // [필수] 이미지 최소 1장 검증
+      if (finalImageIds.length === 0) {
+        toast.error('프로필 사진은 최소 1장 이상 등록해야 합니다.');
+        setIsSaving(false);
+        return;
       }
+
+      const updateData: UpdateProfileRequest = {
+        // [중요] 매번 수정 요청 시 현재 전체 이미지 구성을 전송
+        // 기존 이미지(변경하지 않은 사진) + 새로 업로드한 이미지 ID들을 모두 포함
+        imageIds: finalImageIds, // 백엔드에서 이 배열로 사용자의 이미지를 완전히 교체
+      };
 
       // bio가 변경된 경우
       if (bio.trim() !== (profileData?.bio || '').trim()) {
         updateData.bio = bio.trim();
       }
 
-      // 선호(=focus) 타입이 변경된 경우 - 기존 focusType과 비교
-      // 기존: 코드 매핑 후 전송
-      // 변경: 한글 값을 그대로 전송
-      if ((focusType || '') !== (profileData?.focusType || '')) {
-        updateData.focusType = focusType;
+      // focusType이 변경된 경우 (한글 그대로 전송)
+      if (focusType && focusType !== (profileData?.focusType || '')) {
+        updateData.focusType = focusType; // 한글 값 그대로 전송
       }
 
-      // 변경사항이 없는 경우
-      if (Object.keys(updateData).length === 0 && !hasImageChanges) {
+      // 변경사항이 하나도 없는 경우 (이미지/텍스트 모두 동일)
+      const currentImageUrls = profileData?.imageUrls || [];
+      const hasImageChanges =
+        finalImageIds.length !== currentImageUrls.length ||
+        uploadedImages.length > 0 ||
+        existingImages.length !== currentImageUrls.length;
+
+      if (
+        (updateData.bio ?? '').trim() === (profileData?.bio || '').trim() &&
+        !updateData.focusType &&
+        !hasImageChanges
+      ) {
         toast.info('변경된 내용이 없습니다.');
+        setIsSaving(false);
         return;
       }
 
@@ -133,9 +136,8 @@ export const EditProfilePage = () => {
         imageIds: updateData.imageIds,
         bio: updateData.bio,
         focusType: updateData.focusType,
-        hasImageChanges,
-        uploadedImagesCount: uploadedImages.length,
-        existingImagesCount: existingImages.length,
+        keptExistingIds,
+        newIds,
       });
 
       await updateProfile(updateData);
@@ -158,6 +160,10 @@ export const EditProfilePage = () => {
   const handleRemoveExistingImage = (index: number) => {
     setExistingImages((prev) => prev.filter((_, i) => i !== index));
   };
+
+  // 총 이미지 개수 계산 (기존 + 새로 업로드)
+  const totalImageCount = existingImages.length + uploadedImages.length;
+  const hasMinimumImages = totalImageCount >= 1;
 
   // 로딩 중
   if (isLoading) {
@@ -186,13 +192,14 @@ export const EditProfilePage = () => {
       </div>
 
       {/* 메인 컨텐츠 */}
-      <div className="space-y-6 p-4">
+      <div className="space-y-6 p-4 pb-24">
         {/* 이미지 업로드 섹션 */}
         <div className="space-y-3">
           <ProfileImageUploader
             value={uploadedImages}
             onChange={setUploadedImages}
-            existingImages={existingImages}
+            // [수정] UploadImage[] → string[] 변환하여 전달
+            existingImages={existingImages.map((img) => img.imageUrl)}
             onRemoveExistingImage={handleRemoveExistingImage}
             maxFiles={3}
             maxSizeMB={5}
@@ -254,22 +261,23 @@ export const EditProfilePage = () => {
             )}
             onConfirm={(selectedName) => {
               if (selectedName) {
-                handleFocusSelect(selectedName); // 그대로 저장
+                handleFocusSelect(selectedName); // 그대로 저장(전송 직전에 코드 변환)
               }
             }}
           />
         </div>
       </div>
 
-      {/* 하단 저장 버튼 */}
+      {/* 하단 저장 버튼 - ProfileEditButton과 동일한 스타일 */}
       <div className="fixed right-0 bottom-0 left-0 border-t border-gray-100 bg-white p-4">
         <div className="mx-auto max-w-md">
           <Button
             onClick={handleSave}
             disabled={isSaving}
-            className="h-12 w-full rounded-lg bg-gray-800 font-semibold text-white hover:bg-gray-900 disabled:opacity-50"
+            className="h-14 w-full cursor-pointer rounded-4xl text-lg font-semibold disabled:opacity-50"
+            size="lg"
           >
-            {isSaving ? '수정 완료' : '수정 완료'}
+            {isSaving ? '수정 중...' : '수정 완료'}
           </Button>
         </div>
       </div>

@@ -94,19 +94,25 @@ export function ProfileImageUploader({
 
     // 현재 총 이미지 수 (기존 + 새로 업로드)
     const currentTotal = existingImages.length + (value?.length ?? 0);
-    const remainingSlots = maxFiles - currentTotal;
+    const remainingSlots = Math.max(0, maxFiles - currentTotal);
 
-    if (files.length > remainingSlots) {
+    if (remainingSlots <= 0) {
       toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
       resetInput();
       return;
     }
 
-    const res = validateAndMergeFiles(value, files, { ...cfg, maxFiles: remainingSlots });
+    if (files.length > remainingSlots) {
+      toast.error(`${remainingSlots}장까지만 추가로 업로드 가능합니다`);
+      resetInput();
+      return;
+    }
+    const maxForNewFiles = Math.max(0, maxFiles - existingImages.length);
+    const res = validateAndMergeFiles(value, files, { ...cfg, maxFiles: maxForNewFiles });
 
     if (!res.ok) {
       if (res.error === 'TOO_MANY_FILES') {
-        toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
+        toast.error(`최대 ${remainingSlots}장까지만 추가로 업로드 가능합니다`);
       } else if (res.error === 'FILE_TOO_LARGE') {
         toast.error(`파일 크기가 ${maxSizeMB}MB 이상으로 업로드 불가합니다`);
       }
@@ -122,18 +128,19 @@ export function ProfileImageUploader({
     const preview = previews[idx];
 
     if (preview.isExisting) {
-      // 기존 이미지 삭제
-      if (onRemoveExistingImage) {
-        onRemoveExistingImage(idx);
+      // 기존 이미지 삭제 - 실제 기존 이미지 배열에서의 인덱스 계산
+      const existingImageIndex = idx; // 기존 이미지는 배열 앞쪽에 위치
+      if (onRemoveExistingImage && existingImageIndex < existingImages.length) {
+        onRemoveExistingImage(existingImageIndex);
       } else {
         toast.info('기존 이미지를 삭제할 수 없습니다');
       }
       return;
     }
 
-    // 새로 업로드한 파일 삭제
+    // 새로 업로드한 파일 삭제 - 새로 업로드한 파일 배열에서의 인덱스 계산
     const newFileIndex = idx - existingImages.length;
-    if (newFileIndex >= 0) {
+    if (newFileIndex >= 0 && newFileIndex < (value?.length ?? 0)) {
       const next = (value ?? []).filter((_, i) => i !== newFileIndex);
       onChange(next);
     }

@@ -25,7 +25,7 @@ export const ExploreView = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [selectedPosition, setSelectedPosition] = useState<PositionFilter>('ALL');
+  const [selectedPosition, setSelectedPosition] = useState<PositionFilter>(null);
   const { startChat, isLoading: isChatLoading } = useChatStartOnExplore();
 
   const observerTarget = useRef<HTMLDivElement>(null);
@@ -64,19 +64,18 @@ export const ExploreView = () => {
         const { selectedPosition: currentPosition } = currentStateRef.current;
 
         const fetch = async () => {
-          if (currentPosition === 'ALL') {
-            // 전체 추천 (클러스터링 기반) + [추가] 제외 목록 전달
+          if (currentPosition === null) {
+            // 전체 추천 (클러스터링 기반)
             return await getUserCards({
               size: PAGE_SIZE,
-              excludeUserIds, // [추가]
+              excludeUserIds,
             });
           } else {
             // 포지션별 필터링 추천 (API 문서의 category 엔드포인트 사용)
-            // [추가] category에서도 제외 목록을 전달(서버가 수용하면 활용, 미수용 시 무시)
             return await getUserCards({
               size: PAGE_SIZE,
               position: currentPosition,
-              excludeUserIds, // [추가]
+              excludeUserIds,
             });
           }
         };
@@ -237,7 +236,7 @@ export const ExploreView = () => {
   }
 
   return (
-    <div className="min-h-dvh">
+    <div className="min-h-dvh pb-15">
       <ExploreHeader onFilterClick={handleFilterClick} />
 
       <div className="mx-auto max-w-screen-md p-4">
