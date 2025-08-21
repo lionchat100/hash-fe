@@ -19,8 +19,14 @@ export const FeedPostHeader = ({
       <Button variant="ghost" className="size-14" onClick={onBackButtonClick}>
         <ChevronLeft className="size-6" />
       </Button>
-      <h1>게시판</h1>
-      <Button className="size-14 disabled:bg-white" onClick={onComplete} disabled={isSubmitting || !isFormValid}>
+      <h1 className="text-xl font-semibold">게시판</h1>
+      <Button
+        variant="ghost"
+        size="sm"
+        className="bg-transparent text-base font-semibold disabled:bg-transparent"
+        onClick={onComplete}
+        disabled={isSubmitting || !isFormValid}
+      >
         완료
       </Button>
     </div>
