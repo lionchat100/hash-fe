@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-// ✅ 변경 파일: ExploreView.tsx (A안 + onApply가 선택값 전달)
-
-=======
->>>>>>> 26cb53952dea273567c14570faf5c5710b98c992
 'use client';
 
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
@@ -225,12 +220,8 @@ export const ExploreView = () => {
               }}
               className="cursor-pointer"
             >
-<<<<<<< HEAD
-              <OtherProfileCard profile={card} onLikeClick={handleLikeClick} onChatClick={handleChatClick} />
-=======
               {/* 참고: OtherProfileCard 내의 좋아요/채팅 버튼에 data-no-nav 속성을 달면 더욱 안전해요. */}
               <OtherProfileCard profile={card} onChatClick={handleChatClick} />
->>>>>>> 26cb53952dea273567c14570faf5c5710b98c992
             </div>
           ))}
         </div>

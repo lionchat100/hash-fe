@@ -12,28 +12,7 @@ interface ProfileActionButtonsProps {
   onChatClick?: (userId: number) => Promise<void>;
 }
 
-<<<<<<< HEAD
-/**
- * 상대방 프로필에서 사용되는 액션 버튼들
- *
- * 기능:
- * - 좋아요 버튼: 좋아요 토글 (채워진/비어있는 하트)
- * - 채팅 시작 버튼: 1:1 채팅방 생성 및 이동
- *
- * UI:
- * - 세로로 배치된 2개의 원형 버튼
- * - 좋아요 상태에 따른 시각적 피드백
- * - 로딩 상태 표시
- *
- * @param userId - 상대방의 사용자 ID
- * @param isLiked - 현재 좋아요 상태
- * @param onLikeClick - 좋아요 버튼 클릭 시 호출되는 함수
- * @param onChatClick - 채팅 시작 버튼 클릭 시 호출되는 함수
- */
-export const ProfileActionButtons = ({ userId, isLiked, onLikeClick, onChatClick }: ProfileActionButtonsProps) => {
-=======
 export const ProfileActionButtons = ({ userId, isLiked, onChatClick }: ProfileActionButtonsProps) => {
->>>>>>> 26cb53952dea273567c14570faf5c5710b98c992
   const { startChat, isLoading: isChatLoading } = useChatStartOnExplore();
 
   const handleChatClick = async () => {
