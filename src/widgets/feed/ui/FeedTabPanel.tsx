@@ -17,6 +17,7 @@ export const FeedTabPanel = ({ sort, active }: { sort: Sort; active: boolean }) 
     },
   });
 
+  const isMyTab = sort === 'my';
   const items = useMemo(() => data?.pages.flatMap((p) => p.content) ?? [], [data]);
   const isEmpty = data?.pages.flatMap((page) => page.content).length === 0;
 
@@ -35,7 +36,7 @@ export const FeedTabPanel = ({ sort, active }: { sort: Sort; active: boolean }) 
 
       {/* 리스트 */}
       {items.map((it) => (
-        <FeedCard key={it.feed.id} item={it} />
+        <FeedCard key={it.feed.id} item={it} sortMy={isMyTab} />
       ))}
 
       {/* 로딩 인디케이터/센티넬 */}

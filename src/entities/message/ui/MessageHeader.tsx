@@ -1,10 +1,9 @@
-import clsx from 'clsx';
 import Link from 'next/link';
-import { ChevronLeft, Siren } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { Button } from '@/shared/ui/Button';
+import { ReportButton } from '@/widgets/common/ReportButton';
 
 interface MessageHeaderProps {
-  className?: string;
   opponentNickname: string | null;
 }
 
@@ -12,18 +11,14 @@ export const MessageHeader = (props: MessageHeaderProps) => {
   const { opponentNickname } = props;
 
   return (
-    <div className={clsx(props.className)}>
-      <div className="flex items-center justify-between bg-white">
+    <header className="safe-pt relative flex h-(--space-h-header) items-center justify-between bg-white px-4">
+      <Button variant="ghost" size="icon" asChild>
         <Link href="/chats">
-          <Button variant="ghost" size="icon" className="p-[27px]">
-            <ChevronLeft className="size-7 stroke-stone-900" />
-          </Button>
+          <ChevronLeft className="size-7" />
         </Link>
-        <h1 className="text-xl font-semibold text-stone-900">{opponentNickname || '대화'}</h1>
-        <Button variant="ghost" size="icon" className="p-[27px]">
-          <Siren className="size-7 stroke-stone-900" />
-        </Button>
-      </div>
-    </div>
+      </Button>
+      <h1 className="text-xl font-semibold text-stone-900">{opponentNickname || '대화'}</h1>
+      <ReportButton />
+    </header>
   );
 };
