@@ -1,6 +1,5 @@
 import { Drawer, DrawerContent, DrawerDescription, DrawerTitle, DrawerTrigger } from '@/shared/ui/Drawer';
 import { Button } from '@/shared/ui/Button';
-import { Badge } from '@/shared/ui/Badge';
 import { useEffect, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/shared/lib/tailwindMerge';

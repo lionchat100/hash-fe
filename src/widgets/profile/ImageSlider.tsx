@@ -18,14 +18,7 @@ type Props = {
   showIndicators?: boolean; // 인디케이터 표시 여부
 };
 
-export const ProfileImageSlider = ({
-  images,
-  initialIndex = 0,
-  onChange,
-  className,
-  height = 'h-[320px]',
-  showIndicators = true,
-}: Props) => {
+export const ProfileImageSlider = ({ images, initialIndex = 0, onChange, className, showIndicators = true }: Props) => {
   // 현재 활성화된 슬라이드 인덱스 상태 관리
   const [activeIndex, setActiveIndex] = useState(initialIndex);
   // Swiper 인스턴스 참조를 위한 ref

@@ -1,4 +1,4 @@
-import { UserMyProfile, UserProfile } from './types';
+import { UserProfile } from './types';
 
 // 임시 나의 프로필 데이터 (실제로는 현재 사용자 정보에서 가져올 예정)
 // UserMyProfile 타입에 맞게 구조 정의

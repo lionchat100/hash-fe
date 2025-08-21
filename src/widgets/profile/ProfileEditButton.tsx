@@ -1,11 +1,6 @@
 import { Button } from '@/shared/ui/Button';
 import Link from 'next/link';
 
-// type Props = {
-//   profileId?: string;
-//   className?: string;
-// };
-
 export const ProfileEditButton = (className: string) => {
   // 현재 로그인된 사용자의 프로필 수정 페이지로 이동
   const editPath = '/profile/edit';

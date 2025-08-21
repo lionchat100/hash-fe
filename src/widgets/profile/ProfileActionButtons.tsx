@@ -36,7 +36,6 @@ interface ProfileActionButtonsProps {
  * @param onChatClick - 채팅 시작 버튼 클릭 시 호출되는 함수
  */
 export const ProfileActionButtons = ({ userId, isLiked, onLikeClick, onChatClick }: ProfileActionButtonsProps) => {
-  const router = useRouter();
   const { startChat, isLoading: isChatLoading } = useChatStartOnExplore();
 
   // 버튼 로딩 상태 관리
