@@ -1,23 +1,18 @@
 'use client';
 
-import { Button } from '@/shared/ui/Button';
-import { Heart, Send } from 'lucide-react';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { cn } from '@/shared/lib/tailwindMerge';
+import { ProfileLikeButton } from '@/features/update-user';
 import { useChatStartOnExplore } from '@/features/update-chat';
+import { Button } from '@/shared/ui/Button';
+import { Send } from 'lucide-react';
 
 interface ProfileActionButtonsProps {
-  /** 상대방의 사용자 ID */
   userId: number;
-  /** 현재 좋아요 상태 */
   isLiked: boolean;
-  /** 좋아요 버튼 클릭 핸들러 */
-  onLikeClick?: (userId: number, currentLikeState: boolean) => Promise<void>;
-  /** 채팅 시작 버튼 클릭 핸들러 */
   onChatClick?: (userId: number) => Promise<void>;
 }
 
+<<<<<<< HEAD
 /**
  * 상대방 프로필에서 사용되는 액션 버튼들
  *
@@ -36,37 +31,13 @@ interface ProfileActionButtonsProps {
  * @param onChatClick - 채팅 시작 버튼 클릭 시 호출되는 함수
  */
 export const ProfileActionButtons = ({ userId, isLiked, onLikeClick, onChatClick }: ProfileActionButtonsProps) => {
+=======
+export const ProfileActionButtons = ({ userId, isLiked, onChatClick }: ProfileActionButtonsProps) => {
+>>>>>>> 26cb53952dea273567c14570faf5c5710b98c992
   const { startChat, isLoading: isChatLoading } = useChatStartOnExplore();
 
-  // 버튼 로딩 상태 관리
-  const [isLikeLoading, setIsLikeLoading] = useState(false);
-
-  // 좋아요 버튼 클릭 핸들러
-  const handleLikeClick = async () => {
-    if (isLikeLoading) return; // 중복 클릭 방지
-    setIsLikeLoading(true);
-
-    try {
-      if (onLikeClick) {
-        await onLikeClick(userId, isLiked);
-      } else {
-        // 기본 동작: API 호출 시뮬레이션
-        console.log(`${isLiked ? '좋아요 취소' : '좋아요'} 요청: 사용자 ${userId}`);
-        // TODO: 실제 좋아요 API 호출
-        // await toggleUserLike(userId);
-      }
-    } catch (error) {
-      console.error('좋아요 처리 실패:', error);
-      alert('좋아요 처리 중 오류가 발생했습니다.');
-    } finally {
-      setIsLikeLoading(false);
-    }
-  };
-
-  // 채팅 시작 버튼 클릭 핸들러
   const handleChatClick = async () => {
-    if (isChatLoading) return; // 중복 클릭 방지
-
+    if (isChatLoading) return;
     try {
       if (onChatClick) {
         await onChatClick(userId);
@@ -81,27 +52,8 @@ export const ProfileActionButtons = ({ userId, isLiked, onLikeClick, onChatClick
 
   return (
     <div className="flex flex-col items-center gap-1">
-      {/* 좋아요 버튼 */}
-      <Button
-        onClick={handleLikeClick}
-        disabled={isLikeLoading}
-        variant="ghost"
-        className={cn(
-          'group flex h-12 w-12 items-center justify-center border-0 p-0 hover:bg-transparent',
-          isLikeLoading && 'opacity-70',
-        )}
-        aria-label={isLiked ? '좋아요 취소' : '좋아요'}
-      >
-        <Heart
-          className={cn(
-            'size-8 transition-all duration-150 group-hover:size-10', // group-hover 적용
-            isLiked ? 'fill-red-500 text-red-500' : 'fill-none text-white',
-            isLikeLoading && 'animate-pulse',
-          )}
-        />
-      </Button>
+      <ProfileLikeButton userId={userId} isLiked={isLiked} />
 
-      {/* 채팅 시작 버튼 */}
       <Button
         onClick={handleChatClick}
         disabled={isChatLoading}
@@ -114,7 +66,7 @@ export const ProfileActionButtons = ({ userId, isLiked, onLikeClick, onChatClick
       >
         <Send
           className={cn(
-            'size-8 text-white transition-all duration-150 group-hover:size-10', // group-hover 적용
+            'size-8 text-white transition-all duration-150 group-hover:size-10',
             isChatLoading && 'animate-pulse',
           )}
         />

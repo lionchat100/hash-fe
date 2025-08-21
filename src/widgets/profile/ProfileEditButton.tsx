@@ -1,7 +1,11 @@
 import { Button } from '@/shared/ui/Button';
 import Link from 'next/link';
 
-export const ProfileEditButton = (className: string) => {
+interface ProfileEditButtonProps {
+  className?: string;
+}
+
+export const ProfileEditButton = ({ className }: ProfileEditButtonProps) => {
   // 현재 로그인된 사용자의 프로필 수정 페이지로 이동
   const editPath = '/profile/edit';
 
