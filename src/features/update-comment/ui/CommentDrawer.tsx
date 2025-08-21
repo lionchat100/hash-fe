@@ -45,13 +45,13 @@ export function CommentDrawer({ feedId, open, onOpenChange }: Props) {
 
   return (
     <Drawer open={open} onOpenChange={handleOpenChange}>
-      <DrawerContent className="h-dvh p-0">
+      <DrawerContent className="h-[60dvh] bg-white p-0">
         <DrawerTitle className="text-balck px-8 text-2xl font-semibold">댓글</DrawerTitle>
         <DrawerDescription className="hidden px-8 text-sm text-stone-500">
           댓글을 작성하고 다른 사람들과 소통해보세요.
         </DrawerDescription>
 
-        <div className="mx-auto grid h-[calc(100dvh_-_var(--space-h-nav,0px))] w-full max-w-(--space-max-layout) grid-rows-[1fr_auto]">
+        <div className="mx-auto grid h-[calc(60dvh_-_var(--space-h-nav,0px))] w-full max-w-(--space-max-layout) grid-rows-[1fr_auto]">
           <div className="overflow-auto overscroll-contain px-8 pt-5 pb-8">
             {status === 'pending' && <div>불러오는 중…</div>}
             {status === 'error' && <div>댓글을 불러오지 못했어요.</div>}
