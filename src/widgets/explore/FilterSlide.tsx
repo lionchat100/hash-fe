@@ -23,10 +23,10 @@ interface FilterSlideProps {
   onClose: () => void;
   /** 현재 선택된 포지션 필터 */
   selectedPosition: PositionFilter;
-  /** 포지션 필터 변경 핸들러 */
-  onPositionChange: (position: PositionFilter) => void;
-  /** 필터 적용 핸들러 */
-  onApply: () => void;
+  /** 포지션 필터 변경 핸들러 (선택사항: 부모에서 즉시 반영하고 싶을 때만 사용) */
+  onPositionChange?: (position: PositionFilter) => void; // [변경] 선택적으로
+  /** 필터 적용 핸들러: 클릭 시점의 선택값을 넘김 */
+  onApply: (position: PositionFilter) => void; // [변경] 시그니처 수정
 }
 
 /**
@@ -50,12 +50,17 @@ export const FilterSlide = ({ isOpen, onClose, selectedPosition, onPositionChang
     }
   };
 
-  // DrawerSelect의 handleConfirm과 동일한 로직
+  // 확인 버튼: 현재 선택값을 부모로 직접 전달
   const handleConfirm = () => {
-    onPositionChange(tempPosition);
-    onApply();
+    // 선택적으로, 즉시 상단 상태를 미리 바꾸고 싶다면 아래 라인 사용
+    onPositionChange?.(tempPosition); // [선택] 필요 없으면 제거 가능
+
+    // ✅ 핵심: 클릭 시점의 값 전달
+    onApply(tempPosition);
+
     onClose();
   };
+
   const renderPositionOptions = () => (
     <div className="flex flex-wrap items-start justify-start gap-3">
       {POSITIONS.map((position) => {
@@ -64,11 +69,13 @@ export const FilterSlide = ({ isOpen, onClose, selectedPosition, onPositionChang
           <button
             key={position.code}
             onClick={() => setTempPosition(selected ? null : position.code)}
-            // ← 1줄 3개 고정: 3등분 (calc(33.333% - gap 보정))
+            aria-pressed={selected} // [접근성]
             className={`basis-[calc(33.333%-0.75rem)] rounded-xl px-3 py-3 text-sm font-medium transition-colors ${
-              selected ? 'text-white' : 'border border-gray-300 bg-white text-gray-400 hover:border-gray-400'
+              selected
+                ? 'bg-primary text-white' // [권장] tailwind 토큰 사용
+                : 'border border-gray-300 bg-white text-gray-400 hover:border-gray-400'
             }`}
-            style={selected ? { backgroundColor: 'var(--primary)' } : undefined}
+            data-no-nav
           >
             {position.name}
           </button>

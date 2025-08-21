@@ -20,7 +20,6 @@ export const ProfileCard = ({ profile, className }: Props) => {
 
   // 프로필 사진 개수 확인 (API 응답에서는 imageUrls 필드 사용)
   const hasImages = profile.imageUrls && profile.imageUrls.length > 0;
-  const photoCount = hasImages ? profile.imageUrls.length : 1; // 기본 이미지 포함
   const hasMultiplePhotos = hasImages && profile.imageUrls.length > 1;
 
   // 프로필 사진 데이터를 ImageSlider 컴포넌트에서 요구하는 형식으로 변환

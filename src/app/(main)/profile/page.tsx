@@ -84,8 +84,8 @@ export default function ProfilePage() {
           {/* 프로필 카드 메인 영역 - 실제 API 데이터 사용 */}
           <ProfileCard profile={profileData} />
 
-          {/* 수정하기 버튼 - API 데이터의 userId 사용 */}
-          <ProfileEditButton profileId={profileData.userId.toString()} />
+          {/* 수정하기 버튼 */}
+          <ProfileEditButton />
         </div>
       </div>
     </div>
