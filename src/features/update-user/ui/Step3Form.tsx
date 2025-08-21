@@ -65,6 +65,7 @@ export const Step3Form = forwardRef<StepFormHandle, Step3FormProps>(function Ste
           className="resize-none"
           {...form.register('bio')}
           rows={5}
+          maxLength={30}
         />
         <p className="text-right text-sm text-stone-400">최소 5자 ~ 최대 30자</p>
         {errors.bio?.message && <p className="text-sm text-red-500">{errors.bio.message as string}</p>}

@@ -3,9 +3,12 @@ import * as React from 'react';
 import { Tabs, TabsList, TabsTrigger } from '@/shared/ui/Tabs';
 import { FeedTabPanel } from '@/widgets/feed/ui/FeedTabPanel';
 import { Sort } from '@/entities/feed/model/types';
+import { useSearchParams } from 'next/navigation';
 
 export default function FeedTabs() {
-  const [active, setActive] = React.useState<Sort>('latest');
+  const searchParams = useSearchParams();
+  const tab = searchParams.get('tab') ?? 'latest';
+  const [active, setActive] = React.useState<Sort>(tab as Sort);
 
   return (
     <div className="h-[calc(100vh-54px)] overflow-hidden px-4">

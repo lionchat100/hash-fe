@@ -18,9 +18,7 @@ export const AlarmView = () => {
           >
             <ChevronLeft className="size-6 text-gray-700" />
           </button>
-          
           <h1 className="text-lg font-semibold text-gray-900">알림</h1>
-          
           <div className="w-10" /> {/* 우측 공간 유지용 */}
         </div>
       </div>

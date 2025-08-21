@@ -101,7 +101,8 @@ export const FeedPostForm = forwardRef<FeedPostFormRef, FeedPostFormProps>(
             onChange={handleInputChange('title')}
             required
             disabled={isSubmitting}
-            className="border-b-1 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+            maxLength={34}
+            className="border-b-1 px-0 py-3 text-2xl font-bold text-stone-900 shadow-none placeholder:text-stone-500 focus-visible:ring-0 focus-visible:ring-offset-0"
           />
         </div>
         <div className="space-y-2">
@@ -113,7 +114,8 @@ export const FeedPostForm = forwardRef<FeedPostFormRef, FeedPostFormProps>(
             required
             disabled={isSubmitting}
             rows={6}
-            className="resize-none rounded-none bg-white shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+            maxLength={276}
+            className="resize-none rounded-none bg-white p-0 text-base font-medium text-stone-900 shadow-none placeholder:text-stone-500 focus-visible:ring-0 focus-visible:ring-offset-0"
           />
         </div>
       </form>

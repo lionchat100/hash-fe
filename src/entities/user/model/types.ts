@@ -66,6 +66,8 @@ export interface Step1Data {
   isUniversityView: boolean;
   gender: string;
   nicknameVerified: boolean;
+  privacyConsent: boolean;
+  verifiedNickname?: string | null;
 }
 export interface Step2Data {
   mbti: string;
@@ -93,8 +95,8 @@ export interface OnboardingFormData {
   mbti: Step2Data['mbti'];
   preferenceType: Step2Data['preferenceType'];
   bio: Step3Data['bio'];
-  requiredAgreements: boolean;
-  isUniversityView: boolean;
+  requiredAgreements: Step1Data['privacyConsent'];
+  isUniversityView: Step1Data['isUniversityView'];
   marketingAgreements: boolean;
   imageIds: number[];
 }

@@ -5,6 +5,7 @@ import { Heart, Send } from 'lucide-react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/shared/lib/tailwindMerge';
+import { useChatStartOnExplore } from '@/features/update-chat';
 
 interface ProfileActionButtonsProps {
   /** 상대방의 사용자 ID */
@@ -36,10 +37,10 @@ interface ProfileActionButtonsProps {
  */
 export const ProfileActionButtons = ({ userId, isLiked, onLikeClick, onChatClick }: ProfileActionButtonsProps) => {
   const router = useRouter();
+  const { startChat, isLoading: isChatLoading } = useChatStartOnExplore();
 
   // 버튼 로딩 상태 관리
   const [isLikeLoading, setIsLikeLoading] = useState(false);
-  const [isChatLoading, setIsChatLoading] = useState(false);
 
   // 좋아요 버튼 클릭 핸들러
   const handleLikeClick = async () => {
@@ -68,26 +69,15 @@ export const ProfileActionButtons = ({ userId, isLiked, onLikeClick, onChatClick
   const handleChatClick = async () => {
     if (isChatLoading) return; // 중복 클릭 방지
 
-    setIsChatLoading(true);
-
     try {
       if (onChatClick) {
         await onChatClick(userId);
       } else {
-        // 기본 동작: 채팅방 생성 및 이동
-        console.log(`채팅 시작 요청: 사용자 ${userId}`);
-        // TODO: 실제 채팅방 생성 API 호출
-        // const chatRoom = await createChatRoom(userId);
-        // router.push(`/chat/${chatRoom.id}`);
-
-        // 임시: 채팅 페이지로 이동 (실제 구현 시 제거)
-        router.push(`/chat/${userId}`);
+        await startChat(userId);
       }
     } catch (error) {
       console.error('채팅 시작 실패:', error);
       alert('채팅 시작 중 오류가 발생했습니다.');
-    } finally {
-      setIsChatLoading(false);
     }
   };
 

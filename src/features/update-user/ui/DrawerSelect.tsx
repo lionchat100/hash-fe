@@ -1,4 +1,4 @@
-import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '@/shared/ui/Drawer';
+import { Drawer, DrawerContent, DrawerDescription, DrawerTitle, DrawerTrigger } from '@/shared/ui/Drawer';
 import { Button } from '@/shared/ui/Button';
 import { useEffect, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
@@ -49,7 +49,6 @@ export const DrawerSelect = <T extends string>({
         </div>
       </div>
       <Drawer open={open} onOpenChange={handleOpenChange}>
-        <DrawerTitle className="hidden">{label}</DrawerTitle>
         <DrawerTrigger asChild>
           <Button
             variant="drawerSelect"
@@ -61,6 +60,8 @@ export const DrawerSelect = <T extends string>({
           </Button>
         </DrawerTrigger>
         <DrawerContent className="space-y-5 px-8">
+          <DrawerTitle className="sr-only">{label}</DrawerTitle>
+          <DrawerDescription className="sr-only">프로필 옵션 선택</DrawerDescription>
           <div className="text-2xl font-bold text-stone-600">
             {label === 'MBTI' ? (
               <>
