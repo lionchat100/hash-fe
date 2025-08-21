@@ -5,35 +5,22 @@ import { useChatSubscription } from '@/features/update-chat';
 import { MessageScrollArea } from '@/widgets/message';
 import { MessageInput } from '@/features/update-message';
 import { useChatStore } from '@/entities/chat';
-import { MessageHeader, useMessageQuery } from '@/entities/message';
-import { useUserStore } from '@/entities/user';
+import { MessageHeader } from '@/entities/message';
 
-export const ChatRoomView = ({ roomId }: { roomId: number }) => {
-  const { setCurrentRoom, setPersonName, personName } = useChatStore();
-  const { currentUser } = useUserStore();
-  const { data } = useMessageQuery(roomId);
+export const ChatRoomView = ({ roomId, opponentNickname }: { roomId: number; opponentNickname: string }) => {
+  const { setCurrentRoom } = useChatStore();
 
   useEffect(() => {
     setCurrentRoom(roomId);
     return () => setCurrentRoom(null);
   }, [roomId, setCurrentRoom]);
 
-  useEffect(() => {
-    if (personName) return;
-    if (!currentUser?.id) return;
-    const pages = data?.pages;
-    if (!pages?.length) return;
-    const flatDesc = pages.flat();
-    const other = flatDesc.find((m) => m.id !== currentUser.id);
-    if (other?.nickname) setPersonName(other.nickname);
-  }, [data?.pages, currentUser?.id, personName, setPersonName]);
-
   useChatSubscription(roomId);
 
   return (
     <div className="flex h-screen flex-col">
       {/* 채팅방 헤더 */}
-      <MessageHeader personName={personName} />
+      <MessageHeader opponentNickname={opponentNickname} />
 
       {/* 메시지 스크롤 영역 */}
       <div className="min-h-0 flex-1">

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { persist } from 'zustand/middleware';
 import { User, StepKey, AllFormData, UserMyProfile } from './types';
 
 interface UserState {
@@ -17,8 +17,11 @@ export const useUserStore = create<UserState>()(
     }),
     {
       name: 'userStorage',
-      storage: createJSONStorage(() => sessionStorage),
-      partialize: (state) => ({ currentUser: state.currentUser ? { id: state.currentUser.id } : null }),
+      partialize: (state) => ({
+        currentUser: state.currentUser
+          ? { id: state.currentUser.id, isOnboardingCompleted: state.currentUser.isOnboardingCompleted }
+          : null,
+      }),
     },
   ),
 );

@@ -1,7 +1,7 @@
 // Model
 export { userOAuthLogin } from './model/userOAuthLogin';
 export { userAuthLogout } from './model/userAuthLogout';
-export { userAutoLogin } from './model/userAutoLogin';
+export { userAuthLogin } from './model/userAuthLogin';
 
 // UI
 export { Step1Form } from './ui/Step1Form';

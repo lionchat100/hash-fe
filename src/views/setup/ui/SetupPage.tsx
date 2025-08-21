@@ -1,24 +1,23 @@
 'use client';
 
-import { userAutoLogin } from '@/features/update-user';
-import { Button } from '@/shared/ui/Button';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/shared/ui/Button';
 import { SERVICE_INFO } from '@/shared/constants';
+import { userAuthLogin } from '@/features/update-user';
 
 export const SetupPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const checkUserAuth = async () => {
-      const result = await userAutoLogin();
+    const checkAutoLogin = async () => {
+      const result = await userAuthLogin();
       if (result.success) {
-        console.log('자동 로그인 성공: 유저, 프로필 조회 성공');
-        router.push('/explore');
+        router.replace('/explore');
       }
     };
-    checkUserAuth();
+    checkAutoLogin();
   }, []);
 
   return (

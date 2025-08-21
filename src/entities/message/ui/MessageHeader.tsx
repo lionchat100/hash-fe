@@ -5,11 +5,11 @@ import { Button } from '@/shared/ui/Button';
 
 interface MessageHeaderProps {
   className?: string;
-  personName: string | null;
+  opponentNickname: string | null;
 }
 
 export const MessageHeader = (props: MessageHeaderProps) => {
-  const { personName } = props;
+  const { opponentNickname } = props;
 
   return (
     <div className={clsx(props.className)}>
@@ -19,7 +19,7 @@ export const MessageHeader = (props: MessageHeaderProps) => {
             <ChevronLeft className="size-7 stroke-stone-900" />
           </Button>
         </Link>
-        <h1 className="text-xl font-semibold text-stone-900">{personName || '대화'}</h1>
+        <h1 className="text-xl font-semibold text-stone-900">{opponentNickname || '대화'}</h1>
         <Button variant="ghost" size="icon" className="p-[27px]">
           <Siren className="size-7 stroke-stone-900" />
         </Button>

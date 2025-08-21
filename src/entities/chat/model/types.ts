@@ -7,4 +7,11 @@ export interface ChatRoom {
   isRead: boolean; // 마지막 메시지 읽음 여부
 }
 
+export interface ChatRoomContext {
+  senderId: number;
+  receiverId: number;
+  senderNickname: string;
+  receiverNickname: string;
+}
+
 export type ChatRoomList = ChatRoom[];

@@ -4,6 +4,7 @@ import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import { GoogleAnalytics } from '@/shared/config/GoogleAnalytics';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   applicationName: SERVICE_INFO.NAME,
@@ -108,7 +109,10 @@ export default function RootLayout({
         <div className="pageContainer mx-auto max-w-(--space-max-layout) min-w-xs bg-white">
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="tokit-theme">
             <SonnerProvider>
-              <QueryProvider>{children}</QueryProvider>
+              <QueryProvider>
+                {children}
+                <Analytics />
+              </QueryProvider>
             </SonnerProvider>
           </ThemeProvider>
         </div>

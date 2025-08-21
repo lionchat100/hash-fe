@@ -1,8 +1,8 @@
 import api from '@/shared/api/axios';
 
-export const initChatRoom = async (receiverId: number): Promise<number> => {
+export const initChatRoom = async (id: number): Promise<number> => {
   const response = await api.post<{ chatRoomId: number }>('/chatrooms/init', {
-    receiverId,
+    id,
   });
   return response.data.chatRoomId;
 };

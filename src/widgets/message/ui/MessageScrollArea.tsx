@@ -10,7 +10,6 @@ export function MessageScrollArea({ roomId, className }: { roomId: number; class
   const [isInitialRender, setIsInitialRender] = useState(true);
   const [isRequesting, setIsRequesting] = useState(false); // 요청 중복 방지 플래그
 
-  // 콜백 ref: Viewport DOM을 state에 저장(리렌더 유도)
   const attachViewportRef = useCallback((element: HTMLDivElement | null) => {
     setRootElement(element);
   }, []);
