@@ -45,7 +45,6 @@ export const ProfileActionButtons = ({ userId, isLiked, onLikeClick, onChatClick
   // 좋아요 버튼 클릭 핸들러
   const handleLikeClick = async () => {
     if (isLikeLoading) return; // 중복 클릭 방지
-
     setIsLikeLoading(true);
 
     try {

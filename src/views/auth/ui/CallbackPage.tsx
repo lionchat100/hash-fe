@@ -21,7 +21,7 @@ export const CallbackPage = () => {
 
       if (!code) {
         console.error('OAuth 로그인 실패: 임시 코드 없음');
-        return router.push('/');
+        return router.replace('/');
       }
 
       setIsProcessing(true);
@@ -36,7 +36,7 @@ export const CallbackPage = () => {
               if (currentProfile) {
                 profileStore.setCurrentProfile(currentProfile);
                 console.log('OAuth 로그인 성공: 유저, 프로필 조회 성공', currentProfile);
-                router.push('/explore');
+                router.replace('/explore');
               } else {
                 console.error('프로필 조회 실패: 프로필 없음');
                 setError('프로필 조회에 실패했습니다.');
@@ -47,12 +47,12 @@ export const CallbackPage = () => {
             }
           } else {
             console.log('OAuth 로그인 성공: 유저 온보딩 미완료');
-            router.push('/onboarding');
+            router.replace('/onboarding');
           }
         } else {
           console.error('OAuth 로그인 실패: 토큰 발급 실패');
           setError('토큰 발급에 실패했습니다.');
-          router.push('/');
+          router.replace('/');
         }
       } catch (error) {
         console.error('OAuth 로그인 실패: 예상치 못한 오류', error);

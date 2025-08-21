@@ -2,7 +2,7 @@ import { clearUserData, getCurrentUser, getUserProfile, useProfileStore, useUser
 import { refreshManager } from '@/shared/api/refreshManager';
 import { getCookie } from 'cookies-next/client';
 
-export const userAutoLogin = async () => {
+export const userAuthLogin = async () => {
   try {
     // 리프레시 토큰 확인
     const refreshToken = getCookie('refresh_token');
