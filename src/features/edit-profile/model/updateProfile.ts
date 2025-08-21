@@ -1,7 +1,6 @@
 import api from '@/shared/api/axios';
 
 export interface UpdateProfileRequest {
-  imageId?: number;
   imageIds?: number[];
   bio?: string;
   focusType?: string;

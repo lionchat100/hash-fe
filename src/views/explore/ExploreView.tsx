@@ -1,4 +1,4 @@
-// ✅ 변경 파일: ExploreView.tsx (질문에서 준 마지막 버전 기준)
+// ✅ 변경 파일: ExploreView.tsx (A안 + onApply가 선택값 전달)
 
 'use client';
 
@@ -12,8 +12,9 @@ import { UserProfile } from '@/entities/user/model/types';
 import { LoadingSpinner, InlineLoadingSpinner } from '@/shared/ui/LoadingSpinner';
 import { useChatStartOnExplore } from '@/features/update-chat';
 import { toast } from 'sonner';
+import Image from 'next/image';
 
-const PAGE_SIZE = 10; // [추가] 요청 단위 고정
+const PAGE_SIZE = 10;
 
 export const ExploreView = () => {
   const router = useRouter();
@@ -26,21 +27,20 @@ export const ExploreView = () => {
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState<PositionFilter>(null);
-  const { startChat, isLoading: isChatLoading } = useChatStartOnExplore();
+  const { startChat } = useChatStartOnExplore();
 
   const observerTarget = useRef<HTMLDivElement>(null);
 
-  // [추가] 카드 내부 액션 클릭이면 내비게이션 막기
+  // 버튼/링크 클릭 시 카드 내비게이션 방지
   const isInActionElement = (e: React.MouseEvent) => {
     const el = e.target as HTMLElement | null;
-    // button, a, role="button", data-no-nav 중 하나라도 조상에 있으면 상세 이동 금지
     return !!el?.closest('button, a, [role="button"], [data-no-nav]');
   };
 
-  // [추가] 이미 로드한 userId 문자열 (excludeUserIds 용)
+  // 로드한 userId 문자열 (excludeUserIds 용)
   const excludeUserIds = useMemo(() => (cards.length ? cards.map((c) => c.userId).join(',') : undefined), [cards]);
 
-  // [변경] 최신 상태 ref에 isLoading 포함
+  // 최신 상태를 즉시 참조하기 위한 ref
   const currentStateRef = useRef({
     selectedPosition,
     isLoading,
@@ -52,7 +52,7 @@ export const ExploreView = () => {
     currentStateRef.current = { selectedPosition, isLoading, isLoadingMore, hasMore };
   }, [selectedPosition, isLoading, isLoadingMore, hasMore]);
 
-  // [변경] 카드 로드 함수: excludeUserIds & 끝 검출 개선
+  // 카드 로드: 첫 페이지는 excludeUserIds 제외, 더보기만 적용
   const loadCards = useCallback(
     async (isMore: boolean = false) => {
       try {
@@ -63,50 +63,29 @@ export const ExploreView = () => {
 
         const { selectedPosition: currentPosition } = currentStateRef.current;
 
-        const fetch = async () => {
-          if (currentPosition === null) {
-            // 전체 추천 (클러스터링 기반)
-            return await getUserCards({
-              size: PAGE_SIZE,
-              excludeUserIds,
-            });
-          } else {
-            // 포지션별 필터링 추천 (API 문서의 category 엔드포인트 사용)
-            return await getUserCards({
-              size: PAGE_SIZE,
-              position: currentPosition,
-              excludeUserIds,
-            });
-          }
-        };
+        const params: Record<string, any> = { size: PAGE_SIZE };
+        if (currentPosition !== null) params.position = currentPosition;
+        if (isMore && excludeUserIds) params.excludeUserIds = excludeUserIds;
 
-        const newCards = await fetch();
+        const newCards = await getUserCards(params);
 
-        // [변경] 끝 검출: 요청한 크기보다 작으면 더 없음
-        if (newCards.length < PAGE_SIZE) {
-          setHasMore(false);
-        }
-
+        if (newCards.length < PAGE_SIZE) setHasMore(false);
         if (newCards.length === 0) {
+          setHasMore(false);
           return;
         }
 
         if (isMore) {
-          // [보완] 혹시 서버가 exclude를 못 지켜도 프론트에서 한 번 더 중복 제거
           setCards((prev) => {
             const seen = new Set(prev.map((c) => c.userId));
             const deduped = newCards.filter((c) => !seen.has(c.userId));
-
-            // [추가] 신규 아이템이 0개면 더 이상 불러오지 않도록 종료
             if (deduped.length === 0) {
               setHasMore(false);
               return prev;
             }
-
             return [...prev, ...deduped];
           });
         } else {
-          // 첫 로드 또는 필터 변경 시 새로 설정
           setCards(newCards);
         }
       } catch (error) {
@@ -117,10 +96,9 @@ export const ExploreView = () => {
         setIsLoadingMore(false);
       }
     },
-    [excludeUserIds], // [변경] 제외 목록이 바뀌면 로딩 함수 갱신
+    [excludeUserIds],
   );
 
-  // [변경] 무한스크롤: isLoading도 차단 조건에 추가
   const loadMoreCards = useCallback(() => {
     const { isLoading, isLoadingMore, hasMore } = currentStateRef.current;
     if (!isLoading && !isLoadingMore && hasMore) {
@@ -133,31 +111,16 @@ export const ExploreView = () => {
     loadCards();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // selectedPosition 변경 시 필터링 재적용
-  useEffect(() => {
-    // 빈 카드 상태일 때만 새로 로드 (필터 적용 후 상황)
-    if (cards.length === 0 && !isLoading) {
-      loadCards(false);
-    }
-  }, [selectedPosition, cards.length, isLoading, loadCards]);
-
-  // [변경] 옵저버: rootMargin으로 프리페치, cleanup 안전화
+  // 옵저버
   useEffect(() => {
     const el = observerTarget.current;
     if (!el) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        const target = entries[0];
-        if (target.isIntersecting) {
-          loadMoreCards();
-        }
+        if (entries[0].isIntersecting) loadMoreCards();
       },
-      {
-        root: null,
-        rootMargin: '200px 0px', // 미리 당겨 로드
-        threshold: 0.1,
-      },
+      { root: null, rootMargin: '200px 0px', threshold: 0.1 },
     );
 
     observer.observe(el);
@@ -167,21 +130,30 @@ export const ExploreView = () => {
     };
   }, [loadMoreCards]);
 
-  // 필터 버튼/적용 로직
+  // 필터 열기/닫기/변경
   const handleFilterClick = () => setIsFilterOpen(true);
   const handleFilterClose = () => setIsFilterOpen(false);
   const handlePositionChange = (position: PositionFilter) => setSelectedPosition(position);
 
-  const handleFilterApply = () => {
-    console.log('🔄 필터 적용 시작:');
-    console.log('  - 선택된 포지션:', selectedPosition);
-    console.log('  - 현재 카드 수:', cards.length);
+  // ✅ 적용 시 선택값을 직접 받아서 ref와 state를 "즉시" 동기화 후 로드
+  const handleFilterApply = (nextPosition: PositionFilter) => {
+    console.log('🔄 필터 적용 시작:', nextPosition);
 
-    // [보완] 상태 초기화 후 새 필터로 다시 로드
+    // 1) 현재 참조값을 먼저 갱신 (loadCards가 즉시 올바른 값 사용)
+    currentStateRef.current.selectedPosition = nextPosition;
+
+    // 2) 리액트 상태도 갱신 (다음 렌더 반영)
+    setSelectedPosition(nextPosition);
+
+    // 3) 상태 초기화
     setCards([]);
     setHasMore(true);
     setIsLoadingMore(false);
     setHasError(null);
+    setIsFilterOpen(false);
+
+    // 4) 첫 페이지 바로 로드 (excludeUserIds 없이)
+    loadCards(false);
   };
 
   const handleLikeClick = async (userId: number, currentLikeState: boolean) => {
@@ -245,19 +217,16 @@ export const ExploreView = () => {
             <div
               key={card.userId}
               onClick={(e) => {
-                // ★ 버튼/링크 등을 클릭했을 땐 상세 페이지로 이동하지 않음
                 if (isInActionElement(e)) return;
                 handleCardClick(card.userId);
               }}
               className="cursor-pointer"
             >
-              {/* 참고: OtherProfileCard 내의 좋아요/채팅 버튼에 data-no-nav 속성을 달면 더욱 안전해요. */}
               <OtherProfileCard profile={card} onLikeClick={handleLikeClick} onChatClick={handleChatClick} />
             </div>
           ))}
         </div>
 
-        {/* [변경] sentinel 크기 살짝 키움 */}
         <div ref={observerTarget} className="h-8" />
 
         {isLoadingMore && (
@@ -275,7 +244,7 @@ export const ExploreView = () => {
                 setHasMore(true);
                 loadCards();
               }}
-              className="mt-2 text-blue-600 underline"
+              className="text-primary mt-2 underline"
             >
               새로운 추천 받기
             </button>
@@ -284,20 +253,22 @@ export const ExploreView = () => {
 
         {cards.length === 0 && !isLoading && (
           <div className="py-16 text-center">
+            <Image src="images/logo/tokit_loading.svg" alt="로고" width={100} height={100} className="mx-auto" />
             <div className="text-lg text-gray-600">추천할 프로필이 없습니다</div>
-            <button onClick={() => loadCards()} className="mt-2 text-blue-600 underline">
+            <button onClick={() => loadCards()} className="text-primary mt-2 underline">
               새로고침
             </button>
           </div>
         )}
       </div>
 
+      {/* ✅ onApply가 현재 선택된 포지션을 전달하도록 변경 필요 */}
       <FilterSlide
         isOpen={isFilterOpen}
         onClose={handleFilterClose}
         selectedPosition={selectedPosition}
         onPositionChange={handlePositionChange}
-        onApply={handleFilterApply}
+        onApply={handleFilterApply} // ← (nextPosition: PositionFilter) 인자 전달
       />
     </div>
   );
