@@ -1,6 +1,7 @@
 'use client';
 
 import { clearUserData, getCurrentUser } from '@/entities/user';
+import { LoadingSpinner } from '@/shared/ui/LoadingSpinner';
 import { OnboardingPage } from '@/views/auth/ui/OnboardingPage';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -26,6 +27,6 @@ export default function Page() {
     checkOnboarding();
   }, [router]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingSpinner fullScreen />;
   return <OnboardingPage />;
 }
