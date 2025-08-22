@@ -111,7 +111,7 @@ export function ProfileImageUploader({
 
           return (
             <div key={slotIndex} className="relative flex-1">
-              <div className="rounded-20 relative aspect-square w-full overflow-hidden border">
+              <div className="rounded-20 relative aspect-square w-full overflow-hidden border-2">
                 {hasImage ? (
                   <>
                     {/* 대표 태그: 첫 번째 이미지 */}
@@ -127,7 +127,7 @@ export function ProfileImageUploader({
                   <button
                     type="button"
                     onClick={handleClickAdd}
-                    className="hover:bg-muted/50 flex aspect-square w-full items-center justify-center border border-stone-400 text-stone-400"
+                    className="hover:bg-muted/50 flex aspect-square w-full items-center justify-center text-stone-400"
                     aria-label="이미지 추가"
                     disabled={isFull}
                   >
