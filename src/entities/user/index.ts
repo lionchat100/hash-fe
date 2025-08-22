@@ -1,5 +1,5 @@
 // Model
-export type { User, UserMyProfile, UserProfile } from './model/types';
+export type { User, UserMyProfile, UserProfile, PageResponse } from './model/types';
 export { useUserStore } from './model/slice';
 export { useProfileStore } from './model/slice';
 
