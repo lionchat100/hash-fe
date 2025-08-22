@@ -239,15 +239,23 @@
     padding-bottom: max(env(safe-area-inset-bottom), constant(safe-area-inset-bottom), 12px);
     padding-top: max(env(safe-area-inset-top), constant(safe-area-inset-top), 0px);
   }
-
-  /* safe padding 시각화 */
-  body::before {
-    content: '';
+  .nav-fixed {
     position: fixed;
-    inset: 0;
-    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-    outline: 2px dashed red;
-    pointer-events: none;
-    z-index: 999999;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: env(safe-area-inset-bottom);
+    height: var(--space-h-nav);
+    /* 레이아웃에 맞춰 width/max-width 등 추가 */
+  }
+
+  .sticky-bottom {
+    bottom: env(safe-area-inset-bottom);
+  }
+  /* legacy */
+  @supports (bottom: constant(safe-area-inset-bottom)) {
+    .nav-fixed,
+    .sticky-bottom {
+      bottom: constant(safe-area-inset-bottom);
+    }
   }
 }
