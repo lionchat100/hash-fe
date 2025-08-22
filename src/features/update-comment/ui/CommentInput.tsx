@@ -74,13 +74,8 @@ export const CommentInput = ({ feedId, disabled, onPosted }: Props) => {
           }}
         />
         <Button
-          type="button"
+          type="submit"
           disabled={disabled || post.isPending}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            onSend();
-          }}
           className="hover:bg-primary/90 h-10 w-10 rounded-full bg-stone-300 text-stone-500 disabled:opacity-100"
         >
           {post.isPending ? (

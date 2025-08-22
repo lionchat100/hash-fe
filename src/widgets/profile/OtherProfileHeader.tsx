@@ -1,14 +1,13 @@
 'use client';
 
 import { Button } from '@/shared/ui/Button';
-import { ChevronLeft, Siren } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { ReportButton } from '../common/ReportButton';
 
 interface OtherProfileHeaderProps {
   /** 상대방의 닉네임 */
   nickname: string;
-  /** 신고 버튼 클릭 핸들러 */
-  onReportClick?: () => void;
 }
 
 /**
@@ -20,24 +19,13 @@ interface OtherProfileHeaderProps {
  * - 신고 버튼 (더보기 아이콘으로 표현)
  *
  * @param nickname - 상대방의 닉네임
- * @param onReportClick - 신고 버튼 클릭 시 호출되는 함수
  */
-export const OtherProfileHeader = ({ nickname, onReportClick }: OtherProfileHeaderProps) => {
+export const OtherProfileHeader = ({ nickname }: OtherProfileHeaderProps) => {
   const router = useRouter();
 
   // 뒤로가기 버튼 클릭 핸들러
   const handleBackClick = () => {
     router.back(); // 브라우저 히스토리 기반 뒤로가기
-  };
-
-  // 신고 버튼 클릭 핸들러
-  const handleReportClick = () => {
-    if (onReportClick) {
-      onReportClick();
-    } else {
-      // 기본 동작: 신고 기능 준비 중 알림
-      alert('신고 기능은 준비 중입니다.');
-    }
   };
 
   return (
@@ -60,15 +48,7 @@ export const OtherProfileHeader = ({ nickname, onReportClick }: OtherProfileHead
         </div>
 
         {/* 오른쪽: 신고(더보기) 버튼 */}
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={handleReportClick}
-          className="flex h-10 w-10 items-center justify-center p-0"
-          aria-label="더보기 옵션"
-        >
-          <Siren className="size-6" />
-        </Button>
+        <ReportButton />
       </div>
     </header>
   );
