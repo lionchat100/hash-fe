@@ -1,8 +1,9 @@
+import { UserProfile } from '@/entities/user';
 import { likeProfile, unlikeProfile } from '../api/updateProfileLike';
 
-export const userLikeProfile = async ({ userId }: { userId: number }) => {
+export const userLikeProfile = async ({ profile }: { profile: UserProfile }) => {
   try {
-    const response = await likeProfile({ userId });
+    const response = await likeProfile({ profile });
     return {
       success: true,
       data: response,
@@ -15,9 +16,9 @@ export const userLikeProfile = async ({ userId }: { userId: number }) => {
   }
 };
 
-export const userUnlikeProfile = async ({ userId }: { userId: number }) => {
+export const userUnlikeProfile = async ({ profile }: { profile: UserProfile }) => {
   try {
-    const response = await unlikeProfile({ userId });
+    const response = await unlikeProfile({ profile });
     return {
       success: true,
       data: response,
