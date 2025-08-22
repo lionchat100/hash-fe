@@ -1,47 +1,37 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
+import { cn } from '../../shared/lib/tailwindMerge';
 
-export interface LoadingSpinnerProps {
-  /** 로딩 텍스트 (기본: "로딩 중...") */
-  text?: string;
-  /** 로딩 스피너 크기 (기본: 60) */
-  size?: number;
-  /** 화면 전체를 덮을지 여부 (기본: false) */
+export interface FallbackScreenProps {
   fullScreen?: boolean;
-  /** 커스텀 className */
+  type?: 'loading' | 'error' | 'hold';
   className?: string;
   image?: string;
+  size?: number;
+  text?: string;
+  smallText?: string;
+  hasButtonLink?: string;
+  buttonText?: string;
 }
 
-/**
- * 토킷 로고를 사용한 공통 로딩 스피너 컴포넌트
- *
- * @example
- * ```tsx
- * // 기본 사용
- * <LoadingSpinner />
- *
- * // 커스텀 텍스트와 크기
- * <LoadingSpinner text="새로운 프로필을 찾는 중..." size={120} />
- *
- * // 전체 화면 로딩
- * <LoadingSpinner fullScreen text="데이터를 불러오는 중..." />
- * ```
- */
-export const LoadingSpinner = ({
-  text = '로딩 중이에요',
-  size = 160,
+export const FallbackScreen = ({
+  type = 'loading',
   fullScreen = false,
   className = '',
   image = 'loading',
-}: LoadingSpinnerProps) => {
-  const containerClass = fullScreen ? 'fixed inset-0 z-50 bg-white bg-opacity-90' : 'w-full';
+  size = 160,
+  text = '진행중이에요',
+  smallText = '',
+  hasButtonLink = '',
+  buttonText = '',
+}: FallbackScreenProps) => {
+  const containerClass = fullScreen ? 'fixed inset-0 z-60 bg-white bg-opacity-90' : 'w-full';
 
   return (
     <div className={`${containerClass} ${className}`}>
       <div className="flex h-full min-h-[200px] flex-col items-center justify-center">
-        {/* 토킷 로고 스피너 */}
         <div className="animate-wiggle mb-4" style={{ width: size, height: size }}>
           <Image
             src={`/images/logo/tokit_${image}.svg`}
@@ -53,9 +43,18 @@ export const LoadingSpinner = ({
           />
         </div>
 
-        {/* 로딩 텍스트 */}
-        {text && (
-          <div className="font-display-sm animate-pulse text-center whitespace-pre-line text-gray-600">{text}</div>
+        <div className={cn('pb-6 text-center whitespace-pre-line', type === 'loading' && 'animate-pulse')}>
+          {text && <div className="font-display-sm text-gray-900">{text}</div>}
+          {smallText && <div className="pt-2 pb-[30px] text-base font-semibold text-gray-500">{smallText}</div>}
+        </div>
+
+        {!!hasButtonLink && (
+          <Link
+            href={`${hasButtonLink}`}
+            className="rounded-40 h-(--space-h-btn-lg) bg-stone-900 px-11 py-4 text-base font-medium text-stone-50"
+          >
+            {buttonText}
+          </Link>
         )}
       </div>
     </div>
@@ -69,15 +68,19 @@ export const LoadingSpinner = ({
 export const FullScreenLoadingSpinner = ({
   text = '잠시만 기다려주세요',
   size = 160,
-}: Omit<LoadingSpinnerProps, 'fullScreen'>) => {
-  return <LoadingSpinner text={text} size={size} fullScreen />;
+}: Omit<FallbackScreenProps, 'fullScreen'>) => {
+  return <FallbackScreen text={text} size={size} fullScreen />;
 };
 
 /**
  * 인라인 로딩 스피너 (작은 크기)
  * 버튼 내부나 작은 섹션에서 사용
  */
+<<<<<<< HEAD:src/shared/ui/LoadingSpinner.tsx
 export const InlineLoadingSpinner = ({ text, size = 120 }: Omit<LoadingSpinnerProps, 'fullScreen'>) => {
+=======
+export const InlineLoadingSpinner = ({ text, size = 160 }: Omit<FallbackScreenProps, 'fullScreen'>) => {
+>>>>>>> d89de2fa36a2d647e0405e7b458674ddc9e818be:src/widgets/common/FallbackScreen.tsx
   return (
     <div className="flex items-center gap-2">
       <div className="animate-wiggle" style={{ width: size, height: size }}>

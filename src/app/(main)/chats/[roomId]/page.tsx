@@ -1,7 +1,7 @@
 'use client';
 
 import { chatContextLoad } from '@/features/update-chat';
-import { LoadingSpinner } from '@/shared/ui/LoadingSpinner';
+import { FallbackScreen } from '@/widgets/common/FallbackScreen';
 import { ChatRoomView } from '@/views/chat';
 import { useParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
@@ -49,7 +49,7 @@ export default function ChatRoomPage() {
   }
 
   if (isLoading) {
-    return <LoadingSpinner fullScreen text="채팅방 정보를 불러오는 중이에요" />;
+    return <FallbackScreen fullScreen text={`진입 대기 중이에요\n조금만 기다려주세요!`} />;
   }
 
   if (!isValid) {

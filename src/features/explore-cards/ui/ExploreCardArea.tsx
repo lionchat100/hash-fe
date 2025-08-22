@@ -1,7 +1,6 @@
 'use client';
 
 import { OtherProfileCard } from '@/widgets/profile/OtherProfileCard';
-import { LoadingSpinner, InlineLoadingSpinner } from '@/shared/ui/LoadingSpinner';
 import { SkeletonCardList } from '@/shared/ui/SkeletonCard';
 import { UserProfile } from '@/entities/user/model/types';
 import Image from 'next/image';
@@ -78,7 +77,7 @@ export const ExploreCardArea = ({
       {/* 무한 스크롤 트리거 */}
       <div ref={observerTarget} className="h-8" />
 
-      {/* 더 로딩 중 - Skeleton 카드 추가 */}
+      {/* 더 로딩 중 - 스켈레톤 효고 추가 */}
       {isLoadingMore && (
         <>
           <SkeletonCardList count={3} />

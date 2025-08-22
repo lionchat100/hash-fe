@@ -5,7 +5,7 @@ import { OtherProfileHeader } from '@/widgets/profile/OtherProfileHeader';
 import { OtherProfileCard } from '@/widgets/profile/OtherProfileCard';
 import { getUserProfileById } from '@/entities/user/api/getUserProfileById';
 import { UserProfile } from '@/entities/user/model/types';
-import { LoadingSpinner } from '@/shared/ui/LoadingSpinner';
+import { SkeletonCard } from '@/shared/ui/SkeletonCard';
 
 interface OtherProfileViewProps {
   /** 조회할 사용자 ID */
@@ -77,14 +77,10 @@ export const OtherProfileView = ({ userId }: OtherProfileViewProps) => {
   // 로딩 중 UI
   if (isLoading) {
     return (
-      <div className="min-h-dvh">
-        <div className="sticky top-0 z-50 border-b bg-white/90 backdrop-blur-sm">
-          <div className="flex h-14 items-center justify-center">
-            <div className="text-lg font-semibold text-gray-900">프로필</div>
-          </div>
-        </div>
+      <div className="min-h-dvh pb-20">
+        <OtherProfileHeader nickname={profileData?.nickname || '프로필'} />
         <div className="p-4">
-          <LoadingSpinner text="프로필을 불러오는 중..." size={120} className="h-96" />
+          <SkeletonCard />
         </div>
       </div>
     );
