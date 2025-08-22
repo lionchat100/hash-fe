@@ -79,7 +79,7 @@ export function CommentDrawer({ feedId, open, onOpenChange }: Props) {
 
           <div
             ref={scrollRef}
-            className="pb-safe-input mb-14 min-h-0 overflow-auto px-8"
+            className="pb-safe-input mb-12 min-h-0 overflow-auto px-8"
             style={{
               WebkitOverflowScrolling: 'touch',
               scrollbarGutter: 'stable both-edges',

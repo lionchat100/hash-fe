@@ -9,7 +9,7 @@ import type { Step2Data, StepFormHandle } from '@/entities/user/model/types';
 import { useOptionFilter } from '../model/userOnboarding';
 
 import { Badge } from '@/shared/ui/Badge';
-import { DrawerSelect } from '@/features/update-user/ui/DrawerSelect';
+import { OnboadingDrawerSelect } from '@/features/update-user/ui/OnboadingDrawerSelect';
 import { preferenceLableMapper } from '@/entities/user/lib/onboardingDataMapper';
 import { cn } from '@/shared/lib/tailwindMerge';
 
@@ -57,7 +57,7 @@ export const Step2Form = forwardRef<StepFormHandle, Step2FormProps>(function Ste
               name={key}
               control={form.control}
               render={({ field }) => (
-                <DrawerSelect
+                <OnboadingDrawerSelect
                   label={label}
                   placeholder={placeholder}
                   value={field.value || ''}

@@ -12,7 +12,8 @@ export const step1Schema = z.object({
   gender: z.string().nonempty({ message: '성별을 선택해주세요' }),
   nicknameVerified: z.boolean(),
   verifiedNickname: z.string().optional().nullable(),
-  privacyConsent: z.boolean().refine((v) => v === true, { message: '개인정보 처리방침에 동의해 주세요' }),
+  privacyConsent: z.boolean().refine((v) => v === true, { message: '개인정보처리방침에 동의해 주세요' }),
+  serviceConsent: z.boolean().refine((v) => v === true, { message: '서비스 이용 약관에 동의해 주세요' }),
 });
 export const step2Schema = z.object({
   mbti: z.string().min(1),
