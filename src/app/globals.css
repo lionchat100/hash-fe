@@ -247,9 +247,14 @@
     height: var(--space-h-nav);
     /* 레이아웃에 맞춰 width/max-width 등 추가 */
   }
+
+  .sticky-bottom {
+    bottom: env(safe-area-inset-bottom);
+  }
   /* legacy */
   @supports (bottom: constant(safe-area-inset-bottom)) {
-    .nav-fixed {
+    .nav-fixed,
+    .sticky-bottom {
       bottom: constant(safe-area-inset-bottom);
     }
   }

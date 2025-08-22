@@ -70,9 +70,10 @@ export function CommentDrawer({ feedId, open, onOpenChange }: Props) {
     <Drawer open={open} onOpenChange={handleOpenChange}>
       {/* <DrawerContent className="h-[60dvh] max-h-[60dvh] bg-white p-0">
         <div className="grid h-full grid-rows-[auto_1fr_110px]"> */}
-      <DrawerContent className="h-[60dvh] max-h-[60dvh] overflow-hidden bg-white p-0">
-        <div className="grid h-full grid-rows-[auto_minmax(0,1fr)_auto]">
-          <div className="px-8 pb-5">
+
+      <DrawerContent className="h-[60svh] max-h-[60svh] overflow-hidden bg-white p-0 md:h-[60dvh] md:max-h-[60dvh]">
+        <div className="flex h-full flex-col">
+          <div className="shrink-0 px-8 pb-5">
             <DrawerTitle className="bg-white text-2xl font-semibold text-black">댓글</DrawerTitle>
             <DrawerDescription className="hidden text-sm text-stone-500">
               댓글을 작성하고 다른 사람들과 소통해보세요.
@@ -81,9 +82,15 @@ export function CommentDrawer({ feedId, open, onOpenChange }: Props) {
 
           <div
             ref={scrollRef}
-            // className="max-h-[calc(60dvh - 130px)] min-h-0 overflow-auto overscroll-contain px-8"
-            className="min-h-0 overflow-auto overscroll-contain px-8"
-            style={{ WebkitOverflowScrolling: 'touch', scrollbarGutter: 'stable both-edges' as any }}
+            // className="max-h-[calc(60dvh - 130px)] min-h-0 overflow-auto overscroll-contain px-8 safe-"
+            // className="min-h-0 overflow-auto overscroll-contain px-8"
+            className="min-h-0 flex-1 overflow-auto overscroll-contain px-8 pb-9"
+            style={{
+              WebkitOverflowScrolling: 'touch',
+              scrollbarGutter: 'stable both-edges',
+              // 자동 스크롤 시 마지막 아이템이 sticky footer에 가리지 않도록
+              scrollPaddingBottom: 'calc(65px + env(safe-area-inset-bottom,0px))',
+            }}
           >
             {status === 'pending' && <div>불러오는 중…</div>}
             {status === 'error' && <div>댓글을 불러오지 못했어요.</div>}
@@ -106,8 +113,10 @@ export function CommentDrawer({ feedId, open, onOpenChange }: Props) {
           </div>
 
           <DrawerFooter
-            className="gap-0 border-t bg-white px-4 pt-2 pb-9"
-            style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 12px)' }}
+            className="sticky-bottom sticky border-t bg-white px-4 pt-2"
+            // style={{ paddingBottom: 'max(env(safe-area-inset-bottom,0px), 12px)' }}
+            // className="gap-0 border-t bg-white px-4 pt-2 pb-9"
+            // style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 12px)' }}
           >
             <CommentInput
               feedId={feedId}
