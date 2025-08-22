@@ -24,7 +24,7 @@ class RefreshManager {
     this.listeners.forEach((l) => l(token));
     if (typeof window !== 'undefined') {
       try {
-        const bc = new BroadcastChannel('auth');
+        const bc = new BroadcastChannel('accessToken');
         bc.postMessage(token);
         bc.close();
       } catch {}
@@ -44,7 +44,7 @@ class RefreshManager {
       const url = `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`;
       const response = await this.raw.post(url, {});
       const accessToken = response.data.accessToken as string;
-      console.log('REFRESH MANAGER: 토큰 재발급 성공', accessToken);
+      console.log('[REFRESH MANAGER] 토큰 재발급 성공', accessToken);
 
       if (typeof window !== 'undefined') {
         localStorage.setItem('accessToken', accessToken);
@@ -55,6 +55,7 @@ class RefreshManager {
       return { accessToken };
     } catch (error) {
       this.failers.forEach((f) => f(error));
+      console.error('[REFRESH MANAGER] 토큰 재발급 실패', error);
       // 글로벌 로그아웃 처리
       if (typeof window !== 'undefined') {
         clearUserData();
