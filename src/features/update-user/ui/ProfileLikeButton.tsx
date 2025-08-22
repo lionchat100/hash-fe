@@ -15,20 +15,15 @@ interface ProfileLikeButtonProps {
 
 export const ProfileLikeButton = ({ userId, isLiked, onLikeChange }: ProfileLikeButtonProps) => {
   const [localLikeStatus, setLocalLikeStatus] = useState(isLiked);
-
   const unlikeProfileMutation = useUnlikeProfileMutation();
 
   const handleLikeClick = async () => {
     try {
       if (localLikeStatus) {
-        // 좋아요 취소 - useUnlikeProfile 훅 사용
         await unlikeProfileMutation.mutateAsync({ userId });
       } else {
-        // 좋아요 추가 - 직접 API 호출
         await likeProfile({ userId });
       }
-
-      // 성공 시 로컬 상태 업데이트
       const newLikeStatus = !localLikeStatus;
       setLocalLikeStatus(newLikeStatus);
       onLikeChange?.(newLikeStatus);
