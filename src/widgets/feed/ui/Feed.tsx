@@ -11,7 +11,7 @@ export default function FeedTabs() {
   const [active, setActive] = React.useState<Sort>(tab as Sort);
 
   return (
-    <div className="h-[calc(100vh-54px)] overflow-hidden px-4">
+    <div className="h-[calc(100dvh-54px)] overflow-hidden px-4">
       <Tabs value={active} onValueChange={(v) => setActive(v as Sort)} className="h-full">
         <TabsList className="sticky top-0 z-10 grid w-full grid-cols-3">
           <TabsTrigger value="latest">최신순</TabsTrigger>

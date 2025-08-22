@@ -41,7 +41,10 @@ export function CommentDrawer({ feedId, open, onOpenChange }: Props) {
     },
   });
 
-  const isEmpty = data?.pages.flatMap((page) => page.content).length === 0;
+  const count = (data?.pages ?? []).reduce((acc, p) => acc + (p?.content?.length ?? 0), 0);
+
+  const isManyComment = count > 6;
+  const isEmpty = count === 0;
 
   // 댓글 작성시 스크롤 이동
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -65,49 +68,58 @@ export function CommentDrawer({ feedId, open, onOpenChange }: Props) {
 
   return (
     <Drawer open={open} onOpenChange={handleOpenChange}>
-      <DrawerContent className="flex h-[60dvh] flex-col bg-white p-0">
-        <div className="shrink-0">
-          <DrawerTitle className="bg-white px-8 pb-5 text-2xl font-semibold text-black">댓글</DrawerTitle>
-          <DrawerDescription className="hidden text-sm text-stone-500">
-            댓글을 작성하고 다른 사람들과 소통해보세요.
-          </DrawerDescription>
+      {/* <DrawerContent className="h-[60dvh] max-h-[60dvh] bg-white p-0">
+        <div className="grid h-full grid-rows-[auto_1fr_110px]"> */}
+      <DrawerContent className="h-[60dvh] max-h-[60dvh] overflow-hidden bg-white p-0">
+        <div className="grid h-full grid-rows-[auto_minmax(0,1fr)_auto]">
+          <div className="px-8 pb-5">
+            <DrawerTitle className="bg-white text-2xl font-semibold text-black">댓글</DrawerTitle>
+            <DrawerDescription className="hidden text-sm text-stone-500">
+              댓글을 작성하고 다른 사람들과 소통해보세요.
+            </DrawerDescription>
+          </div>
+
+          <div
+            ref={scrollRef}
+            // className="max-h-[calc(60dvh - 130px)] min-h-0 overflow-auto overscroll-contain px-8"
+            className="min-h-0 overflow-auto overscroll-contain px-8"
+            style={{ WebkitOverflowScrolling: 'touch', scrollbarGutter: 'stable both-edges' as any }}
+          >
+            {status === 'pending' && <div>불러오는 중…</div>}
+            {status === 'error' && <div>댓글을 불러오지 못했어요.</div>}
+            {status === 'success' &&
+              // 댓글이 없을 때
+              (isEmpty ? (
+                <div className="font-display-sm flex h-full items-center justify-center">아직 댓글이 없어요</div>
+              ) : (
+                <div className="space-y-5">
+                  {data?.pages.flatMap((page) =>
+                    page.content.map((c) => <CommentCard key={c.id} item={c} onDeleted={markDirty} />),
+                  )}
+                  <div ref={bottomRef} />
+                </div>
+              ))}
+
+            {/* 무한 스크롤 트리거 */}
+            {hasNextPage && <div ref={ref} className="h-1" />}
+            {isFetchingNextPage && <div className="text-center text-sm">더 불러오는 중…</div>}
+          </div>
+
+          <DrawerFooter
+            className="gap-0 border-t bg-white px-4 pt-2 pb-9"
+            style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 12px)' }}
+          >
+            <CommentInput
+              feedId={feedId}
+              disabled={!enabled}
+              onPosted={() => {
+                markDirty();
+                scrollToBottomDeferred();
+              }}
+            />
+            {/* {isManyComment && <div className="h-12"></div>} */}
+          </DrawerFooter>
         </div>
-
-        <div className="min-h-0 overflow-y-auto overscroll-contain px-8" style={{ WebkitOverflowScrolling: 'touch' }}>
-          {status === 'pending' && <div>불러오는 중…</div>}
-          {status === 'error' && <div>댓글을 불러오지 못했어요.</div>}
-          {status === 'success' &&
-            // 댓글이 없을 때
-            (isEmpty ? (
-              <div className="font-display-sm flex h-full items-center justify-center">아직 댓글이 없어요</div>
-            ) : (
-              <div className="space-y-5">
-                {data?.pages.flatMap((page) =>
-                  page.content.map((c) => <CommentCard key={c.id} item={c} onDeleted={markDirty} />),
-                )}
-                <div ref={bottomRef} />
-              </div>
-            ))}
-
-          {/* 무한 스크롤 트리거 */}
-          {hasNextPage && <div ref={ref} className="h-1" />}
-          {isFetchingNextPage && <div className="text-center text-sm">더 불러오는 중…</div>}
-        </div>
-
-        <DrawerFooter
-          className="shrink-0 gap-0 border-t bg-white px-4 pt-2"
-          style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + var(--kb-offset, 0px))' }}
-        >
-          <CommentInput
-            feedId={feedId}
-            disabled={!enabled}
-            onPosted={() => {
-              markDirty();
-              scrollToBottomDeferred();
-            }}
-          />
-          <div className="h-2"></div>
-        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );
