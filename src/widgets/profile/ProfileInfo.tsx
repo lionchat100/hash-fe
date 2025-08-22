@@ -11,8 +11,7 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
   // 대학 정보 안전 처리 (API 응답에서는 university가 문자열로 제공)
   const uniName = profile.university ?? ''; // API에서 직접 문자열로 제공
 
-  // [변경] 이니셜 기반 폴백 대신 서비스 기본 로고(SVG)로 폴백
-  const FALLBACK_LOGO_SRC = '/images/logo/tokit_univlogo.svg';
+  const FALLBACK_LOGO_SRC = '/images/logo/tokit_univlogo.svg'; //디폴트 로고
 
   // 대학교 이름과 로고 파일명 매핑
   const getUniversityLogo = (universityName: string): { path: string; extension: string } | null => {
@@ -133,9 +132,7 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
                 )}
               </div>
 
-              <span className="text-sm font-medium text-white">
-                {profile.isUniversityVisible ? uniName : '비공개'}
-              </span>
+              <span className="text-sm font-medium text-white">{profile.isUniversityVisible ? uniName : '비공개'}</span>
             </div>
           )}
 

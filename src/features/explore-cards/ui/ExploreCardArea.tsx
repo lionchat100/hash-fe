@@ -2,6 +2,7 @@
 
 import { OtherProfileCard } from '@/widgets/profile/OtherProfileCard';
 import { LoadingSpinner, InlineLoadingSpinner } from '@/shared/ui/LoadingSpinner';
+import { SkeletonCardList } from '@/shared/ui/SkeletonCard';
 import { UserProfile } from '@/entities/user/model/types';
 import Image from 'next/image';
 import * as React from 'react';
@@ -31,11 +32,11 @@ export const ExploreCardArea = ({
   handleCardClick,
   isInActionElement,
 }: ExploreCardAreaProps) => {
-  // 로딩 상태 UI
+  // 로딩 상태 UI - Skeleton 적용
   if (isLoading && cards.length === 0) {
     return (
       <div className="mx-auto max-w-screen-md p-4">
-        <LoadingSpinner text="새로운 프로필을 찾는 중..." size={120} className="min-h-[60vh]" />
+        <SkeletonCardList count={3} />
       </div>
     );
   }
@@ -77,23 +78,24 @@ export const ExploreCardArea = ({
       {/* 무한 스크롤 트리거 */}
       <div ref={observerTarget} className="h-8" />
 
-      {/* 더 로딩 중 */}
+      {/* 더 로딩 중 - Skeleton 카드 추가 */}
       {isLoadingMore && (
-        <div className="py-8 text-center">
-          <InlineLoadingSpinner text="더 많은 프로필을 불러오는 중..." />
-        </div>
+        <>
+          <SkeletonCardList count={3} />
+        </>
       )}
 
       {/* 모든 카드 로드 완료 */}
       {!hasMore && cards.length > 0 && (
         <div className="py-8 text-center">
-          <div className="text-gray-500">모든 추천 프로필을 확인했습니다</div>
+          <div className="mb-4 text-lg text-gray-500">모든 추천 프로필을 확인했습니다</div>
           <button
             onClick={() => {
               // 새로운 추천 받기 로직은 부모에서 처리하거나 별도 훅으로 분리 가능
               window.location.reload();
             }}
-            className="text-primary mt-2 underline"
+            // className="text-primary mt-2 underline"
+            className="rounded-40 h-(--space-h-btn-lg) bg-stone-900 px-6 py-4 text-base font-medium text-stone-50"
           >
             새로운 추천 받기
           </button>
@@ -104,9 +106,12 @@ export const ExploreCardArea = ({
       {cards.length === 0 && !isLoading && (
         <div className="py-16 text-center">
           {/* public 자산이면 앞에 / 붙이는 게 안전 */}
-          <Image src="/images/logo/tokit_loading.svg" alt="로고" width={100} height={100} className="mx-auto" />
-          <div className="text-lg text-gray-600">추천할 프로필이 없습니다</div>
-          <button onClick={() => loadCards()} className="text-primary mt-2 underline">
+          <Image src="/images/logo/tokit_loading.svg" alt="로고" width={120} height={120} className="mx-auto mb-4" />
+          <div className="mb-4 text-lg text-gray-600">추천할 프로필이 없습니다</div>
+          <button
+            onClick={() => loadCards()}
+            className="rounded-40 h-(--space-h-btn-lg) bg-stone-900 px-6 py-4 text-base font-medium text-stone-50"
+          >
             새로고침
           </button>
         </div>

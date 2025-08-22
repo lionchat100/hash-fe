@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { ExploreHeader } from '@/widgets/explore/ExploreHeader';
-import { FilterSlide, PositionFilter } from '@/widgets/explore/FilterSlide';
+import { FilterDrawer, PositionFilter } from '@/widgets/explore/FilterDrawer';
 import { ExploreCardArea } from '@/features/explore-cards';
 import { useExploreCards } from '@/features/explore-cards';
 
@@ -24,13 +24,13 @@ export const ExploreView = () => {
   };
 
   return (
-    <div className="min-h-dvh pb-15">
+    <div className="min-h-svh pb-15">
       <ExploreHeader onFilterClick={handleFilterClick} />
 
       {/* ✅ 리스트 컴포넌트를 덤프로 만들어 모든 상태/핸들러를 내려줌 */}
       <ExploreCardArea {...explore} />
 
-      <FilterSlide
+      <FilterDrawer
         isOpen={isFilterOpen}
         onClose={handleFilterClose}
         selectedPosition={selectedPosition}

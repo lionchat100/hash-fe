@@ -77,7 +77,7 @@ export const FullScreenLoadingSpinner = ({
  * 인라인 로딩 스피너 (작은 크기)
  * 버튼 내부나 작은 섹션에서 사용
  */
-export const InlineLoadingSpinner = ({ text, size = 160 }: Omit<LoadingSpinnerProps, 'fullScreen'>) => {
+export const InlineLoadingSpinner = ({ text, size = 120 }: Omit<LoadingSpinnerProps, 'fullScreen'>) => {
   return (
     <div className="flex items-center gap-2">
       <div className="animate-wiggle" style={{ width: size, height: size }}>

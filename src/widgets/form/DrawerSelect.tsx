@@ -80,7 +80,7 @@ export const DrawerSelect = <T extends string>({
           <div className="max-h-[250px] overflow-y-auto overscroll-contain pr-1 [-webkit-overflow-scrolling:touch]">
             <div className="flex h-[250px] flex-wrap content-start gap-2">{renderOptions(temp, setTemp)}</div>
           </div>
-          <Button onClick={handleConfirm} className="my-2 w-full">
+          <Button onClick={handleConfirm} className="my-10 w-full">
             확인
           </Button>
         </DrawerContent>

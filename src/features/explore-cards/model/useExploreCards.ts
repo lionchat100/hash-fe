@@ -184,7 +184,10 @@ export const useExploreCards = () => {
       requestIdRef.current += 1;
       inFlightRef.current = null; // 혹시 남아있다면 해제
 
-      // 6) 첫 페이지 바로 로드 (excludeUserIds 없이)
+      // 6) 스크롤을 최상단으로 이동
+      window.scrollTo({ top: 0, behavior: 'instant' });
+
+      // 7) 첫 페이지 바로 로드 (excludeUserIds 없이)
       loadCards(false);
     },
     [loadCards],
