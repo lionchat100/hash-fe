@@ -118,7 +118,7 @@ export const OtherProfileCard = ({ profile, className }: OtherProfileCardProps) 
 
           {/* 액션 버튼들 영역 20% */}
           <div className="w-[20%] p-3 pb-12 pl-2">
-            <ProfileActionButtons userId={profile.userId} isLiked={profile.isLikedByMe} />
+            <ProfileActionButtons profile={profile} />
           </div>
         </div>
       </div>
