@@ -1,9 +1,9 @@
 //프로필 카드 로딩을 위한 Skeleton UI
 export const SkeletonCard = () => {
   return (
-    <div className="animate-pulse rounded-lg border bg-white p-4 shadow-sm">
+    <div className="animate-pulse rounded-lg border bg-gray-50 p-4 shadow-sm [animation-duration:1s]">
       {/* 이미지 영역 */}
-      <div className="mb-4 h-74 w-full rounded-lg bg-gray-200" />
+      <div className="mb-4 h-64 w-full rounded-lg bg-gray-200" />
 
       {/* 프로필 정보 + 액션 버튼 영역 */}
       <div className="flex gap-4">
@@ -16,17 +16,17 @@ export const SkeletonCard = () => {
           </div>
 
           {/* 닉네임 */}
-          <div className="h-6 w-35 rounded bg-gray-200" />
+          <div className="h-6 w-32 rounded bg-gray-200" />
 
           {/* 자기소개 */}
           <div className="space-y-2">
-            <div className="h-4 w-10/11 rounded bg-gray-200" />
+            <div className="h-4 w-full rounded bg-gray-200" />
             <div className="h-4 w-3/4 rounded bg-gray-200" />
           </div>
 
           {/* 태그들 */}
           <div className="flex gap-2">
-            <div className="h-6 w-18 rounded-full bg-gray-200" />
+            <div className="h-6 w-16 rounded-full bg-gray-200" />
             <div className="h-6 w-16 rounded-full bg-gray-200" />
             <div className="h-6 w-20 rounded-full bg-gray-200" />
           </div>

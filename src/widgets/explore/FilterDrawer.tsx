@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Drawer, DrawerContent, DrawerDescription, DrawerTitle } from '@/shared/ui/Drawer';
+import { Drawer, DrawerContent, DrawerTitle } from '@/shared/ui/Drawer';
 import { Button } from '@/shared/ui/Button';
 import { Badge } from '@/shared/ui/Badge';
 import { cn } from '@/shared/lib/tailwindMerge';

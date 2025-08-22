@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { getUserCards } from '@/entities/user/api/getUserCards';
 import { UserProfile } from '@/entities/user/model/types';
-import { PositionFilter } from '@/widgets/explore/FilterSlide';
+import { PositionFilter } from '@/widgets/explore/FilterDrawer';
 
 const PAGE_SIZE = 10;
 
