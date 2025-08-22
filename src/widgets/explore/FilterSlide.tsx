@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Drawer, DrawerContent, DrawerTitle } from '@/shared/ui/Drawer';
+import { Drawer, DrawerContent, DrawerDescription, DrawerTitle } from '@/shared/ui/Drawer';
 import { Button } from '@/shared/ui/Button';
+import { Badge } from '@/shared/ui/Badge';
+import { cn } from '@/shared/lib/tailwindMerge';
 
 // API docs에 따른 포지션 목록
 const POSITIONS = [
@@ -62,23 +64,21 @@ export const FilterSlide = ({ isOpen, onClose, selectedPosition, onPositionChang
   };
 
   const renderPositionOptions = () => (
-    <div className="flex flex-wrap items-start justify-start gap-3">
+    <div className="flex h-[250px] flex-wrap content-start gap-2">
       {POSITIONS.map((position) => {
         const selected = tempPosition === position.code;
         return (
-          <button
+          <Badge
             key={position.code}
             onClick={() => setTempPosition(selected ? null : position.code)}
-            aria-pressed={selected} // [접근성]
-            className={`basis-[calc(33.333%-0.75rem)] rounded-xl px-3 py-3 text-sm font-medium transition-colors ${
-              selected
-                ? 'bg-primary text-white' // [권장] tailwind 토큰 사용
-                : 'border border-gray-300 bg-white text-gray-400 hover:border-gray-400'
-            }`}
+            className={cn(
+              'cursor-pointer px-6 py-2.5',
+              selected ? 'bg-primary font-bold text-stone-100' : '',
+            )}
             data-no-nav
           >
             {position.name}
-          </button>
+          </Badge>
         );
       })}
     </div>
@@ -86,11 +86,13 @@ export const FilterSlide = ({ isOpen, onClose, selectedPosition, onPositionChang
 
   return (
     <Drawer open={isOpen} onOpenChange={handleOpenChange}>
-      <DrawerTitle className="hidden">직무 영역 필터</DrawerTitle>
+      <DrawerTitle className="sr-only">직무 영역 필터</DrawerTitle>
       <DrawerContent className="fixed right-0 bottom-0 left-0 z-50 flex min-h-[400px] flex-col rounded-t-2xl bg-white shadow-lg">
         <div className="flex-1 space-y-5 overflow-y-auto px-8 pt-6">
           <div className="text-2xl font-bold text-stone-900">필터</div>
-          {renderPositionOptions()}
+          <div className="max-h-[250px] overflow-y-auto overscroll-contain pr-1 [-webkit-overflow-scrolling:touch]">
+            {renderPositionOptions()}
+          </div>
         </div>
         <div className="border-t p-4">
           <Button onClick={handleConfirm} className="w-full">
