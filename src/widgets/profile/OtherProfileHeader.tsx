@@ -15,7 +15,6 @@ export const OtherProfileHeader = ({ nickname }: OtherProfileHeaderProps) => {
     router.back(); // 브라우저 히스토리 기반 뒤로가기
   };
 
-<<<<<<< HEAD
   // 신고 버튼 클릭 핸들러
   const handleReportClick = () => {
     const confirmed = window.confirm(`${nickname}님을 신고하시겠습니까?`);
@@ -27,8 +26,6 @@ export const OtherProfileHeader = ({ nickname }: OtherProfileHeaderProps) => {
       );
     }
   };
-=======
->>>>>>> d89de2fa36a2d647e0405e7b458674ddc9e818be
   return (
     <header className="safe-pt sticky top-0 z-50 h-(--space-h-header) bg-white">
       <div className="flex h-full items-center justify-between px-4">
