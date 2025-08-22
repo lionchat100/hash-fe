@@ -2,7 +2,7 @@
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/shared/ui/Sheet';
 import Link from 'next/link';
-import { Heart, Megaphone, FileCheck, Shield, MessageCircleQuestionMark } from 'lucide-react';
+import { Heart, Megaphone, FileCheck, Shield, Siren } from 'lucide-react';
 import Image from 'next/image';
 
 type Props = {
@@ -45,8 +45,8 @@ export const ProfileSidebar = ({ isOpen, onClose }: Props) => {
           external: true,
         },
         {
-          icon: MessageCircleQuestionMark,
-          label: '문의하기',
+          icon: Siren,
+          label: '신고하기',
           href: 'https://docs.google.com/forms/d/e/1FAIpQLScwrZktsbUG3Q2AqPYNVH4cutyaJy1pO71XKLgqDbJJOVz7yg/viewform',
           external: true,
         },
