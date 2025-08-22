@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ChevronLeft } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/shared/ui/Button';
-import { LoadingSpinner } from '@/shared/ui/LoadingSpinner';
+import { FallbackScreen } from '@/widgets/common/FallbackScreen';
 import { ProfileImageUploader } from '@/features/edit-profile/ui/ProfileImageUploader';
 import { ProfileInfoEditor } from '@/features/edit-profile/ui/ProfileInfoEditor';
 import { uploadImagesList } from '@/features/update-user/api/uploadImagesList';
@@ -114,7 +114,7 @@ export const EditProfileView = () => {
   if (isLoading) {
     return (
       <div className="min-h-dvh">
-        <LoadingSpinner text="프로필 정보를 불러오는 중..." size={120} />
+        <FallbackScreen text="프로필 정보를 불러오는 중..." size={120} />
       </div>
     );
   }

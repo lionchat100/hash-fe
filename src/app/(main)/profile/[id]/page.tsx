@@ -6,7 +6,7 @@ import { OtherProfileHeader } from '@/widgets/profile/OtherProfileHeader';
 import { OtherProfileCard } from '@/widgets/profile/OtherProfileCard';
 import { getUserProfileById } from '@/entities/user/api/getUserProfileById';
 import { UserProfile } from '@/entities/user/model/types';
-import { LoadingSpinner } from '@/shared/ui/LoadingSpinner';
+import { FallbackScreen } from '@/widgets/common/FallbackScreen';
 
 /**
  * 상대방 프로필 페이지 컴포넌트
@@ -76,13 +76,6 @@ export default function OtherProfilePage() {
     }
   }, [userId]);
 
-  // 신고 버튼 클릭 핸들러
-  const handleReportClick = () => {
-    console.log(`신고 요청: 사용자 ${userId}`);
-    // TODO: 신고 모달 또는 페이지 구현
-    alert(`사용자 ${profileData?.nickname}을 신고하시겠습니까? 신고 기능은 곧 추가될 예정입니다.`);
-  };
-
   // 로딩 중 UI
   if (isLoading) {
     return (
@@ -93,7 +86,7 @@ export default function OtherProfilePage() {
           </div>
         </div>
         <div className="p-4">
-          <LoadingSpinner text="프로필을 불러오는 중..." size={120} className="h-96" />
+          <FallbackScreen text="프로필을 불러오는 중..." size={120} className="h-96" />
         </div>
       </div>
     );

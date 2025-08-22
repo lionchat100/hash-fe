@@ -17,7 +17,7 @@ import { Checkbox } from '@/shared/ui/Checkbox';
 import { cn } from '@/shared/lib/tailwindMerge';
 import { useCheckNickname } from '../model/userNicknameCheck';
 import { CheckConfirmDialog } from './CheckConfirmDialog';
-import { LoadingSpinner } from '@/shared/ui/LoadingSpinner';
+import { FallbackScreen } from '@/widgets/common/FallbackScreen';
 
 interface Step1FormProps {
   onValid: (values: Step1Data) => void;
@@ -135,7 +135,7 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
 
   // 로딩/에러/미존재 가드 (지금은 bundle이 항상 있다고 가정)
   if (!bundle || !uniConfig) {
-    return <LoadingSpinner />;
+    return <FallbackScreen />;
   }
 
   const nickState = form.getFieldState('nickname', form.formState);

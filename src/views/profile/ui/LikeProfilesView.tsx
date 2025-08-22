@@ -1,11 +1,11 @@
 import { LikeProfileCard, LikeProfilesHeader, useLikeProfilesQuery } from '@/entities/user';
-import { LoadingSpinner } from '@/shared/ui/LoadingSpinner';
+import { FallbackScreen } from '@/widgets/common/FallbackScreen';
 
 export const LikeProfilesView = () => {
   const { data: likeProfiles, isLoading, error } = useLikeProfilesQuery();
 
   if (isLoading) {
-    return <LoadingSpinner text="좋아요한 사람 목록을 불러오는 중이에요" />;
+    return <FallbackScreen text="좋아요한 사람 목록을 불러오는 중이에요" />;
   }
 
   if (error) {

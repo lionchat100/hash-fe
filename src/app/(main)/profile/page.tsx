@@ -6,7 +6,7 @@ import { ProfileHeader } from '@/widgets/profile/ProfileHeader';
 import { ProfileEditButton } from '@/widgets/profile/ProfileEditButton';
 import { getUserProfile } from '@/entities/user/api/getUserProfile';
 import { UserMyProfile } from '@/entities/user/model/types';
-import { LoadingSpinner } from '@/shared/ui/LoadingSpinner';
+import { FallbackScreen } from '@/widgets/common/FallbackScreen';
 
 export default function ProfilePage() {
   // API 호출 상태 관리
@@ -49,7 +49,7 @@ export default function ProfilePage() {
       <div className="min-h-dvh pb-20">
         <ProfileHeader />
         <div className="p-4">
-          <LoadingSpinner text="프로필을 불러오는 중이에요" size={160} className="h-96" />
+          <FallbackScreen text="프로필을 불러오는 중이에요" size={160} className="h-96" />
         </div>
       </div>
     );

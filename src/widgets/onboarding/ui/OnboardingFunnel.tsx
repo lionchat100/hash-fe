@@ -11,7 +11,7 @@ import { ChevronLeft } from 'lucide-react';
 
 import { useSubmitOnboarding } from '@/features/update-user/model/userOnboarding';
 import { useOnboardingData } from '@/entities/user/api/getOnboardingData';
-import { LoadingSpinner } from '@/shared/ui/LoadingSpinner';
+import { FallbackScreen } from '@/widgets/common/FallbackScreen';
 
 const order: StepKey[] = ['step1', 'step2', 'step3'];
 
@@ -62,7 +62,7 @@ export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) 
 
   const progressValue = PROGRESS_BY_STEP[step] ?? 50;
 
-  if (isPending) return <LoadingSpinner fullScreen />;
+  if (isPending) return <FallbackScreen fullScreen />;
 
   return (
     <div className="flex h-dvh flex-col justify-between px-4">
