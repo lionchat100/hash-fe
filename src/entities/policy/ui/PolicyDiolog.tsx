@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogD
 import { Button } from '@/shared/ui/Button';
 import { PolicyContent } from './PolicyContent';
 import type { PolicyDoc } from '@/entities/policy/model/types';
-import { useRef, useState } from 'react';
+// import { useRef, useState } from 'react';
 
 interface Props {
   open: boolean;
@@ -12,16 +12,16 @@ interface Props {
 }
 
 export const PolicyDialog = ({ open, onOpenChange, doc }: Props) => {
-  const [isEnd, setIsEnd] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  // const [isEnd, setIsEnd] = useState(false);
+  // const scrollRef = useRef<HTMLDivElement>(null);
 
-  const handleScroll = () => {
-    const el = scrollRef.current;
-    if (!el) return;
-    if (el.scrollTop + el.clientHeight >= el.scrollHeight - 10) {
-      setIsEnd(true);
-    }
-  };
+  // const handleScroll = () => {
+  //   const el = scrollRef.current;
+  //   if (!el) return;
+  //   if (el.scrollTop + el.clientHeight >= el.scrollHeight - 10) {
+  //     setIsEnd(true);
+  //   }
+  // };
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -37,9 +37,9 @@ export const PolicyDialog = ({ open, onOpenChange, doc }: Props) => {
 
         <div className="px-4 pt-6 pb-10">
           <div
-            ref={scrollRef}
+            // ref={scrollRef}
             className="scrollbar-hide h-[calc(100dvh-110px)] overflow-y-auto pb-6"
-            onScroll={handleScroll}
+            // onScroll={handleScroll}
           >
             <PolicyContent doc={doc} />
           </div>
@@ -47,7 +47,7 @@ export const PolicyDialog = ({ open, onOpenChange, doc }: Props) => {
 
         <DialogFooter className="absolute top-4 right-4">
           <Button
-            disabled={!isEnd}
+            // disabled={!isEnd}
             onClick={() => onOpenChange(false)}
             variant="zero"
             className="text-stone-900 disabled:bg-transparent"
