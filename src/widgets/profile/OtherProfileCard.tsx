@@ -95,7 +95,7 @@ export const OtherProfileCard = ({ profile, className }: OtherProfileCardProps) 
   return (
     <div
       className={`relative w-full overflow-hidden rounded-3xl shadow-2xl ${className ?? ''}`}
-      style={{ height: 'min(calc(95svh - 200px), 720px)', minHeight: '420px' }}
+      style={{ height: 'min(calc(95svh - 200px), 620px)', minHeight: '400px' }}
     >
       {/* 이미지 컨텐츠 */}
       {renderImageContent()}

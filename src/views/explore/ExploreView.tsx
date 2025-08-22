@@ -24,7 +24,7 @@ export const ExploreView = () => {
   };
 
   return (
-    <div className="min-h-svh pb-15">
+    <div className="min-h-dvh pb-15">
       <ExploreHeader onFilterClick={handleFilterClick} />
 
       {/* ✅ 리스트 컴포넌트를 덤프로 만들어 모든 상태/핸들러를 내려줌 */}

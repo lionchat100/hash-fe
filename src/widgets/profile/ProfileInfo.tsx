@@ -94,7 +94,7 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
   const [logoLoadFailed, setLogoLoadFailed] = useState(false);
 
   // 대학 노출 여부 (API 응답에서 isUniversityVisible 필드로 제공)
-  const showUniversity = profile.isUniversityVisible && !!uniName;
+  const showUniversity = !!uniName; // 대학 정보가 있으면 항상 표시 (비공개일 때는 "비공개"로 표시)
 
   // [추가] 실제로 대학교 로고를 보여줄 수 있는지 판단
   const canShowRealLogo = !!universityLogo && !logoLoadFailed;
@@ -107,10 +107,10 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
           {/* 대학 정보는 있을 때만 */}
           {showUniversity && (
             <div className="mb-1 flex items-center gap-1">
-              {/* 로고 이미지가 있는 경우 → 실 로고 표시, 실패/부재 시 → 기본 로고(SVG) 표시 */}
+              {/* 항상 기본 로고 표시 (비공개인 경우) 또는 실제 로고 표시 */}
               <div className="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm">
-                {canShowRealLogo ? (
-                  // 로고 이미지가 있는 경우
+                {profile.isUniversityVisible && canShowRealLogo ? (
+                  // 공개이고 로고 이미지가 있는 경우
                   <Image
                     src={universityLogo!.path}
                     alt={`${uniName} 로고`}
@@ -121,7 +121,7 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
                     onError={() => setLogoLoadFailed(true)}
                   />
                 ) : (
-                  // 로고 이미지가 없는 경우 기본 로고(SVG) 표시
+                  // 비공개이거나 로고 이미지가 없는 경우 기본 로고(SVG) 표시
                   <Image
                     src={FALLBACK_LOGO_SRC}
                     alt="Tokit 기본 로고"
@@ -133,7 +133,9 @@ export const ProfileInfo = ({ profile }: ProfileInfoProps) => {
                 )}
               </div>
 
-              <span className="text-sm font-medium text-white">{uniName}</span>
+              <span className="text-sm font-medium text-white">
+                {profile.isUniversityVisible ? uniName : '비공개'}
+              </span>
             </div>
           )}
 
