@@ -12,7 +12,8 @@ export const LikeProfilesView = () => {
     return <div>문제가 발생했어요</div>;
   }
 
-  if (!likeProfiles || likeProfiles.length === 0) {
+  // 배열이 아니거나 데이터가 없는 경우 안전하게 처리
+  if (!likeProfiles || !Array.isArray(likeProfiles) || likeProfiles.length === 0) {
     return <div>아직 좋아요한 사람이 없어요</div>;
   }
 

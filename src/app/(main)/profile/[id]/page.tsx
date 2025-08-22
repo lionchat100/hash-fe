@@ -124,7 +124,7 @@ export default function OtherProfilePage() {
 
   // 정상 렌더링: 헤더 + 프로필 카드
   return (
-    <div className="min-h-dvh">
+    <div className="min-h-svh">
       {/* 상대방 프로필 전용 헤더 */}
       <OtherProfileHeader nickname={profileData.nickname} />
 
