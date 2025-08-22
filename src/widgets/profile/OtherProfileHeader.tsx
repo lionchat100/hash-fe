@@ -7,8 +7,6 @@ import { useRouter } from 'next/navigation';
 interface OtherProfileHeaderProps {
   /** 상대방의 닉네임 */
   nickname: string;
-  /** 신고 버튼 클릭 핸들러 */
-  onReportClick?: () => void;
 }
 
 /**
@@ -20,9 +18,8 @@ interface OtherProfileHeaderProps {
  * - 신고 버튼 (더보기 아이콘으로 표현)
  *
  * @param nickname - 상대방의 닉네임
- * @param onReportClick - 신고 버튼 클릭 시 호출되는 함수
  */
-export const OtherProfileHeader = ({ nickname, onReportClick }: OtherProfileHeaderProps) => {
+export const OtherProfileHeader = ({ nickname }: OtherProfileHeaderProps) => {
   const router = useRouter();
 
   // 뒤로가기 버튼 클릭 핸들러
@@ -32,12 +29,8 @@ export const OtherProfileHeader = ({ nickname, onReportClick }: OtherProfileHead
 
   // 신고 버튼 클릭 핸들러
   const handleReportClick = () => {
-    if (onReportClick) {
-      onReportClick();
-    } else {
-      // 기본 동작: 신고 기능 준비 중 알림
-      alert('신고 기능은 준비 중입니다.');
-    }
+    // 구글 폼으로 이동
+    window.open('https://docs.google.com/forms/d/e/1FAIpQLScwrZktsbUG3Q2AqPYNVH4cutyaJy1pO71XKLgqDbJJOVz7yg/viewform', '_blank');
   };
 
   return (

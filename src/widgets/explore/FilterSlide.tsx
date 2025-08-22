@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Drawer, DrawerContent, DrawerDescription, DrawerTitle } from '@/shared/ui/Drawer';
+import { Drawer, DrawerContent, DrawerTitle } from '@/shared/ui/Drawer';
 import { Button } from '@/shared/ui/Button';
 import { Badge } from '@/shared/ui/Badge';
 import { cn } from '@/shared/lib/tailwindMerge';
@@ -71,10 +71,7 @@ export const FilterSlide = ({ isOpen, onClose, selectedPosition, onPositionChang
           <Badge
             key={position.code}
             onClick={() => setTempPosition(selected ? null : position.code)}
-            className={cn(
-              'cursor-pointer px-6 py-2.5',
-              selected ? 'bg-primary font-bold text-stone-100' : '',
-            )}
+            className={cn('cursor-pointer px-6 py-2.5', selected ? 'bg-primary font-bold text-stone-100' : '')}
             data-no-nav
           >
             {position.name}

@@ -41,12 +41,12 @@ export const ProfileInfoEditor = ({
 }: ProfileInfoEditorProps) => {
   const bioError = validateBio(bio);
   const isBioValid = !bioError && bio.trim().length >= 5;
-  
+
   // 검증 상태 변경 시 부모에게 알림
   React.useEffect(() => {
     onValidationChange?.(isBioValid);
   }, [isBioValid, onValidationChange]);
-  
+
   const handleBioChange = (value: string) => {
     // 30자를 초과하지 않도록 제한
     if (value.length <= 30) {
@@ -65,20 +65,17 @@ export const ProfileInfoEditor = ({
           placeholder="해커톤에 참가한 연합동아리 회장입니다 동아리에 관심 있으신분들 채팅주세요~"
           maxLength={30}
           rows={4}
-          className={cn(
-            "w-full resize-none",
-            bioError ? "border-red-500 focus:border-red-500" : ""
-          )}
+          className={cn('w-full resize-none', bioError ? 'border-red-500 focus:border-red-500' : '')}
         />
         <div className="flex justify-between text-sm">
-          <div className={bioError ? "text-red-500" : "text-gray-500"}>
-            {bioError || "최소 5자 ~ 최대 30자"}
-          </div>
-          <div className={cn(
-            "text-gray-500",
-            bio.length > 25 ? "text-orange-500" : "",
-            bio.length === 30 ? "text-red-500" : ""
-          )}>
+          <div className={bioError ? 'text-red-500' : 'text-gray-500'}>{bioError || '최소 5자 ~ 최대 30자'}</div>
+          <div
+            className={cn(
+              'text-gray-500',
+              bio.length > 25 ? 'text-orange-500' : '',
+              bio.length === 30 ? 'text-red-500' : '',
+            )}
+          >
             {bio.length}/30
           </div>
         </div>
