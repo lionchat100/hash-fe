@@ -6,7 +6,7 @@ import { UserProfile } from '@/entities/user';
 
 export const ProfileActionButtons = ({ profile }: { profile: UserProfile }) => {
   return (
-    <div className="flex flex-col items-center gap-1">
+    <div className="flex flex-col items-center gap-0.5">
       <ProfileLikeButton profile={profile} />
       <StartChatButton userId={profile.userId} />
     </div>

@@ -1,7 +1,7 @@
 import { LikeProfileCard, LikeProfilesHeader, useLikeProfilesQuery } from '@/entities/user';
-import { LoadingSpinner } from '@/shared/ui/LoadingSpinner';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { FallbackScreen } from '@/widgets/common/FallbackScreen';
 
 export const LikeProfilesView = () => {
   const { ref, inView } = useInView();
@@ -14,7 +14,7 @@ export const LikeProfilesView = () => {
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   if (isLoading) {
-    return <LoadingSpinner text="좋아요한 사람 목록을 불러오는 중이에요" />; // TODO: 로딩 상태 표시 컴포넌트 추가
+    return <FallbackScreen text="좋아요한 사람 목록을 불러오는 중이에요" />;
   }
 
   if (error) {

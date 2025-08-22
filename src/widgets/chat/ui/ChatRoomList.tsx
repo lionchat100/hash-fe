@@ -5,6 +5,7 @@ import { ChatRoom } from '@/entities/chat';
 import { ChatRoomItem } from '@/entities/chat';
 import { getChatRoomList } from '@/entities/chat/api/getChatRoomList';
 import { ScrollArea } from '@/shared/ui/ScrollArea';
+import { FallbackScreen } from '@/widgets/common/FallbackScreen';
 
 export const ChatRoomList = () => {
   const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
@@ -27,11 +28,7 @@ export const ChatRoomList = () => {
   }, []);
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center p-8">
-        <div className="text-gray-500">채팅방 목록을 불러오는 중...</div>
-      </div>
-    );
+    return <FallbackScreen text={`채팅방 목록을 불러오는 중...`} fullScreen image="heart" />;
   }
 
   if (error) {
@@ -44,9 +41,14 @@ export const ChatRoomList = () => {
 
   if (chatRooms.length === 0) {
     return (
-      <div className="flex items-center justify-center p-8">
-        <div className="text-gray-500">채팅방이 없습니다.</div>
-      </div>
+      <FallbackScreen
+        type="hold"
+        text={`고민만 하지말고,\n커피챗 해보세요!`}
+        className="h-[calc(100svh-54px)]"
+        image="heart"
+        hasButtonLink="/explore"
+        buttonText="프로필 둘러보기"
+      />
     );
   }
 

@@ -43,17 +43,17 @@ export const DrawerSelect = <T extends string>({
   return (
     <>
       <div className="flex items-center gap-2">
-        <div className="text-base font-semibold">
+        <h2 className="text-lg font-semibold">
           {label}
           {canEdit && <span className="pl-2 text-sm font-medium text-stone-400">*설정 후 변경 불가</span>}
-        </div>
+        </h2>
       </div>
       <Drawer open={open} onOpenChange={handleOpenChange}>
         <DrawerTrigger asChild>
           <Button
             variant="drawerSelect"
             size="drawerSelect"
-            className={cn('w-full justify-between text-base text-stone-600', !value && 'text-stone-500')}
+            className={cn('w-full justify-between text-base text-stone-800', !value && 'text-stone-800')}
           >
             {value || placeholder}
             <ChevronDown className="size-6" />
@@ -78,9 +78,9 @@ export const DrawerSelect = <T extends string>({
             )}
           </div>
           <div className="max-h-[250px] overflow-y-auto overscroll-contain pr-1 [-webkit-overflow-scrolling:touch]">
-            {renderOptions(temp, setTemp)}
+            <div className="flex h-[250px] flex-wrap content-start gap-2">{renderOptions(temp, setTemp)}</div>
           </div>
-          <Button onClick={handleConfirm} className="my-2 w-full">
+          <Button onClick={handleConfirm} className="my-10 w-full">
             확인
           </Button>
         </DrawerContent>

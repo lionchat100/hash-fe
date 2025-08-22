@@ -2,7 +2,7 @@
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/shared/ui/Sheet';
 import Link from 'next/link';
-import { Heart, Megaphone, FileCheck, Shield, MessageCircleQuestionMark } from 'lucide-react';
+import { Heart, Megaphone, FileCheck, Shield, Siren } from 'lucide-react';
 import Image from 'next/image';
 
 type Props = {
@@ -10,26 +10,56 @@ type Props = {
   onClose: () => void;
 };
 
+type MenuItem = {
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  label: string;
+  href: string;
+  external?: boolean;
+};
+
 export const ProfileSidebar = ({ isOpen, onClose }: Props) => {
-  const menuCategories = [
+  const menuCategories: Array<{ title: string; items: MenuItem[] }> = [
     {
       title: '내 계정',
-      items: [{ icon: Heart, label: '내가 좋아요한 사람', href: '/profile/likes' }],
+      items: [{ icon: Heart, label: '내가 좋아요한 사람', href: '/profile/likes', external: false }],
     },
     {
       title: '정보',
       items: [
-        { icon: Megaphone, label: '공지사항', href: '/info/notices' },
-        { icon: FileCheck, label: '이용약관', href: '/info/terms' },
-        { icon: Shield, label: '개인정보 처리방침', href: '/info/privacy' },
-        { icon: MessageCircleQuestionMark, label: '문의하기', href: '/info/contact' },
+        {
+          icon: Megaphone,
+          label: '공지사항',
+          href: 'https://www.notion.so/Tokit-25711797709c80e293e0fb041451ab63',
+          external: true,
+        },
+        {
+          icon: FileCheck,
+          label: '이용약관',
+          href: 'https://www.notion.so/Tokit-25711797709c80c18febcda57f0c95be',
+          external: true,
+        },
+        {
+          icon: Shield,
+          label: '개인정보 처리방침',
+          href: 'https://www.notion.so/Tokit-25711797709c80c18febcda57f0c95be',
+          external: true,
+        },
+        {
+          icon: Siren,
+          label: '신고하기',
+          href: 'https://docs.google.com/forms/d/e/1FAIpQLScwrZktsbUG3Q2AqPYNVH4cutyaJy1pO71XKLgqDbJJOVz7yg/viewform',
+          external: true,
+        },
       ],
     },
   ];
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent side="left" className="w-70 [&>button>svg]:size-4.5">
+      <SheetContent
+        side="left"
+        className="w-72 [&>button]:focus:!ring-0 [&>button]:focus:!ring-offset-0 [&>button>svg]:size-5"
+      >
         <SheetHeader>
           <SheetTitle></SheetTitle>
         </SheetHeader>
@@ -44,17 +74,37 @@ export const ProfileSidebar = ({ isOpen, onClose }: Props) => {
 
                 {/* 카테고리 내 메뉴 항목들 */}
                 <nav className="space-y-1">
-                  {category.items.map((item) => (
-                    <Link
-                      key={item.label}
-                      href={item.href}
-                      className="flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-gray-100"
-                      onClick={onClose}
-                    >
-                      <item.icon className="size-5 text-gray-500" />
-                      <span className="font-semibold text-gray-500">{item.label}</span>
-                    </Link>
-                  ))}
+                  {category.items.map((item) => {
+                    const Icon = item.icon;
+                    // 외부 링크는 <a>, 내부는 <Link>
+                    return item.external ? (
+                      <a
+                        key={item.label}
+                        href={item.href}
+                        className="flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-gray-100"
+                        onClick={onClose}
+                        // 새 탭으로 열고 싶다면 아래 두 줄의 주석을 해제
+                        // target="_blank"
+                        // rel="noopener noreferrer"
+                        aria-label={item.label}
+                      >
+                        <Icon className="size-5 text-gray-500" />
+                        <span className="font-semibold text-gray-500">{item.label}</span>
+                      </a>
+                    ) : (
+                      <Link
+                        key={item.label}
+                        href={item.href}
+                        className="flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-gray-100"
+                        onClick={onClose}
+                        prefetch
+                        aria-label={item.label}
+                      >
+                        <Icon className="size-5 text-gray-500" />
+                        <span className="font-semibold text-gray-500">{item.label}</span>
+                      </Link>
+                    );
+                  })}
                 </nav>
                 <div className="py-2" />
                 <div className="border-t" />
@@ -67,8 +117,8 @@ export const ProfileSidebar = ({ isOpen, onClose }: Props) => {
             <div className="mb-3 flex justify-center">
               <Image src="/images/Tokit_produce.svg" alt="Tokit Produce" width={400} height={100} />
             </div>
-            <p className="text-center text-[10px] text-gray-300">
-              PM_NYH OCY KHH FE_KYW PSM SH BE_JWJ LCM LSH RSB DS_LYJ PSA
+            <p className="text-center text-[7px] text-gray-300">
+              PM_NYH OCY KHH FE_KYW PSM SH BE_JWJ LSH RSB YCM DS_LYJ PSA
             </p>
           </div>
         </div>
