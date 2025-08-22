@@ -85,7 +85,7 @@ export const ProfileImageSlider = ({ images, initialIndex = 0, onChange, classNa
                     aria-label={`${index + 1}번째 사진으로 이동`}
                     className={cn(
                       // 공통 스타일
-                      'relative h-3 w-3 cursor-pointer rounded-full transition-all duration-200 ease-in-out',
+                      'relative h-2.5 w-2.5 cursor-pointer rounded-full transition-all duration-200 ease-in-out',
                       // 본체 색상 + 약한 테두리
                       isActive
                         ? 'scale-[1.4] border border-gray-300 bg-white'
