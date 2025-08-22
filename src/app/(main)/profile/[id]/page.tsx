@@ -115,13 +115,6 @@ export default function OtherProfilePage() {
     }
   };
 
-  // 신고 버튼 클릭 핸들러
-  const handleReportClick = () => {
-    console.log(`신고 요청: 사용자 ${userId}`);
-    // TODO: 신고 모달 또는 페이지 구현
-    alert(`사용자 ${profileData?.nickname}을 신고하시겠습니까?\\n신고 기능은 곧 추가될 예정입니다.`);
-  };
-
   // 로딩 중 UI
   if (isLoading) {
     return (
@@ -165,7 +158,7 @@ export default function OtherProfilePage() {
   return (
     <div className="min-h-dvh">
       {/* 상대방 프로필 전용 헤더 */}
-      <OtherProfileHeader nickname={profileData.nickname} onReportClick={handleReportClick} />
+      <OtherProfileHeader nickname={profileData.nickname} />
 
       {/* 메인 컨텐츠 영역 */}
       <div className="p-4">
