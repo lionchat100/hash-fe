@@ -8,8 +8,6 @@ import { FilterSlide, PositionFilter } from '@/widgets/explore/FilterSlide';
 import { getUserCards } from '@/entities/user/api/getUserCards';
 import { UserProfile } from '@/entities/user/model/types';
 import { LoadingSpinner, InlineLoadingSpinner } from '@/shared/ui/LoadingSpinner';
-import { useChatStartOnExplore } from '@/features/update-chat';
-import { toast } from 'sonner';
 import Image from 'next/image';
 
 const PAGE_SIZE = 10;
@@ -25,7 +23,6 @@ export const ExploreView = () => {
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState<PositionFilter>(null);
-  const { startChat } = useChatStartOnExplore();
 
   const observerTarget = useRef<HTMLDivElement>(null);
 

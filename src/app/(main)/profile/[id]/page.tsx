@@ -76,43 +76,11 @@ export default function OtherProfilePage() {
     }
   }, [userId]);
 
-  // 좋아요 버튼 클릭 핸들러
-  const handleLikeClick = async (targetUserId: number, currentLikeState: boolean) => {
-    try {
-      console.log(`${currentLikeState ? '좋아요 취소' : '좋아요'} 요청: 사용자 ${targetUserId}`);
-
-      // TODO: 실제 좋아요 API 호출
-      // const result = await toggleUserLike(targetUserId);
-
-      // 임시: 프로필 데이터의 좋아요 상태 토글
-      if (profileData) {
-        setProfileData({
-          ...profileData,
-          isLikedByMe: !currentLikeState,
-        });
-      }
-
-      console.log(`✅ 좋아요 상태 변경 완료: ${!currentLikeState}`);
-    } catch (error) {
-      console.error('좋아요 처리 실패:', error);
-      throw error; // ProfileActionButtons에서 에러 처리
-    }
-  };
-
-  // 채팅 시작 버튼 클릭 핸들러
-  const handleChatClick = async (targetUserId: number) => {
-    try {
-      console.log(`채팅 시작 요청: 사용자 ${targetUserId}`);
-
-      // TODO: 실제 채팅방 생성 API 호출
-      // const chatRoom = await createChatRoom(targetUserId);
-      // router.push(`/chat/${chatRoom.id}`);
-
-      console.log(`✅ 채팅방 생성 요청 완료 (구현 예정)`);
-    } catch (error) {
-      console.error('채팅 시작 실패:', error);
-      throw error; // ProfileActionButtons에서 에러 처리
-    }
+  // 신고 버튼 클릭 핸들러
+  const handleReportClick = () => {
+    console.log(`신고 요청: 사용자 ${userId}`);
+    // TODO: 신고 모달 또는 페이지 구현
+    alert(`사용자 ${profileData?.nickname}을 신고하시겠습니까? 신고 기능은 곧 추가될 예정입니다.`);
   };
 
   // 로딩 중 UI
