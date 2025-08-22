@@ -24,10 +24,12 @@ export const FeedTabPanel = ({ sort, active }: { sort: Sort; active: boolean }) 
   return (
     <div
       ref={containerRef}
-      className="h-[calc(100dvh - 164px)] scrollbar-hide w-full overflow-auto pb-[56px]"
+      className="h-[calc(100dvh - 164px)] scrollbar-hide h-full w-full overflow-auto pb-[56px]"
       hidden={!active}
     >
-      {isEmpty && <div className="flex h-full w-full items-center justify-center">아직 게시판에 글이 없어요</div>}
+      {isEmpty && (
+        <div className="font-display-sm flex h-full w-full items-center justify-center">아직 게시판에 글이 없어요</div>
+      )}
       {/* 상태 처리 */}
       {status === 'pending' && (
         <LoadingSpinner text={`게시판 진입 대기중이에요\n조금만 기다려주세요`} fullScreen image="heart" />

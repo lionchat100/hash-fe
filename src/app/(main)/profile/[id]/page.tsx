@@ -126,7 +126,7 @@ export default function OtherProfilePage() {
   return (
     <div className="min-h-dvh">
       {/* 상대방 프로필 전용 헤더 */}
-      <OtherProfileHeader nickname={profileData.nickname} onReportClick={handleReportClick} />
+      <OtherProfileHeader nickname={profileData.nickname} />
 
       {/* 메인 컨텐츠 영역 */}
       <div className="p-4">
