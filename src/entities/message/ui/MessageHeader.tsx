@@ -17,7 +17,7 @@ export const MessageHeader = (props: MessageHeaderProps) => {
           <ChevronLeft className="size-7" />
         </Link>
       </Button>
-      <h1 className="text-xl font-semibold text-stone-900">{opponentNickname || '대화'}</h1>
+      <h1 className="text-xl font-semibold text-stone-900">{opponentNickname || ''}</h1>
       <ReportButton />
     </header>
   );
