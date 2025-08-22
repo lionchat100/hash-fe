@@ -76,7 +76,11 @@ export const FullScreenLoadingSpinner = ({
  * 인라인 로딩 스피너 (작은 크기)
  * 버튼 내부나 작은 섹션에서 사용
  */
+<<<<<<< HEAD:src/shared/ui/LoadingSpinner.tsx
+export const InlineLoadingSpinner = ({ text, size = 120 }: Omit<LoadingSpinnerProps, 'fullScreen'>) => {
+=======
 export const InlineLoadingSpinner = ({ text, size = 160 }: Omit<FallbackScreenProps, 'fullScreen'>) => {
+>>>>>>> d89de2fa36a2d647e0405e7b458674ddc9e818be:src/widgets/common/FallbackScreen.tsx
   return (
     <div className="flex items-center gap-2">
       <div className="animate-wiggle" style={{ width: size, height: size }}>
