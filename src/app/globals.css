@@ -258,11 +258,11 @@
   }
 
   .pb-safe-input {
-    padding-bottom: calc(var(--space-h-nav) + env(safe-area-inset-bottom) + var(--kb, 0px));
+    padding-bottom: calc(var(--space-h-nav) + env(safe-area-inset-bottom) + var(--kb-offset, 0px));
   }
   @supports (padding: constant(safe-area-inset-bottom)) {
     .pb-safe-input {
-      padding-bottom: calc(var(--space-h-nav) + constant(safe-area-inset-bottom) + var(--kb, 8px));
+      padding-bottom: calc(var(--space-h-nav) + constant(safe-area-inset-bottom) + var(--kb-offset, 0px));
     }
   }
 
@@ -275,11 +275,11 @@
     max-width: var(--space-max-layout); /* 프로젝트 값 사용 */
     background: #fff; /* 비침 방지 */
     border-top: 1px solid #eee;
-    padding-bottom: calc(env(safe-area-inset-bottom) + var(--kb, 8px));
+    padding-bottom: calc(env(safe-area-inset-bottom) + var(--kb-offset, 0px) + 8px);
   }
   @supports (padding: constant(safe-area-inset-bottom)) {
     .input-fixed {
-      padding-bottom: calc(constant(safe-area-inset-bottom) + var(--kb, 8px));
+      padding-bottom: calc(constant(safe-area-inset-bottom) + var(--kb-offset, 0px) + 8px);
     }
 
     .nav-fixed {
