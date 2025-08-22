@@ -1,5 +1,5 @@
 // API
-export { likeProfile, unlikeProfile, useUnlikeProfileMutation } from './api/updateProfileLike';
+export { likeProfile, unlikeProfile, useUnlikeProfileMutation, useLikeProfileMutation } from './api/updateProfileLike';
 
 // Model
 export { userOAuthLogin } from './model/userOAuthLogin';

@@ -17,7 +17,7 @@ export const OtherProfileHeader = ({ nickname }: OtherProfileHeaderProps) => {
 
   // 신고 버튼 클릭 핸들러
   const handleReportClick = () => {
-    const confirmed = window.confirm(`${nickname}님을 신고하시겠습니까?`);
+    const confirmed = window.confirm(`${nickname}님을 신고하시겠어요?`);
     if (confirmed) {
       // 구글 폼으로 이동
       window.open(

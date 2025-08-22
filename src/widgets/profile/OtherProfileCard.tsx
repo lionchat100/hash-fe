@@ -95,7 +95,10 @@ export const OtherProfileCard = ({ profile, className }: OtherProfileCardProps) 
   return (
     <div
       className={`relative w-full overflow-hidden rounded-3xl shadow-2xl ${className ?? ''}`}
-      style={{ height: 'min(calc(100svh - 200px), 620px)', minHeight: '400px' }}
+      style={{
+        height: className?.includes('!h-') ? undefined : 'min(calc(100svh - 190px), 620px)',
+        minHeight: '400px',
+      }}
     >
       {/* 이미지 컨텐츠 */}
       {renderImageContent()}
@@ -118,7 +121,7 @@ export const OtherProfileCard = ({ profile, className }: OtherProfileCardProps) 
 
           {/* 액션 버튼들 영역 20% */}
           <div className="w-[20%] p-3 pb-8 pl-2">
-            <ProfileActionButtons userId={profile.userId} isLiked={profile.isLikedByMe} />
+            <ProfileActionButtons profile={profile} />
           </div>
         </div>
       </div>

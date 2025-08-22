@@ -6,27 +6,23 @@ import { refreshManager } from '@/shared/api/refreshManager';
 import { Client, IFrame } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 
-// 멀티탭 토큰 동기화용 BroadcastChannel
-const bc = typeof window !== 'undefined' ? new BroadcastChannel('auth') : null;
+const bc = typeof window !== 'undefined' ? new BroadcastChannel('accessToken') : null;
 
-// 스탬피드 방지용 지수 백오프 알고리즘
-// 150밀리초 ~ 3초 사이 랜덤 지수 백오프
 function backoff(attempt: number) {
   const base = Math.min(3000, 150 * Math.pow(2, attempt));
   return base + Math.floor(Math.random() * 200);
 }
 
 export const StompProvider = ({ children }: { children: ReactNode }) => {
-  const [isConnected, setIsConnected] = useState(false); // 연결 상태
-  const retryTimerRef = useRef<number | null>(null); // 재연결 대기 타이머
-  const clientRef = useRef<Client | null>(null); // 클라이언트 인스턴스
-  const tokenRef = useRef<string | null>(null); // 현재 토큰
-  const reconnectAttemptRef = useRef<number>(0); // 재연결 시도 횟수
-  const suppressCloseRef = useRef(false); // 스탬피드 방지용 플래그
-  const switchingRef = useRef(false); // 스탬피드 방지용 플래그
-  const mountedRef = useRef(true); // 마운트 상태
+  const [isConnected, setIsConnected] = useState(false);
+  const retryTimerRef = useRef<number | null>(null);
+  const clientRef = useRef<Client | null>(null);
+  const tokenRef = useRef<string | null>(null);
+  const reconnectAttemptRef = useRef<number>(0);
+  const suppressCloseRef = useRef(false);
+  const switchingRef = useRef(false);
+  const mountedRef = useRef(true);
 
-  // 재연결 대기 타이머 초기화
   const clearRetryTimer = () => {
     if (retryTimerRef.current) {
       clearTimeout(retryTimerRef.current);
@@ -34,7 +30,6 @@ export const StompProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // 클라이언트 생성
   const createStompClient = useCallback((token: string) => {
     const stompClient = new Client({
       webSocketFactory: () => new SockJS(process.env.NEXT_PUBLIC_STOMP_URL!),
@@ -44,15 +39,14 @@ export const StompProvider = ({ children }: { children: ReactNode }) => {
       reconnectDelay: 0,
       heartbeatIncoming: 5000,
       heartbeatOutgoing: 5000,
-      // debug: () => {}, // 프로덕션 디버깅 메시지 비활성화
+      // debug: () => {},
       beforeConnect: async () => {
-        // 토큰 파싱으로 만료 시간 확인 및 프리리프레시 시도
         try {
           const now = Date.now() / 1000;
           const raw = token.split('.')[1];
           const { exp } = JSON.parse(atob(raw));
           if (exp - now < 60) {
-            console.log('토큰 만료 시간이 60초 이내입니다. 토큰 갱신 시도');
+            console.log('[STOMP PROVIDER] 토큰 만료 시간이 60초 이내입니다. 토큰 갱신 시도');
             const { accessToken } = await refreshManager.refresh();
             tokenRef.current = accessToken;
             stompClient.connectHeaders = { Authorization: `Bearer ${accessToken}` };
@@ -66,11 +60,11 @@ export const StompProvider = ({ children }: { children: ReactNode }) => {
     stompClient.onConnect = () => {
       setIsConnected(true);
       reconnectAttemptRef.current = 0;
-      console.log('STOMP PROVIDER 로깅: 연결 성공');
+      console.log('[STOMP PROVIDER] 연결 성공 - onConnect');
     };
     stompClient.onDisconnect = () => {
       setIsConnected(false);
-      console.log('STOMP PROVIDER 로깅: 연결 끊김');
+      console.log('[STOMP PROVIDER] 연결 끊김 - onDisconnect');
     };
     stompClient.onStompError = async (frame: IFrame) => {
       setIsConnected(false);
@@ -78,13 +72,14 @@ export const StompProvider = ({ children }: { children: ReactNode }) => {
       const body = frame.body || '';
       const isExpired = message.includes('401') || body.includes('401');
       if (isExpired) {
-        console.log('STOMP PROVIDER 로깅: 토큰 만료 감지 - 토큰 재발급 시도');
+        console.log('[STOMP PROVIDER] 401 수신!!! 토큰 만료로 재발급 시도 - onStompError');
         try {
           const { accessToken } = await refreshManager.refresh();
           await safeRecreate(accessToken);
-          console.log('STOMP PROVIDER 로깅: 토큰 재발급 성공 - 재연결 시도');
+          console.log('[STOMP PROVIDER] 토큰 재발급 성공으로 재연결 시도 - onStompError');
         } catch {
           await safeDeactivate();
+          console.log('[STOMP PROVIDER] 토큰 재발급 실패로 클라이언트 비활성화 시도 - onStompError');
         }
       } else {
         await retryReconnect();
@@ -98,15 +93,16 @@ export const StompProvider = ({ children }: { children: ReactNode }) => {
     return stompClient;
   }, []);
 
-  // 클라이언트 비활성화
   const safeDeactivate = useCallback(async () => {
     const prev = clientRef.current;
     if (prev) {
       try {
         suppressCloseRef.current = true;
         await prev.deactivate();
+        console.log('[STOMP PROVIDER] 이전 클라이언트 비활성화 성공 - safeDeactivate');
       } catch {
         prev.forceDisconnect();
+        console.log('[STOMP PROVIDER] 이전 클라이언트 비활성화 실패, 강제 연결 해제 - safeDeactivate');
       } finally {
         clientRef.current = null;
         setTimeout(() => {
@@ -116,7 +112,6 @@ export const StompProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  // 클라이언트 재생성
   const safeRecreate = useCallback(
     async (token: string) => {
       if (switchingRef.current) return;
@@ -124,10 +119,12 @@ export const StompProvider = ({ children }: { children: ReactNode }) => {
       try {
         clearRetryTimer();
         await safeDeactivate();
+        tokenRef.current = token;
         const next = createStompClient(token);
         clientRef.current = next;
         tokenRef.current = token;
         next.activate();
+        console.log('[STOMP PROVIDER] 새 클라이언트 생성 성공 - safeRecreate', token);
       } finally {
         switchingRef.current = false;
       }
@@ -135,7 +132,6 @@ export const StompProvider = ({ children }: { children: ReactNode }) => {
     [createStompClient, safeDeactivate],
   );
 
-  // 재연결 시도
   const retryReconnect = useCallback(async () => {
     const attempt = ++reconnectAttemptRef.current;
     const delay = backoff(attempt);
@@ -147,9 +143,9 @@ export const StompProvider = ({ children }: { children: ReactNode }) => {
     });
     const token = tokenRef.current || localStorage.getItem('accessToken');
     if (token) await safeRecreate(token);
+    console.log('[STOMP PROVIDER] 재연결 시도 성공 - retryReconnect', token);
   }, [safeRecreate]);
 
-  // 초기 연결
   useEffect(() => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
     if (token) {
@@ -157,24 +153,24 @@ export const StompProvider = ({ children }: { children: ReactNode }) => {
       const stompClient = createStompClient(token);
       clientRef.current = stompClient;
       stompClient.activate();
+      console.log('[STOMP PROVIDER] 초기 연결 성공 - useEffect', token);
     }
     return () => {
       safeDeactivate();
     };
   }, [createStompClient, safeDeactivate]);
 
-  // 토큰 재발급 감지
   useEffect(() => {
     const off = refreshManager.onToken(async (newToken) => {
       tokenRef.current = newToken;
       await safeRecreate(newToken);
+      console.log('[STOMP PROVIDER] 토큰 재발급 감지 해제 - useEffect');
     });
     return () => {
       off();
     };
   }, [safeRecreate]);
 
-  // 멀티탭 토큰 동기화
   useEffect(() => {
     if (!bc) return;
     const onMessage = (event: MessageEvent<string>) => {
@@ -186,17 +182,17 @@ export const StompProvider = ({ children }: { children: ReactNode }) => {
     return () => bc.removeEventListener('message', onMessage);
   }, [safeRecreate]);
 
-  // 마운트 상태 관리
   useEffect(() => {
     mountedRef.current = true;
+    console.log('[STOMP PROVIDER] 마운트 상태 관리 - useEffect');
     return () => {
       mountedRef.current = false;
       clearRetryTimer();
       suppressCloseRef.current = true;
+      console.log('[STOMP PROVIDER] 마운트 해제 - useEffect');
     };
   }, []);
 
-  // 컨텍스트 값 계산
   const value = useMemo(
     () => ({
       get client() {

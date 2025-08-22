@@ -119,7 +119,7 @@ export const OtherProfileView = ({ userId }: OtherProfileViewProps) => {
       <div className="p-4">
         <div className="relative">
           {/* 상대방 프로필 카드 - 실제 API 데이터 사용 */}
-          <OtherProfileCard profile={profileData} />
+          <OtherProfileCard profile={profileData} className="!h-[calc(100svh-140px)]" />
         </div>
       </div>
     </div>
