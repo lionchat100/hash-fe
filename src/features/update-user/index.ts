@@ -1,8 +1,11 @@
+// API
+export { likeProfile, unlikeProfile, useUnlikeProfileMutation } from './api/updateProfileLike';
+
 // Model
 export { userOAuthLogin } from './model/userOAuthLogin';
 export { userAuthLogout } from './model/userAuthLogout';
 export { userAuthLogin } from './model/userAuthLogin';
-export { userLikeProfile, userUnlikeProfile, userToggleProfileLike } from './model/userLikeProfile';
+export { userLikeProfile, userUnlikeProfile } from './model/userLikeProfile';
 
 // UI
 export { Step1Form } from './ui/Step1Form';

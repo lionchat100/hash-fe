@@ -14,7 +14,7 @@ export const ProfileSidebar = ({ isOpen, onClose }: Props) => {
   const menuCategories = [
     {
       title: '내 계정',
-      items: [{ icon: Heart, label: '내가 좋아요한 사람', href: '/my/likes' }],
+      items: [{ icon: Heart, label: '내가 좋아요한 사람', href: '/profile/likes' }],
     },
     {
       title: '정보',

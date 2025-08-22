@@ -154,26 +154,6 @@ export const ExploreView = () => {
     loadCards(false);
   };
 
-  const handleLikeClick = async (userId: number, currentLikeState: boolean) => {
-    try {
-      setCards((prev) =>
-        prev.map((card) => (card.userId === userId ? { ...card, isLikedByMe: !currentLikeState } : card)),
-      );
-    } catch (error) {
-      console.error('좋아요 처리 실패:', error);
-      throw error;
-    }
-  };
-
-  const handleChatClick = async (userId: number) => {
-    try {
-      await startChat(userId);
-    } catch (error) {
-      console.error('채팅 시작 실패:', error);
-      toast.error('예기치 못한 오류로 채팅을 시작하지 못했어요.');
-    }
-  };
-
   const handleCardClick = (userId: number) => {
     router.push(`/profile/${userId}`);
   };
@@ -221,7 +201,7 @@ export const ExploreView = () => {
               className="cursor-pointer"
             >
               {/* 참고: OtherProfileCard 내의 좋아요/채팅 버튼에 data-no-nav 속성을 달면 더욱 안전해요. */}
-              <OtherProfileCard profile={card} onChatClick={handleChatClick} />
+              <OtherProfileCard profile={card} />
             </div>
           ))}
         </div>
