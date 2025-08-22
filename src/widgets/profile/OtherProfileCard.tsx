@@ -12,8 +12,6 @@ interface OtherProfileCardProps {
   profile: UserProfile;
   /** 커스텀 CSS 클래스 */
   className?: string;
-  /** 채팅 시작 버튼 클릭 핸들러 */
-  onChatClick?: (userId: number) => Promise<void>;
 }
 
 /**
@@ -34,7 +32,7 @@ interface OtherProfileCardProps {
  * @param onLikeClick - 좋아요 버튼 클릭 시 호출되는 함수
  * @param onChatClick - 채팅 시작 버튼 클릭 시 호출되는 함수
  */
-export const OtherProfileCard = ({ profile, className, onChatClick }: OtherProfileCardProps) => {
+export const OtherProfileCard = ({ profile, className }: OtherProfileCardProps) => {
   // 현재 활성화된 이미지 인덱스 상태 관리
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -120,7 +118,7 @@ export const OtherProfileCard = ({ profile, className, onChatClick }: OtherProfi
 
           {/* 액션 버튼들 영역 20% */}
           <div className="w-[20%] p-3 pb-12 pl-2">
-            <ProfileActionButtons userId={profile.userId} isLiked={profile.isLikedByMe} onChatClick={onChatClick} />
+            <ProfileActionButtons userId={profile.userId} isLiked={profile.isLikedByMe} />
           </div>
         </div>
       </div>
