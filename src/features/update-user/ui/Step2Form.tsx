@@ -63,7 +63,7 @@ export const Step2Form = forwardRef<StepFormHandle, Step2FormProps>(function Ste
                   value={field.value || ''}
                   onConfirm={field.onChange}
                   renderOptions={(selected, setSelected) => (
-                    <div className="max-h-[250px] overflow-y-auto overscroll-contain pr-1 [-webkit-overflow-scrolling:touch]">
+                    <div className="scrollbar-hide max-h-[250px] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch]">
                       <div className="flex h-[250px] flex-wrap content-start gap-2">
                         {items.map((opt) => {
                           const lableText = key === 'preferenceType' ? preferenceLableMapper(opt.name) : opt.name;

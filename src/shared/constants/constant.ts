@@ -11,3 +11,6 @@ export const PROGRESS_BY_STEP: Record<number, number> = {
 
 export const MESSAGE_MAX_LEN = 300;
 export const PAGE_SIZE = 20;
+
+export const ALLOWED_EXT = ['jpg', 'jpeg', 'png', 'webp', 'heic', 'heif'] as const;
+export const ALLOWED_MIME = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif'] as const;
