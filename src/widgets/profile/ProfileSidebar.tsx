@@ -29,7 +29,10 @@ export const ProfileSidebar = ({ isOpen, onClose }: Props) => {
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent side="left" className="w-70 [&>button>svg]:size-4.5">
+      <SheetContent
+        side="left"
+        className="w-72 [&>button]:focus:!ring-0 [&>button]:focus:!ring-offset-0 [&>button>svg]:size-5"
+      >
         <SheetHeader>
           <SheetTitle></SheetTitle>
         </SheetHeader>
@@ -67,8 +70,8 @@ export const ProfileSidebar = ({ isOpen, onClose }: Props) => {
             <div className="mb-3 flex justify-center">
               <Image src="/images/Tokit_produce.svg" alt="Tokit Produce" width={400} height={100} />
             </div>
-            <p className="text-center text-[10px] text-gray-300">
-              PM_NYH OCY KHH FE_KYW PSM SH BE_JWJ LCM LSH RSB DS_LYJ PSA
+            <p className="text-center text-[7px] text-gray-300">
+              PM_NYH OCY KHH FE_KYW PSM SH BE_JWJ LSH RSB YCM DS_LYJ PSA
             </p>
           </div>
         </div>

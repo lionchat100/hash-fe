@@ -12,7 +12,7 @@ export default function NavBar() {
   const activeTab = navItems.find((item) => item.key === current)?.key ?? navItems[0].key;
 
   return (
-    <nav className="safe-pb fixed bottom-0 z-10 mx-auto flex h-(--space-h-nav) w-full max-w-(--space-max-layout) min-w-xs items-center justify-around border-t border-stone-400 bg-white">
+    <nav className="safe-pb fixed bottom-0 z-50 mx-auto flex h-(--space-h-nav) w-full max-w-(--space-max-layout) min-w-xs items-center justify-around border-t border-stone-400 bg-white">
       {navItems.map(({ key, Icon, label }) => {
         const isActive = key === activeTab;
         return (

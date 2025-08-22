@@ -2,21 +2,18 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronLeft, ChevronDown } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/shared/ui/Button';
-import { Textarea } from '@/shared/ui/Textarea';
-import { DrawerSelect } from '@/widgets/form';
-import { ProfileImageUploader } from './ProfileImageUploader';
+import { LoadingSpinner } from '@/shared/ui/LoadingSpinner';
+import { ProfileImageUploader } from '@/features/edit-profile/ui/ProfileImageUploader';
+import { ProfileInfoEditor } from '@/features/edit-profile/ui/ProfileInfoEditor';
 import { uploadImagesList } from '@/features/update-user/api/uploadImagesList';
-import { updateProfile, UpdateProfileRequest } from '../model/updateProfile';
+import { updateProfile, UpdateProfileRequest } from '@/features/edit-profile/model/updateProfile';
 import { getUserProfile } from '@/entities/user/api/getUserProfile';
 import { UserMyProfile } from '@/entities/user/model/types';
-import { LoadingSpinner } from '@/shared/ui/LoadingSpinner';
 
-const FOCUS_OPTIONS = ['직무 관련', '취업 준비', '일상 이야기'];
-
-export const EditProfilePage = () => {
+export const EditProfileView = () => {
   const router = useRouter();
 
   // 상태
@@ -28,6 +25,7 @@ export const EditProfilePage = () => {
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const [bio, setBio] = useState('');
   const [focusType, setFocusType] = useState(''); // 한글 그대로
+  const [isBioValid, setIsBioValid] = useState(false);
 
   // 초기 스냅샷(텍스트 변경 감지용)
   const initialBioRef = useRef<string>('');
@@ -70,6 +68,13 @@ export const EditProfilePage = () => {
         return;
       }
 
+      // bio 검증
+      if (!isBioValid) {
+        toast.error('자기소개를 5자 이상 30자 이하로 작성해주세요.');
+        setIsSaving(false);
+        return;
+      }
+
       // 새 이미지 업로드 → imageIds 획득
       const newIds = await uploadImagesList(uploadedImages);
       const finalImageIds = newIds.slice(0, 3);
@@ -106,8 +111,6 @@ export const EditProfilePage = () => {
     }
   };
 
-  const handleFocusSelect = (value: string) => setFocusType(value);
-
   if (isLoading) {
     return (
       <div className="min-h-dvh">
@@ -137,67 +140,23 @@ export const EditProfilePage = () => {
       <div className="space-y-6 p-4 pb-24">
         {/* 이미지 업로드 - ✅ 기존 이미지는 표시/유지하지 않음 */}
         <div className="space-y-3">
-          <ProfileImageUploader value={uploadedImages} onChange={setUploadedImages} maxFiles={3} maxSizeMB={5} />
-        </div>
-
-        {/* 자기소개 */}
-        <div className="space-y-3">
-          <h2 className="text-lg font-semibold text-gray-900">자신을 소개해주세요</h2>
-          <Textarea
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            placeholder="해커톤에 참가한 연합동아리 회장입니다 동아리에 관심 있으신분들 채팅주세요~"
-            maxLength={500}
-            rows={4}
-            className="w-full resize-none"
-          />
-          <div className="text-right text-sm text-gray-500">최소 5자 ~ 최대 30자</div>
-        </div>
-
-        {/* MBTI (읽기 전용) */}
-        <div className="space-y-3">
-          <h2 className="text-lg font-semibold text-gray-400">MBTI</h2>
-          <div className="flex cursor-not-allowed items-center justify-between rounded-lg bg-gray-100 p-4 opacity-60">
-            <span className="text-gray-400">{profileData?.mbti || 'INFP'}</span>
-            <ChevronDown className="h-5 w-5 text-gray-300" />
-          </div>
-        </div>
-
-        {/* 커리어 영역 (읽기 전용) */}
-        <div className="space-y-3">
-          <h2 className="text-lg font-semibold text-gray-400">자신의 커리어 영역</h2>
-          <div className="flex cursor-not-allowed items-center justify-between rounded-lg bg-gray-100 p-4 opacity-60">
-            <span className="text-gray-400">{profileData?.position || '프론트엔드'}</span>
-            <ChevronDown className="h-5 w-5 text-gray-300" />
-          </div>
-        </div>
-
-        {/* 관심있는 대화 주제 */}
-        <div className="space-y-3">
-          <DrawerSelect
-            label="관심있는 대화 주제"
-            placeholder="선택해주세요"
-            value={focusType}
-            renderOptions={(temp, setTemp) => (
-              <div className="space-y-3">
-                {FOCUS_OPTIONS.map((option) => (
-                  <button
-                    key={option}
-                    onClick={() => setTemp(option)}
-                    className={`w-full rounded-lg border p-4 text-left transition-colors ${
-                      temp === option ? 'border-gray-800 bg-gray-50' : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    {option}
-                  </button>
-                ))}
-              </div>
-            )}
-            onConfirm={(selectedName) => {
-              if (selectedName) setFocusType(selectedName);
-            }}
+          <ProfileImageUploader 
+            value={uploadedImages} 
+            onChange={setUploadedImages} 
+            maxFiles={3} 
+            maxSizeMB={5} 
           />
         </div>
+
+        {/* 프로필 정보 편집 */}
+        <ProfileInfoEditor
+          bio={bio}
+          onBioChange={setBio}
+          focusType={focusType}
+          onFocusTypeChange={setFocusType}
+          profileData={profileData}
+          onValidationChange={setIsBioValid}
+        />
       </div>
 
       {/* 저장 버튼 */}
@@ -205,7 +164,7 @@ export const EditProfilePage = () => {
         <div className="mx-auto max-w-md">
           <Button
             onClick={handleSave}
-            disabled={isSaving}
+            disabled={isSaving || !isBioValid || uploadedImages.length === 0}
             className="h-14 w-full cursor-pointer rounded-4xl text-lg font-semibold disabled:opacity-50"
             size="lg"
           >
