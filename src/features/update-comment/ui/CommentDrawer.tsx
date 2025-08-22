@@ -7,6 +7,7 @@ import { useInView } from 'react-intersection-observer';
 import { CommentInput } from './CommentInput';
 import { CommentCard } from './CommentCard';
 import { useQueryClient } from '@tanstack/react-query';
+import { useKeyboardOffset } from '@/shared/model/useKeyBoardOffset';
 
 type Props = {
   feedId: number;
@@ -16,6 +17,7 @@ type Props = {
 
 export function CommentDrawer({ feedId, open, onOpenChange }: Props) {
   const enabled = open && !!feedId;
+  useKeyboardOffset();
 
   const qc = useQueryClient();
   const dirtyRef = useRef(false);
@@ -42,8 +44,6 @@ export function CommentDrawer({ feedId, open, onOpenChange }: Props) {
   });
 
   const count = (data?.pages ?? []).reduce((acc, p) => acc + (p?.content?.length ?? 0), 0);
-
-  const isManyComment = count > 6;
   const isEmpty = count === 0;
 
   // 댓글 작성시 스크롤 이동
@@ -68,10 +68,7 @@ export function CommentDrawer({ feedId, open, onOpenChange }: Props) {
 
   return (
     <Drawer open={open} onOpenChange={handleOpenChange}>
-      {/* <DrawerContent className="h-[60dvh] max-h-[60dvh] bg-white p-0">
-        <div className="grid h-full grid-rows-[auto_1fr_110px]"> */}
-
-      <DrawerContent className="h-[60svh] max-h-[60svh] overflow-hidden bg-white p-0 md:h-[60dvh] md:max-h-[60dvh]">
+      <DrawerContent className="h-[70svh] max-h-[70svh] overflow-hidden bg-white p-0 md:h-[70dvh] md:max-h-[70dvh]">
         <div className="flex h-full flex-col">
           <div className="shrink-0 px-8 pb-5">
             <DrawerTitle className="bg-white text-2xl font-semibold text-black">댓글</DrawerTitle>
@@ -82,14 +79,12 @@ export function CommentDrawer({ feedId, open, onOpenChange }: Props) {
 
           <div
             ref={scrollRef}
-            // className="max-h-[calc(60dvh - 130px)] min-h-0 overflow-auto overscroll-contain px-8 safe-"
-            // className="min-h-0 overflow-auto overscroll-contain px-8"
-            className="min-h-0 flex-1 overflow-auto overscroll-contain px-8 pb-9"
+            className="pb-safe-input mb-14 min-h-0 overflow-auto px-8"
             style={{
               WebkitOverflowScrolling: 'touch',
               scrollbarGutter: 'stable both-edges',
               // 자동 스크롤 시 마지막 아이템이 sticky footer에 가리지 않도록
-              scrollPaddingBottom: 'calc(65px + env(safe-area-inset-bottom,0px))',
+              scrollPaddingBottom: 'calc(var(--space-h-nav) + env(safe-area-inset-bottom, 0px))',
             }}
           >
             {status === 'pending' && <div>불러오는 중…</div>}
@@ -112,12 +107,7 @@ export function CommentDrawer({ feedId, open, onOpenChange }: Props) {
             {isFetchingNextPage && <div className="text-center text-sm">더 불러오는 중…</div>}
           </div>
 
-          <DrawerFooter
-            className="sticky-bottom sticky border-t bg-white px-4 pt-2"
-            // style={{ paddingBottom: 'max(env(safe-area-inset-bottom,0px), 12px)' }}
-            // className="gap-0 border-t bg-white px-4 pt-2 pb-9"
-            // style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 12px)' }}
-          >
+          <DrawerFooter className="input-fixed border-t bg-white px-4 pt-2">
             <CommentInput
               feedId={feedId}
               disabled={!enabled}
@@ -126,7 +116,6 @@ export function CommentDrawer({ feedId, open, onOpenChange }: Props) {
                 scrollToBottomDeferred();
               }}
             />
-            {/* {isManyComment && <div className="h-12"></div>} */}
           </DrawerFooter>
         </div>
       </DrawerContent>
