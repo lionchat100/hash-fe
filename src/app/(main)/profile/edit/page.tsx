@@ -1,7 +1,7 @@
 'use client';
 
-import { EditProfilePage } from '@/features/edit-profile';
+import { EditProfileView } from '@/views/profile';
 
 export default function ProfileEditPage() {
-  return <EditProfilePage />;
+  return <EditProfileView />;
 }
