@@ -8,6 +8,8 @@ import { step1Schema } from '@/entities/user/lib/validators';
 import type { NicknameCheckRes, Step1Data, StepFormHandle } from '@/entities/user/model/types';
 import { useOptionFilter } from '../model/userOnboarding';
 
+import { PolicyDialog, privacyPolicy, servicePolicy } from '@/entities/policy';
+
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 import { Label } from '@/shared/ui/Label';
@@ -36,6 +38,7 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
       gender: '',
       nicknameVerified: false,
       privacyConsent: false,
+      serviceConsent: false,
     },
     mode: 'onChange',
     shouldUnregister: false,
@@ -56,7 +59,7 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
         keepErrors: false,
       });
       queueMicrotask(() => {
-        form.trigger(['nickname', 'university', 'gender', 'privacyConsent', 'nicknameVerified']);
+        form.trigger(['nickname', 'university', 'gender', 'privacyConsent', 'nicknameVerified', 'serviceConsent']);
       });
     }
   }, [step1, form]);
@@ -98,6 +101,8 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
 
   const check = useCheckNickname();
   const [open, setOpen] = useState(false);
+  const [privacyTermOpen, setPrivacyTermOpen] = useState(false);
+  const [serviceTermOpen, setServiceTermOpen] = useState(false);
   const [result, setResult] = useState<NicknameCheckRes>({ available: false });
 
   const handleClickCheck = async () => {
@@ -124,7 +129,15 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
       saveToStore('step1', { ...form.getValues(), nicknameVerified: true, verifiedNickname: current });
       // canProceed 계산만 필요하면 조용히 내부 검증만 돌려줌(문구는 게이트로 안 보임)
       queueMicrotask(() =>
-        form.trigger(['nickname', 'university', 'gender', 'privacyConsent', 'nicknameVerified', 'verifiedNickname']),
+        form.trigger([
+          'nickname',
+          'university',
+          'gender',
+          'privacyConsent',
+          'nicknameVerified',
+          'verifiedNickname',
+          'serviceConsent',
+        ]),
       );
     }
     setOpen(false);
@@ -238,20 +251,61 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
           {showErr('gender') && <p className="text-sm text-red-500">{errors.gender?.message as string}</p>}
         </div>
 
-        <div className="space-y-2">
-          <div className="flex items-start gap-2">
-            <Checkbox
-              id="privacyConsent"
-              checked={form.watch('privacyConsent')}
-              onCheckedChange={(v) => form.setValue('privacyConsent', !!v, { shouldDirty: true, shouldValidate: true })}
-            />
-            <Label htmlFor="privacyConsent" className="text-sm leading-5">
-              개인정보 처리 방침 동의(필수)
-            </Label>
+        <div className="space-y-4">
+          <div>
+            <div className="flex justify-between">
+              <div className="flex items-start gap-2">
+                <Checkbox
+                  id="serviceConsent"
+                  checked={form.watch('serviceConsent')}
+                  onCheckedChange={(v) =>
+                    form.setValue('serviceConsent', !!v, { shouldDirty: true, shouldValidate: true })
+                  }
+                />
+                <Label htmlFor="serviceConsent" className="text-base text-stone-600">
+                  서비스 이용 약관(필수)
+                </Label>
+              </div>
+              <Button
+                type="button"
+                variant="zero"
+                className="text-xs font-normal text-stone-500 underline"
+                onClick={() => setServiceTermOpen(true)}
+              >
+                자세히보기
+              </Button>
+            </div>
+            {showErr('serviceConsent') && (
+              <p className="text-sm text-red-500">{errors.serviceConsent?.message as string}</p>
+            )}
           </div>
-          {showErr('privacyConsent') && (
-            <p className="text-sm text-red-500">{errors.privacyConsent?.message as string}</p>
-          )}
+          <div>
+            <div className="flex justify-between">
+              <div className="flex items-start gap-2">
+                <Checkbox
+                  id="privacyConsent"
+                  checked={form.watch('privacyConsent')}
+                  onCheckedChange={(v) =>
+                    form.setValue('privacyConsent', !!v, { shouldDirty: true, shouldValidate: true })
+                  }
+                />
+                <Label htmlFor="privacyConsent" className="text-base text-stone-600">
+                  개인정보 처리 방침 동의(필수)
+                </Label>
+              </div>
+              <Button
+                type="button"
+                variant="zero"
+                className="text-xs font-normal text-stone-500 underline"
+                onClick={() => setPrivacyTermOpen(true)}
+              >
+                자세히보기
+              </Button>
+            </div>
+            {showErr('privacyConsent') && (
+              <p className="text-sm text-red-500">{errors.privacyConsent?.message as string}</p>
+            )}
+          </div>
         </div>
       </form>
       <CheckConfirmDialog
@@ -260,6 +314,8 @@ export const Step1Form = forwardRef<StepFormHandle, Step1FormProps>(function Ste
         onConfirm={handleModalConfirm}
         available={!!result.available}
       />
+      <PolicyDialog open={privacyTermOpen} onOpenChange={setPrivacyTermOpen} doc={privacyPolicy} />
+      <PolicyDialog open={serviceTermOpen} onOpenChange={setServiceTermOpen} doc={servicePolicy} />
     </>
   );
 });

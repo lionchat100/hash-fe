@@ -43,7 +43,7 @@ export const finalOnboardingDataMapper = (data: AllFormData, imageIds: number[])
     imageIds: imageIds ?? [],
     isUniversityView: !(data.step1?.isUniversityView ?? false),
     requiredAgreements: data.step1?.privacyConsent ?? true,
-    marketingAgreements: false,
+    marketingAgreements: data.step1?.serviceConsent ?? true,
   };
 };
 
