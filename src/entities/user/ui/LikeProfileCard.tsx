@@ -14,7 +14,7 @@ export const LikeProfileCard = (props: LikeProfileCardProps) => {
     <Link href={`/profile/${profile.userId}`}>
       <div className="mx-4 flex gap-4 border-b-1 py-4">
         <Image
-          src={profile.imageUrls[0]}
+          src={profile.imageUrls[0] ?? '/images/logo/tokit_info.svg'} // TODO: 기본 이미지 추가
           alt={profile.nickname}
           width={78}
           height={104}
