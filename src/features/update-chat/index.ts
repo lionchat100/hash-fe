@@ -8,3 +8,6 @@ export { chatContextLoad } from './model/chatContextLoad';
 
 // Lib
 export { pushLiveMessage } from './lib/pushLiveMessage';
+
+// UI
+export { StartChatButton } from './ui/StartChatButton';

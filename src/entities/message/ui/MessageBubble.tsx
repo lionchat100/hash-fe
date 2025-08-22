@@ -3,6 +3,7 @@ import { MessageRes } from '@/entities/message';
 import { useUserStore } from '@/entities/user';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/Avatar';
 import { formatChatTime } from '@/shared/lib/dateUtils';
+import Link from 'next/link';
 
 interface MessageBubbleProps {
   className?: string;
@@ -27,12 +28,14 @@ export const MessageBubble = (props: MessageBubbleProps) => {
         <>
           {/* 아바타 */}
           {showAvatar && (
-            <div className="flex-shrink-0">
-              <Avatar className="size-10">
-                <AvatarImage src={message.imageUrl} alt={message.nickname} />
-                <AvatarFallback className="text-xs">{message.nickname.charAt(0)}</AvatarFallback>
-              </Avatar>
-            </div>
+            <Link href={`/profile/${message.id}`} className="h-full">
+              <div className="flex-shrink-0">
+                <Avatar className="size-10">
+                  <AvatarImage src={message.imageUrl} alt={message.nickname} className="object-cover" />
+                  <AvatarFallback className="text-xs">{message.nickname.charAt(0)}</AvatarFallback>
+                </Avatar>
+              </div>
+            </Link>
           )}
           {/* 메시지 컨텐츠 */}
           <div className={clsx('flex max-w-[90%] flex-col', showTime && 'mb-3')}>

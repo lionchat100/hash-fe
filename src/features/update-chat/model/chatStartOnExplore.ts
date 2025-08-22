@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { initChatRoom } from '../api/initChatRoom';
 
 export const useChatStartOnExplore = () => {
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const startChat = async (targetUserId: number) => {
     if (isLoading) return;
