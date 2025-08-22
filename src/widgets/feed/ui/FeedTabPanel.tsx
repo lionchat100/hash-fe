@@ -4,7 +4,7 @@ import { useFeedsInfinite, useTabScrollPreserver } from '@/features/update-feed/
 import { Sort } from '@/entities/feed/model/types';
 import { FeedCard } from '@/widgets/feed/ui/FeedCard';
 import { useInView } from 'react-intersection-observer';
-import { LoadingSpinner } from '@/shared/ui/LoadingSpinner';
+import { FallbackScreen } from '@/widgets/common/FallbackScreen';
 
 export const FeedTabPanel = ({ sort, active }: { sort: Sort; active: boolean }) => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useFeedsInfinite(sort);
@@ -32,7 +32,7 @@ export const FeedTabPanel = ({ sort, active }: { sort: Sort; active: boolean }) 
       )}
       {/* 상태 처리 */}
       {status === 'pending' && (
-        <LoadingSpinner text={`게시판 진입 대기중이에요\n조금만 기다려주세요`} fullScreen image="heart" />
+        <FallbackScreen text={`게시판 진입 대기중이에요\n조금만 기다려주세요`} fullScreen image="heart" />
       )}
       {status === 'error' && <div className="p-4 text-sm text-red-500">목록을 불러오지 못했습니다.</div>}
 
@@ -43,9 +43,9 @@ export const FeedTabPanel = ({ sort, active }: { sort: Sort; active: boolean }) 
 
       {/* 로딩 인디케이터/센티넬 */}
       <div ref={ref} className="h-1" />
-      {isFetchingNextPage && <div className="text-muted-foreground p-3 text-center text-xs">더 불러오는 중…</div>}
+      {isFetchingNextPage && <div className="p-3 text-center text-xs text-stone-600">더 불러오는 중…</div>}
       {!hasNextPage && items.length > 0 && (
-        <div className="text-muted-foreground p-3 text-center text-xs">마지막 글입니다.</div>
+        <div className="p-3 text-center text-xs text-stone-600">마지막 글입니다.</div>
       )}
     </div>
   );

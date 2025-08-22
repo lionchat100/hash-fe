@@ -7,7 +7,7 @@ import { ExploreHeader } from '@/widgets/explore/ExploreHeader';
 import { FilterSlide, PositionFilter } from '@/widgets/explore/FilterSlide';
 import { getUserCards } from '@/entities/user/api/getUserCards';
 import { UserProfile } from '@/entities/user/model/types';
-import { LoadingSpinner, InlineLoadingSpinner } from '@/shared/ui/LoadingSpinner';
+import { FallbackScreen, InlineLoadingSpinner } from '@/widgets/common/FallbackScreen';
 import Image from 'next/image';
 
 const PAGE_SIZE = 10;
@@ -161,7 +161,7 @@ export const ExploreView = () => {
       <div className="min-h-dvh">
         <ExploreHeader onFilterClick={handleFilterClick} />
         <div className="mx-auto max-w-screen-md p-4">
-          <LoadingSpinner text="새로운 프로필을 찾는 중..." size={120} className="min-h-[60vh]" />
+          <FallbackScreen text="새로운 프로필을 찾는 중..." size={120} className="min-h-[60vh]" />
         </div>
       </div>
     );
