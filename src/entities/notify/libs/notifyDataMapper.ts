@@ -6,7 +6,7 @@ export const typeToCardData = (n: NotificationItem): NotificationCardMapData => 
     case 'CHATROOM':
       return {
         title: '채팅방이 생성되었어요!',
-        body: '새로운 대화가 얼렸어요! 지금 시작해볼까요?',
+        body: '새로운 대화가 열렸어요! 지금 시작해볼까요?',
         href: `/chats/${n.targetId}`,
         imageUrl: n.imageUrl,
         createdAt: formatChatTime(n.createdAt),
