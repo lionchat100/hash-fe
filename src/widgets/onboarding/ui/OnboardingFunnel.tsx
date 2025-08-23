@@ -62,7 +62,7 @@ export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) 
 
   const progressValue = PROGRESS_BY_STEP[step] ?? 50;
 
-  if (isPending) return <FallbackScreen fullScreen />;
+  if (isPending) return <FallbackScreen fullScreen text="온보딩을 준비중이에요" />;
 
   return (
     <div className="flex h-dvh flex-col justify-between px-4">

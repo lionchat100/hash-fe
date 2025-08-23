@@ -79,7 +79,7 @@ export function CommentDrawer({ feedId, open, onOpenChange }: Props) {
 
           <div
             ref={scrollRef}
-            className="pb-safe-input mb-14 min-h-0 overflow-auto px-8"
+            className="pb-safe-input mb-12 min-h-0 overflow-auto px-8"
             style={{
               WebkitOverflowScrolling: 'touch',
               scrollbarGutter: 'stable both-edges',
@@ -92,7 +92,9 @@ export function CommentDrawer({ feedId, open, onOpenChange }: Props) {
             {status === 'success' &&
               // 댓글이 없을 때
               (isEmpty ? (
-                <div className="font-display-sm flex h-full items-center justify-center">아직 댓글이 없어요</div>
+                <div className="font-display-sm flex h-[calc(70svh-160px)] items-center justify-center">
+                  아직 댓글이 없어요
+                </div>
               ) : (
                 <div className="space-y-5">
                   {data?.pages.flatMap((page) =>

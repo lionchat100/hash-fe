@@ -51,7 +51,7 @@ export const NotifyList = () => {
       <div ref={ref} className="h-1" />
       {isFetchingNextPage && <div className="text-muted-foreground p-3 text-center text-xs">더 불러오는 중…</div>}
       {!hasNextPage && items.length > 0 && (
-        <div className="text-muted-foreground p-3 text-center text-xs">마지막 글입니다.</div>
+        <div className="text-muted-foreground p-3 text-center text-xs">마지막 글입니다</div>
       )}
     </div>
   );

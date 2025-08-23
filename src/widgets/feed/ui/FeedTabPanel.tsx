@@ -45,7 +45,7 @@ export const FeedTabPanel = ({ sort, active }: { sort: Sort; active: boolean }) 
       <div ref={ref} className="h-1" />
       {isFetchingNextPage && <div className="p-3 text-center text-xs text-stone-600">더 불러오는 중…</div>}
       {!hasNextPage && items.length > 0 && (
-        <div className="p-3 text-center text-xs text-stone-600">마지막 글입니다.</div>
+        <div className="p-3 text-center text-xs text-stone-600">마지막 글입니다</div>
       )}
     </div>
   );
