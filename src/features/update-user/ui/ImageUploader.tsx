@@ -6,7 +6,6 @@ import { toast } from 'sonner';
 import Image from 'next/image';
 import { toAcceptAttr, UploadConfig, validateAndMergeFilesV2 } from '../model/userImageUpload';
 import { ALLOWED_EXT, ALLOWED_MIME } from '@/shared/constants/constant';
-import { convertOnlyHeic } from '@/shared/lib/convertToJPEG';
 
 type Preview = { file: File; url: string };
 
@@ -46,51 +45,36 @@ export function ImageUploader({ value, onChange, maxFiles = 3, maxSizeMB = 5, cl
   const handleFiles = (files: FileList | null) => {
     if (!files) return;
 
-    const run = async () => {
-      try {
-        // 1) heic 파일만 변환
-        const imagefiles = await convertOnlyHeic(files, {
-          quality: 1,
-        });
-        // 2) 변환된 파일들로 검증/머지 실행
-        const cfg: UploadConfig = { maxFiles, maxSizeMB, allowedExt: ALLOWED_EXT, allowedMime: ALLOWED_MIME };
-        const res = validateAndMergeFilesV2(value, imagefiles, cfg);
+    const cfg: UploadConfig = { maxFiles, maxSizeMB, allowedExt: ALLOWED_EXT, allowedMime: ALLOWED_MIME };
+    const res = validateAndMergeFilesV2(value, files, cfg);
 
-        if (!res.ok) {
-          switch (res.error) {
-            case 'TOO_MANY_FILES':
-              toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
-              break;
-            case 'INVALID_TYPE': {
-              // 상세 사유가 있으면 최대 3개까지 노출
-              const msg =
-                res.rejects
-                  ?.slice(0, 3)
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  .map((r: { name: any }) => `${r.name}: 허용되지 않은 형식`)
-                  .join('\n') ?? '허용되지 않은 형식의 파일이 포함되어 있어요.';
-              toast.error(`${msg}\n(허용: ${ALLOWED_EXT.join(', ')})`);
-              break;
-            }
-            case 'FILE_TOO_LARGE': {
-              toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
-              break;
-            }
-          }
-          resetInput();
-          return;
+    if (!res.ok) {
+      switch (res.error) {
+        case 'TOO_MANY_FILES':
+          toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
+          break;
+        case 'INVALID_TYPE': {
+          // 상세 사유가 있으면 최대 3개까지 노출
+          const msg =
+            res.rejects
+              ?.slice(0, 3)
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              .map((r: { name: any }) => `${r.name}: 허용되지 않은 형식`)
+              .join('\n') ?? '허용되지 않은 형식의 파일이 포함되어 있어요.';
+          toast.error(`${msg}\n(허용: ${ALLOWED_EXT.join(', ')})`);
+          break;
         }
-
-        onChange(res.next);
-        resetInput();
-      } catch (e) {
-        console.error(e);
-        toast.error('이미지 변환 중 오류가 발생했어요. 다시 시도해 주세요.');
-        resetInput();
+        case 'FILE_TOO_LARGE': {
+          toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
+          break;
+        }
       }
-    };
+      resetInput();
+      return;
+    }
 
-    void run();
+    onChange(res.next);
+    resetInput();
   };
 
   const handleRemove = (idx: number) => {
