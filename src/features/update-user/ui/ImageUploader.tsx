@@ -12,12 +12,12 @@ type Preview = { file: File; url: string };
 interface ImageUploaderProps {
   value: File[]; // RHF로부터 받는 값
   onChange: (files: File[]) => void;
-  maxFiles?: number; // default 3
-  maxSizeMB?: number; // default 5
+  maxFiles?: number;
+  maxSizeMB?: number;
   className?: string;
 }
 
-export function ImageUploader({ value, onChange, maxFiles = 3, maxSizeMB = 5, className }: ImageUploaderProps) {
+export function ImageUploader({ value, onChange, maxFiles = 3, maxSizeMB = 6, className }: ImageUploaderProps) {
   const [previews, setPreviews] = useState<Preview[]>([]);
   const inputRef = useRef<HTMLInputElement | null>(null);
 

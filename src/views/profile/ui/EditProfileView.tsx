@@ -140,7 +140,7 @@ export const EditProfileView = () => {
       <div className="space-y-6 p-4 pb-24">
         {/* 이미지 업로드 - ✅ 기존 이미지는 표시/유지하지 않음 */}
         <div className="space-y-3">
-          <ProfileImageUploader value={uploadedImages} onChange={setUploadedImages} maxFiles={3} maxSizeMB={5} />
+          <ProfileImageUploader value={uploadedImages} onChange={setUploadedImages} maxFiles={3} maxSizeMB={6} />
         </div>
 
         {/* 프로필 정보 편집 */}
