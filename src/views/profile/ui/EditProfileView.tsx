@@ -97,14 +97,12 @@ export const EditProfileView = () => {
         updateData.focusType = focusType;
       }
 
-      console.log('📤 서버 전송 데이터:', JSON.stringify(updateData, null, 2));
       await updateProfile(updateData);
 
       toast.success('프로필 수정 완료.');
       router.back();
     } catch (error: any) {
       console.error('프로필 수정 실패:', error);
-      console.log('응답 본문:', error?.response?.data);
       toast.error('프로필 수정 실패.');
     } finally {
       setIsSaving(false);
