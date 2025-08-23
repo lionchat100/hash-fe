@@ -5,7 +5,9 @@ import { X, Plus } from 'lucide-react';
 import { cn } from '@/shared/lib/tailwindMerge';
 import { toast } from 'sonner';
 import Image from 'next/image';
-import { UploadConfig, validateAndMergeFiles } from '@/features/update-user/model/userImageUpload';
+import { toAcceptAttr, UploadConfig, validateAndMergeFilesV2 } from '@/features/update-user/model/userImageUpload';
+import { ALLOWED_EXT, ALLOWED_MIME } from '@/shared/constants/constant';
+import { convertOnlyHeic } from '@/shared/lib/convertToJPEG';
 
 type Preview = {
   file: File;
@@ -59,38 +61,67 @@ export function ProfileImageUploader({
   const handleFiles = (files: FileList | null) => {
     if (!files) return;
 
-    const cfg: UploadConfig = { maxFiles, maxSizeMB };
+    const run = async () => {
+      try {
+        const imagefiles = await convertOnlyHeic(files, {
+          quality: 1,
+        });
+        // 2) 변환된 파일들로 검증/머지 실행
+        const cfg: UploadConfig = { maxFiles, maxSizeMB, allowedExt: ALLOWED_EXT, allowedMime: ALLOWED_MIME };
 
-    // 현재 총 이미지 수 = 새로 업로드한 개수만
-    const currentTotal = value?.length ?? 0;
-    const remainingSlots = Math.max(0, maxFiles - currentTotal);
+        // 현재 총 이미지 수 = 새로 업로드한 개수만
+        const currentTotal = value?.length ?? 0;
+        const remainingSlots = Math.max(0, maxFiles - currentTotal);
 
-    if (remainingSlots <= 0) {
-      toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
-      resetInput();
-      return;
-    }
+        if (remainingSlots <= 0) {
+          toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
+          resetInput();
+          return;
+        }
 
-    if (files.length > remainingSlots) {
-      toast.error(`${remainingSlots}장까지만 추가로 업로드 가능합니다`);
-      resetInput();
-      return;
-    }
+        if (files.length > remainingSlots) {
+          toast.error(`${remainingSlots}장까지만 추가로 업로드 가능합니다`);
+          resetInput();
+          return;
+        }
 
-    const res = validateAndMergeFiles(value, files, { ...cfg, maxFiles });
+        const res = validateAndMergeFilesV2(value, imagefiles, cfg);
 
-    if (!res.ok) {
-      if (res.error === 'TOO_MANY_FILES') {
-        toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
-      } else if (res.error === 'FILE_TOO_LARGE') {
-        toast.error(`파일 크기가 ${maxSizeMB}MB 이상으로 업로드 불가합니다`);
+        if (!res.ok) {
+          switch (res.error) {
+            case 'TOO_MANY_FILES':
+              toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
+              break;
+            case 'INVALID_TYPE': {
+              // 상세 사유가 있으면 최대 3개까지 노출
+              const msg =
+                res.rejects
+                  ?.slice(0, 3)
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  .map((r: { name: any }) => `${r.name}: 허용되지 않은 형식`)
+                  .join('\n') ?? '허용되지 않은 형식의 파일이 포함되어 있어요.';
+              toast.error(`${msg}\n(허용: ${ALLOWED_EXT.join(', ')})`);
+              break;
+            }
+            case 'FILE_TOO_LARGE': {
+              toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
+              break;
+            }
+          }
+          resetInput();
+          return;
+        }
+
+        onChange(res.next);
+        resetInput();
+      } catch (e) {
+        console.error(e);
+        toast.error('이미지 변환 중 오류가 발생했어요. 다시 시도해 주세요.');
+        resetInput();
       }
-      resetInput();
-      return;
-    }
+    };
 
-    onChange(res.next);
-    resetInput();
+    void run();
   };
 
   const handleRemove = (idx: number) => {
@@ -156,7 +187,7 @@ export function ProfileImageUploader({
       <input
         ref={inputRef}
         type="file"
-        accept="image/*"
+        accept={toAcceptAttr(ALLOWED_EXT, ALLOWED_MIME)}
         multiple
         className="hidden"
         onChange={(e) => handleFiles(e.target.files)}
