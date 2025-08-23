@@ -59,7 +59,7 @@ export const DrawerSelect = <T extends string>({
             <ChevronDown className="size-6" />
           </Button>
         </DrawerTrigger>
-        <DrawerContent className="safe-pb space-y-5 px-8">
+        <DrawerContent className="space-y-5 px-8 pb-[calc(env(safe-area-inset-bottom,0px)+20px)]">
           <DrawerTitle className="sr-only">{label}</DrawerTitle>
           <DrawerDescription className="sr-only">프로필 옵션 선택</DrawerDescription>
           <div className="text-2xl font-bold text-stone-600">

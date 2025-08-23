@@ -100,7 +100,7 @@ export const EditProfileView = () => {
       console.log('📤 서버 전송 데이터:', JSON.stringify(updateData, null, 2));
       await updateProfile(updateData);
 
-      toast.success('프로필이 수정 완료.');
+      toast.success('프로필 수정 완료.');
       router.back();
     } catch (error: any) {
       console.error('프로필 수정 실패:', error);
@@ -122,14 +122,14 @@ export const EditProfileView = () => {
   return (
     <div className="min-h-dvh bg-white">
       {/* 헤더 */}
-      <div className="sticky top-0 z-50 border-b border-gray-100 bg-white/90 backdrop-blur-sm">
+      <div className="sticky top-0 z-50 bg-white/90 backdrop-blur-sm">
         <div className="flex h-14 items-center justify-between px-4">
           <button
             onClick={handleBack}
             className="flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-gray-100"
             aria-label="뒤로가기"
           >
-            <ChevronLeft className="h-6 w-6 text-gray-700" />
+            <ChevronLeft className="size-6 text-gray-700" />
           </button>
           <h1 className="text-lg font-semibold text-gray-900">프로필 수정하기</h1>
           <div className="w-10" />
