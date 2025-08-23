@@ -161,8 +161,10 @@ export function ProfileImageUploader({
         className="hidden"
         onChange={(e) => handleFiles(e.target.files)}
       />
-      <p className="text-sm text-stone-400">
-        * 사진은 최대 {maxFiles}장 가능, 용량은 1장당 {maxSizeMB}MB 미만 가능합니다
+      <p className="text-m" style={{ color: '#FAAD14' }}>
+        사진은 처음부터 다시 넣어주세요!
+        <br />
+        최대{maxFiles}장 가능, 용량은 1장당 {maxSizeMB}MB 미만 가능
       </p>
     </div>
   );
