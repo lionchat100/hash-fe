@@ -7,12 +7,7 @@ import { Input } from '@/shared/ui/Input';
 import { ChevronUp, LoaderCircle } from 'lucide-react';
 import { useMessageStore } from '@/entities/message';
 
-interface MessageInputProps {
-  roomId: number;
-  className?: string;
-}
-
-export const MessageInput = ({ roomId, className }: MessageInputProps) => {
+export const MessageInput = ({ roomId }: { roomId: number }) => {
   const { sendMessage, isSending, error, resetError, canSend } = useSendMessage(roomId);
   const { messageDrafts, setMessageDraft, clearMessageDraft } = useMessageStore();
   const initialDraft = useMemo(() => messageDrafts[roomId] ?? '', [messageDrafts, roomId]);
@@ -65,7 +60,7 @@ export const MessageInput = ({ roomId, className }: MessageInputProps) => {
   const disableSend = !canSend || !message.trim() || isSending;
 
   return (
-    <div className={`bg-white px-4 py-2 drop-shadow-xl/20 ${className}`}>
+    <div className="bg-white px-4 py-2 drop-shadow-xl/20">
       {/* 에러 메시지 */}
       {error && <div className="bg-destructive/10 text-destructive mb-2 rounded-md px-3 py-2 text-sm">{error}</div>}
 
