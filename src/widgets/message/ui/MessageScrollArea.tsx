@@ -76,41 +76,42 @@ export function MessageScrollArea({ roomId, currentUserId }: Props) {
 
   return (
     <div className="scrollbar-hide h-dvh overflow-y-auto">
-      {items.length === 0 ? <PolicyCard /> : null}
-      <Virtuoso
-        ref={virtRef}
-        style={{ paddingBottom: 56, paddingTop: 54 }}
-        data={items}
-        firstItemIndex={firstItemIndex}
-        initialTopMostItemIndex={firstItemIndex + items.length - 1}
-        followOutput={atBottom ? 'auto' : false}
-        atTopStateChange={(atTop) => {
-          if (atTop) loadMoreTop();
-        }}
-        atBottomStateChange={(val) => {
-          if (!val && isNearBottom()) {
-            setAtBottom(true);
-          } else {
-            setAtBottom(val);
-          }
-        }}
-        scrollerRef={(el) => {
-          scrollerElRef.current = (el as HTMLElement) ?? null;
-        }}
-        increaseViewportBy={{ top: 0, bottom: 200 }}
-        overscan={300}
-        computeItemKey={(index, g) => g.message.messageId}
-        itemContent={(index, g) => (
-          <MessageBubble key={g.message.messageId} {...g} message={g.message} currentUserId={currentUserId} />
-        )}
-        components={{
-          Header: () =>
-            isFetchingNextPage ? (
-              <div className="p-3 text-center text-xs text-stone-600">이전 메시지를 불러오고 있어요</div>
-            ) : null,
-          Footer: () => <div style={{ height: atBottom ? 0 : 12 }} />,
-        }}
-      />
+      <div className="pt-[54px] pb-[56px]">
+        {items.length === 0 ? <PolicyCard /> : null}
+        <Virtuoso
+          ref={virtRef}
+          data={items}
+          firstItemIndex={firstItemIndex}
+          initialTopMostItemIndex={firstItemIndex + items.length - 1}
+          followOutput={atBottom ? 'auto' : false}
+          atTopStateChange={(atTop) => {
+            if (atTop) loadMoreTop();
+          }}
+          atBottomStateChange={(val) => {
+            if (!val && isNearBottom()) {
+              setAtBottom(true);
+            } else {
+              setAtBottom(val);
+            }
+          }}
+          scrollerRef={(el) => {
+            scrollerElRef.current = (el as HTMLElement) ?? null;
+          }}
+          increaseViewportBy={{ top: 0, bottom: 200 }}
+          overscan={300}
+          computeItemKey={(index, g) => g.message.messageId}
+          itemContent={(index, g) => (
+            <MessageBubble key={g.message.messageId} {...g} message={g.message} currentUserId={currentUserId} />
+          )}
+          components={{
+            Header: () =>
+              isFetchingNextPage ? (
+                <div className="p-3 text-center text-xs text-stone-600">이전 메시지를 불러오고 있어요</div>
+              ) : null,
+            Footer: () => <div style={{ height: atBottom ? 0 : 12 }} />,
+          }}
+        />
+      </div>
     </div>
   );
 }

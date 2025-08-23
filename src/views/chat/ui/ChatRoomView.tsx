@@ -30,9 +30,7 @@ export const ChatRoomView = ({
   return (
     <div className="relative h-dvh">
       <MessageHeader opponentNickname={opponentNickname} opponentUserId={opponentUserId} />
-
       <MessageScrollArea roomId={roomId} currentUserId={currentUserId} />
-
       <MessageInput roomId={roomId} />
     </div>
   );
