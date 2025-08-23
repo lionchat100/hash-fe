@@ -1,121 +1,116 @@
 'use client';
 
-import { useMemo, useCallback, useLayoutEffect, useEffect, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Virtuoso, VirtuosoHandle } from 'react-virtuoso';
 import { useMessageQuery, MessageBubble, groupMessages } from '@/entities/message';
-import { ScrollArea } from '@/shared/ui/ScrollArea';
+import { FallbackScreen } from '@/widgets/common/FallbackScreen';
+import { PolicyCard } from '@/shared/ui/PolicyCard';
 
-export function MessageScrollArea({ roomId, className }: { roomId: number; className?: string }) {
-  const [rootElement, setRootElement] = useState<HTMLDivElement | null>(null);
-  const [isInitialRender, setIsInitialRender] = useState(true);
-  const [isRequesting, setIsRequesting] = useState(false); // 요청 중복 방지 플래그
+type Props = { roomId: number; currentUserId: number };
 
-  const attachViewportRef = useCallback((element: HTMLDivElement | null) => {
-    setRootElement(element);
-  }, []);
+const BASE_INDEX = 100_000;
+const BOTTOM_EPS = 30;
 
+export function MessageScrollArea({ roomId, currentUserId }: Props) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error } = useMessageQuery(roomId);
 
-  // 상단 센티널
-  const { ref: topRef, inView: topInView } = useInView({
-    root: rootElement ?? undefined,
-    rootMargin: '100px 0px 0px 0px',
-    threshold: 0,
-    // root가 준비될 때까지 옵저버 attach를 건너뜀
-    skip: !rootElement,
-  });
+  const all = useMemo(() => (data?.pages ? data.pages.flat().slice().reverse() : []), [data?.pages]);
+  const items = useMemo(() => groupMessages(all), [all]);
 
-  // 하단 센티널(바닥 근처 자동 스크롤 판단용)
-  const { ref: bottomRef, inView: bottomInView } = useInView({
-    root: rootElement ?? undefined,
-    rootMargin: '0px 0px 120px 0px',
-    threshold: 0,
-    skip: !rootElement,
-  });
+  const [firstItemIndex, setFirstItemIndex] = useState(BASE_INDEX);
+  const prevLenRef = useRef(0);
+  const expectPrependRef = useRef(false);
 
-  // 렌더 후 스크롤 보정
-  const fixScrollAfterAppend = useCallback(
-    (before: number) => {
-      if (!rootElement) return;
-      requestAnimationFrame(() => {
-        const after = rootElement.scrollHeight;
-        rootElement.scrollTop = rootElement.scrollTop + (after - before);
-      });
-    },
-    [rootElement],
-  );
+  const virtRef = useRef<VirtuosoHandle | null>(null);
+  const scrollerElRef = useRef<HTMLElement | null>(null);
+  const [atBottom, setAtBottom] = useState(true);
+  const lastMsgIdRef = useRef<string | number | null>(null);
 
-  // 초기 렌더 후 상태 초기화
+  const loadMoreTop = () => {
+    if (!hasNextPage || isFetchingNextPage) return;
+    expectPrependRef.current = true;
+    fetchNextPage();
+  };
+
   useEffect(() => {
-    if (data && !isLoading) {
-      setIsInitialRender(false);
+    const prev = prevLenRef.current;
+    const curr = items.length;
+    const delta = curr - prev;
+
+    if (delta > 0 && expectPrependRef.current) {
+      setFirstItemIndex((idx) => idx - delta);
+      expectPrependRef.current = false;
     }
-  }, [data, isLoading]);
+    prevLenRef.current = curr;
+  }, [items.length]);
 
-  // 상단 노출 시 다음 페이지 로드
+  const isNearBottom = () => {
+    const el = scrollerElRef.current;
+    if (!el) return true;
+    const distance = el.scrollHeight - el.scrollTop - el.clientHeight;
+    return distance <= BOTTOM_EPS;
+  };
+
   useEffect(() => {
-    console.log('[상단 센티널] 상태 체크:', {
-      topInView,
-      hasNextPage,
-      isFetchingNextPage,
-      rootElement: !!rootElement,
-      isRequesting,
-    });
-    if (isInitialRender || !topInView || !hasNextPage || isFetchingNextPage || !rootElement || isRequesting) return;
-    const before = rootElement.scrollHeight;
-    setIsRequesting(true);
-
-    fetchNextPage()
-      .then(() => fixScrollAfterAppend(before))
-      .catch(console.error)
-      .finally(() => setTimeout(() => setIsRequesting(false), 500));
-  }, [topInView, hasNextPage, isFetchingNextPage, rootElement, fetchNextPage, fixScrollAfterAppend, isRequesting]);
-
-  // 데이터 정렬
-  const allMessages = useMemo(() => (data?.pages ? data.pages.flat().slice().reverse() : []), [data?.pages]);
-  const grouped = useMemo(() => groupMessages(allMessages), [allMessages]);
-
-  // 방 진입 시 바닥으로
-  useLayoutEffect(() => {
-    if (!rootElement) return;
-    requestAnimationFrame(() => {
-      rootElement.scrollTop = rootElement.scrollHeight;
-    });
-  }, [roomId, rootElement]);
-
-  // 새 메시지 수신 시 자동 스크롤 (사용자가 바닥 근처에 있을 때만)
-  useEffect(() => {
-    if (!rootElement || isFetchingNextPage) return;
-    if (bottomInView) {
+    if (items.length === 0) {
+      lastMsgIdRef.current = null;
+      return;
+    }
+    const last = items[items.length - 1]?.message ?? items[items.length - 1];
+    const currId = last?.messageId ?? last?.id;
+    const changed = lastMsgIdRef.current !== null && currId !== lastMsgIdRef.current;
+    lastMsgIdRef.current = currId;
+    if (!changed) return;
+    if ((atBottom || isNearBottom()) && virtRef.current) {
+      const index = firstItemIndex + items.length - 1;
       requestAnimationFrame(() => {
-        rootElement.scrollTop = rootElement.scrollHeight;
+        requestAnimationFrame(() => {
+          virtRef.current!.scrollToIndex({ index, align: 'end', behavior: 'auto' });
+        });
       });
     }
-  }, [data?.pages, isFetchingNextPage, bottomInView, rootElement]);
+  }, [items, items.length, atBottom, firstItemIndex]);
+
+  if (error) return <div className="h-full overflow-y-auto p-3 text-sm text-red-600">메시지 로드 오류</div>;
+  if (isLoading) return <FallbackScreen type="loading" fullScreen />;
 
   return (
-    <div className={`min-h-0 flex-1 overflow-hidden ${className}`}>
-      <ScrollArea className="h-full" viewportRef={attachViewportRef} viewportClassName="overflow-y-auto">
-        {/* 상단 센티널: 보이면 과거 페이지 로드 */}
-        {hasNextPage && <div ref={topRef} className="h-1 w-full" aria-hidden />}
-
-        {/* 상단 로딩 인디케이터 */}
-        <div className="sticky top-0 z-10 flex justify-center">
-          {isFetchingNextPage && (
-            <div className="bg-background/80 mt-2 inline-flex items-center gap-2 rounded-full px-3 py-1 backdrop-blur">
-              <div className="border-primary h-4 w-4 animate-spin rounded-full border-b-2" />
-              <span className="text-muted-foreground text-xs">이전 메시지 불러오는 중…</span>
-            </div>
-          )}
-        </div>
-
-        {grouped.map((g) => (
-          <MessageBubble key={g.message.messageId} {...g} message={g.message} />
-        ))}
-
-        {/* 하단 센티널: 바닥 근처 판단 */}
-        <div ref={bottomRef} className="h-1 w-full" aria-hidden />
-      </ScrollArea>
-    </div>
+    <>
+      {items.length === 0 ? <PolicyCard /> : null}
+      <Virtuoso
+        ref={virtRef}
+        style={{ height: '100%' }}
+        data={items}
+        firstItemIndex={firstItemIndex}
+        initialTopMostItemIndex={firstItemIndex + items.length - 1}
+        followOutput={atBottom ? 'auto' : false}
+        atTopStateChange={(atTop) => {
+          if (atTop) loadMoreTop();
+        }}
+        atBottomStateChange={(val) => {
+          if (!val && isNearBottom()) {
+            setAtBottom(true);
+          } else {
+            setAtBottom(val);
+          }
+        }}
+        scrollerRef={(el) => {
+          scrollerElRef.current = (el as HTMLElement) ?? null;
+        }}
+        increaseViewportBy={{ top: 0, bottom: 200 }}
+        overscan={300}
+        computeItemKey={(index, g) => g.message.messageId}
+        itemContent={(index, g) => (
+          <MessageBubble key={g.message.messageId} {...g} message={g.message} currentUserId={currentUserId} />
+        )}
+        components={{
+          Header: () =>
+            isFetchingNextPage ? (
+              <div className="p-3 text-center text-xs text-stone-600">이전 메시지를 불러오고 있어요</div>
+            ) : null,
+          Footer: () => <div style={{ height: atBottom ? 0 : 12 }} />,
+        }}
+      />
+    </>
   );
 }
