@@ -2,11 +2,11 @@
 
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { useSendMessage } from '@/features/update-message';
-import { Button } from '@/shared/ui/Button';
-import { Input } from '@/shared/ui/Input';
 import { ChevronUp, LoaderCircle } from 'lucide-react';
 import { useMessageStore } from '@/entities/message';
 import { cn } from '@/shared/lib/tailwindMerge';
+import { Button } from '@/shared/ui/Button';
+import { Input } from '@/shared/ui/Input';
 
 export const MessageInput = ({ roomId }: { roomId: number }) => {
   const { sendMessage, isSending, error, resetError, canSend } = useSendMessage(roomId);
@@ -28,7 +28,6 @@ export const MessageInput = ({ roomId }: { roomId: number }) => {
     [roomId, setMessageDraft],
   );
 
-  // 메시지 전송 처리
   const handleSendMessage = useCallback(async () => {
     if (isSending) return;
     const ok = await sendMessage(message);
@@ -39,7 +38,6 @@ export const MessageInput = ({ roomId }: { roomId: number }) => {
     }
   }, [isSending, sendMessage, message, roomId, clearMessageDraft]);
 
-  // Enter 키 처리 (IME/Shift + Enter 방지)
   const handleKeyPress = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       const isComposing = (e.nativeEvent as any).isComposing;
@@ -51,7 +49,6 @@ export const MessageInput = ({ roomId }: { roomId: number }) => {
     [handleSendMessage],
   );
 
-  // 에러 자동 해제
   useEffect(() => {
     if (!error) return;
     const timer = setTimeout(() => resetError(), 3000);
@@ -62,14 +59,13 @@ export const MessageInput = ({ roomId }: { roomId: number }) => {
 
   return (
     <div className="footer-abs-center w-full bg-white px-4 py-2">
-      {/* 에러 메시지 */}
       {error && <div className="text-error rounded-md px-3 py-2 text-xs">{error}</div>}
 
-      {/* 입력 영역 */}
       <div className="flex items-center gap-7">
         <Input
           ref={inputRef}
           type="text"
+          size={255}
           value={message}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyPress}
@@ -87,7 +83,7 @@ export const MessageInput = ({ roomId }: { roomId: number }) => {
           {isSending ? (
             <LoaderCircle className="size-6 animate-spin" color="black" />
           ) : (
-            <ChevronUp className="size-6 text-stone-500" />
+            <ChevronUp className="size-6 text-white" />
           )}
         </Button>
       </div>

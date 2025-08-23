@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/Avatar';
-import { formatChatTime } from '@/shared/lib/dateUtils';
+import { formatRelativeTime } from '@/shared/lib/dateUtils';
 import { ChatRoom } from '@/entities/chat/model/types';
 import { useChatStore } from '@/entities/chat';
 import Link from 'next/link';
@@ -28,7 +28,7 @@ export const ChatRoomItem = (props: ChatRoomItemProps) => {
       <div className="flex flex-grow flex-col justify-center">
         <div className="mb-1 flex items-center justify-between gap-3">
           <p className="line-clamp-1 overflow-hidden text-base font-medium text-ellipsis">{chatRoom.nickname}</p>
-          <p className="flex-shrink-0 text-sm text-gray-500">{formatChatTime(chatRoom.lastSendAt)}</p>
+          <p className="flex-shrink-0 text-sm text-gray-500">{formatRelativeTime(chatRoom.lastSendAt)}</p>
         </div>
 
         <div className="flex items-center justify-between gap-3">
