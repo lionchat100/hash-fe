@@ -13,7 +13,7 @@ export const groupMessages = (messages: MessageRes[]): GroupedMessage[] => {
   if (messages.length === 0) return [];
 
   const grouped: GroupedMessage[] = [];
-  const timeThreshold = 5 * 60 * 1000; // 5분
+  const timeThreshold = 1 * 60 * 1000; // 1분
 
   for (let i = 0; i < messages.length; i++) {
     const currentMessage = messages[i];
