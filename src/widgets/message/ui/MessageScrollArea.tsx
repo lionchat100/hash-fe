@@ -75,12 +75,13 @@ export function MessageScrollArea({ roomId, currentUserId }: Props) {
   if (isLoading) return <FallbackScreen type="loading" fullScreen />;
 
   return (
-    <div className="scrollbar-hide h-dvh overflow-y-auto">
+    <div className="scrollbar-hide h-dvh overflow-y-hidden">
       <div className="pt-[54px] pb-[56px]">
         {items.length === 0 ? <PolicyCard /> : null}
         <Virtuoso
           ref={virtRef}
           data={items}
+          style={{ height: '100%' }}
           firstItemIndex={firstItemIndex}
           initialTopMostItemIndex={firstItemIndex + items.length - 1}
           followOutput={atBottom ? 'auto' : false}
