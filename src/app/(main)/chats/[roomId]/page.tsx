@@ -10,6 +10,8 @@ import { toast } from 'sonner';
 export default function ChatRoomPage() {
   const { roomId: rib } = useParams<{ roomId: string }>();
   const [opponentNickname, setOpponentNickname] = useState('');
+  const [currentUserId, setCurrentUserId] = useState(0);
+  const [opponentUserId, setOpponentUserId] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isValid, setIsValid] = useState(false);
   const router = useRouter();
@@ -22,6 +24,8 @@ export default function ChatRoomPage() {
         const result = await chatContextLoad(roomId);
         if (result.isValid) {
           setOpponentNickname(result.opponentNickname);
+          setCurrentUserId(result.currentUserId);
+          setOpponentUserId(result.opponentUserId);
           setIsValid(true);
         } else {
           toast.error('채팅방 접근 권한이 없어요.');
@@ -56,5 +60,12 @@ export default function ChatRoomPage() {
     return null;
   }
 
-  return <ChatRoomView roomId={roomId} opponentNickname={opponentNickname} />;
+  return (
+    <ChatRoomView
+      roomId={roomId}
+      opponentNickname={opponentNickname}
+      currentUserId={currentUserId}
+      opponentUserId={opponentUserId}
+    />
+  );
 }

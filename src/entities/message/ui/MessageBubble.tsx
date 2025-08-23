@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import { MessageRes } from '@/entities/message';
-import { useUserStore } from '@/entities/user';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/Avatar';
 import { formatChatTime } from '@/shared/lib/dateUtils';
 import Link from 'next/link';
@@ -12,12 +11,12 @@ interface MessageBubbleProps {
   showName?: boolean;
   showTime?: boolean;
   isGrouped?: boolean;
+  currentUserId: number;
 }
 
 export const MessageBubble = (props: MessageBubbleProps) => {
-  const { currentUser } = useUserStore();
-  const { message, showAvatar, showName, showTime } = props;
-  const isMyMessage = currentUser?.id === props.message.id;
+  const { message, showAvatar, showName, showTime, currentUserId } = props;
+  const isMyMessage = currentUserId === props.message.id;
 
   return (
     <div

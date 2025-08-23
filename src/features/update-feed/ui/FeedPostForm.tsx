@@ -44,13 +44,13 @@ export const FeedPostForm = forwardRef<FeedPostFormRef, FeedPostFormProps>(
           ...prev,
           [field]: e.target.value,
         }));
-        setTimeout(() => notifyFormStateChange(), 0);
+        // 중복된 로직 제거 - useEffect가 처리함
       };
 
     const submitForm = async () => {
       if (!isValid) {
         toast.error('제목과 내용을 모두 입력해주세요.', {
-          position: 'bottom-center',
+          position: 'top-center',
           duration: 3000,
         });
         return;
@@ -64,13 +64,13 @@ export const FeedPostForm = forwardRef<FeedPostFormRef, FeedPostFormProps>(
         onSuccess?.(feedId);
         setFormData({ title: '', content: '' });
         toast.success('피드 작성에 성공했습니다.', {
-          position: 'bottom-center',
+          position: 'top-center',
           duration: 3000,
         });
       } catch (error) {
         console.error('피드 작성 실패:', error);
         toast.error('피드 작성에 실패했습니다. 다시 시도해주세요.', {
-          position: 'bottom-center',
+          position: 'top-center',
           duration: 3000,
         });
       } finally {
