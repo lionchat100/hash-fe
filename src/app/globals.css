@@ -220,24 +220,11 @@
     scrollbar-width: none !important;
   }
 
-  .safe-pt {
-    padding-top: max(env(safe-area-inset-top), constant(safe-area-inset-top), 0px);
-  }
-  .safe-pb {
-    padding-bottom: max(env(safe-area-inset-bottom), constant(safe-area-inset-bottom), 12px);
-  }
-  .safe-pl {
-    padding-left: max(env(safe-area-inset-left), constant(safe-area-inset-left), 0px);
-  }
-  .safe-pr {
-    padding-right: max(env(safe-area-inset-right), constant(safe-area-inset-right), 0px);
-  }
-
   .pageContainer {
     min-height: 100vh; /* fallback */
     min-height: 100dvh; /* 최신 브라우저에서 실제 기기 높이 */
-    padding-bottom: max(env(safe-area-inset-bottom), constant(safe-area-inset-bottom), 12px);
-    padding-top: max(env(safe-area-inset-top), constant(safe-area-inset-top), 0px);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-top: env(safe-area-inset-top);
   }
   .nav-fixed {
     position: fixed;
@@ -260,29 +247,43 @@
   .pb-safe-input {
     padding-bottom: calc(var(--space-h-nav) + env(safe-area-inset-bottom) + var(--kb-offset, 0px));
   }
-  @supports (padding: constant(safe-area-inset-bottom)) {
-    .pb-safe-input {
-      padding-bottom: calc(var(--space-h-nav) + constant(safe-area-inset-bottom) + var(--kb-offset, 0px));
-    }
-  }
 
+  .safe-pt {
+    padding-top: env(safe-area-inset-top);
+  }
+  .safe-pb {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
   .input-fixed {
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
     bottom: 0;
     width: 100%;
-    max-width: var(--space-max-layout); /* 프로젝트 값 사용 */
-    background: #fff; /* 비침 방지 */
+    max-width: var(--space-max-layout);
+    background: #fff;
     border-top: 1px solid #eee;
     padding-bottom: calc(env(safe-area-inset-bottom) + var(--kb-offset, 0px) + 8px);
   }
+
   @supports (padding: constant(safe-area-inset-bottom)) {
+    .pageContainer {
+      padding-top: constant(safe-area-inset-top);
+      padding-bottom: constant(safe-area-inset-bottom);
+    }
+    .pb-safe-input {
+      padding-bottom: calc(var(--space-h-nav) + constant(safe-area-inset-bottom) + var(--kb-offset, 0px));
+    }
     .input-fixed {
       padding-bottom: calc(constant(safe-area-inset-bottom) + var(--kb-offset, 0px) + 8px);
     }
 
-    .nav-fixed {
+    .safe-pt {
+      padding-top: constant(safe-area-inset-top);
+    }
+
+    .nav-fixed,
+    .safe-pb {
       padding-bottom: constant(safe-area-inset-bottom);
     }
   }

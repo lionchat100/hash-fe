@@ -28,3 +28,12 @@ export interface PageInfo {
 export interface PageResponse<T> extends PageInfo {
   content: T[];
 }
+
+export type DialogKind = 'delete' | 'report';
+
+export interface DialogPreset {
+  title: string;
+  description: string;
+  confirmLabel: string;
+  cancelLabel: string;
+}

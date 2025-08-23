@@ -1,8 +1,9 @@
 'use client';
 
 import { Button } from '@/shared/ui/Button';
-import { ChevronLeft, Siren } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { ReportButton } from '../common/ReportButton';
 
 interface OtherProfileHeaderProps {
   nickname: string;
@@ -13,18 +14,6 @@ export const OtherProfileHeader = ({ nickname }: OtherProfileHeaderProps) => {
   // 뒤로가기 버튼 클릭 핸들러
   const handleBackClick = () => {
     router.back(); // 브라우저 히스토리 기반 뒤로가기
-  };
-
-  // 신고 버튼 클릭 핸들러
-  const handleReportClick = () => {
-    const confirmed = window.confirm(`${nickname}님을 신고하시겠어요?`);
-    if (confirmed) {
-      // 구글 폼으로 이동
-      window.open(
-        'https://docs.google.com/forms/d/e/1FAIpQLScwrZktsbUG3Q2AqPYNVH4cutyaJy1pO71XKLgqDbJJOVz7yg/viewform',
-        '_blank',
-      );
-    }
   };
   return (
     <header className="safe-pt sticky top-0 z-50 h-(--space-h-header) bg-white">
@@ -41,15 +30,7 @@ export const OtherProfileHeader = ({ nickname }: OtherProfileHeaderProps) => {
         </div>
 
         {/* 오른쪽: 신고(더보기) 버튼 */}
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={handleReportClick}
-          className="flex h-10 w-10 items-center justify-center p-0"
-          aria-label="신고하기"
-        >
-          <Siren className="size-6" />
-        </Button>
+        <ReportButton />
       </div>
     </header>
   );

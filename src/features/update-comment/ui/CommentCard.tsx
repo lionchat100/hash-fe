@@ -6,7 +6,7 @@ import { useUserStore } from '@/entities/user';
 import { formatRelativeTime } from '@/shared/lib/dateUtils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/Avatar';
 import { Button } from '@/shared/ui/Button';
-import { DeleteDialog } from '@/shared/ui/DeleteDialog';
+import { ConfirmDialog } from '@/shared/ui/ConfirmDialog';
 import { useDeleteComment } from '../model/commentDelete';
 
 interface Props {
@@ -64,7 +64,7 @@ export const CommentCard = ({ item, onDeleted }: Props) => {
         )}
       </div>
       <div className="pr-1.5 pl-9 text-sm">{item.content}</div>
-      <DeleteDialog
+      <ConfirmDialog
         open={showWarningModal}
         onOpenChange={setShowWarningModal}
         onDelete={onDelete}
