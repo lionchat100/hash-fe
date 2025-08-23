@@ -6,7 +6,6 @@ import { A11y, Keyboard } from 'swiper/modules'; // Navigation, Pagination 모�
 // Swiper 기본 CSS만 import (navigation, pagination CSS 제거)
 import 'swiper/css';
 import { cn } from '@/shared/lib/tailwindMerge';
-import Image from 'next/image';
 
 type ImageItem = { src: string; alt?: string };
 
@@ -63,11 +62,9 @@ export const ProfileImageSlider = ({ images, initialIndex = 0, onChange, classNa
         {images.map((img, i) => (
           <SwiperSlide key={i} className="!h-full !w-full">
             {/* 카드 전체 영역을 차지하는 이미지 - height prop 대신 h-full 사용 */}
-            <Image
+            <img
               src={img.src}
               alt={img.alt ?? `photo-${i + 1}`}
-              width={100}
-              height={100}
               className="h-full w-full object-cover"
               style={{ borderRadius: 'inherit' }} // 부모의 border-radius 상속
             />
