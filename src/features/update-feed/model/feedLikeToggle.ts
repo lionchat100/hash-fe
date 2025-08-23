@@ -1,6 +1,7 @@
 import { Sort, FeedItem, Feed, FeedRes } from '@/entities/feed/model/types';
 import { InfiniteData, QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
 import { likeFeed, unlikeFeed } from '../api/updateFeedLike';
+import { useCallback, useRef, useState } from 'react';
 
 const FEED_TABS: Sort[] = ['latest', 'popular', 'my'];
 
@@ -38,63 +39,89 @@ export function updateFeedInAllTabs(
   tabs.forEach((s) => updateFeedInInfiniteCache(qc, s, feedId, updater));
 }
 
-export function useToggleLike() {
+export const useCoalescedToggleLike = (id: number, debounceMs = 450) => {
   const qc = useQueryClient();
+  const [syncing, setSyncing] = useState(false);
 
-  return useMutation({
-    mutationFn: async ({ id }: { id: number }) => {
-      const current =
-        findInInfiniteCache(qc, 'latest', id) ??
-        findInInfiniteCache(qc, 'popular', id) ??
-        findInInfiniteCache(qc, 'my', id);
+  // 초기 스냅샷(캐시 기준)
+  const current =
+    findInInfiniteCache(qc, 'latest', id) ??
+    findInInfiniteCache(qc, 'popular', id) ??
+    findInInfiniteCache(qc, 'my', id);
 
-      const isLiked = current?.isLiked;
+  // 서버가 알고 있다고 "추정"하는 마지막 상태와, 유저의 "마지막 의도"
+  const serverLikedRef = useRef<boolean>(!!current?.isLiked);
+  const pendingIntentRef = useRef<boolean>(!!current?.isLiked);
 
-      // 좋아요 상태에 따라 API 호출 - 반전되는 값은 대체 왜?
-      return isLiked ? await likeFeed({ id }) : await unlikeFeed({ id });
-    },
-    onMutate: async ({ id }) => {
-      // 1) 이전 상태 저장
-      const prev = {
-        latest: qc.getQueryData<InfiniteData<FeedRes>>(['feeds', 'latest']),
-        popular: qc.getQueryData<InfiniteData<FeedRes>>(['feeds', 'popular']),
-        my: qc.getQueryData<InfiniteData<FeedRes>>(['feeds', 'my']),
-      };
+  // 제어용
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const inFlightRef = useRef(false);
+  const dirtyRef = useRef(false);
 
-      // 2) 현재 상태 확인
-      const current =
-        findInInfiniteCache(qc, 'latest', id) ??
-        findInInfiniteCache(qc, 'popular', id) ??
-        findInInfiniteCache(qc, 'my', id);
-
-      const wasLiked = current?.isLiked;
-
-      // 3) 낙관적 업데이트: 세 탭 모두 동기 반영
+  // optimistic 적용(세 탭 동기화)
+  const applyOptimistic = useCallback(
+    (nextLiked: boolean) => {
       updateFeedInAllTabs(qc, id, (it) => {
-        const nextLiked = !wasLiked;
         const nextCount = Math.max(0, it.feed.likeCount + (nextLiked ? 1 : -1));
-        return {
-          ...it,
-          feed: { ...it.feed, isLiked: nextLiked, likeCount: nextCount },
-        };
+        return { ...it, feed: { ...it.feed, isLiked: nextLiked, likeCount: nextCount } };
       });
+    },
+    [qc, id],
+  );
 
-      // 4) 컨텍스트 반환(롤백용)
-      return { prev };
-    },
-    onError: (_err, _vars, ctx) => {
-      // 롤백
-      if (!ctx) return;
-      if (ctx.prev.latest) qc.setQueryData(['feeds', 'latest'], ctx.prev.latest);
-      if (ctx.prev.popular) qc.setQueryData(['feeds', 'popular'], ctx.prev.popular);
-      if (ctx.prev.my) qc.setQueryData(['feeds', 'my'], ctx.prev.my);
-    },
-    onSettled: async () => {
-      // 5) 서버 권위와 동기화
-      qc.invalidateQueries({ queryKey: ['feeds', 'latest'], refetchType: 'inactive' });
-      qc.invalidateQueries({ queryKey: ['feeds', 'my'], refetchType: 'inactive' });
-      // 인기순은 정렬이 바뀔 수 있으니 확실히 새로고침
-      qc.invalidateQueries({ queryKey: ['feeds', 'popular'] });
-    },
+  // 실패 시 서버 권위로 정합화
+  const rollbackByInvalidate = useCallback(() => {
+    qc.invalidateQueries({ queryKey: ['feeds', 'latest'], refetchType: 'inactive' });
+    qc.invalidateQueries({ queryKey: ['feeds', 'my'], refetchType: 'inactive' });
+    qc.invalidateQueries({ queryKey: ['feeds', 'popular'] });
+  }, [qc]);
+
+  // mutate 함수 (toLike에 따라 API 분기)
+  const mutation = useMutation({
+    mutationKey: ['feed-like', id],
+    mutationFn: async ({ toLike }: { toLike: boolean }) => (toLike ? likeFeed({ id }) : unlikeFeed({ id })),
   });
-}
+
+  // 마지막 의도를 서버에 동기화
+  const flush = useCallback(async () => {
+    if (inFlightRef.current) {
+      dirtyRef.current = true;
+      return;
+    }
+    const desired = pendingIntentRef.current;
+    if (desired === serverLikedRef.current) return; // 불필요한 전송 방지
+
+    inFlightRef.current = true;
+    setSyncing(true);
+    try {
+      await mutation.mutateAsync({ toLike: desired });
+      serverLikedRef.current = desired; // 서버 스냅샷 갱신
+    } catch (_e) {
+      // 실패 → invalidate로 정합화(optimistic은 캐시에서 되돌아감)
+      rollbackByInvalidate();
+    } finally {
+      setSyncing(false);
+      inFlightRef.current = false;
+      if (dirtyRef.current) {
+        dirtyRef.current = false;
+        // 직후 즉시 재‑flush (디바운스 없이)
+        flush();
+      }
+    }
+  }, [mutation, rollbackByInvalidate]);
+
+  // 공개 토글: 의도만 최신으로 갱신, 디바운스 종료 시 flush
+  const toggle = useCallback(() => {
+    const next = !pendingIntentRef.current;
+    pendingIntentRef.current = next;
+    applyOptimistic(next);
+
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      timerRef.current = null;
+      flush();
+    }, debounceMs);
+  }, [applyOptimistic, flush, debounceMs]);
+
+  return { toggle, syncing };
+};
