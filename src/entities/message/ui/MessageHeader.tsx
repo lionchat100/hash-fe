@@ -15,7 +15,7 @@ export const MessageHeader = (props: MessageHeaderProps) => {
     <header className="safe-pt header-abs-center flex h-(--space-h-header) w-full items-center justify-between bg-white px-4">
       <Button variant="ghost" size="icon" asChild>
         <Link href="/chats">
-          <ChevronLeft className="size-7" />
+          <ChevronLeft className="size-6" />
         </Link>
       </Button>
       <Link href={`/profile/${opponentUserId}`}>

@@ -248,10 +248,10 @@
 
   /* .safe-pt {
     padding-top: env(safe-area-inset-top);
-  }
+  }*/
   .safe-pb {
     padding-bottom: env(safe-area-inset-bottom);
-  } */
+  }
   .input-fixed {
     position: fixed;
     left: 50%;
@@ -271,10 +271,10 @@
     .input-fixed {
       padding-bottom: calc(constant(safe-area-inset-bottom) + var(--kb-offset, 0px) + 8px);
     }
-    /* 
-    .safe-pt {
-      padding-top: constant(safe-area-inset-top);
-    } */
+
+    .safe-pb {
+      padding-top: constant(safe-area-inset-bottom);
+    }
 
     .nav-fixed {
       padding-bottom: constant(safe-area-inset-bottom);

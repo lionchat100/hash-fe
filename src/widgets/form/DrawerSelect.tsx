@@ -59,7 +59,7 @@ export const DrawerSelect = <T extends string>({
             <ChevronDown className="size-6" />
           </Button>
         </DrawerTrigger>
-        <DrawerContent className="space-y-5 px-8">
+        <DrawerContent className="space-y-5 px-8 pb-[calc(env(safe-area-inset-bottom,0px)+20px)]">
           <DrawerTitle className="sr-only">{label}</DrawerTitle>
           <DrawerDescription className="sr-only">프로필 옵션 선택</DrawerDescription>
           <div className="text-2xl font-bold text-stone-600">
@@ -77,9 +77,9 @@ export const DrawerSelect = <T extends string>({
               </>
             )}
           </div>
-          <div className="max-h-[250px] overflow-y-auto overscroll-contain pr-1 [-webkit-overflow-scrolling:touch]">
-            <div className="flex h-[250px] flex-wrap content-start gap-2">{renderOptions(temp, setTemp)}</div>
-          </div>
+
+          <div className="flex flex-wrap content-start gap-2">{renderOptions(temp, setTemp)}</div>
+
           <Button onClick={handleConfirm} className="my-2 w-full">
             확인
           </Button>
