@@ -11,8 +11,8 @@ interface FeedPostCancelModalProps {
 export const FeedPostCancelModal = ({ open, onOpenChange, onConfirm, onCancel }: FeedPostCancelModalProps) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent showCloseButton={false} className="bg-stone-50 px-0 pb-0">
-        <DialogHeader className="gap-4 pb-3">
+      <DialogContent showCloseButton={false} className="!max-w-[340px] overflow-hidden bg-stone-50 px-0 pb-0">
+        <DialogHeader className="gap-4 pb-3 !text-center">
           <DialogTitle>뒤로가기</DialogTitle>
           <DialogDescription>작성 중인 글이 저장되지 않고 사라집니다</DialogDescription>
         </DialogHeader>
