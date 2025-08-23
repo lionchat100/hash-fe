@@ -56,7 +56,7 @@ export const EditProfileView = () => {
   // 뒤로가기
   const handleBack = () => router.back();
 
-  // 저장하기 (✅ 새 이미지가 최소 1장 없으면 저장 불가)
+  // 저장하기 - 항상 실행되지만 조건 체크 후 경고
   const handleSave = async () => {
     try {
       setIsSaving(true);
@@ -159,7 +159,7 @@ export const EditProfileView = () => {
         <div className="mx-auto max-w-md">
           <Button
             onClick={handleSave}
-            disabled={isSaving || !isBioValid || uploadedImages.length === 0}
+            disabled={isSaving}
             className="h-14 w-full cursor-pointer rounded-4xl text-lg font-semibold disabled:opacity-50"
             size="lg"
           >

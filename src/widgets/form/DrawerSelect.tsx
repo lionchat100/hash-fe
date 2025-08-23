@@ -77,12 +77,14 @@ export const DrawerSelect = <T extends string>({
               </>
             )}
           </div>
-          <div className="max-h-[250px] overflow-y-auto overscroll-contain pr-1 [-webkit-overflow-scrolling:touch]">
-            <div className="flex h-[250px] flex-wrap content-start gap-2">{renderOptions(temp, setTemp)}</div>
+          <div className="max-h-[40vh] overflow-y-auto overscroll-contain pr-1 [-webkit-overflow-scrolling:touch]">
+            <div className="flex min-h-0 flex-wrap content-start gap-2">{renderOptions(temp, setTemp)}</div>
           </div>
-          <Button onClick={handleConfirm} className="my-10 w-full">
-            확인
-          </Button>
+          <div className="safe-pb">
+            <Button onClick={handleConfirm} className="my-5 w-full">
+              확인
+            </Button>
+          </div>
         </DrawerContent>
       </Drawer>
     </>

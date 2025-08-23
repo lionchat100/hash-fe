@@ -96,7 +96,7 @@ export const OtherProfileCard = ({ profile, className }: OtherProfileCardProps) 
     <div
       className={`relative w-full overflow-hidden rounded-3xl shadow-2xl ${className ?? ''}`}
       style={{
-        height: className?.includes('!h-') ? undefined : 'min(calc(100svh - 190px), 620px)',
+        height: className?.includes('!h-') ? undefined : 'min(calc(100svh - 180px), 620px)',
         minHeight: '400px',
       }}
     >
