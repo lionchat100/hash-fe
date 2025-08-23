@@ -58,7 +58,7 @@ export const MessageInput = ({ roomId }: { roomId: number }) => {
   const disableSend = !canSend || !message || isSending;
 
   return (
-    <div className="footer-abs-center w-full bg-white px-4 py-2 border-t border-stone-100">
+    <div className="footer-abs-center w-full border-t border-stone-100 bg-white px-4 py-2">
       {error && <div className="text-error rounded-md px-3 py-2 text-xs">{error}</div>}
 
       <div className="flex items-center gap-7">
@@ -78,7 +78,7 @@ export const MessageInput = ({ roomId }: { roomId: number }) => {
           onClick={handleSendMessage}
           disabled={disableSend}
           aria-label="메시지 전송"
-          className={cn('size-10 rounded-full text-stone-500 bg-stone-300', canSend && 'bg-stone-900')}
+          className={cn('size-10 rounded-full bg-stone-300 text-stone-500', canSend && 'bg-stone-900')}
         >
           {isSending ? (
             <LoaderCircle className="size-6 animate-spin text-black" />
