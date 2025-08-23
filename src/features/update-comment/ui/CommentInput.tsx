@@ -6,6 +6,7 @@ import { Button } from '@/shared/ui/Button';
 import { ChevronUp, LoaderCircle } from 'lucide-react';
 import { rateLimiter } from '../libs/rateLimiter';
 import { toast } from 'sonner';
+import { cn } from '@/shared/lib/tailwindMerge';
 
 type Props = {
   feedId: number;
@@ -27,13 +28,10 @@ export const CommentInput = ({ feedId, disabled, onPosted }: Props) => {
     const trimmed = comment.trim();
     if (!trimmed || !feedId || post.isPending || sendingRef.current) return;
 
-    console.log('canSend?', rateLimiter.canSend(feedId));
-
     if (!rateLimiter.canSend(feedId)) {
       toast.error(`중복 등록을 방지하기 위해\n잠시 후에 다시 댓글 작성이 가능해요`);
       return;
     }
-    console.log('CommentInput onSend', trimmed);
 
     sendingRef.current = true;
 
@@ -43,6 +41,9 @@ export const CommentInput = ({ feedId, disabled, onPosted }: Props) => {
       },
     });
   };
+
+  // 버튼 활성화
+  const canSendUI = !!comment.trim() && !disabled && !post.isPending;
 
   return (
     <form
@@ -75,13 +76,16 @@ export const CommentInput = ({ feedId, disabled, onPosted }: Props) => {
         />
         <Button
           type="submit"
-          disabled={disabled || post.isPending}
-          className="hover:bg-primary/90 h-10 w-10 rounded-full bg-stone-300 text-stone-500 disabled:opacity-100"
+          disabled={!canSendUI}
+          className={cn(
+            'h-10 w-10 rounded-full transition-colors disabled:opacity-100',
+            canSendUI ? 'bg-[#2F2E2D] text-stone-100' : 'bg-stone-300 text-stone-500',
+          )}
         >
           {post.isPending ? (
             <LoaderCircle className="size-6 animate-spin" color="black" />
           ) : (
-            <ChevronUp className="size-6" color="black" />
+            <ChevronUp className="size-6" />
           )}
         </Button>
       </div>
