@@ -52,7 +52,7 @@ export const Step3Form = forwardRef<StepFormHandle, Step3FormProps>(function Ste
               form.trigger('images');
             }}
             maxFiles={3}
-            maxSizeMB={6}
+            maxSizeMB={5}
           />
         )}
       />
