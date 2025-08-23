@@ -6,6 +6,7 @@ import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 import { ChevronUp, LoaderCircle } from 'lucide-react';
 import { useMessageStore } from '@/entities/message';
+import { cn } from '@/shared/lib/tailwindMerge';
 
 export const MessageInput = ({ roomId }: { roomId: number }) => {
   const { sendMessage, isSending, error, resetError, canSend } = useSendMessage(roomId);
@@ -57,12 +58,12 @@ export const MessageInput = ({ roomId }: { roomId: number }) => {
     return () => clearTimeout(timer);
   }, [error, resetError]);
 
-  const disableSend = !canSend || !message.trim() || isSending;
+  const disableSend = !canSend || !message || isSending;
 
   return (
     <div className="bg-white px-4 py-2 drop-shadow-xl/20">
       {/* 에러 메시지 */}
-      {error && <div className="bg-destructive/10 text-destructive mb-2 rounded-md px-3 py-2 text-sm">{error}</div>}
+      {error && <div className="text-error rounded-md px-3 py-2 text-xs">{error}</div>}
 
       {/* 입력 영역 */}
       <div className="flex items-center gap-7">
@@ -74,14 +75,14 @@ export const MessageInput = ({ roomId }: { roomId: number }) => {
           onKeyDown={handleKeyPress}
           placeholder="메시지를 입력해주세요"
           disabled={isSending}
-          className="rounded-full border-none bg-stone-300 px-8 py-5 text-sm placeholder:text-sm placeholder:text-stone-500 focus-visible:ring-0"
+          className="rounded-full border-none bg-stone-300 px-4 py-5 text-sm placeholder:text-sm placeholder:text-stone-500 focus-visible:ring-0"
         />
         <Button
           type="button"
           onClick={handleSendMessage}
           disabled={disableSend}
           aria-label="메시지 전송"
-          className="size-10 rounded-full bg-stone-300 hover:bg-stone-900 hover:text-stone-100"
+          className={cn('size-10 rounded-full bg-stone-300', canSend && 'bg-stone-900 text-stone-100')}
         >
           {isSending ? (
             <LoaderCircle className="size-6 animate-spin" color="black" />
