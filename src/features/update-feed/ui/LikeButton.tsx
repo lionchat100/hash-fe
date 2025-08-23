@@ -1,20 +1,15 @@
 import { FeedItem } from '@/entities/feed/model/types';
-import { useToggleLike } from '@/features/update-feed/model/feedLikeToggle';
+import { useCoalescedToggleLike } from '@/features/update-feed/model/feedLikeToggle';
 import { cn } from '@/shared/lib/tailwindMerge';
 import { Button } from '@/shared/ui/Button';
 import { Heart } from 'lucide-react';
 
 export const LikeButton = ({ item }: { item: FeedItem }) => {
-  const toggle = useToggleLike();
   const { id, isLiked, likeCount } = item.feed;
+  const { toggle, syncing } = useCoalescedToggleLike(id, 450);
 
   return (
-    <Button
-      onClick={() => toggle.mutate({ id })}
-      disabled={toggle.isPending}
-      className="flex items-center gap-1"
-      variant="zero"
-    >
+    <Button onClick={toggle} disabled={syncing} className="flex items-center gap-1" variant="zero">
       <Heart
         className={cn(
           'size-5 transition-all duration-150',

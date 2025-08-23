@@ -7,7 +7,7 @@ import { Comment } from '@/features/update-comment/ui/CommentButton';
 import { formatRelativeTime } from '@/shared/lib/dateUtils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/Avatar';
 import { Button } from '@/shared/ui/Button';
-import { DeleteDialog } from '@/shared/ui/DeleteDialog';
+import { ConfirmDialog } from '@/shared/ui/ConfirmDialog';
 import { useDeleteFeed } from '@/features/update-feed/model/feedDelete';
 import { toast } from 'sonner';
 
@@ -79,7 +79,7 @@ export const FeedCard = (props: Props) => {
         <LikeButton item={item} />
         <Comment item={item} />
       </div>
-      <DeleteDialog
+      <ConfirmDialog
         open={showWarningModal}
         onOpenChange={setShowWarningModal}
         onDelete={onDelete}
