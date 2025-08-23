@@ -11,10 +11,12 @@ export const ChatRoomView = ({
   roomId,
   opponentNickname,
   currentUserId,
+  opponentUserId,
 }: {
   roomId: number;
   opponentNickname: string;
   currentUserId: number;
+  opponentUserId: number;
 }) => {
   const { setCurrentRoom } = useChatStore();
 
@@ -28,7 +30,7 @@ export const ChatRoomView = ({
   return (
     <div className="relative flex h-dvh flex-col">
       {/* 채팅방 헤더 */}
-      <MessageHeader opponentNickname={opponentNickname} />
+      <MessageHeader opponentNickname={opponentNickname} opponentUserId={opponentUserId} />
 
       {/* 메시지 스크롤 영역 */}
       <MessageScrollArea roomId={roomId} currentUserId={currentUserId} />

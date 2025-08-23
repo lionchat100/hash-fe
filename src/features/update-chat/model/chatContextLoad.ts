@@ -5,6 +5,7 @@ export interface ChatContextLoadResult {
   isValid: boolean;
   opponentNickname: string;
   currentUserId: number;
+  opponentUserId: number;
 }
 
 export const chatContextLoad = async (roomId: number): Promise<ChatContextLoadResult> => {
@@ -17,10 +18,14 @@ export const chatContextLoad = async (roomId: number): Promise<ChatContextLoadRe
     const opponentNickname =
       currentUser.id === chatRoomContext.senderId ? chatRoomContext.receiverNickname : chatRoomContext.senderNickname;
 
+    const opponentUserId =
+      currentUser.id === chatRoomContext.senderId ? chatRoomContext.receiverId : chatRoomContext.senderId;
+
     return {
       isValid: isCurrentUserInRoom,
       opponentNickname,
       currentUserId: currentUser.id,
+      opponentUserId,
     };
   } catch (error) {
     console.error('채팅방 컨텍스트 로드 중 에러 발생:', error);
@@ -28,6 +33,7 @@ export const chatContextLoad = async (roomId: number): Promise<ChatContextLoadRe
       isValid: false,
       opponentNickname: '',
       currentUserId: 0,
+      opponentUserId: 0,
     };
   }
 };

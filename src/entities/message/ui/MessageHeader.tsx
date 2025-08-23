@@ -5,10 +5,11 @@ import { ReportButton } from '@/widgets/common/ReportButton';
 
 interface MessageHeaderProps {
   opponentNickname: string | null;
+  opponentUserId: number;
 }
 
 export const MessageHeader = (props: MessageHeaderProps) => {
-  const { opponentNickname } = props;
+  const { opponentNickname, opponentUserId } = props;
 
   return (
     <header className="safe-pt relative flex h-(--space-h-header) items-center justify-between bg-white px-4">
@@ -17,7 +18,9 @@ export const MessageHeader = (props: MessageHeaderProps) => {
           <ChevronLeft className="size-7" />
         </Link>
       </Button>
-      <h1 className="text-xl font-semibold text-stone-900">{opponentNickname || ''}</h1>
+      <Link href={`/profile/${opponentUserId}`}>
+        <h1 className="text-xl font-semibold text-stone-900">{opponentNickname || ''}</h1>
+      </Link>
       <ReportButton />
     </header>
   );
