@@ -68,6 +68,7 @@ export interface Step1Data {
   nicknameVerified: boolean;
   privacyConsent: boolean;
   verifiedNickname?: string | null;
+  serviceConsent: boolean;
 }
 export interface Step2Data {
   mbti: string;
@@ -97,7 +98,7 @@ export interface OnboardingFormData {
   bio: Step3Data['bio'];
   requiredAgreements: Step1Data['privacyConsent'];
   isUniversityView: Step1Data['isUniversityView'];
-  marketingAgreements: boolean;
+  marketingAgreements: Step1Data['serviceConsent'];
   imageIds: number[];
 }
 
@@ -114,4 +115,34 @@ export interface OnboardingRes {
 
 export interface NicknameCheckRes {
   available: boolean;
+}
+
+// 페이지 데이터 타입 정의
+export interface PageResponse<T> {
+  content: T[];
+  pageable: {
+    pageNumber: number;
+    pageSize: number;
+    sort: {
+      sorted: boolean;
+      empty: boolean;
+      unsorted: boolean;
+    };
+    offset: number;
+    paged: boolean;
+    unpaged: boolean;
+  };
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+  size: number;
+  number: number;
+  sort: {
+    sorted: boolean;
+    empty: boolean;
+    unsorted: boolean;
+  };
+  numberOfElements: number;
+  first: boolean;
+  empty: boolean;
 }
