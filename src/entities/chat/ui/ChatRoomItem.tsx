@@ -1,9 +1,9 @@
-import clsx from 'clsx';
-import { ChatRoom } from '../model/types';
-import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/Avatar';
 import { formatChatTime } from '@/shared/lib/dateUtils';
-import { useChatStore } from '..';
+import { ChatRoom } from '@/entities/chat/model/types';
+import { useChatStore } from '@/entities/chat';
+import Link from 'next/link';
+import clsx from 'clsx';
 
 interface ChatRoomItemProps {
   className?: string;
@@ -34,10 +34,7 @@ export const ChatRoomItem = (props: ChatRoomItemProps) => {
         <div className="flex items-center justify-between gap-3">
           <p className="line-clamp-2 overflow-hidden text-sm text-ellipsis text-gray-500">{chatRoom.lastContent}</p>
           <div
-            className={clsx(
-              'h-2 w-2 flex-shrink-0 rounded-full bg-blue-500',
-              chatRoom.isRead ? 'bg-transparent' : 'bg-blue-500',
-            )}
+            className={clsx('h-2 w-2 flex-shrink-0 rounded-full', chatRoom.isRead ? 'bg-transparent' : 'bg-primary')}
           ></div>
         </div>
       </div>

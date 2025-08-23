@@ -28,14 +28,11 @@ export const ChatRoomView = ({
   useChatSubscription(roomId);
 
   return (
-    <div className="relative flex h-dvh flex-col">
-      {/* 채팅방 헤더 */}
+    <div className="relative h-dvh">
       <MessageHeader opponentNickname={opponentNickname} opponentUserId={opponentUserId} />
 
-      {/* 메시지 스크롤 영역 */}
       <MessageScrollArea roomId={roomId} currentUserId={currentUserId} />
 
-      {/* 메시지 입력 영역 */}
       <MessageInput roomId={roomId} />
     </div>
   );
