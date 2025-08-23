@@ -30,7 +30,7 @@ export const useAlarmSubscription = () => {
     // 중복 구독 방지
     if (prevTopicRef.current === topic && subRef.current) {
       if (process.env.NODE_ENV === 'development') {
-        // console.log('[ALARM] 이미 구독 중:', topic);
+        console.log('[ALARM] 이미 구독 중:', topic);
       }
       return;
     }
@@ -46,10 +46,9 @@ export const useAlarmSubscription = () => {
     // 메세지가 오기만 하면 dot을 켜는 방식
     const sub = (client as Client).subscribe(
       topic,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       (msg: IMessage) => {
         if (process.env.NODE_ENV === 'development') {
-          // console.log('📩 [ALARM] message:', msg.body);
+          console.log('📩 [ALARM] message:', msg.body);
         }
         bump();
       },

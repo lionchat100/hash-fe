@@ -12,9 +12,11 @@ export interface UpdateProfileResponse {
 }
 
 export const updateProfile = async (data: UpdateProfileRequest): Promise<UpdateProfileResponse> => {
+  console.log('🔄 프로필 수정 API 호출:', data);
 
   try {
     const response = await api.patch<UpdateProfileResponse>('/users/update', data);
+    console.log('✅ 프로필 수정 API 응답:', response.data);
     return response.data;
   } catch (error) {
     console.error('❌ 프로필 수정 API 에러:', error);

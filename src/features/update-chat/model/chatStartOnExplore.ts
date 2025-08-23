@@ -13,6 +13,7 @@ export const useChatStartOnExplore = () => {
     try {
       const chatRoomId = await initChatRoom(targetUserId);
       router.push(`/chats/${chatRoomId}`);
+      console.log(`채팅방 생성 및 이동 완료: ${chatRoomId}`);
     } catch (error) {
       console.error('채팅 시작 실패:', error);
       throw error;

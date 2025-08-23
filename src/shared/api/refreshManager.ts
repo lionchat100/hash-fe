@@ -44,6 +44,7 @@ class RefreshManager {
       const url = `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`;
       const response = await this.raw.post(url, {});
       const accessToken = response.data.accessToken as string;
+      console.log('[REFRESH MANAGER] 토큰 재발급 성공', accessToken);
 
       if (typeof window !== 'undefined') {
         localStorage.setItem('accessToken', accessToken);

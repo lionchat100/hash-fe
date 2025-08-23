@@ -35,7 +35,7 @@ export const CallbackPage = () => {
               const currentProfile = await getUserProfile();
               if (currentProfile) {
                 profileStore.setCurrentProfile(currentProfile);
-                // console.log('OAuth 로그인 성공: 유저, 프로필 조회 성공', currentProfile);
+                console.log('OAuth 로그인 성공: 유저, 프로필 조회 성공', currentProfile);
                 router.replace('/explore');
               } else {
                 console.error('프로필 조회 실패: 프로필 없음');
@@ -46,7 +46,7 @@ export const CallbackPage = () => {
               setError('프로필 조회에 실패했습니다.');
             }
           } else {
-            // console.log('OAuth 로그인 성공: 유저 온보딩 미완료');
+            console.log('OAuth 로그인 성공: 유저 온보딩 미완료');
             router.replace('/onboarding');
           }
         } else {

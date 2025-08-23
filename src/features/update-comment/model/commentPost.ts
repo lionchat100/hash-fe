@@ -20,6 +20,7 @@ export function usePostComment(feedId: number, opts?: { onSuccess?: (data: unkno
     },
 
     onSuccess: (data, content) => {
+      console.log('onSuccess', content);
       opts?.onSuccess?.(data, content);
       const prev = qc.getQueryData<Cache>(commentKey(feedId));
       if (!prev) return;

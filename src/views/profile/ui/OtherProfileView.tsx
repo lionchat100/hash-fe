@@ -42,9 +42,12 @@ export const OtherProfileView = ({ userId }: OtherProfileViewProps) => {
         setIsLoading(true);
         setError(null);
 
+        console.log(`🔄 사용자 ${userId} 프로필 데이터 로드 시작...`);
+
         // 백엔드 API에서 해당 사용자의 프로필 데이터 조회
         const data = await getUserProfileById(userId);
 
+        console.log(`✅ 사용자 ${userId} 프로필 데이터 로드 성공:`, data);
         setProfileData(data);
       } catch (err) {
         console.error(`❌ 사용자 ${userId} 프로필 데이터 로드 실패:`, err);
@@ -58,6 +61,7 @@ export const OtherProfileView = ({ userId }: OtherProfileViewProps) => {
         }
       } finally {
         setIsLoading(false);
+        console.log(`🏁 사용자 ${userId} 프로필 데이터 로드 완료`);
       }
     };
 
