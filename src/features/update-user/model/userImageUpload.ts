@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ALLOWED_EXT } from '@/shared/constants/constant';
 import { toast } from 'sonner';
 
