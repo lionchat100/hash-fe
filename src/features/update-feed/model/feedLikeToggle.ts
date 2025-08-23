@@ -6,7 +6,7 @@ import { useCallback, useRef, useState } from 'react';
 const FEED_TABS: Sort[] = ['latest', 'popular', 'my'];
 
 // 한 탭 캐시에서 해당 feed 업데이트
-function updateFeedInInfiniteCache(qc: QueryClient, sort: Sort, feedId: number, updater: (f: FeedItem) => FeedItem) {
+const updateFeedInInfiniteCache = (qc: QueryClient, sort: Sort, feedId: number, updater: (f: FeedItem) => FeedItem) => {
   qc.setQueryData<InfiniteData<FeedRes>>(['feeds', sort], (old) => {
     if (!old) return old;
     const pages = old.pages.map((page) => ({
@@ -15,10 +15,10 @@ function updateFeedInInfiniteCache(qc: QueryClient, sort: Sort, feedId: number, 
     }));
     return { ...old, pages };
   });
-}
+};
 
 // 클릭한 탭 캐시 안에서 찾아서 반환
-export function findInInfiniteCache(qc: QueryClient, sort: Sort, id: number): Feed | undefined {
+export const findInInfiniteCache = (qc: QueryClient, sort: Sort, id: number): Feed | undefined => {
   const data = qc.getQueryData<InfiniteData<FeedRes>>(['feeds', sort]);
 
   if (!data) return;
@@ -27,17 +27,17 @@ export function findInInfiniteCache(qc: QueryClient, sort: Sort, id: number): Fe
     if (hit) return hit.feed;
   }
   return;
-}
+};
 
 // 세 탭에 일괄 적용
-export function updateFeedInAllTabs(
+export const updateFeedInAllTabs = (
   qc: QueryClient,
   feedId: number,
   updater: (item: FeedItem) => FeedItem,
   tabs: Sort[] = FEED_TABS,
-) {
+) => {
   tabs.forEach((s) => updateFeedInInfiniteCache(qc, s, feedId, updater));
-}
+};
 
 export const useCoalescedToggleLike = (id: number, debounceMs = 450) => {
   const qc = useQueryClient();
