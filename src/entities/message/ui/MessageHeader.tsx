@@ -12,7 +12,7 @@ export const MessageHeader = (props: MessageHeaderProps) => {
   const { opponentNickname, opponentUserId } = props;
 
   return (
-    <header className="safe-pt relative flex h-(--space-h-header) items-center justify-between bg-white px-4">
+    <header className="relative flex h-(--space-h-header) items-center justify-between bg-white px-4">
       <Button variant="ghost" size="icon" asChild>
         <Link href="/chats">
           <ChevronLeft className="size-6" />

@@ -60,7 +60,7 @@ export const CommentInput = ({ feedId, disabled, onPosted }: Props) => {
           onChange={(e) => setComment(e.target.value)}
           placeholder="메시지를 입력해주세요."
           disabled={disabled || post.isPending}
-          className="focus:ring-primary rounded-full border-none bg-stone-50 px-4 py-3 text-base focus:ring-2 focus:outline-none disabled:opacity-100"
+          className="rounded-full border-none bg-stone-50 px-4 py-3 text-base focus-visible:ring-0 disabled:opacity-100"
           onKeyDown={(e) => {
             // IME 조합/키 반복 방지
             // @ts-expect-error: nativeEvent exists
