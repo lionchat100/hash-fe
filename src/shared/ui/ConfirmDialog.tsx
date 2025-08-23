@@ -16,8 +16,8 @@ export const ConfirmDialog = ({ type = 'delete', open, onOpenChange, onDelete, o
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent showCloseButton={false} className="bg-stone-50 px-0 pb-0">
-        <DialogHeader className="gap-4 pb-3">
+      <DialogContent showCloseButton={false} className="!max-w-[340px] overflow-hidden bg-stone-50 px-0 pb-0">
+        <DialogHeader className="gap-4 pb-3 !text-center">
           <DialogTitle>{preset.title}</DialogTitle>
           <DialogDescription className="whitespace-pre-line">{preset.description}</DialogDescription>
         </DialogHeader>

@@ -14,7 +14,7 @@ export const LikeProfilesView = () => {
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   if (isLoading) {
-    return <FallbackScreen text="좋아요한 사람 목록을 불러오는 중이에요" />;
+    return <FallbackScreen text="좋아요한 사람 목록을 불러오는 중이에요" fullScreen />;
   }
 
   if (error) {
@@ -45,7 +45,7 @@ export const LikeProfilesView = () => {
           )}
         </div>
       ) : (
-        <div className="py-4 text-center">
+        <div className="text-muted-foreground p-3 text-center text-xs">
           <p>모든 프로필을 불러왔어요</p>
         </div>
       )}
