@@ -2,9 +2,10 @@
 
 import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { FeedPolicyCard, FeedPostHeader } from '@/entities/feed';
+import { FeedPostHeader } from '@/entities/feed';
 import { FeedPostForm, FeedPostFormRef } from '@/features/update-feed';
 import { FeedPostCancelModal } from '@/entities/feed/ui/FeedPostCancelModal';
+import { PolicyCard } from '@/shared/ui/PolicyCard';
 
 export const FeedPostView = () => {
   const router = useRouter();
@@ -70,7 +71,7 @@ export const FeedPostView = () => {
           onFormStateChange={handleFormStateChange}
         />
       </div>
-      <FeedPolicyCard />
+      <PolicyCard />
 
       <FeedPostCancelModal
         open={showWarningModal}

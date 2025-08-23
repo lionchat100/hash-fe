@@ -1,4 +1,4 @@
-export const FeedPolicyCard = () => {
+export const PolicyCard = () => {
   return (
     <div className="p-4">
       <div className="flex flex-col gap-3 rounded-xl bg-stone-200 p-5 text-sm font-medium text-stone-500">
