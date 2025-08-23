@@ -61,7 +61,7 @@ export const MessageInput = ({ roomId }: { roomId: number }) => {
   const disableSend = !canSend || !message || isSending;
 
   return (
-    <div className="bg-white px-4 py-2 drop-shadow-xl/20">
+    <div className="bg-white px-4 py-2">
       {/* 에러 메시지 */}
       {error && <div className="text-error rounded-md px-3 py-2 text-xs">{error}</div>}
 
