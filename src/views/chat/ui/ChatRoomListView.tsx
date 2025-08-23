@@ -13,9 +13,9 @@ export const ChatRoomListView = () => {
   }, [clearChat]);
 
   return (
-    <>
+    <div className="relative h-dvh">
       <ChatRoomListHeader />
       <ChatRoomList />
-    </>
+    </div>
   );
 };
