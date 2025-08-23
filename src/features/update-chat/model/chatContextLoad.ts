@@ -4,6 +4,7 @@ import { getCurrentUser } from '@/entities/user/api/getCurrentUser';
 export interface ChatContextLoadResult {
   isValid: boolean;
   opponentNickname: string;
+  currentUserId: number;
 }
 
 export const chatContextLoad = async (roomId: number): Promise<ChatContextLoadResult> => {
@@ -19,12 +20,14 @@ export const chatContextLoad = async (roomId: number): Promise<ChatContextLoadRe
     return {
       isValid: isCurrentUserInRoom,
       opponentNickname,
+      currentUserId: currentUser.id,
     };
   } catch (error) {
     console.error('채팅방 컨텍스트 로드 중 에러 발생:', error);
     return {
       isValid: false,
       opponentNickname: '',
+      currentUserId: 0,
     };
   }
 };
