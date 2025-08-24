@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { ChatRoom } from '@/entities/chat';
 import { ChatRoomItem } from '@/entities/chat';
 import { getChatRoomList } from '@/entities/chat/api/getChatRoomList';
-import { ScrollArea } from '@/shared/ui/ScrollArea';
 import { FallbackScreen } from '@/widgets/common/FallbackScreen';
 
 export const ChatRoomList = () => {
@@ -53,10 +52,12 @@ export const ChatRoomList = () => {
   }
 
   return (
-    <ScrollArea className="h-[calc(100vh-54px)] pb-[56px]">
-      {chatRooms.map((chatRoom) => (
-        <ChatRoomItem key={chatRoom.chatRoomId} chatRoom={chatRoom} />
-      ))}
-    </ScrollArea>
+    <div className="scrollbar-hide h-dvh overflow-y-auto">
+      <div className="pt-[54px] pb-[56px]">
+        {chatRooms.map((chatRoom) => (
+          <ChatRoomItem key={chatRoom.chatRoomId} chatRoom={chatRoom} />
+        ))}
+      </div>
+    </div>
   );
 };

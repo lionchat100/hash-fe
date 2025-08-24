@@ -75,12 +75,18 @@ export function MessageScrollArea({ roomId, currentUserId }: Props) {
   if (isLoading) return <FallbackScreen type="loading" fullScreen />;
 
   return (
-    <>
+    <div
+      className="scrollbar-hide absolute inset-x-0 overflow-y-hidden"
+      style={{
+        top: 'calc(var(--space-h-header))',
+        bottom: 'calc(var(--space-h-nav))',
+      }}
+    >
       {items.length === 0 ? <PolicyCard /> : null}
       <Virtuoso
         ref={virtRef}
-        style={{ height: '100%' }}
         data={items}
+        style={{ height: '100%' }}
         firstItemIndex={firstItemIndex}
         initialTopMostItemIndex={firstItemIndex + items.length - 1}
         followOutput={atBottom ? 'auto' : false}
@@ -111,6 +117,6 @@ export function MessageScrollArea({ roomId, currentUserId }: Props) {
           Footer: () => <div style={{ height: atBottom ? 0 : 12 }} />,
         }}
       />
-    </>
+    </div>
   );
 }
