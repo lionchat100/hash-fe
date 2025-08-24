@@ -7,7 +7,6 @@ export const userAuthLogin = async () => {
     // 리프레시 토큰 확인
     const refreshToken = getCookie('refresh_token');
     if (!refreshToken) {
-      console.log('자동 로그인 실패: 리프레시 토큰 없음');
       return { success: false };
     }
 
@@ -17,7 +16,6 @@ export const userAuthLogin = async () => {
       await refreshManager.refresh();
       accessToken = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
       if (!accessToken) {
-        console.log('자동 로그인 실패: 액세스 토큰 재발급 실패');
         return { success: false };
       }
     }

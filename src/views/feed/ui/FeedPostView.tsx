@@ -30,7 +30,6 @@ export const FeedPostView = () => {
   const handleSuccess = (feedId: number) => {
     // 피드 작성 성공 시 피드 목록 페이지로 이동
     router.push('/feeds');
-    console.log('성공적으로 생성된 피드 ID:', feedId);
   };
 
   const handleCancel = () => {

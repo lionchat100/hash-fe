@@ -163,7 +163,6 @@ export const useExploreCards = () => {
   // 필터 적용
   const applyFilter = useCallback(
     (nextPosition: PositionFilter) => {
-      console.log('🔄 필터 적용 시작:', nextPosition);
 
       // 1) 전역 상태 갱신
       globalSelectedPosition = nextPosition;
