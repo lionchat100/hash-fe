@@ -13,13 +13,15 @@ export const LikeProfileCard = (props: LikeProfileCardProps) => {
   return (
     <Link href={`/profile/${profile.userId}`}>
       <div className="mx-4 flex gap-4 border-b-1 py-4">
-        <Image
-          src={profile.imageUrls[0] ?? '/images/logo/tokit_info.svg'} // TODO: 기본 이미지 추가
-          alt={profile.nickname}
-          width={78}
-          height={104}
-          className="h-[104px] w-[78px] rounded-xl object-cover"
-        />
+        <div className="relative h-[104px] w-[78px]">
+          <Image
+            src={profile.imageUrls[0] ?? '/images/logo/tokit_info.svg'}
+            alt={profile.nickname}
+            className="rounded-xl object-cover"
+            sizes="100vw"
+            fill
+          />
+        </div>
         <div className="flex flex-col justify-between gap-1">
           <div className="flex flex-col gap-1">
             <h2 className="text-lg font-semibold text-stone-900">{profile.nickname}</h2>

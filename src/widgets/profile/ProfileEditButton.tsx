@@ -7,7 +7,6 @@ interface ProfileEditButtonProps {
 }
 
 export const ProfileEditButton = ({ className }: ProfileEditButtonProps) => {
-  // 현재 로그인된 사용자의 프로필 수정 페이지로 이동
   const { currentUser } = useUserStore();
 
   const isTestUser = currentUser?.id === 2 || currentUser?.id === 31;

@@ -65,27 +65,20 @@ export const ProfileSidebar = ({ isOpen, onClose }: Props) => {
         </SheetHeader>
 
         <div className="mt-6 flex h-full flex-col space-y-6 px-4">
-          {/* 카테고리별 메뉴 */}
           <div className="space-y-6">
             {menuCategories.map((category) => (
               <div key={category.title}>
-                {/* 카테고리 제목 */}
                 <h3 className="mb-3 text-sm font-bold tracking-wide text-gray-900 uppercase">{category.title}</h3>
 
-                {/* 카테고리 내 메뉴 항목들 */}
                 <nav className="space-y-1">
                   {category.items.map((item) => {
                     const Icon = item.icon;
-                    // 외부 링크는 <a>, 내부는 <Link>
                     return item.external ? (
                       <a
                         key={item.label}
                         href={item.href}
                         className="flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-gray-100"
                         onClick={onClose}
-                        // 새 탭으로 열고 싶다면 아래 두 줄의 주석을 해제
-                        // target="_blank"
-                        // rel="noopener noreferrer"
                         aria-label={item.label}
                       >
                         <Icon className="size-5 text-gray-500" />
@@ -112,7 +105,6 @@ export const ProfileSidebar = ({ isOpen, onClose }: Props) => {
             ))}
           </div>
 
-          {/* 하단 로고 및 텍스트 */}
           <div className="mt-auto pb-4">
             <div className="mb-3 flex justify-center">
               <Image src="/images/Tokit_produce.svg" alt="Tokit Produce" width={400} height={100} />
