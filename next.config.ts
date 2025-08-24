@@ -9,9 +9,10 @@ const withPWA = withPWAInit({
 
 export default withPWA({
   images: {
-    domains: [
-      'tokit-bucket.s3.ap-northeast-2.amazonaws.com',
-      'test.com', // 개발/테스트용 도메인
-    ],
+    domains: ['tokit-bucket.s3.ap-northeast-2.amazonaws.com'],
+    formats: ['image/webp'],
+    deviceSizes: [480],
+    imageSizes: [],
+    minimumCacheTTL: 60 * 60 * 24 * 1,
   },
 });
