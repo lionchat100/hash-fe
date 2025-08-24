@@ -11,7 +11,7 @@ export const ProfileHeader = () => {
 
   return (
     <>
-      <header className="safe-pt relative flex h-(--space-h-header) items-center justify-between bg-white px-4">
+      <header className="safe-pt sticky top-0 z-50 flex h-(--space-h-header) items-center justify-between bg-white px-4">
         <Button variant="ghost" size="icon" className="cursor-pointer" onClick={() => setIsSidebarOpen(true)}>
           <Menu className="size-6" />
         </Button>

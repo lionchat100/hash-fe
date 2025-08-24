@@ -6,7 +6,7 @@ import { ChevronLeft } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/shared/ui/Button';
 import { FallbackScreen } from '@/widgets/common/FallbackScreen';
-import { ProfileImageUploader } from '@/features/edit-profile/ui/ProfileImageUploaderTest';
+import { ProfileImageUploader } from '@/features/edit-profile/ui/ProfileImageUploader';
 import { ProfileInfoEditor } from '@/features/edit-profile/ui/ProfileInfoEditorTest';
 import { uploadImagesList } from '@/features/update-user/api/uploadImagesList';
 import { updateProfile, UpdateProfileRequest } from '@/features/edit-profile/model/updateProfile';
@@ -118,10 +118,10 @@ export const EditProfileView = () => {
   }
 
   return (
-    <div className="min-h-svh bg-white">
+    <div className="min-h-svh">
       {/* 헤더 */}
-      <div className="sticky top-0 z-50 bg-white/90 backdrop-blur-sm">
-        <div className="flex h-14 items-center justify-between px-4">
+      <div className="sticky top-0 z-50 bg-white">
+        <div className="flex h-(--space-h-header) items-center justify-between px-4">
           <button
             onClick={handleBack}
             className="flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-gray-100"
@@ -135,7 +135,10 @@ export const EditProfileView = () => {
       </div>
 
       {/* 본문 */}
-      <div className="space-y-6 p-4 pb-24" style={{ scrollPaddingBottom: 'calc(96px + var(--safe-bottom))' }}>
+      <div
+        className="space-y-6 overflow-y-auto p-4 pb-[calc(120px+var(--safe-bottom))]"
+        style={{ scrollPaddingBottom: 'calc(96px + var(--safe-bottom))' }}
+      >
         {/* 이미지 업로드 - ✅ 기존 이미지는 표시/유지하지 않음 */}
         <div className="space-y-3">
           <ProfileImageUploader value={uploadedImages} onChange={setUploadedImages} maxFiles={3} maxSizeMB={6} />
@@ -153,7 +156,7 @@ export const EditProfileView = () => {
       </div>
 
       {/* 저장 버튼 */}
-      <div className="fixed right-0 bottom-0 left-0 border-t border-gray-100 bg-white p-4">
+      <div className="fixed bottom-0 left-1/2 w-full max-w-(--space-max-layout) -translate-x-1/2 border-t border-gray-100 bg-white p-4">
         <div className="safe-pb mx-auto max-w-md">
           <Button
             onClick={handleSave}
