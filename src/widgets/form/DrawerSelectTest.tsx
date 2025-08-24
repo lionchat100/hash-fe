@@ -30,6 +30,7 @@ export const DrawerSelect = <T extends string>({
 
   useEffect(() => {
     if (!open) return;
+    document.body.classList.add('no-bounce');
     const y = window.scrollY;
     const { style } = document.body;
     const prev = {
@@ -51,6 +52,7 @@ export const DrawerSelect = <T extends string>({
       style.overflow = prev.overflow;
       (style as any).overscrollBehavior = prev.overscroll;
       window.scrollTo(0, y);
+      document.body.classList.remove('no-bounce');
     };
   }, [open]);
 

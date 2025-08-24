@@ -194,16 +194,6 @@
   }
 }
 
-html,
-body {
-  height: 100%;
-}
-body {
-  min-height: 100svh;
-  min-height: -webkit-fill-available;
-  overscroll-behavior: none;
-}
-
 @layer utilities {
   .font-display-lg {
     font-family: var(--font-suite);
@@ -231,6 +221,7 @@ body {
   }
 
   .pageContainer {
+    min-height: 100vh;
     min-height: 100svh;
     min-height: -webkit-fill-available;
   }
@@ -240,6 +231,10 @@ body {
     transform: translateX(-50%);
     bottom: 0;
     padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .no-bounce {
+    overscroll-behavior: none;
   }
 
   .floating-bottom {
