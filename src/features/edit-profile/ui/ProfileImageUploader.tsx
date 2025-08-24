@@ -25,7 +25,7 @@ export function ProfileImageUploader({
   value,
   onChange,
   maxFiles = 3,
-  maxSizeMB = 5,
+  maxSizeMB = 6,
   className,
 }: ProfileImageUploaderProps) {
   const [previews, setPreviews] = useState<Preview[]>([]);
