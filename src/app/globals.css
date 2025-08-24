@@ -278,7 +278,8 @@ body {
     .pb-safe-input {
       padding-bottom: calc(var(--space-h-nav) + constant(safe-area-inset-bottom) + var(--kb-offset, 0px));
     }
-    .input-fixed {
+    .input-fixed,
+    .footer-fixed-center {
       padding-bottom: calc(constant(safe-area-inset-bottom) + var(--kb-offset, 0px) + 8px);
     }
 
@@ -304,10 +305,11 @@ body {
     transform: translateZ(0);
   }
 
-  .header-abs-center {
-    @apply absolute top-0 left-1/2 z-10 -translate-x-1/2;
+  .header-fixed-center {
+    @apply fixed top-0 left-1/2 z-10 w-full max-w-(--space-max-layout) -translate-x-1/2;
   }
-  .footer-abs-center {
-    @apply absolute bottom-0 left-1/2 z-10 -translate-x-1/2;
+  .footer-fixed-center {
+    @apply fixed bottom-0 left-1/2 z-10 w-full max-w-(--space-max-layout) -translate-x-1/2;
+    padding-bottom: calc(var(--safe-bottom) + var(--kb-offset, 0px) + 8px);
   }
 }

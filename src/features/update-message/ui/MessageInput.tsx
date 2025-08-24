@@ -58,7 +58,7 @@ export const MessageInput = ({ roomId }: { roomId: number }) => {
   const disableSend = !canSend || !message || isSending;
 
   return (
-    <div className="footer-abs-center w-full border-t border-stone-100 bg-white px-4 py-2">
+    <div className="footer-fixed-center border-t border-stone-100 bg-white px-4 py-2">
       {error && <div className="text-error rounded-md px-3 py-2 text-xs">{error}</div>}
 
       <div className="flex items-center gap-7">
