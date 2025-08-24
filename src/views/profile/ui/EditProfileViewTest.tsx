@@ -118,7 +118,7 @@ export const EditProfileView = () => {
   }
 
   return (
-    <div className="min-h-svh overflow-hidden bg-white">
+    <div className="min-h-svh">
       {/* 헤더 */}
       <div className="sticky top-0 z-50 bg-white">
         <div className="flex h-(--space-h-header) items-center justify-between px-4">
@@ -136,7 +136,7 @@ export const EditProfileView = () => {
 
       {/* 본문 */}
       <div
-        className="h-[calc(100svh-var(--space-h-header)] space-y-6 overflow-y-auto p-4 pb-[calc(120px+var(--safe-bottom))]"
+        className="space-y-6 overflow-y-auto p-4 pb-[calc(120px+var(--safe-bottom))]"
         style={{ scrollPaddingBottom: 'calc(96px + var(--safe-bottom))' }}
       >
         {/* 이미지 업로드 - ✅ 기존 이미지는 표시/유지하지 않음 */}
