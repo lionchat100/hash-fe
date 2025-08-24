@@ -309,21 +309,7 @@
     @apply sticky z-10 w-full max-w-(--space-max-layout);
     top: env(safe-area-inset-top, 0px);
   }
-  .page-no-transform {
-    transform: none !important;
-    will-change: auto !important;
-    contain: none !important;
-  }
-  @supports (-webkit-touch-callout: none) {
-    .header-sticky {
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%); /* 가운데 정렬 필요 시 */
-      width: 100%;
-      max-width: var(--space-max-layout);
-      top: env(safe-area-inset-top, 0px);
-    }
-  }
+
   @supports (top: constant(safe-area-inset-top)) {
     .header-sticky {
       top: constant(safe-area-inset-top);

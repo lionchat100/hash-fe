@@ -1,4 +1,3 @@
-import { useUserStore } from '@/entities/user';
 import { Button } from '@/shared/ui/Button';
 import Link from 'next/link';
 
@@ -7,10 +6,7 @@ interface ProfileEditButtonProps {
 }
 
 export const ProfileEditButton = ({ className }: ProfileEditButtonProps) => {
-  const { currentUser } = useUserStore();
-
-  const isTestUser = currentUser?.id === 2 || currentUser?.id === 31;
-  const editPath = isTestUser ? '/profile/editdrawer' : '/profile/edit';
+  const editPath = '/profile/edit';
 
   return (
     <div className={`mt-2 ${className ?? ''}`}>

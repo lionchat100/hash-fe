@@ -106,9 +106,7 @@ export default function RootLayout({
       <head>
         <GoogleAnalytics />
       </head>
-      <body
-        className={`${pretendard.className} ${suite.variable} relative overflow-hidden overscroll-none bg-gray-50 antialiased`}
-      >
+      <body className={`${pretendard.className} ${suite.variable} relative overflow-hidden bg-gray-50 antialiased`}>
         <div className="pageContainer mx-auto max-w-(--space-max-layout) min-w-xs bg-white">
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="tokit-theme">
             <SonnerProvider>
