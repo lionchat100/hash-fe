@@ -86,7 +86,7 @@ export function MessageScrollArea({ roomId, currentUserId }: Props) {
       <Virtuoso
         ref={virtRef}
         data={items}
-        style={{ height: '100%' }}
+        style={{ height: 'calc(100svh - 110px - var(--safe-bottom))' }}
         firstItemIndex={firstItemIndex}
         initialTopMostItemIndex={firstItemIndex + items.length - 1}
         followOutput={atBottom ? 'auto' : false}
@@ -103,7 +103,7 @@ export function MessageScrollArea({ roomId, currentUserId }: Props) {
         scrollerRef={(el) => {
           scrollerElRef.current = (el as HTMLElement) ?? null;
         }}
-        increaseViewportBy={{ top: 0, bottom: 200 }}
+        increaseViewportBy={{ top: 0, bottom: 0 }}
         overscan={300}
         computeItemKey={(index, g) => g.message.messageId}
         itemContent={(index, g) => (
