@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import { Button } from '@/shared/ui/Button';
 import { FallbackScreen } from '@/widgets/common/FallbackScreen';
 import { ProfileImageUploader } from '@/features/edit-profile/ui/ProfileImageUploader';
-import { ProfileInfoEditor } from '@/features/edit-profile/ui/ProfileInfoEditorTest';
+import { ProfileInfoEditor } from '@/features/edit-profile/ui/ProfileInfoEditor';
 import { uploadImagesList } from '@/features/update-user/api/uploadImagesList';
 import { updateProfile, UpdateProfileRequest } from '@/features/edit-profile/model/updateProfile';
 import { getUserProfile } from '@/entities/user/api/getUserProfile';

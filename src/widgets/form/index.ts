@@ -1,1 +1,1 @@
-export { DrawerSelect } from './DrawerSelect---';
+export { DrawerSelect } from './DrawerSelect';
