@@ -78,12 +78,15 @@ export const MessageInput = ({ roomId }: { roomId: number }) => {
           onClick={handleSendMessage}
           disabled={disableSend}
           aria-label="메시지 전송"
-          className={cn('size-10 rounded-full bg-stone-300', canSend && 'bg-stone-900')}
+          className={cn(
+            'size-10 rounded-full transition-colors disabled:opacity-100',
+            canSend ? 'bg-stone-900 text-stone-100' : 'bg-stone-300 text-stone-500',
+          )}
         >
           {isSending ? (
-            <LoaderCircle className="size-6 animate-spin text-black" />
+            <LoaderCircle className="size-6 animate-spin" color="black" />
           ) : (
-            <ChevronUp className={cn('size-6 text-stone-500', canSend && 'text-white')} />
+            <ChevronUp className="size-6" />
           )}
         </Button>
       </div>
