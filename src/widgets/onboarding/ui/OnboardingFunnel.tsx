@@ -18,7 +18,7 @@ const order: StepKey[] = ['step1', 'step2', 'step3'];
 export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) => {
   const { isPending } = useOnboardingData();
   const { step, total, setStep, save } = useOnboardingStore();
-  const submit = useSubmitOnboarding();
+  const { mutate: submit, isPending: isSubmitPending } = useSubmitOnboarding();
 
   // 버튼 활성화 여부 컨트롤
   const canProceed = useOnboardingStore((s) => s.canProceed);
@@ -48,7 +48,7 @@ export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) 
         setStep(idx + 2); // 1-based step 이동
       } else {
         // 마지막 스텝이면 서버 제출
-        submit.mutate();
+        submit();
       }
     };
 
@@ -88,7 +88,7 @@ export const OnboardingFunnel = ({ initialStep = 1 }: { initialStep?: number }) 
         />
       </div>
       <div className="flex justify-center pb-2">
-        <Button className="w-xs" onClick={goNext} disabled={nextDisabled}>
+        <Button className="w-xs" onClick={goNext} disabled={nextDisabled || isSubmitPending}>
           {step === total ? '저장' : '다음'}
         </Button>
       </div>

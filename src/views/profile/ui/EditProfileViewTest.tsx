@@ -121,7 +121,7 @@ export const EditProfileView = () => {
     <div className="min-h-svh overflow-hidden bg-white">
       {/* 헤더 */}
       <div className="sticky top-0 z-50 bg-white">
-        <div className="flex h-14 items-center justify-between px-4">
+        <div className="flex h-(--space-h-header) items-center justify-between px-4">
           <button
             onClick={handleBack}
             className="flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-gray-100"
@@ -136,7 +136,7 @@ export const EditProfileView = () => {
 
       {/* 본문 */}
       <div
-        className="space-y-6 overflow-y-auto p-4 pb-[calc(120px+var(--safe-bottom))]"
+        className="h-[calc(100svh-var(--space-h-header)] space-y-6 overflow-y-auto p-4 pb-[calc(120px+var(--safe-bottom))]"
         style={{ scrollPaddingBottom: 'calc(96px + var(--safe-bottom))' }}
       >
         {/* 이미지 업로드 - ✅ 기존 이미지는 표시/유지하지 않음 */}
@@ -156,7 +156,7 @@ export const EditProfileView = () => {
       </div>
 
       {/* 저장 버튼 */}
-      <div className="fixed right-0 bottom-0 left-0 w-full max-w-(--space-max-layout) border-t border-gray-100 bg-white p-4">
+      <div className="fixed bottom-0 left-1/2 w-full max-w-(--space-max-layout) -translate-x-1/2 border-t border-gray-100 bg-white p-4">
         <div className="safe-pb mx-auto max-w-md">
           <Button
             onClick={handleSave}

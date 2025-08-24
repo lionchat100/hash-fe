@@ -26,34 +26,6 @@ export const DrawerSelect = <T extends string>({
     if (open) setTemp(value ?? null);
   }, [open, value]);
 
-  // useEffect(() => {
-  //   if (!open) return;
-  //   document.body.classList.add('no-bounce');
-  //   const y = window.scrollY;
-  //   const { style } = document.body;
-  //   const prev = {
-  //     position: style.position,
-  //     top: style.top,
-  //     width: style.width,
-  //     overflow: style.overflow,
-  //     overscroll: (style as any).overscrollBehavior,
-  //   };
-  //   style.position = 'fixed';
-  //   style.top = `-${y}px`;
-  //   style.width = '100%';
-  //   style.overflow = 'hidden';
-  //   (style as any).overscrollBehavior = 'contain';
-  //   return () => {
-  //     style.position = prev.position;
-  //     style.top = prev.top;
-  //     style.width = prev.width;
-  //     style.overflow = prev.overflow;
-  //     (style as any).overscrollBehavior = prev.overscroll;
-  //     window.scrollTo(0, y);
-  //     document.body.classList.remove('no-bounce');
-  //   };
-  // }, [open]);
-
   const handleOpenChange = (isOpen: boolean) => {
     setOpen(isOpen);
     if (!isOpen) setTemp(value ?? null);
@@ -91,9 +63,11 @@ export const DrawerSelect = <T extends string>({
 
           <div className="flex h-[250px] flex-wrap content-start gap-2">{renderOptions(temp, setTemp)}</div>
 
-          <Button onClick={handleConfirm} className="w-full">
-            확인
-          </Button>
+          <div className="pb-[calc(var(--safe-bottom)+8px)]">
+            <Button onClick={handleConfirm} className="w-full">
+              확인
+            </Button>
+          </div>
         </DrawerContent>
       </Drawer>
     </>
