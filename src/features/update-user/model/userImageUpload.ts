@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ALLOWED_EXT } from '@/shared/constants/constant';
+import { toast } from 'sonner';
+
 export interface UploadConfig {
   maxFiles: number;
   maxSizeMB: number;
@@ -55,11 +59,11 @@ function isAllowedByType(file: File, allowedExt?: readonly string[], allowedMime
   return allowedExt || allowedMime ? byExt || byMime : true;
 }
 
-export function validateAndMergeFilesV2(
+export const validateAndMergeFilesV2 = (
   current: File[],
   incoming: File[] | FileList,
   cfg: UploadConfig,
-): ValidateResultV2 {
+): ValidateResultV2 => {
   const arr = Array.from(incoming);
   const limitBytes = cfg.maxSizeMB * 1024 * 1024;
   const rejects: RejectItem[] = [];
@@ -91,7 +95,7 @@ export function validateAndMergeFilesV2(
   }
 
   return { ok: true, next: merged };
-}
+};
 
 // (선택) input accept 속성 문자열 생성기
 export function toAcceptAttr(allowedExt?: readonly string[], allowedMime?: readonly string[]) {
@@ -99,3 +103,60 @@ export function toAcceptAttr(allowedExt?: readonly string[], allowedMime?: reado
   const mimes = allowedMime ?? [];
   return [...mimes, ...exts].join(',');
 }
+
+export const handleUploadFiles = async (
+  current: File[],
+  files: FileList | null,
+  cfg: UploadConfig,
+): Promise<File[] | null> => {
+  if (!files) return null;
+
+  const { maxFiles, maxSizeMB } = cfg;
+  const currentTotal = current?.length ?? 0;
+  const remainingSlots = Math.max(0, maxFiles - currentTotal);
+
+  if (remainingSlots <= 0) {
+    toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
+    return null;
+  }
+
+  if (files.length > remainingSlots) {
+    toast.error(`${remainingSlots}장까지만 추가로 업로드 가능합니다`);
+    return null;
+  }
+
+  try {
+    // 동적으로 변환 유틸 로드
+    const mod = await import('@/shared/lib/imageConverter.client');
+    const selected = await mod.convertOnlyHeic(files, { quality: 1 });
+
+    const res = validateAndMergeFilesV2(current, selected, cfg);
+    if (!res.ok) {
+      switch (res.error) {
+        case 'TOO_MANY_FILES':
+          toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
+          break;
+        case 'INVALID_TYPE': {
+          const msg =
+            res.rejects
+              ?.slice(0, 3)
+              .map((r: { name: any }) => `${r.name}: 허용되지 않은 형식`)
+              .join('\n') ?? '허용되지 않은 형식의 파일이 포함되어 있어요.';
+          toast.error(`${msg}\n(허용: ${ALLOWED_EXT.join(', ')})`);
+          break;
+        }
+        case 'FILE_TOO_LARGE': {
+          toast.error(`파일 크기가 ${maxSizeMB} 이상으로 업로드 불가합니다`);
+          break;
+        }
+      }
+      return null;
+    }
+
+    return res.next;
+  } catch (e) {
+    console.error(e);
+    toast.error('이미지 변환 중 오류가 발생했어요. 다시 시도해 주세요.');
+    return null;
+  }
+};

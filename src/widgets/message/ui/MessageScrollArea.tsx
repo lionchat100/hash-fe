@@ -78,8 +78,8 @@ export function MessageScrollArea({ roomId, currentUserId }: Props) {
     <div
       className="scrollbar-hide absolute inset-x-0 overflow-y-hidden"
       style={{
-        top: 'calc(var(--space-h-header))',
-        bottom: 'calc(var(--space-h-nav))',
+        top: 'calc(var(--space-h-header) + var(--safe-top))',
+        bottom: 'calc(var(--space-h-nav) + var(--safe-bottom))',
       }}
     >
       {items.length === 0 ? <PolicyCard /> : null}

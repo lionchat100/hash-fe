@@ -28,8 +28,6 @@ export function useDeleteComment(feedId: number) {
         };
       });
 
-      console.log(`Optimistically deleted comment ${commentId} from feed ${feedId}`);
-
       return { prev };
     },
 

@@ -3,9 +3,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { X, Plus } from 'lucide-react';
 import { cn } from '@/shared/lib/tailwindMerge';
-import { toast } from 'sonner';
 import Image from 'next/image';
-import { UploadConfig, validateAndMergeFiles } from '@/features/update-user/model/userImageUpload';
+import { handleUploadFiles, toAcceptAttr, UploadConfig } from '@/features/update-user/model/userImageUpload';
+import { ALLOWED_EXT, ALLOWED_MIME } from '@/shared/constants/constant';
 
 type Preview = {
   file: File;
@@ -56,40 +56,12 @@ export function ProfileImageUploader({
     if (inputRef.current) inputRef.current.value = '';
   };
 
-  const handleFiles = (files: FileList | null) => {
-    if (!files) return;
-
-    const cfg: UploadConfig = { maxFiles, maxSizeMB };
-
-    // 현재 총 이미지 수 = 새로 업로드한 개수만
-    const currentTotal = value?.length ?? 0;
-    const remainingSlots = Math.max(0, maxFiles - currentTotal);
-
-    if (remainingSlots <= 0) {
-      toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
-      resetInput();
-      return;
+  const handleFiles = async (files: FileList | null) => {
+    const cfg: UploadConfig = { maxFiles, maxSizeMB, allowedExt: ALLOWED_EXT, allowedMime: ALLOWED_MIME };
+    const next = await handleUploadFiles(value, files, cfg);
+    if (next) {
+      onChange(next);
     }
-
-    if (files.length > remainingSlots) {
-      toast.error(`${remainingSlots}장까지만 추가로 업로드 가능합니다`);
-      resetInput();
-      return;
-    }
-
-    const res = validateAndMergeFiles(value, files, { ...cfg, maxFiles });
-
-    if (!res.ok) {
-      if (res.error === 'TOO_MANY_FILES') {
-        toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
-      } else if (res.error === 'FILE_TOO_LARGE') {
-        toast.error(`파일 크기가 ${maxSizeMB}MB 이상으로 업로드 불가합니다`);
-      }
-      resetInput();
-      return;
-    }
-
-    onChange(res.next);
     resetInput();
   };
 
@@ -156,13 +128,13 @@ export function ProfileImageUploader({
       <input
         ref={inputRef}
         type="file"
-        accept="image/*"
+        accept={toAcceptAttr(ALLOWED_EXT, ALLOWED_MIME)}
         multiple
         className="hidden"
         onChange={(e) => handleFiles(e.target.files)}
       />
-      <p className="text-m" style={{ color: '#FAAD14' }}>
-        사진은 처음부터 다시 넣어주세요!
+      <p className="text-sm text-(--color-warning)">
+        사진은 처음부터 다시 넣어주세요! <span className="text-white">test</span>
         <br />
         최대{maxFiles}장 가능, 용량은 1장당 {maxSizeMB}MB 미만 가능
       </p>
