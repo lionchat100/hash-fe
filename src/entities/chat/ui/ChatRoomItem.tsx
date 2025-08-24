@@ -32,7 +32,9 @@ export const ChatRoomItem = (props: ChatRoomItemProps) => {
         </div>
 
         <div className="flex items-center justify-between gap-3">
-          <p className="line-clamp-2 overflow-hidden text-sm text-ellipsis text-gray-500">{chatRoom.lastContent}</p>
+          <p className="line-clamp-2 max-w-5/6 overflow-hidden text-sm break-all text-ellipsis text-gray-500">
+            {chatRoom.lastContent}
+          </p>
           <div
             className={clsx('h-2 w-2 flex-shrink-0 rounded-full', chatRoom.isRead ? 'bg-transparent' : 'bg-primary')}
           ></div>

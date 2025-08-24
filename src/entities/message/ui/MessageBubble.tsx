@@ -40,7 +40,12 @@ export const MessageBubble = (props: MessageBubbleProps) => {
           <div className={clsx('flex max-w-[90%] flex-col', showTime && 'mb-3')}>
             {showName && <span className="mb-2 text-base font-semibold">{message.nickname}</span>}
             <div className="flex items-end gap-2">
-              <div className={clsx('bg-muted rounded-[8px] px-[10px] py-[10px] text-base', !showAvatar && 'ml-12')}>
+              <div
+                className={clsx(
+                  'bg-muted rounded-[8px] px-[10px] py-[10px] text-base break-all',
+                  !showAvatar && 'ml-12',
+                )}
+              >
                 {message.content}
               </div>
               {showTime && <span className="flex-shrink-0 text-xs">{formatChatTime(message.createdAt)}</span>}
