@@ -28,27 +28,29 @@ export const LikeProfilesView = () => {
   }
 
   return (
-    <div>
+    <div className="min-h-dvh">
       <LikeProfilesHeader />
 
-      {allProfiles.map((profile) => (
-        <LikeProfileCard key={profile.userId} profile={profile} />
-      ))}
+      <div className="scroll-content">
+        {allProfiles.map((profile) => (
+          <LikeProfileCard key={profile.userId} profile={profile} />
+        ))}
 
-      {/* 무한 스크롤 트리거 */}
-      {hasNextPage ? (
-        <div ref={ref} className="h-4 w-full">
-          {isFetchingNextPage && (
-            <div className="py-4 text-center">
-              <p>더 많은 프로필을 불러오는 중이에요</p>
-            </div>
-          )}
-        </div>
-      ) : (
-        <div className="text-muted-foreground p-3 text-center text-xs">
-          <p>모든 프로필을 불러왔어요</p>
-        </div>
-      )}
+        {/* 무한 스크롤 트리거 */}
+        {hasNextPage ? (
+          <div ref={ref} className="h-4 w-full">
+            {isFetchingNextPage && (
+              <div className="py-4 text-center">
+                <p>더 많은 프로필을 불러오는 중이에요</p>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="text-muted-foreground p-3 text-center text-xs">
+            <p>모든 프로필을 불러왔어요</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

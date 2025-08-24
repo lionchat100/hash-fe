@@ -57,7 +57,7 @@ export const ExploreCardArea = ({
   }
 
   return (
-    <div className="mx-auto max-w-screen-md p-4">
+    <div className="scroll-content mx-auto max-w-screen-md p-4">
       {/* 카드 리스트 */}
       <div className="space-y-6">
         {cards.map((card) => (

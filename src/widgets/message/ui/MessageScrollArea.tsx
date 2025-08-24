@@ -80,6 +80,8 @@ export function MessageScrollArea({ roomId, currentUserId }: Props) {
       style={{
         top: 'calc(var(--space-h-header) + var(--safe-top))',
         bottom: 'calc(var(--space-h-nav) + var(--safe-bottom))',
+        WebkitOverflowScrolling: 'touch',
+        overscrollBehavior: 'contain',
       }}
     >
       {items.length === 0 ? <PolicyCard /> : null}
