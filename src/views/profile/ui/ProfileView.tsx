@@ -77,7 +77,7 @@ export const ProfileView = () => {
       {/* 헤더 */}
       <ProfileHeader />
 
-      <div className="p-4">
+      <div className="scroll-content p-4">
         <div className="relative">
           {/* 프로필 카드 메인 영역 - 실제 API 데이터 사용 */}
           <ProfileCard profile={profileData} />

@@ -35,7 +35,7 @@ export const NotifyList = () => {
   );
 
   return (
-    <div className="h-[calc(100dvh - 164px)] scrollbar-hide w-full overflow-auto pb-[56px]">
+    <div className="scroll-content scrollbar-hide w-full pb-[56px]">
       {/* 상태 처리 */}
       {status === 'pending' && <div className="text-muted-foreground p-4 text-sm">불러오는 중…</div>}
       {status === 'error' && <div className="p-4 text-sm text-red-500">목록을 불러오지 못했습니다.</div>}

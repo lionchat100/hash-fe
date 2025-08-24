@@ -136,8 +136,10 @@ export const EditProfileView = () => {
 
       {/* 본문 */}
       <div
-        className="space-y-6 overflow-y-auto p-4 pb-[calc(120px+var(--safe-bottom))]"
-        style={{ scrollPaddingBottom: 'calc(96px + var(--safe-bottom))' }}
+        className="scroll-content space-y-6 p-4 pb-[calc(120px+var(--safe-bottom))]"
+        style={{
+          scrollPaddingBottom: 'calc(96px + var(--safe-bottom))',
+        }}
       >
         {/* 이미지 업로드 - ✅ 기존 이미지는 표시/유지하지 않음 */}
         <div className="space-y-3">

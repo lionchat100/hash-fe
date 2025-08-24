@@ -12,7 +12,7 @@ export const MessageHeader = (props: MessageHeaderProps) => {
   const { opponentNickname, opponentUserId } = props;
 
   return (
-    <header className="header-sticky bg-white px-4 pt-(--safe-top)">
+    <header className="header-sticky page-no-transform bg-white px-4 pt-(--safe-top)">
       <div className="flex h-(--space-h-header) items-center justify-between">
         <Button variant="ghost" size="icon" asChild>
           <Link href="/chats">
