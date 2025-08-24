@@ -3,7 +3,7 @@
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
 import { Textarea } from '@/shared/ui/Textarea';
-import { DrawerSelect } from '@/widgets/form/DrawerSelectTest';
+import { DrawerSelect } from '@/widgets/form/DrawerSelect';
 import { Badge } from '@/shared/ui/Badge';
 import { UserMyProfile } from '@/entities/user/model/types';
 import { cn } from '@/shared/lib/tailwindMerge';

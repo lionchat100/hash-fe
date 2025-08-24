@@ -111,7 +111,7 @@ export const OtherProfileView = ({ userId }: OtherProfileViewProps) => {
       <OtherProfileHeader nickname={profileData.nickname} />
 
       {/* 메인 컨텐츠 영역 */}
-      <div className="scroll-content p-4">
+      <div className="scroll-content h-dvh p-4">
         <div className="relative">
           {/* 상대방 프로필 카드 - 실제 API 데이터 사용 */}
           <OtherProfileCard profile={profileData} className="!h-[calc(100svh-100px)]" />
