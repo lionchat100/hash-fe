@@ -2,9 +2,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { X, Plus } from 'lucide-react';
 import { cn } from '@/shared/lib/tailwindMerge';
-import { toast } from 'sonner';
 import Image from 'next/image';
-import { toAcceptAttr, UploadConfig, validateAndMergeFilesV2 } from '../model/userImageUpload';
+import { handleUploadFiles, toAcceptAttr, UploadConfig } from '../model/userImageUpload';
 import { ALLOWED_EXT, ALLOWED_MIME } from '@/shared/constants/constant';
 
 type Preview = { file: File; url: string };
@@ -42,38 +41,12 @@ export function ImageUploader({ value, onChange, maxFiles = 3, maxSizeMB = 6, cl
     if (inputRef.current) inputRef.current.value = '';
   };
 
-  const handleFiles = (files: FileList | null) => {
-    if (!files) return;
-
+  const handleFiles = async (files: FileList | null) => {
     const cfg: UploadConfig = { maxFiles, maxSizeMB, allowedExt: ALLOWED_EXT, allowedMime: ALLOWED_MIME };
-    const res = validateAndMergeFilesV2(value, files, cfg);
-
-    if (!res.ok) {
-      switch (res.error) {
-        case 'TOO_MANY_FILES':
-          toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
-          break;
-        case 'INVALID_TYPE': {
-          // 상세 사유가 있으면 최대 3개까지 노출
-          const msg =
-            res.rejects
-              ?.slice(0, 3)
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              .map((r: { name: any }) => `${r.name}: 허용되지 않은 형식`)
-              .join('\n') ?? '허용되지 않은 형식의 파일이 포함되어 있어요.';
-          toast.error(`${msg}\n(허용: ${ALLOWED_EXT.join(', ')})`);
-          break;
-        }
-        case 'FILE_TOO_LARGE': {
-          toast.error(`최대 ${maxFiles}장까지만 업로드 가능합니다`);
-          break;
-        }
-      }
-      resetInput();
-      return;
+    const next = await handleUploadFiles(value, files, cfg);
+    if (next) {
+      onChange(next);
     }
-
-    onChange(res.next);
     resetInput();
   };
 
