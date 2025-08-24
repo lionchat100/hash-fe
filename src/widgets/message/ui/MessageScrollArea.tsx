@@ -86,7 +86,7 @@ export function MessageScrollArea({ roomId, currentUserId }: Props) {
       <Virtuoso
         ref={virtRef}
         data={items}
-        style={{ height: 'calc(100svh - 110px - var(--safe-bottom))' }}
+        style={{ height: 'calc(100dvh - 110px - var(--safe-bottom))' }}
         firstItemIndex={firstItemIndex}
         initialTopMostItemIndex={firstItemIndex + items.length - 1}
         followOutput={atBottom ? 'auto' : false}
