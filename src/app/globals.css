@@ -300,6 +300,16 @@
     transform: translateZ(0);
   }
 
+  .header-sticky {
+    @apply sticky z-10 w-full max-w-(--space-max-layout);
+    top: env(safe-area-inset-top, 0px);
+  }
+
+  @supports (top: constant(safe-area-inset-top)) {
+    .header-sticky {
+      top: constant(safe-area-inset-top);
+    }
+  }
   .header-fixed-center {
     @apply fixed top-0 left-1/2 z-10 w-full max-w-(--space-max-layout) -translate-x-1/2;
   }

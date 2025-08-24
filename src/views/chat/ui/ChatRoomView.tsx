@@ -28,7 +28,7 @@ export const ChatRoomView = ({
   useChatSubscription(roomId);
 
   return (
-    <div className="relative h-dvh">
+    <div className="relative h-svh">
       <MessageHeader opponentNickname={opponentNickname} opponentUserId={opponentUserId} />
       <MessageScrollArea roomId={roomId} currentUserId={currentUserId} />
       <MessageInput roomId={roomId} />
