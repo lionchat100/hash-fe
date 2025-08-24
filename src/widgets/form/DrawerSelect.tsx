@@ -63,7 +63,7 @@ export const DrawerSelect = <T extends string>({
 
           <div className="flex h-[250px] flex-wrap content-start gap-2">{renderOptions(temp, setTemp)}</div>
 
-          <div className="pb-[calc(var(--safe-bottom)+8px)]">
+          <div className="pb-[calc(var(--safe-bottom)+12px)]">
             <Button onClick={handleConfirm} className="w-full">
               확인
             </Button>
