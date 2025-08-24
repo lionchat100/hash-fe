@@ -129,14 +129,14 @@ export const EditProfileView = () => {
           >
             <ChevronLeft className="size-6 text-gray-700" />
           </button>
-          <h1 className="text-lg font-semibold text-gray-900">프로필 수정하기 TEST</h1>
+          <h1 className="text-lg font-semibold text-gray-900">프로필 수정하기</h1>
           <div className="w-10" />
         </div>
       </div>
 
       {/* 본문 */}
       <div
-        className="scroll-content space-y-6 p-4 pb-[calc(120px+var(--safe-bottom))]"
+        className="scroll-content space-y-6 p-4 pb-[calc(70px+var(--safe-bottom))]"
         style={{
           scrollPaddingBottom: 'calc(96px + var(--safe-bottom))',
         }}

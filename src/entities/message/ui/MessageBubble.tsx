@@ -63,7 +63,7 @@ export const MessageBubble = (props: MessageBubbleProps) => {
             <div className="flex items-end gap-2">
               {/* 시간 */}
               {showTime && <span className="flex-shrink-0 text-xs">{formatChatTime(message.createdAt)}</span>}
-              <div className="bg-muted rounded-[8px] px-[10px] py-[10px] text-base">{message.content}</div>
+              <div className="bg-muted rounded-[8px] px-[10px] py-[10px] text-base break-all">{message.content}</div>
             </div>
           </div>
         </>

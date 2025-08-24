@@ -20,7 +20,7 @@ export const MessageHeader = (props: MessageHeaderProps) => {
           </Link>
         </Button>
         <Link href={`/profile/${opponentUserId}`}>
-          <h1 className="text-xl font-semibold wrap-break-word text-stone-900">{opponentNickname || ''}</h1>
+          <h1 className="text-xl font-semibold text-stone-900">{opponentNickname || ''}</h1>
         </Link>
         <ReportButton />
       </div>
