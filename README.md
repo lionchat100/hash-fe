@@ -1,6 +1,7 @@
 # Tokit - IT 취업준비생을 위한 커피챗 네트워킹 플랫폼
----
+<img width="1280" height="800" alt="github" src="https://github.com/user-attachments/assets/eb7fdb1d-9923-4cf4-8be0-3b8339df92ee" />
 
+---
 ## 프로젝트 개요
 Tokit은 개발자 문화의 하나인 커피챗(Coffee Chat)과 간편한 사용자 탐색 기능을 결합한 소셜 서비스입니다.
 사용자는 관심 있는 직군을 필터링하여 스크롤 방식으로 다른 참여자를 탐색하고, 프로필에 좋아요를 남기거나 1:1 실시간 채팅을 시작할 수 있습니다.
@@ -69,3 +70,4 @@ Tokit은 멋쟁이사자처럼 전국 대학 해커톤 참가자들의 원활한
 | ---------------------------------------------- | ---------------------------------------- | ------------------------------------ |
 | [@sakedon2151](https://github.com/sakedon2151) | [@poan1221](https://github.com/poan1221) | [@kwonup](https://github.com/kwonup) |
 
+[백엔드 리포지토리 바로가기](https://github.com/lionchat100/lion-chat-be)
