@@ -39,10 +39,10 @@ Tokit은 멋쟁이사자처럼 전국 대학 해커톤 참가자들의 원활한
   </tr>
   <tr>
     <td align="center">
-      <img width="400" alt="OAuth_Onboarding" src="https://github.com/user-attachments/assets/d02fa792-680d-42d7-9e53-eccd952abf87" />
+      <img width="320" alt="OAuth_Onboarding" src="https://github.com/user-attachments/assets/d02fa792-680d-42d7-9e53-eccd952abf87" />
     </td>
     <td align="center">
-      <img width="400" alt="Profile" src="https://github.com/user-attachments/assets/20a1012f-c04a-4998-919a-084178c54cff" />
+      <img width="320" alt="Profile" src="https://github.com/user-attachments/assets/20a1012f-c04a-4998-919a-084178c54cff" />
     </td>
   </tr>
 </table>
@@ -55,10 +55,10 @@ Tokit은 멋쟁이사자처럼 전국 대학 해커톤 참가자들의 원활한
   </tr>
   <tr>
     <td align="center">
-      <img width="400" alt="Eplore_like" src="https://github.com/user-attachments/assets/d5fdc74b-7fd9-4b91-9b7e-82a05e1543cd" />
+      <img width="320" alt="Eplore_like" src="https://github.com/user-attachments/assets/d5fdc74b-7fd9-4b91-9b7e-82a05e1543cd" />
     </td>
     <td align="center">
-      <img width="400" alt="Liked" src="https://github.com/user-attachments/assets/280247af-bd18-494f-9b75-f3496ee75223" />
+      <img width="320" alt="Liked" src="https://github.com/user-attachments/assets/280247af-bd18-494f-9b75-f3496ee75223" />
     </td>
   </tr>
 </table>
@@ -72,13 +72,13 @@ Tokit은 멋쟁이사자처럼 전국 대학 해커톤 참가자들의 원활한
   </tr>
   <tr>
     <td align="center">
-      <img width="400" alt="Chat" src="https://github.com/user-attachments/assets/05b02d36-61bc-4356-8b6d-fbbeaabb8d04" />
+      <img width="320" alt="Chat" src="https://github.com/user-attachments/assets/05b02d36-61bc-4356-8b6d-fbbeaabb8d04" />
     </td>
     <td align="center">
-      <img width="400" alt="Board" src="https://github.com/user-attachments/assets/d087142a-0086-49fa-a0d1-5551a8a67e52" />
+      <img width="320" alt="Board" src="https://github.com/user-attachments/assets/d087142a-0086-49fa-a0d1-5551a8a67e52" />
     </td>
       <td align="center">
-      <img width="400" alt="Notify" src="https://github.com/user-attachments/assets/5858e370-fea8-4d25-adea-78390cfbe528" />
+      <img width="320" alt="Notify" src="https://github.com/user-attachments/assets/5858e370-fea8-4d25-adea-78390cfbe528" />
     </td>
   </tr>
 </table>
