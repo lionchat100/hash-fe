@@ -1,6 +1,7 @@
 # Tokit - IT 취업준비생을 위한 커피챗 네트워킹 플랫폼
 <img width="1280" height="800" alt="github" src="https://github.com/user-attachments/assets/eb7fdb1d-9923-4cf4-8be0-3b8339df92ee" />
-
+## 링크
+[토킷 바로가기](https://www.tokit.co.kr/)
 ---
 ## 프로젝트 개요
 Tokit은 개발자 문화의 하나인 커피챗(Coffee Chat)과 간편한 사용자 탐색 기능을 결합한 소셜 서비스입니다. <br/>
